@@ -50,7 +50,9 @@ public class MainActivity extends AppCompatActivity
 
         PagerSlidingTabStrip pagerSlidingTabStrip = findViewById(R.id.pagerTitleStrip);
         pagerSlidingTabStrip.setShouldExpand(true);
+        //pagerSlidingTabStrip.setTabBackground(R.color.white);
         pagerSlidingTabStrip.setIndicatorColorResource(R.color.sensBlue);
+
         pagerSlidingTabStrip.setViewPager(viewPager);
            }
 
