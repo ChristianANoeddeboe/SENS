@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import com.example.root.sens.R;
 
 import controller.MyAdapter;
+import controller.SettingElementCreator;
 
 public class Settings extends AppCompatActivity {
     private RecyclerView mRecyclerView;
@@ -27,9 +28,11 @@ public class Settings extends AppCompatActivity {
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        // Kald metode til SettingsElementerDTO
 
         String[] myDataset = {"General"};
-        mAdapter = new MyAdapter(myDataset);
+
+        mAdapter = new MyAdapter(new SettingElementCreator().getSettingElements());
         mRecyclerView.setAdapter(mAdapter);
     }
 }

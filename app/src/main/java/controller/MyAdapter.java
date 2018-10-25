@@ -7,8 +7,12 @@ import android.widget.TextView;
 
 import com.example.root.sens.R;
 
+import java.util.ArrayList;
+
+import DTO.SettingsElementDTO;
+
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-    private String[] mDataset;
+    private ArrayList<SettingsElementDTO> mDataset;
     //TODO klasse der skal fodre data og gernere datasættet som denne klasse skal give videre til recycler.
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -23,7 +27,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(String[] myDataset) {
+    public MyAdapter(ArrayList<SettingsElementDTO> myDataset) {
         mDataset = myDataset;
     }
 
@@ -43,13 +47,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTextView.setText(mDataset[position]);
+        holder.mTextView.setText(mDataset.get(position).getTitle());
 
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mDataset.size();
     }
 }
