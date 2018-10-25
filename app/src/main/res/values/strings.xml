@@ -7,4 +7,9 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+
+    <string name="hellogame">Hello game fragment</string>
+    <string name="hellogoal">Hello goal fragment</string>
+    <string name="helloach">Hello ach fragment</string>
+
 </resources>
