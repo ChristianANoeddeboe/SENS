@@ -32,6 +32,7 @@
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
 
 
             >
@@ -44,12 +45,13 @@
             </FrameLayout>
         </android.support.v4.view.ViewPager>
 
-    </LinearLayout>
+        <com.astuetz.PagerSlidingTabStrip
+            android:id="@+id/pagerTitleStrip"
+            android:layout_width="match_parent"
+            android:layout_height="48dip"
+            android:layout_gravity="bottom"
+            android:layout_weight="0"></com.astuetz.PagerSlidingTabStrip>
 
-    <com.astuetz.PagerSlidingTabStrip
-        android:id="@+id/pagerTitleStrip"
-        android:layout_width="match_parent"
-        android:layout_height="48dip"
-        android:layout_gravity="bottom"></com.astuetz.PagerSlidingTabStrip>
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

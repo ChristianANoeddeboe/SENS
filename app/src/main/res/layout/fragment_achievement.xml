@@ -5,10 +5,11 @@
     android:layout_height="match_parent"
     tools:context=".fragment.fragmentAchievement">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <GridView
+        android:id="@+id/achieve_gridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/helloach" />
+        android:numColumns="3"
+        android:gravity="center"></GridView>
 
 </FrameLayout>
