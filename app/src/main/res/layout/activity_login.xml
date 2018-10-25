@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/key_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/sens_edit_text"
@@ -40,7 +40,7 @@
             android:layout_height="5dp" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/login_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/sens_button"
@@ -51,7 +51,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/sens_logo"
         android:layout_width="318dp"
         android:layout_height="0dp"
         android:layout_gravity="center"
