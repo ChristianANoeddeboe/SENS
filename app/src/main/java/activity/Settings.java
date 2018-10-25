@@ -7,8 +7,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.example.root.sens.R;
 
-import controller.MyAdapter;
-import controller.SettingElementCreator;
+import controller.CustomAdapter;
 
 public class Settings extends AppCompatActivity {
     private RecyclerView mRecyclerView;
@@ -23,16 +22,16 @@ public class Settings extends AppCompatActivity {
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
+       // mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        // Kald metode til SettingsElementerDTO
+        String[] myDataset = {"Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!"};
 
-        String[] myDataset = {"General"};
-
-        mAdapter = new MyAdapter(new SettingElementCreator().getSettingElements());
+        // specify an adapter (see also next example)
+        mAdapter = new CustomAdapter(myDataset);
         mRecyclerView.setAdapter(mAdapter);
     }
+
 }
