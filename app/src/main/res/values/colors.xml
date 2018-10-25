@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#303f9f</color>
     <color name="colorAccent">#FF4081</color>
     <color name="sensBlue">#0070C6</color>
-    <color name="sensBlueDarker">#005799</color>
-    <color name="sensBlueBrighter">#1a9cff</color>
+    <color name="sensBlueDarker">#0065b3</color>
+    <color name="sensBlueBrighter">#0082e6</color>
     <color name="white">#ffffff</color>
 </resources>

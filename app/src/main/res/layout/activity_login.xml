@@ -8,54 +8,75 @@
     tools:context="activity.Login"
     tools:layout_editor_absoluteY="81dp">
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="88dp"
-        android:background="@color/sensBlue"
-        app:layout_constraintBottom_toTopOf="@+id/editText3"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/editText3"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="50dp"
-            android:src="@drawable/sens_motion_logo_white"
-            tools:layout_editor_absoluteX="38dp"
-            tools:layout_editor_absoluteY="73dp" />
-    </FrameLayout>
+            android:background="@drawable/sens_edit_text"
+            android:ems="10"
+            android:hint="Nøgle"
+            android:inputType="textPersonName"
+            android:textColor="@color/white"
+            tools:layout_editor_absoluteX="62dp"
+            tools:layout_editor_absoluteY="414dp" />
 
-    <EditText
-        android:id="@+id/editText3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="38dp"
-        android:background="@drawable/sens_edit_text"
-        android:ems="10"
-        android:hint="Nøgle"
-        android:inputType="textPersonName"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/sens_button"
+            android:text="Log ind"
+            android:textColor="@color/white"
+            tools:layout_editor_absoluteX="107dp"
+            tools:layout_editor_absoluteY="478dp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="318dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="61dp"
+        android:layout_marginEnd="33dp"
+        android:layout_marginBottom="51dp"
+        android:src="@drawable/sens_motion_logo_white"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.6" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/help_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="112dp"
-        android:text="Log ind"
-        android:background="@drawable/sens_button"
-        android:textColor="@color/sensBlue"
+        android:layout_marginBottom="79dp"
+        android:background="@android:color/transparent"
+        android:text="Hjælp?"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

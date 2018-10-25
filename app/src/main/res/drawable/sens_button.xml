@@ -3,13 +3,13 @@
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
             <corners android:radius="9dip" />
-            <gradient android:angle="-90" android:endColor="@color/white" android:startColor="@color/white" />
+            <gradient android:angle="-90" android:endColor="@color/sensBlueDarker" android:startColor="@color/sensBlueDarker" />
         </shape>
     </item>
     <item>
         <shape android:shape="rectangle">
             <corners android:radius="9dip" />
-            <gradient android:angle="-90" android:endColor="@color/white" android:startColor="@color/white" />
+            <gradient android:angle="-90" android:endColor="@color/sensBlueBrighter" android:startColor="@color/sensBlueBrighter" />
         </shape>
     </item>
 </selector>
