@@ -21,7 +21,8 @@ public class Login extends AppCompatActivity {
         Button help = findViewById(R.id.help_btn);
 
         login.setOnClickListener((View v) ->{
-            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+//            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            Intent i = new Intent(getApplicationContext(), Settings.class);
             startActivity(i);
         });
 
