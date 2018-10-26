@@ -1,13 +1,51 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fragment.fragmentGoals">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.fragmentAchievement">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <com.github.lzyzsd.circleprogress.ArcProgress
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_margin="15dp"
+                app:arc_bottom_text="Mål 1"
+                app:arc_progress="55" />
+
+            <com.github.lzyzsd.circleprogress.ArcProgress
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_margin="15dp"
+                app:arc_bottom_text="Mål 1"
+                app:arc_progress="55" />
+        </TableRow>
+
+    <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hellogoal" />
+        android:gravity="center">
 
-</FrameLayout>
+        <com.github.lzyzsd.circleprogress.ArcProgress
+            android:id="@+id/arcProgress"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_margin="15dp"
+            app:arc_bottom_text="Mål 1"
+            app:arc_progress="55" />
+
+        <com.github.lzyzsd.circleprogress.ArcProgress
+            android:id="@+id/arcProgress2"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_margin="15dp"
+            app:arc_bottom_text="Mål 1"
+            app:arc_progress="55" />
+    </TableRow>
+
+</TableLayout>
