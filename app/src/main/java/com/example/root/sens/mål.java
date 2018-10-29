@@ -1,13 +1,15 @@
 package com.example.root.sens;
 
 public class mål {
-    String titel;
-    int progress;
-    int maxProgress;
-    int minProgress;
+    private String titel;
+    private int progress;
+    private int maxProgress;
+    private int minProgress;
     public mål(String titel, int progress) {
         this.titel = titel;
         this.progress = progress;
+        this.maxProgress = 100;
+        this.minProgress = 0;
     }
 
     public String getTitel() {

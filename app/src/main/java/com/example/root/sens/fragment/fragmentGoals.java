@@ -79,8 +79,7 @@ public class fragmentGoals extends Fragment {
 
     // Læs mere på https://medium.com/@ipaulpro/drag-and-swipe-with-recyclerview-b9456d2b1aaf#.fjo359jbr
     ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.UP | ItemTouchHelper.DOWN,  // dragDirs
-            ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) { // swipeDirs
+            ItemTouchHelper.UP,ItemTouchHelper.DOWN) { // swipeDirs
 
         @Override
         public void onSelectedChanged(RecyclerView.ViewHolder vh, int actionState) {
@@ -102,9 +101,9 @@ public class fragmentGoals extends Fragment {
 
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-            int position = viewHolder.getAdapterPosition();
-            goals.remove(position);
-            adapter.notifyItemRemoved(position);
+
+
+
         }
 
         @Override
@@ -112,6 +111,7 @@ public class fragmentGoals extends Fragment {
             super.clearView(recyclerView, vh);
             vh.itemView.animate().scaleX(1).scaleY(1).alpha(1);
         }
+
     };
 
 
