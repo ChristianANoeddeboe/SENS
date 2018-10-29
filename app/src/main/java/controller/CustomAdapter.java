@@ -11,12 +11,14 @@ import android.widget.Toast;
 
 import com.example.root.sens.R;
 
-import static com.example.root.sens.R.mipmap.ic_launcher;
+import java.util.List;
+
+import DTO.ItemModel;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
         private static final String TAG = "CustomAdapter";
 
-        private String[] mDataSet;
+        private List<ItemModel> mDataSet;
 
         // BEGIN_INCLUDE(recyclerViewSampleViewHolder)
         /**
@@ -54,7 +56,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
          *
          * @param dataSet String[] containing the data to populate views to be used by RecyclerView.
          */
-        public CustomAdapter(String[] dataSet) {
+        public CustomAdapter(List<ItemModel> dataSet) {
             mDataSet = dataSet;
         }
 
@@ -64,7 +66,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
             // Create a new view.
             View v = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.text_row_item, viewGroup, false);
+                    .inflate(R.layout.settings_element, viewGroup, false);
 
             return new ViewHolder(v);
         }
@@ -78,14 +80,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
             // Get element from your dataset at this position and replace the contents of the view
             // with that element
-            viewHolder.getTextView().setText(mDataSet[position]);
-            viewHolder.getImageView().setImageResource(R.mipmap.ic_launcher);
+            viewHolder.getTextView().setText(mDataSet.get(position).getPrimaryTxt());
+            viewHolder.getImageView().setImageResource(mDataSet.get(position).getImgId());
         }
         // END_INCLUDE(recyclerViewOnBindViewHolder)
 
         // Return the size of your dataset (invoked by the layout manager)
         @Override
         public int getItemCount() {
-            return mDataSet.length;
+            return mDataSet.size();
         }
 }

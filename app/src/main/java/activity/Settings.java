@@ -4,9 +4,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
 import com.example.root.sens.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import DTO.ItemModel;
 import controller.CustomAdapter;
 
 public class Settings extends AppCompatActivity {
@@ -27,11 +30,17 @@ public class Settings extends AppCompatActivity {
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        String[] myDataset = {"Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!","Click me!"};
 
         // specify an adapter (see also next example)
-        mAdapter = new CustomAdapter(myDataset);
+        mAdapter = new CustomAdapter(createItem());
         mRecyclerView.setAdapter(mAdapter);
     }
 
+    private List<ItemModel> createItem(){
+        ArrayList<ItemModel> items = new ArrayList<ItemModel>();
+        for(int i=0; i<10; i++) {
+            items.add(new ItemModel("Entry "+i, R.mipmap.ic_launcher));
+        }
+        return items;
+    }
 }

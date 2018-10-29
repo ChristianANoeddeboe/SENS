@@ -10,7 +10,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.text_row_item.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.support.settings_element.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
