@@ -1,17 +1,23 @@
 package com.example.root.sens.fragment;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.GridView;
-import android.widget.ListView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.root.sens.R;
+import com.github.lzyzsd.circleprogress.ArcProgress;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,16 +69,97 @@ public class fragmentGoals extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    RecyclerView recyclerView;
+    String[] goalsArray = {"Løb", "Cykling", "Gang"};
+    ArrayList<String> goals = new ArrayList<>(Arrays.asList(goalsArray));
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_goals, container, false);
+        // Vi laver en arrayliste så vi kan fjerne/indsætte elementer
+        recyclerView = v.findViewById(R.id.goalsRecycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+        recyclerView.setAdapter(adapter);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
 
         // Inflate the layout for this fragment
         return v;
     }
+
+    RecyclerView.Adapter adapter = new RecyclerView.Adapter<ListeelemViewholder>() {
+        @Override
+        public int getItemCount()  {
+            return goals.size();
+        }
+
+        @Override
+        public ListeelemViewholder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = getLayoutInflater().inflate(R.layout.goals_list_element, parent, false);
+            ListeelemViewholder vh = new ListeelemViewholder(view);
+            vh.progress = view.findViewById(R.id.arcProgress);
+            return vh;
+        }
+
+        @Override
+        public void onBindViewHolder(ListeelemViewholder vh, int position) {
+            vh.text= goals.get(position);
+            vh.progress.setBottomText(vh.text);
+        }
+    };
+
+    class ListeelemViewholder extends RecyclerView.ViewHolder {
+        String text;
+        ArcProgress progress;
+
+        public ListeelemViewholder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    // Læs mere på https://medium.com/@ipaulpro/drag-and-swipe-with-recyclerview-b9456d2b1aaf#.fjo359jbr
+    ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP | ItemTouchHelper.DOWN,  // dragDirs
+            ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) { // swipeDirs
+
+        @Override
+        public void onSelectedChanged(RecyclerView.ViewHolder vh, int actionState) {
+            super.onSelectedChanged(vh, actionState);
+            Log.d("Lande", "onSelectedChanged "+vh+" "+actionState);
+            if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+                vh.itemView.animate().scaleX(0.8f).scaleY(0.8f).alpha(0.6f);
+            }
+        }
+
+        @Override
+        public boolean onMove(RecyclerView rv, RecyclerView.ViewHolder vh, RecyclerView.ViewHolder target) {
+            int position = vh.getAdapterPosition();
+            int tilPos = target.getAdapterPosition();
+            String land = goals.remove(position);
+            goals.add(tilPos, land);
+            Log.d("Lande", "Flyttet: "+ goals);
+            adapter.notifyItemMoved(position, tilPos);
+            return true; // false hvis rykket ikke skal foretages
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+            int position = viewHolder.getAdapterPosition();
+            goals.remove(position);
+            Log.d("Lande", "Slettet: "+ goals);
+            adapter.notifyItemRemoved(position);
+        }
+
+        @Override
+        public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder vh) {
+            super.clearView(recyclerView, vh);
+            Log.d("Lande", "clearView "+vh);
+            vh.itemView.animate().scaleX(1).scaleY(1).alpha(1);
+        }
+    };
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

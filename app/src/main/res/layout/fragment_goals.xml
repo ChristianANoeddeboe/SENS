@@ -1,4 +1,4 @@
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,46 +6,11 @@
     tools:context=".fragment.fragmentAchievement">
 
 
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center">
-
-            <com.github.lzyzsd.circleprogress.ArcProgress
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_margin="15dp"
-                app:arc_bottom_text="Mål 1"
-                app:arc_progress="55" />
-
-            <com.github.lzyzsd.circleprogress.ArcProgress
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_margin="15dp"
-                app:arc_bottom_text="Mål 1"
-                app:arc_progress="55" />
-        </TableRow>
-
-    <TableRow
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/goalsRecycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center">
-
-        <com.github.lzyzsd.circleprogress.ArcProgress
-            android:id="@+id/arcProgress"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_margin="15dp"
-            app:arc_bottom_text="Mål 1"
-            app:arc_progress="55" />
-
-        <com.github.lzyzsd.circleprogress.ArcProgress
-            android:id="@+id/arcProgress2"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_margin="15dp"
-            app:arc_bottom_text="Mål 1"
-            app:arc_progress="55" />
-    </TableRow>
-
-</TableLayout>
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
+</FrameLayout>
