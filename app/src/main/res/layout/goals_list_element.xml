@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_marginTop="20dp">
+
+    <com.github.lzyzsd.circleprogress.ArcProgress
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:arc_bottom_text_size="30dp"
+        app:arc_stroke_width="8dp"
+        app:arc_unfinished_color="@color/white"
+        app:arc_finished_color="@color/sensBlue"
+        app:arc_text_color="@color/sensBlue"
+        android:id="@+id/arcProgress"/>
+
+
+</LinearLayout>
