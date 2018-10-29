@@ -1,16 +1,17 @@
-package activity;
+package com.example.root.sens.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
 import com.example.root.sens.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import DTO.ItemModel;
-import controller.CustomAdapter;
+import com.example.root.sens.DTO.ItemModel;
+import com.example.root.sens.controller.CustomAdapter;
 
 public class Settings extends AppCompatActivity {
     private RecyclerView mRecyclerView;

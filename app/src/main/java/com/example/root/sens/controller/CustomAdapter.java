@@ -1,4 +1,4 @@
-package controller;
+package com.example.root.sens.controller;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,7 +13,7 @@ import com.example.root.sens.R;
 
 import java.util.List;
 
-import DTO.ItemModel;
+import com.example.root.sens.DTO.ItemModel;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
         private static final String TAG = "CustomAdapter";

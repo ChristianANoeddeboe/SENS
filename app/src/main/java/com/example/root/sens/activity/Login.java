@@ -1,4 +1,4 @@
-package activity;
+package com.example.root.sens.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.root.sens.MainActivity;
 import com.example.root.sens.R;
 
 public class Login extends AppCompatActivity {
@@ -22,7 +21,7 @@ public class Login extends AppCompatActivity {
 
         login.setOnClickListener((View v) ->{
 //            Intent i = new Intent(getApplicationContext(), MainActivity.class);
-            Intent i = new Intent(getApplicationContext(), Settings.class);
+            Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
         });
 

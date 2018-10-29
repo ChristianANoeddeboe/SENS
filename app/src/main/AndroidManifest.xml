@@ -13,7 +13,7 @@
         tools:ignore="GoogleAppIndexingWarning">
        
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.Login"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -23,13 +23,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="activity.Settings"
+            android:name=".activity.Settings"
             android:label="Indstillinger"            >
              <!--TODO Fix tilbage knap funktionalitet-->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value=".activity.Login"/>
         </activity>
+
+
+        <activity
+            android:name=".activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+
+            android:label="Indstillinger">
+            <!--TODO Fix tilbage knap funktionalitet-->
+
+        </activity>
+
+
 
     </application>
 
