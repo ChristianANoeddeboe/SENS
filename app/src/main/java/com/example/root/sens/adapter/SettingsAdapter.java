@@ -1,4 +1,4 @@
-package com.example.root.sens.controller;
+package com.example.root.sens.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,8 +15,8 @@ import java.util.List;
 
 import com.example.root.sens.DTO.ItemModel;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
-        private static final String TAG = "CustomAdapter";
+public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHolder> {
+        private static final String TAG = "SettingsAdapter";
 
         private List<ItemModel> mDataSet;
 
@@ -60,7 +60,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
          *
          * @param dataSet String[] containing the data to populate views to be used by RecyclerView.
          */
-        public CustomAdapter(List<ItemModel> dataSet) {
+        public SettingsAdapter(List<ItemModel> dataSet) {
             mDataSet = dataSet;
         }
 

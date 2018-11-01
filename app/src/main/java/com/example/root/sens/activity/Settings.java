@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.root.sens.DTO.ItemModel;
-import com.example.root.sens.controller.CustomAdapter;
+import com.example.root.sens.adapter.SettingsAdapter;
 
 public class Settings extends AppCompatActivity {
     private RecyclerView mRecyclerView;
@@ -33,7 +33,7 @@ public class Settings extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new CustomAdapter(createItem());
+        mAdapter = new SettingsAdapter(createItem());
         mRecyclerView.setAdapter(mAdapter);
     }
 
