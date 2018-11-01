@@ -24,25 +24,18 @@
         </activity>
         <activity
             android:name=".activity.Settings"
-            android:label="Indstillinger"            >
-             <!--TODO Fix tilbage knap funktionalitet-->
+            android:label="Indstillinger"
+            android:theme="@style/Theme.AppCompat.Light"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.Login"/>
         </activity>
-
-
         <activity
             android:name=".activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-
-            android:label="Indstillinger">
-            <!--TODO Fix tilbage knap funktionalitet-->
-
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:label="SENS">
         </activity>
-
-
-
     </application>
 
 </manifest>
