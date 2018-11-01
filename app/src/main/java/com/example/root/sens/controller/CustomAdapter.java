@@ -34,7 +34,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                 v.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(v.getContext(), "Who's awesome? Jeppe is awesome!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(v.getContext(), "Ikke implementeret", Toast.LENGTH_LONG).show();
                     }
                 });
                 textViewPrimary = (TextView) v.findViewById(R.id.textViewPrimary);
@@ -85,7 +85,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             // Get element from your dataset at this position and replace the contents of the view
             // with that element
             viewHolder.getTextViewPrimary().setText(mDataSet.get(position).getPrimaryTxt());
-            viewHolder.getTextViewSecondary().setText(mDataSet.get(position).getPrimaryTxt()+ "\tThyge is awesome!");
+            viewHolder.getTextViewSecondary().setText(mDataSet.get(position).getPrimaryTxt());
             viewHolder.getImageView().setImageResource(mDataSet.get(position).getImgId());
         }
         // END_INCLUDE(recyclerViewOnBindViewHolder)
