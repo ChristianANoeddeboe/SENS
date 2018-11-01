@@ -5,9 +5,9 @@
 [Google Drive Mappe](https://drive.google.com/drive/folders/16YiUNI4fdUXNyM8nMeGZgUm8m58C4eLq)
 
 ## Iteration 1 rapport:
-[iteration1]{https://v2.overleaf.com/3814415834ywqbvjgwpwfd}
+[iteration1](https://v2.overleaf.com/3814415834ywqbvjgwpwfd)
 ## Iteration 2 rapport:
-[iteration2]{https://v2.overleaf.com/project/5bdad1d5cd1d0b25092b93fc}
+[iteration2](https://v2.overleaf.com/project/5bdad1d5cd1d0b25092b93fc)
 
 
 ### Fælles mappe for gruppe 6
