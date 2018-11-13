@@ -1,8 +1,8 @@
 package com.example.root.sens.DTO;
 
 public class ItemModel{
-    String primaryTxt;
-    int imgId;
+    private String primaryTxt;
+    private int imgId;
 
     public ItemModel(String primaryTxt, int imgId){
         this.primaryTxt = primaryTxt;

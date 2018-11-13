@@ -9,10 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.dinuscxj.progressbar.CircleProgressBar;
 import com.example.root.sens.R;
 import com.example.root.sens.data;
 import com.example.root.sens.mål;
-import com.github.lzyzsd.circleprogress.ArcProgress;
 
 import java.util.ArrayList;
 
@@ -49,6 +49,13 @@ public class fragmentGoals extends Fragment {
     }
 
     RecyclerView.Adapter adapter = new RecyclerView.Adapter<ListeelemViewholder>() {
+        class MyProgressFromatter implements CircleProgressBar.ProgressFormatter {
+            @Override
+            public CharSequence format(int progress, int max) {
+                return "test";
+            }
+        }
+
         @Override
         public int getItemCount()  {
             return goals.size();
@@ -58,20 +65,25 @@ public class fragmentGoals extends Fragment {
         public ListeelemViewholder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = getLayoutInflater().inflate(R.layout.goals_list_element, parent, false);
             ListeelemViewholder vh = new ListeelemViewholder(view);
-            vh.progress = view.findViewById(R.id.arcProgress);
+            vh.progress = view.findViewById(R.id.circleProgess);
+            vh.progress.setProgressFormatter(new MyProgressFromatter());
 
             return vh;
         }
 
         @Override
         public void onBindViewHolder(ListeelemViewholder vh, int position) {
-            vh.progress.setBottomText(goals.get(position).getTitel());
+
             vh.progress.setProgress(goals.get(position).getProgress());
         }
     };
 
+
+    // set the ProgressFormatter as you want
+
     class ListeelemViewholder extends RecyclerView.ViewHolder {
-        ArcProgress progress;
+        CircleProgressBar progress;
+        //ArcProgress progress;
         public ListeelemViewholder(View itemView) {
             super(itemView);
         }
