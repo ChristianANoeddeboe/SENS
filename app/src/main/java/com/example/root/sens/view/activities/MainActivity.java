@@ -1,4 +1,4 @@
-package com.example.root.sens.activity;
+package com.example.root.sens.view.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ViewPager viewPager;
-    private static String[] viewNames = {"Trofæer", "Mål"};
+    private static String[] viewNames = {"Overview", "Historik"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
