@@ -8,6 +8,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.dinuscxj.progressbar.CircleProgressBar;
 import com.example.root.sens.R;
@@ -65,8 +66,8 @@ public class fragmentGoals extends Fragment {
         public ListeelemViewholder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = getLayoutInflater().inflate(R.layout.goals_list_element, parent, false);
             ListeelemViewholder vh = new ListeelemViewholder(view);
-            vh.progress = view.findViewById(R.id.circleProgess);
-            vh.progress.setProgressFormatter(new MyProgressFromatter());
+            vh.text = view.findViewById(R.id.TextView_goals_list_element_tekst);
+            //vh.progress.setProgressFormatter(new MyProgressFromatter());
 
             return vh;
         }
@@ -74,7 +75,7 @@ public class fragmentGoals extends Fragment {
         @Override
         public void onBindViewHolder(ListeelemViewholder vh, int position) {
 
-            vh.progress.setProgress(goals.get(position).getProgress());
+           // vh.progress.setProgress(goals.get(position).getProgress());
         }
     };
 
@@ -82,7 +83,7 @@ public class fragmentGoals extends Fragment {
     // set the ProgressFormatter as you want
 
     class ListeelemViewholder extends RecyclerView.ViewHolder {
-        CircleProgressBar progress;
+        TextView text;
         //ArcProgress progress;
         public ListeelemViewholder(View itemView) {
             super(itemView);

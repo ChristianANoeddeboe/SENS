@@ -22,18 +22,17 @@ import android.widget.Toast;
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.root.sens.R;
 import com.example.root.sens.view.fragments.fragmentAchievement;
-import com.example.root.sens.view.fragments.fragmentGame;
 import com.example.root.sens.view.fragments.fragmentGoals;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ViewPager viewPager;
-    private static String[] viewNames = {"Trofæer", "Mål", "Spil"};
+    private static String[] viewNames = {"Trofæer", "Mål"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.mainactivity_a_burgermenu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -67,28 +66,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent i = new Intent(getApplicationContext(), Settings.class);
-            startActivity(i);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -99,10 +76,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-            Fragment fragment = new fragmentGame();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, fragment)  // tom container i layout
-                    .commit();
+
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
@@ -135,7 +109,6 @@ public class MainActivity extends AppCompatActivity
             Fragment f = null;
             if (i == 0) f = new fragmentAchievement();
             else if (i == 1) f = new fragmentGoals();
-            else f = new fragmentGame();
 
             return f;
 
@@ -143,7 +116,7 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public int getCount() {
-            return 3;
+            return 2;
         }
     }
 }
