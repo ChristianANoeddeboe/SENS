@@ -1,4 +1,4 @@
-package com.example.root.sens.DTO;
+package com.example.root.sens.domain.dto;
 
 public class ItemModel{
     String primaryTxt;
