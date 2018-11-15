@@ -1,4 +1,4 @@
-package com.example.root.sens.activity;
+package com.example.root.sens.view.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
