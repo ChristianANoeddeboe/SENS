@@ -34,7 +34,7 @@ public class fragmentGoals extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_goals, container, false);
+        View v = inflater.inflate(R.layout.goals_f_content, container, false);
         // Vi laver en arrayliste så vi kan fjerne/indsætte elementer
         recyclerView = v.findViewById(R.id.goalsRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
