@@ -107,8 +107,8 @@ public class MainActivity extends AppCompatActivity
         @Override
         public Fragment getItem(int i) {
             Fragment f = null;
-            if (i == 0) f = new fragmentAchievement();
-            else if (i == 1) f = new fragmentGoals();
+            if (i == 0) f = new fragmentGoals();
+            else  f = new fragmentAchievement();
 
             return f;
 

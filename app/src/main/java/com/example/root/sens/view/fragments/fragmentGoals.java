@@ -1,5 +1,6 @@
 package com.example.root.sens.view.fragments;
 
+import android.content.ClipData;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,10 +13,12 @@ import android.widget.TextView;
 
 import com.dinuscxj.progressbar.CircleProgressBar;
 import com.example.root.sens.R;
+import com.example.root.sens.adapters.OverviewAdapter;
 import com.example.root.sens.data;
 import com.example.root.sens.mål;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class fragmentGoals extends Fragment {
@@ -39,16 +42,17 @@ public class fragmentGoals extends Fragment {
         // Vi laver en arrayliste så vi kan fjerne/indsætte elementer
         recyclerView = v.findViewById(R.id.goalsRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
-        recyclerView.setAdapter(adapter);
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+        recyclerView.setAdapter(new OverviewAdapter(this.getContext(),data.data));
+
+        //ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        //itemTouchHelper.attachToRecyclerView(recyclerView);
 
 
         // Inflate the layout for this fragment
         return v;
     }
-
+/*
     RecyclerView.Adapter adapter = new RecyclerView.Adapter<ListeelemViewholder>() {
         class MyProgressFromatter implements CircleProgressBar.ProgressFormatter {
             @Override
@@ -126,6 +130,7 @@ public class fragmentGoals extends Fragment {
         }
 
     };
+    */
 
 
 
