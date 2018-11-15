@@ -21,7 +21,7 @@ public class Login extends AppCompatActivity {
 
         login.setOnClickListener((View v) ->{
 //            Intent i = new Intent(getApplicationContext(), MainActivity.class);
-            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            Intent i = new Intent(getApplicationContext(), UserConfigActivity.class);
             startActivity(i);
         });
 

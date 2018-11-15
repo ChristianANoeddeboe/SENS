@@ -11,7 +11,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-       
         <activity
             android:name=".activity.Login"
             android:theme="@style/AppTheme.NoActionBar"
@@ -25,17 +24,16 @@
         <activity
             android:name=".activity.Settings"
             android:label="Indstillinger"
-            android:theme="@style/Theme.AppCompat.Light"
-            >
+            android:theme="@style/Theme.AppCompat.Light">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity"/>
+                android:value=".activity.MainActivity" />
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:label="SENS">
-        </activity>
+            android:label="SENS"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity android:name=".activity.UserConfigActivity"></activity>
     </application>
 
 </manifest>
