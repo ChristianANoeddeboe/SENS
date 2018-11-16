@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class fragmentGoals extends Fragment {
+public class OverviewFragment extends Fragment {
 
-    public fragmentGoals() {
+    public OverviewFragment() {
         // Required empty public constructor
     }
 
