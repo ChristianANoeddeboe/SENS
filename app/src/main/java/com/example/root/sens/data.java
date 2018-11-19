@@ -1,5 +1,6 @@
 package com.example.root.sens;
 
+import com.example.root.sens.Controlles.GoalController;
 import com.example.root.sens.DTO.DayData;
 import com.example.root.sens.DTO.Goal;
 import com.example.root.sens.DTO.GoalType;
@@ -77,5 +78,7 @@ public class data {
     static{
         user.setDayData(new ArrayList<DayData>(Arrays.asList(dayDataArray)));
     }
+
+
 
 }

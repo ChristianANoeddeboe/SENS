@@ -20,6 +20,7 @@ public class ViewHolderData extends ViewHolder {
 
     public void bindType(ListItem item) {
         Goal g = ((TypeData) item).getG();
+
         mTextView.setText(g.getType().getName()+":"+g.getValue()+" timer");
         mProgressBar.setMax(g.getValue());
         mProgressBar.setProgress(g.getValue()/3);
