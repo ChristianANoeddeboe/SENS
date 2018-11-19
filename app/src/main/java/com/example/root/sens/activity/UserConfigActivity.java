@@ -39,13 +39,15 @@ public class UserConfigActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_config_a);
+        // Give an slide effect, like viewpagers, but for activities
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
         // Instantiate a ViewPager and a PagerAdapter.
-        mPager = (ViewPager) findViewById(R.id.pager);
+        mPager = findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
+        TabLayout tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(mPager, true);
 
         Button slide = findViewById(R.id.user_config_a_slide_button);
@@ -59,12 +61,15 @@ public class UserConfigActivity extends AppCompatActivity {
         });
     }
 
+
     @Override
     public void onBackPressed() {
         if (mPager.getCurrentItem() == 0) {
             // If the user is currently looking at the first step, allow the system to handle the
             // Back button. This calls finish() on this activity and pops the back stack.
             super.onBackPressed();
+            // An exit animation
+            overridePendingTransition(R.anim.slide_out_r, R.anim.slide_in_r);
         } else {
             // Otherwise, select the previous step.
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
