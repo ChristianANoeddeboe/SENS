@@ -21,7 +21,7 @@ import java.util.List;
 
 public class data {
 
-    private static User user = new User(1,"Hans hansen", Calendar.getInstance().getTime());
+    public static User user = new User(1,"Hans hansen", Calendar.getInstance().getTime());
     private static GoalType goalRest = new GoalType(1,"Afslapning");
     private static GoalType goalStanding = new GoalType(2,"Stå");
     private static GoalType goalWalking = new GoalType(3,"Gang");
@@ -38,19 +38,14 @@ public class data {
                     new Goal(3,df.parse("11/18/2018"),1,goalWalking,300),
 
                 };
+            user.setGoals(new ArrayList<Goal>(Arrays.asList(goalArray)));
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
 
-    public static ArrayList<ListItem> generateData(){
-        ArrayList<ListItem> data = new ArrayList<>();
-        data.add(new TypeCalendar());
-        for(Goal g : goalArray){
-            data.add(new TypeData(g));
-        }
-        return data;
-    }
+
+
     //"2018-11-07T23:00:00"
     private static DateFormat sensDf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     private static DayData[] dayDataArray;

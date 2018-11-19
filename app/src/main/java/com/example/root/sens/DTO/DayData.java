@@ -15,4 +15,84 @@ public class DayData {
         this.cycling = cycling;
         this.exercise = exercise;
     }
+
+    public Date getStart_time() {
+        return start_time;
+    }
+
+    public void setStart_time(Date start_time) {
+        this.start_time = start_time;
+    }
+
+    public Date getEnd_time() {
+        return end_time;
+    }
+
+    public void setEnd_time(Date end_time) {
+        this.end_time = end_time;
+    }
+
+    public double getResting() {
+        return resting;
+    }
+
+    public void setResting(double resting) {
+        this.resting = resting;
+    }
+
+    public double getStanding() {
+        return standing;
+    }
+
+    public void setStanding(double standing) {
+        this.standing = standing;
+    }
+
+    public double getWalking() {
+        return walking;
+    }
+
+    public void setWalking(double walking) {
+        this.walking = walking;
+    }
+
+    public double getCycling() {
+        return cycling;
+    }
+
+    public void setCycling(double cycling) {
+        this.cycling = cycling;
+    }
+
+    public double getExercise() {
+        return exercise;
+    }
+
+    public void setExercise(double exercise) {
+        this.exercise = exercise;
+    }
+
+    public double getOther() {
+        return other;
+    }
+
+    public void setOther(double other) {
+        this.other = other;
+    }
+
+    public double getNodata() {
+        return nodata;
+    }
+
+    public void setNodata(double nodata) {
+        this.nodata = nodata;
+    }
+
+    public double getSteps() {
+        return steps;
+    }
+
+    public void setSteps(double steps) {
+        this.steps = steps;
+    }
 }

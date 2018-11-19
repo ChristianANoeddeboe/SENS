@@ -50,6 +50,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
                 view = LayoutInflater
                         .from(viewGroup.getContext())
                         .inflate(R.layout.typedata, viewGroup, false);
+
                 return new ViewHolderData(view);
         }
         return null;
