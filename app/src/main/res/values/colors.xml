@@ -4,9 +4,9 @@
     <color name="colorPrimaryDark">#303f9f</color>
     <color name="colorAccent">#FF4081</color>
     <color name="sensBlue">#0070C6</color>
-
     <color name="sensBlueDarker">#005799</color>
     <color name="sensBlueBrighter">#1a9cff</color>
+    <color name="sensBlueBrighterBright">#80c8ff</color>
     <color name="sensRed">#ed1c24</color>
 
 
