@@ -29,7 +29,6 @@ public class OverviewFragment extends Fragment {
 
     }
     RecyclerView recyclerView;
-    ArrayList<Goal> goals = data.goalsData;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,8 +36,7 @@ public class OverviewFragment extends Fragment {
         // Vi laver en arrayliste så vi kan fjerne/indsætte elementer
         recyclerView = v.findViewById(R.id.goalsRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
-
-        recyclerView.setAdapter(new OverviewAdapter(this.getContext(),data.data));
+        recyclerView.setAdapter(new OverviewAdapter(this.getContext(),data.generateData()));
 
         //ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         //itemTouchHelper.attachToRecyclerView(recyclerView);

@@ -8,10 +8,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Overskrift"/>
+        android:text="Overskrift"
+        android:id="@+id/header"/>
     <ProgressBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:progress="65"
-        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"/>
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        android:id="@+id/progessbar"/>
 </LinearLayout>

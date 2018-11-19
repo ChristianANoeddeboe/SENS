@@ -7,10 +7,10 @@ public class Goal {
     Date date;
     int userId;
     GoalType type;
-    float value;
+    int value;
 
 
-    public Goal(int goalId, Date date, int userId, GoalType type, float value) {
+    public Goal(int goalId, Date date, int userId, GoalType type, int value) {
         this.goalId = goalId;
         this.date = date;
         this.userId = userId;
@@ -50,11 +50,11 @@ public class Goal {
         this.type = type;
     }
 
-    public float getValue() {
+    public int getValue() {
         return value;
     }
 
-    public void setValue(float value) {
+    public void setValue(int value) {
         this.value = value;
     }
 }
