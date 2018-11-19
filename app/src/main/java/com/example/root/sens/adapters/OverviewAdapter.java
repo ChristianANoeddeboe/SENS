@@ -42,13 +42,9 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
                         .from(viewGroup.getContext())
                         .inflate(R.layout.typecalendar, viewGroup, false);
                 CompactCalendarView temp = view.findViewById(R.id.compactcalendar_view);
-                temp.addEvent(new Event(Color.GREEN,1542530497L,"Tesaasdt"));
+                temp.addEvent(new Event(Color.GREEN,1542530497*1000L,"Tesaasdt"));
                 temp.addEvent(new Event(Color.BLUE,Calendar.getInstance().getTimeInMillis(),"asdfsdfsdf"));
-                List<Event> temp2 = temp.getEventsForMonth(1542530497L);
-                Log.d("test","test");
-                for(Event e : temp2){
-                    Log.d("test",e.toString());
-                }
+
                 return new ViewHolderCalendar(view);
             case ListItem.TYPE_B:
                 view = LayoutInflater

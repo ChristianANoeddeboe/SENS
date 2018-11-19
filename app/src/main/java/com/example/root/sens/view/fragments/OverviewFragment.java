@@ -1,27 +1,19 @@
 package com.example.root.sens.view.fragments;
 
-import android.content.ClipData;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.dinuscxj.progressbar.CircleProgressBar;
+import com.example.root.sens.DTO.Goal;
 import com.example.root.sens.R;
 import com.example.root.sens.adapters.OverviewAdapter;
 import com.example.root.sens.data;
-import com.example.root.sens.mål;
-import com.github.sundeepk.compactcalendarview.CompactCalendarView;
-import com.github.sundeepk.compactcalendarview.domain.Event;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class OverviewFragment extends Fragment {
@@ -37,7 +29,7 @@ public class OverviewFragment extends Fragment {
 
     }
     RecyclerView recyclerView;
-    ArrayList<mål> goals = data.goalsData;
+    ArrayList<Goal> goals = data.goalsData;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

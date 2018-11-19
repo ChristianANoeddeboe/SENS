@@ -1,0 +1,60 @@
+package com.example.root.sens.DTO;
+
+import java.util.Date;
+
+public class Goal {
+    int goalId;
+    Date date;
+    int userId;
+    GoalType type;
+    float value;
+
+
+    public Goal(int goalId, Date date, int userId, GoalType type, float value) {
+        this.goalId = goalId;
+        this.date = date;
+        this.userId = userId;
+        this.type = type;
+        this.value = value;
+    }
+
+    public int getGoalId() {
+        return goalId;
+    }
+
+    public void setGoalId(int goalId) {
+        this.goalId = goalId;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public GoalType getType() {
+        return type;
+    }
+
+    public void setType(GoalType type) {
+        this.type = type;
+    }
+
+    public float getValue() {
+        return value;
+    }
+
+    public void setValue(float value) {
+        this.value = value;
+    }
+}
