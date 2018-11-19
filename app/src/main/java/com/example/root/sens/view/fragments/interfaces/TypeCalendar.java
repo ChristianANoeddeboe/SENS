@@ -1,13 +1,7 @@
 package com.example.root.sens.view.fragments.interfaces;
 
 public class TypeCalendar implements ListItem {
-    private String text;
-
-    public TypeCalendar() { this.text = text; }
-
-    public String getText() { return text; }
-
-    public void setText(String text) { this.text = text; }
+    public TypeCalendar(){}
 
     @Override
     public int getListItemType() {
