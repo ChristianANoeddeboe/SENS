@@ -6,12 +6,31 @@
     android:layout_height="match_parent" >
 
 
-    <TextView
-        android:id="@+id/textView2"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="I AM NAME CONTENT!"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/tv_user_config_name_first"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/sens_edit_text"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Fornavn"
+            android:textColor="@color/sensBlue"
+            android:layout_margin="8dp" />
+
+        <EditText
+            android:id="@+id/tv_user_config_name_last"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/sens_edit_text"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Efternavn"
+            android:textColor="@color/sensBlue"
+            android:layout_margin="8dp" />
+    </LinearLayout>
 </ScrollView>

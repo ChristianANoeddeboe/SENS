@@ -1,5 +1,6 @@
 package com.example.root.sens.activity;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,6 +9,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.transition.Slide;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +37,8 @@ public class UserConfigActivity extends AppCompatActivity {
      */
     private PagerAdapter mPagerAdapter;
 
+    private Button slide;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,15 +54,35 @@ public class UserConfigActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(mPager, true);
 
-        Button slide = findViewById(R.id.user_config_a_slide_button);
+
+        slide = findViewById(R.id.user_config_a_slide_button);
         slide.setOnClickListener((View v) -> {
             if(mPager.getCurrentItem()==NUM_PAGES-1){
-                mPager.setCurrentItem(0, true);
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+//                finish();
             }
             else{
                 mPager.setCurrentItem(mPager.getCurrentItem()+1, true);
             }
+            setSliderButtonText();
         });
+    }
+
+    private void setSliderButtonText(){
+        int counter = mPager.getCurrentItem();
+        switch (counter){
+            case 0:
+                slide.setText("Videre");
+                break;
+            case 1:
+                slide.setText("Videre");
+                break;
+            case 2:
+                slide.setText("Bekræft");
+                break;
+        }
     }
 
 
@@ -74,6 +98,7 @@ public class UserConfigActivity extends AppCompatActivity {
             // Otherwise, select the previous step.
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
         }
+        setSliderButtonText();
     }
 
     /**
