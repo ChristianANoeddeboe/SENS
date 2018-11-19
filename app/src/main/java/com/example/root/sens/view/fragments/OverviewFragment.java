@@ -1,6 +1,7 @@
 package com.example.root.sens.view.fragments;
 
 import android.content.ClipData;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,8 @@ import com.example.root.sens.R;
 import com.example.root.sens.adapters.OverviewAdapter;
 import com.example.root.sens.data;
 import com.example.root.sens.mål;
+import com.github.sundeepk.compactcalendarview.CompactCalendarView;
+import com.github.sundeepk.compactcalendarview.domain.Event;
 
 import java.util.ArrayList;
 import java.util.List;

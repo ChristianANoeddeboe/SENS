@@ -11,6 +11,6 @@ import java.util.List;
 public class data {
     private static mål[] goalsArray = {new mål("Gang",50), new mål("Cykling",20), new mål("Løb", 80)};
     public static ArrayList<mål> goalsData = new ArrayList<>(Arrays.asList(goalsArray));
-    private static ListItem[] dataarray = {new TypeCalendar(), new TypeData()};
+    private static ListItem[] dataarray = { new TypeData(),new TypeCalendar()};
     public static ArrayList<ListItem> data = new ArrayList<>(Arrays.asList(dataarray));
 }
