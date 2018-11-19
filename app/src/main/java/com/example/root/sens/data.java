@@ -20,7 +20,7 @@ public class data {
             new GoalType(1,"Løb"),
             new GoalType(2,"Søvn"),
             new GoalType(3,"Gang"),
-            new GoalType(4,"Cykling")
+            new GoalType(4,"Cykling"),
     };
     private static DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
     private static Goal[] goalArray;

@@ -1,5 +1,6 @@
 package com.example.root.sens.DTO;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -8,6 +9,7 @@ public class User {
     private String name;
     private Date birthday;
     private HashMap<String, Integer> goals;
+
 
     public User(int id, String name, Date birthday, HashMap<String, Integer> goals) {
         this.id = id;
