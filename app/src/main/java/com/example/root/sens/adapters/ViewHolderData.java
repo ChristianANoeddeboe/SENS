@@ -26,11 +26,45 @@ public class ViewHolderData extends ViewHolder {
     public void bindType(ListItem item) {
         Goal g = ((TypeData) item).getG();
         for(DayData d : data.user.getDayData()){
-           // Check that it is today, and then get the appropriate data, and set progress based on that.
-        }
-        mTextView.setText(g.getType().getName()+":"+g.getValue()+" timer");
-        mProgressBar.setMax(g.getValue());
-        mProgressBar.setProgress(g.getValue()/3);
+           if(isToday(d)){
+               Double temp;
+               switch (g.getType().getTypeId()){
+                   case 1:
+                       temp = d.getResting();
+                       break;
+                   case 2:
+                       temp = d.getStanding();
+                       break;
+                   case 3:
+                       temp = d.getWalking();
+                       break;
+                   case 4:
+                       temp = d.getCycling();
+                       break;
+                   case 5:
+                       temp = d.getExercise();
+                       break;
+                   default:
+                       temp = new Double(-1.0);
+                       break;
+               }
+               mTextView.setText(g.getType().getName()+" : "+temp.intValue()+"/"+g.getValue()+" timer");
+               mProgressBar.setMax(g.getValue());
+               mProgressBar.setProgress(temp.intValue());
 
+               break;
+           }
+        }
+    }
+
+    private boolean isToday(DayData d) {
+        Calendar todayCalendar = Calendar.getInstance();
+        Calendar dCalendar = Calendar.getInstance();
+        dCalendar.setTime(d.getStart_time());
+        if(dCalendar.DAY_OF_YEAR == todayCalendar.DAY_OF_YEAR && dCalendar.YEAR == todayCalendar.YEAR){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
