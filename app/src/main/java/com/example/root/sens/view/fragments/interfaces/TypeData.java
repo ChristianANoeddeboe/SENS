@@ -1,8 +1,19 @@
 package com.example.root.sens.view.fragments.interfaces;
 
-public class TypeData implements ListItem {
+import com.example.root.sens.DTO.Goal;
 
-    public TypeData() {
+public class TypeData implements ListItem {
+    private Goal g;
+    public TypeData(Goal g) {
+        this.g = g;
+    }
+
+    public Goal getG() {
+        return g;
+    }
+
+    public void setG(Goal g) {
+        this.g = g;
     }
 
     @Override
