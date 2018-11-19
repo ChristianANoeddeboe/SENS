@@ -3,11 +3,11 @@ package com.example.root.sens.DTO;
 import java.util.Date;
 
 public class Goal {
-    int goalId;
-    Date date;
-    int userId;
-    GoalType type;
-    int value;
+    private int goalId;
+    private Date date;
+    private int userId;
+    private GoalType type;
+    private int value;
 
 
     public Goal(int goalId, Date date, int userId, GoalType type, int value) {
