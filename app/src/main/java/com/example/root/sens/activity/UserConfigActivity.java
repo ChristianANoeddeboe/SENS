@@ -8,12 +8,17 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.root.sens.R;
-import com.example.root.sens.fragment.UserConfigFragmentSlider;
+import com.example.root.sens.fragment.UserConfigConfirmInfoFragment;
+import com.example.root.sens.fragment.UserConfigGoalInfoFragment;
+import com.example.root.sens.fragment.UserConfigNameInfoFragment;
 
 public class UserConfigActivity extends AppCompatActivity {
-
+    private final static String TAG = UserConfigActivity.class.getSimpleName();
     /**
      * The number of pages (wizard steps) to show in this demo.
      */
@@ -35,9 +40,6 @@ public class UserConfigActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_config_a);
 
-
-
-
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
@@ -45,6 +47,16 @@ public class UserConfigActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(mPager, true);
+
+        Button slide = findViewById(R.id.user_config_a_slide_button);
+        slide.setOnClickListener((View v) -> {
+            if(mPager.getCurrentItem()==NUM_PAGES-1){
+                mPager.setCurrentItem(0, true);
+            }
+            else{
+                mPager.setCurrentItem(mPager.getCurrentItem()+1, true);
+            }
+        });
     }
 
     @Override
@@ -70,7 +82,13 @@ public class UserConfigActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return new UserConfigFragmentSlider();
+            switch(position){
+                case 0: return new UserConfigNameInfoFragment();
+                case 1: return new UserConfigGoalInfoFragment();
+                case 2: return new UserConfigConfirmInfoFragment();
+                default: Log.d(TAG, "Fatal pager error, position does not exist! "+position);
+            }
+            return null;
         }
 
         @Override

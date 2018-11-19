@@ -8,13 +8,13 @@ import android.view.ViewGroup;
 
 import com.example.root.sens.R;
 
-public class UserConfigFragmentSlider extends Fragment {
+public class UserConfigGoalInfoFragment extends Fragment {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             ViewGroup rootView = (ViewGroup) inflater.inflate(
-                    R.layout.user_config_f_viewpager_content, container, false);
+                    R.layout.user_config_f_viewpager_goal_info, container, false);
 
             return rootView;
         }

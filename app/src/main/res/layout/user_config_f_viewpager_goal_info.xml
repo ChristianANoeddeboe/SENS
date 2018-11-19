@@ -6,9 +6,12 @@
     android:layout_height="match_parent" >
 
 
-    <ImageView
-        android:id="@+id/imageView2"
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/sens_motion_logo_white" />
+        android:text="I AM GOAL CONTENT!"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 </ScrollView>
