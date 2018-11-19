@@ -1,5 +1,6 @@
 package com.example.root.sens.DTO;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,14 +9,13 @@ public class User {
     private int id;
     private String name;
     private Date birthday;
-    private HashMap<String, Integer> goals;
+    private ArrayList<Goal> goals;
+    private ArrayList<DayData> dayData;
 
-
-    public User(int id, String name, Date birthday, HashMap<String, Integer> goals) {
+    public User(int id, String name, Date birthday) {
         this.id = id;
         this.name = name;
-        this.birthday = birthday    ;
-        this.goals = goals;
+        this.birthday = birthday;
     }
 
     public int getId() {
@@ -42,11 +42,19 @@ public class User {
         this.birthday = birthday;
     }
 
-    public HashMap<String, Integer> getGoals() {
+    public ArrayList<Goal> getGoals() {
         return goals;
     }
 
-    public void setGoals(HashMap<String, Integer> goals) {
+    public void setGoals(ArrayList<Goal> goals) {
         this.goals = goals;
+    }
+
+    public ArrayList<DayData> getDayData() {
+        return dayData;
+    }
+
+    public void setDayData(ArrayList<DayData> dayData) {
+        this.dayData = dayData;
     }
 }
