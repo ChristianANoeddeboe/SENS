@@ -13,4 +13,12 @@ public class EpochConverterTest {
         actual = EpochConverter.getInstance().convertDate(19, 11, 2018);
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void setTimeofday() {
+        String expected = "06:47:04.000";
+        EpochConverter.getInstance().setTimeofday(6,47,4);
+        String actual = EpochConverter.getInstance().getTimeofday();
+        assertEquals(expected, actual);
+    }
 }

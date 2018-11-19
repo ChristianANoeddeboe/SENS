@@ -9,9 +9,11 @@ import java.util.Date;
 public class EpochConverter {
 
     private static EpochConverter epoch;
+    private String timeofday;
 
-
-    private EpochConverter() {}
+    private EpochConverter() {
+        timeofday = "00:00:00.000";
+    }
 
     public static EpochConverter getInstance() {
         if(epoch == null) {
@@ -25,7 +27,7 @@ public class EpochConverter {
     }
 
     public long convertDate(int day, int month, int year) {
-        String str = getMonth(month)+" "+day+" "+year+" 00:00:00.000 GMT";
+        String str = getMonth(month)+" "+day+" "+year+" "+timeofday+" GMT";
         SimpleDateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm:ss.SSS zzz");
         Date date = null;
         try {
@@ -36,4 +38,14 @@ public class EpochConverter {
         return date.getTime();
     }
 
+    public String getTimeofday() {
+        return timeofday;
+    }
+
+    public void setTimeofday(int hour, int minute, int second) {
+        String txthour = String.format("%02d", hour);
+        String txtminute = String.format("%02d", minute);
+        String txtsecond = String.format("%02d", second);
+        timeofday = txthour+":"+txtminute+":"+txtsecond+".000";
+    }
 }
