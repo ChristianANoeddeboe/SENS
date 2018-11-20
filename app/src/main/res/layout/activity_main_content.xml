@@ -30,7 +30,7 @@
         <com.astuetz.PagerSlidingTabStrip
             android:id="@+id/pagerTitleStrip"
             android:layout_width="match_parent"
-            android:layout_height="48dip"
+            android:layout_height="40dip"
             android:layout_gravity="bottom"
             android:layout_weight="0">
 
