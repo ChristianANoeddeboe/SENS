@@ -2,6 +2,7 @@ package com.example.root.sens.adapters;
 
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.util.Log;
 import android.view.View;
 
 import com.example.root.sens.DTO.DayData;
@@ -47,6 +48,7 @@ public class ViewHolderData extends ViewHolder {
                        .build());
 
                float inset = -((progresswidth * (numofgoals - 1)) / 2);
+
                for (int i = 0; i < numofgoals; i++) {
                    progressCircle.addSeries(new SeriesItem.Builder(colors[i])
                            .setRange(0, 100, 33)
@@ -66,7 +68,7 @@ public class ViewHolderData extends ViewHolder {
         Calendar todayCalendar = Calendar.getInstance();
         Calendar dCalendar = Calendar.getInstance();
         dCalendar.setTime(d.getStart_time());
-        if(dCalendar.DAY_OF_YEAR == todayCalendar.DAY_OF_YEAR && dCalendar.YEAR == todayCalendar.YEAR){
+        if(dCalendar.get(Calendar.DAY_OF_YEAR) == todayCalendar.get(Calendar.DAY_OF_YEAR) && dCalendar.get(Calendar.YEAR) == todayCalendar.get(Calendar.YEAR)){
             return true;
         }else{
             return false;
