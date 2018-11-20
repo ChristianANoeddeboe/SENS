@@ -11,10 +11,10 @@ import android.widget.GridView;
 import com.example.root.sens.R;
 
 
-public class fragmentAchievement extends Fragment {
+public class HistoryFragment extends Fragment {
 
 
-    public fragmentAchievement() {
+    public HistoryFragment() {
         // Required empty public constructor
     }
 
@@ -32,7 +32,7 @@ public class fragmentAchievement extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_achievement, container, false);
+        View v = inflater.inflate(R.layout.history_f_content, container, false);
         String[] lande = {"Danmark", "Norge", "Sverige", "Finland",
                 "Holland", "Italien", "Tyskland", "Frankrig", "Spanien", "Portugal",
                 "Nepal", "Indien", "Kina", "Japan", "Thailand",
@@ -40,7 +40,7 @@ public class fragmentAchievement extends Fragment {
                 "Holland", "Italien", "Tyskland", "Frankrig", "Spanien", "Portugal",
                 "Nepal", "Indien", "Kina", "Japan", "Thailand"};
 
-        ArrayAdapter adapter = new ArrayAdapter(v.getContext(), R.layout.achievement_list_element, R.id.listelement_title, lande);
+        ArrayAdapter adapter = new ArrayAdapter(v.getContext(), R.layout.history_f_listelement, R.id.listelement_title, lande);
 
         GridView gridView = v.findViewById(R.id.achieve_gridview);
 

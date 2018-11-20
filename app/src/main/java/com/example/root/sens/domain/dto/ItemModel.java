@@ -8,7 +8,6 @@ public class ItemModel{
         this.primaryTxt = primaryTxt;
         this.imgId = imgId;
     }
-
     public String getPrimaryTxt() {
         return primaryTxt;
     }

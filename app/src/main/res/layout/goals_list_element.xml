@@ -3,17 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/FrameLayout_Goals_container"
     android:layout_marginTop="20dp"
     android:gravity="center"
     android:orientation="vertical">
 
-    <com.github.lzyzsd.circleprogress.ArcProgress
-        android:id="@+id/arcProgress"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        app:arc_bottom_text_size="30dp"
-        app:arc_finished_color="@color/sensBlue"
-        app:arc_stroke_width="8dp"
-        app:arc_text_color="@color/sensBlue"
-        app:arc_unfinished_color="@color/white" />
-</LinearLayout>
+    </LinearLayout>
