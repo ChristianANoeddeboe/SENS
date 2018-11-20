@@ -3,6 +3,7 @@ package com.example.root.sens;
 
 import com.example.root.sens.DTO.DayData;
 import com.example.root.sens.DTO.Goal;
+import com.example.root.sens.DTO.GoalHistory;
 import com.example.root.sens.DTO.GoalType;
 import com.example.root.sens.DTO.User;
 
@@ -24,19 +25,26 @@ public class data {
     private static GoalType goalExercise = new GoalType(5,"Motion");
 
     private static DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-    private static Goal[] goalArray;
+    private static GoalHistory[] goalHistoryArray;
     static {
         try {
-            goalArray = new Goal[]{
-                    new Goal(1,df.parse("11/18/2018"),1,goalRest,60*8),
-                    new Goal(2,df.parse("11/18/2018"),1,goalStanding,50),
-                    new Goal(3,df.parse("11/18/2018"),1,goalWalking,300),
-                    new Goal(4,df.parse("11/18/2018"),1,goalExercise,350),
-                    new Goal(5,df.parse("11/18/2018"),1,goalCycling,350)
+            goalHistoryArray = new GoalHistory[]{
+              new GoalHistory(1,df.parse("11/18/2018"), new Goal[]{
+                      new Goal(goalRest,60*8),
+                      new Goal(goalStanding,50),
+                      new Goal(goalWalking,300),
+                      new Goal(goalExercise,350)
 
+              }),
+              new GoalHistory(2,df.parse("11/10/2018"), new Goal[]{
+                      new Goal(goalRest,120*8),
+                      new Goal(goalStanding,300),
+                      new Goal(goalWalking,400),
+                      new Goal(goalExercise,550)
+              })
+            };
 
-                };
-            user.setGoals(new ArrayList<Goal>(Arrays.asList(goalArray)));
+            user.setGoals(new ArrayList<>(Arrays.asList(goalHistoryArray)));
         } catch (ParseException e) {
             e.printStackTrace();
         }
