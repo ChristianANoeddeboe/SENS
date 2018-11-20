@@ -9,12 +9,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.root.sens.Controlles.GoalController;
+import com.example.root.sens.DAO.GoalDAO;
+import com.example.root.sens.DTO.Response;
 import com.example.root.sens.R;
 import com.example.root.sens.data;
 import com.example.root.sens.view.fragments.interfaces.ListItem;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import java.util.List;
+
+import retrofit2.Call;
 
 public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
     private final Context mContext;
@@ -40,7 +45,8 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
                         .inflate(R.layout.typecalendar, viewGroup, false);
                 CompactCalendarView temp = view.findViewById(R.id.compactcalendar_view);
                 temp.addEvent(new Event(Color.GREEN,1542530497*1000L,"Tesaasdt")); // This should be done dynamically
-                data.getDataFromSens();
+                GoalDAO g = new GoalDAO();
+                Call<Response> t =  g.getDataFromSens();
                 return new ViewHolderCalendar(view);
             case ListItem.TYPE_B:
                 view = LayoutInflater
