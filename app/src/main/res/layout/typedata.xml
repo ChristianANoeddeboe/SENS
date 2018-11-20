@@ -10,8 +10,9 @@
         android:layout_height="wrap_content"
         android:text="Overskrift"
         android:id="@+id/header"/>
+
     <com.hookedonplay.decoviewlib.DecoView
-        android:layout_width="240dp"
-        android:layout_height="240dp"
-        android:id="@+id/dynamicArcView"/>
+        android:id="@+id/dynamicArcView"
+        android:layout_width="wrap_content"
+        android:layout_height="180dp" />
 </LinearLayout>
