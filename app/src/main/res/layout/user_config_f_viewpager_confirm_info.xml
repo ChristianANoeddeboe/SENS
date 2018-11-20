@@ -6,33 +6,8 @@
     android:layout_height="match_parent" >
 
 
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView_confirm_goal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/tv_user_confirm_name_first"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="@drawable/sens_edit_text"
-            android:ems="10"
-            android:hint="Fornavn"
-            android:inputType="textPersonName"
-            android:text="Grethe"
-            android:textColor="@color/sensBlue" />
-
-        <EditText
-            android:id="@+id/tv_user_confirm_name_last"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="@drawable/sens_edit_text"
-            android:ems="10"
-            android:hint="Efternavn"
-            android:inputType="textPersonName"
-            android:text="Jensen"
-            android:textColor="@color/sensBlue" />
-    </LinearLayout>
+        android:layout_height="wrap_content" />
 </ScrollView>
