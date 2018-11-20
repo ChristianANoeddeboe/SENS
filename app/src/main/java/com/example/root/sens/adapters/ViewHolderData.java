@@ -56,7 +56,6 @@ public class ViewHolderData extends ViewHolder {
 
                    inset += progresswidth;
                }
-
                break;
            }
         }
