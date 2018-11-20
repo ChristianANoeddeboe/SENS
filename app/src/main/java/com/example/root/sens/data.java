@@ -1,28 +1,18 @@
 package com.example.root.sens;
 
-import com.example.root.sens.Controlles.GoalController;
+
 import com.example.root.sens.DTO.DayData;
 import com.example.root.sens.DTO.Goal;
 import com.example.root.sens.DTO.GoalType;
-import com.example.root.sens.DTO.Response;
 import com.example.root.sens.DTO.User;
-import com.example.root.sens.view.fragments.interfaces.ListItem;
-import com.example.root.sens.view.fragments.interfaces.TypeCalendar;
-import com.example.root.sens.view.fragments.interfaces.TypeData;
 
-import java.lang.reflect.Array;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class data {
 
@@ -41,6 +31,7 @@ public class data {
                     new Goal(1,df.parse("11/18/2018"),1,goalRest,60*8),
                     new Goal(2,df.parse("11/18/2018"),1,goalStanding,50),
                     new Goal(3,df.parse("11/18/2018"),1,goalWalking,300),
+                    new Goal(4,df.parse("11/18/2018"),1,goalExercise,350)
 
                 };
             user.setGoals(new ArrayList<Goal>(Arrays.asList(goalArray)));
