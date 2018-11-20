@@ -1,7 +1,6 @@
-package com.example.root.sens.activity;
+package com.example.root.sens.view.activities;
 
 import android.content.Intent;
-import android.inputmethodservice.Keyboard;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,7 +9,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.transition.Slide;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;

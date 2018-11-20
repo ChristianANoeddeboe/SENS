@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MainActivity">
+    tools:context=".view.activities.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -24,9 +24,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".activity.MainActivity"
+        tools:context=".view.activities.MainActivity"
         android:orientation="vertical"
         tools:showIn="@layout/activity_main_content">
+        <com.astuetz.PagerSlidingTabStrip
+            android:id="@+id/pagerTitleStrip"
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:layout_gravity="bottom"
+            android:layout_weight="0">
+
+
+        </com.astuetz.PagerSlidingTabStrip>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey"
+            ></View>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPager"
@@ -35,6 +49,8 @@
             android:layout_weight="1"
             >
 
+
+
             <FrameLayout
                 android:id="@+id/fragment_container"
                 android:layout_width="match_parent"
@@ -42,19 +58,7 @@
 
             </FrameLayout>
         </android.support.v4.view.ViewPager>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/grey"
-            ></View>
-        <com.astuetz.PagerSlidingTabStrip
-            android:id="@+id/pagerTitleStrip"
-            android:layout_width="match_parent"
-            android:layout_height="48dip"
-            android:layout_gravity="bottom"
-            android:layout_weight="0">
 
-        </com.astuetz.PagerSlidingTabStrip>
 
     </LinearLayout>
 

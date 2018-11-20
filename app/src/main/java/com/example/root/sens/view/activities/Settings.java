@@ -1,4 +1,4 @@
-package com.example.root.sens.activity;
+package com.example.root.sens.view.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,8 +10,8 @@ import com.example.root.sens.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.root.sens.DTO.ItemModel;
-import com.example.root.sens.adapter.SettingsAdapter;
+import com.example.root.sens.adapters.SettingsAdapter;
+import com.example.root.sens.domain.dto.ItemModel;
 
 public class Settings extends AppCompatActivity {
     private RecyclerView mRecyclerView;

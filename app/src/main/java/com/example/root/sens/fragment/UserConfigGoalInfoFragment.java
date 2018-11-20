@@ -8,11 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.root.sens.DTO.ItemModel;
 import com.example.root.sens.DTO.SetGoalItemModel;
 import com.example.root.sens.R;
 import com.example.root.sens.adapter.SetGoalAdapter;
-import com.example.root.sens.adapter.SettingsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

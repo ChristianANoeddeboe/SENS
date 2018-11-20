@@ -1,4 +1,4 @@
-package com.example.root.sens.DTO;
+package com.example.root.sens.domain.dto;
 
 public class ItemModel{
     private String primaryTxt;
@@ -8,7 +8,6 @@ public class ItemModel{
         this.primaryTxt = primaryTxt;
         this.imgId = imgId;
     }
-
     public String getPrimaryTxt() {
         return primaryTxt;
     }
