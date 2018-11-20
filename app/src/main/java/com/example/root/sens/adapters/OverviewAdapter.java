@@ -45,8 +45,6 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
                         .inflate(R.layout.typecalendar, viewGroup, false);
                 CompactCalendarView temp = view.findViewById(R.id.compactcalendar_view);
                 temp.addEvent(new Event(Color.GREEN,1542530497*1000L,"Tesaasdt")); // This should be done dynamically
-                GoalDAO g = new GoalDAO();
-                Call<Response> t =  g.getDataFromSens();
                 return new ViewHolderCalendar(view);
             case ListItem.TYPE_B:
                 view = LayoutInflater

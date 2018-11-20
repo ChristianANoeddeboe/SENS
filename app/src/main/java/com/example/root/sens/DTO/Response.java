@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+/**
+ * This is used for when downloading data from sens only
+ */
 public class Response {
 
     @SerializedName("status_code")
