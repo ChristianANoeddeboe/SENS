@@ -7,7 +7,10 @@
     <color name="sensBlueDarker">#005799</color>
     <color name="sensBlueBrighter">#1a9cff</color>
     <color name="sensBlueBrighterBright">#80c8ff</color>
+    <color name="sensRedBrighter">#f47176</color>
     <color name="sensRed">#ed1c24</color>
+    <color name="sensRedDarkerBright">#d41118</color>
+    <color name="sensRedDarker">#a50d12</color>
 
 
     <color name="white">#ffffff</color>

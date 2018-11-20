@@ -43,7 +43,7 @@
             android:id="@+id/login_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/sens_button"
+            android:background="@drawable/blue_button"
             android:text="Log ind"
             android:textColor="@color/white"
             tools:layout_editor_absoluteX="107dp"

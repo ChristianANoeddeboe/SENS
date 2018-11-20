@@ -32,5 +32,17 @@
             android:hint="Efternavn"
             android:textColor="@color/sensBlue"
             android:layout_margin="8dp" />
+
+        <TextView
+            android:id="@+id/tv_user_config_birth_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/sens_edit_text"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Fødselsdag"
+            android:textColor="@color/sensBlue"
+            android:layout_margin="8dp" />
+
     </LinearLayout>
 </ScrollView>

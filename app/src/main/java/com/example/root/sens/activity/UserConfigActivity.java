@@ -38,12 +38,13 @@ public class UserConfigActivity extends AppCompatActivity {
     private PagerAdapter mPagerAdapter;
 
     private Button slide;
+    private Button back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_config_a);
-        // Give an slide effect, like viewpagers, but for activities
+        // Give an slide effect, like view pagers, but for activities
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
         // Instantiate a ViewPager and a PagerAdapter.
@@ -54,17 +55,27 @@ public class UserConfigActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(mPager, true);
 
-
         slide = findViewById(R.id.user_config_a_slide_button);
         slide.setOnClickListener((View v) -> {
             if(mPager.getCurrentItem()==NUM_PAGES-1){
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
-//                finish();
             }
             else{
                 mPager.setCurrentItem(mPager.getCurrentItem()+1, true);
+            }
+            setSliderButtonText();
+        });
+
+        back = findViewById(R.id.btn_user_config_a_back_button);
+        back.setOnClickListener((View v) -> {
+            if(mPager.getCurrentItem()==0){
+                finish();
+                overridePendingTransition(R.anim.slide_out_r, R.anim.slide_in_r);
+            }
+            else{
+                mPager.setCurrentItem(mPager.getCurrentItem()-1, true);
             }
             setSliderButtonText();
         });
@@ -75,12 +86,15 @@ public class UserConfigActivity extends AppCompatActivity {
         switch (counter){
             case 0:
                 slide.setText("Videre");
+                back.setText("Annullér");
                 break;
             case 1:
                 slide.setText("Videre");
+                back.setText("Annullér");
                 break;
             case 2:
                 slide.setText("Bekræft");
+                back.setText("Annullér");
                 break;
         }
     }
