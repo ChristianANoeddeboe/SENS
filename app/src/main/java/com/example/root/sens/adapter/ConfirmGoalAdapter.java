@@ -15,8 +15,7 @@ import com.example.root.sens.R;
 import java.util.List;
 
 public class ConfirmGoalAdapter extends RecyclerView.Adapter<ConfirmGoalAdapter.ViewHolder> {
-        private static final String TAG = "SettingsAdapter";
-
+        private static final String TAG = ConfirmGoalAdapter.class.getSimpleName();
         private List<ConfirmGoalItemModel> mDataSet;
 
         /**
@@ -36,11 +35,9 @@ public class ConfirmGoalAdapter extends RecyclerView.Adapter<ConfirmGoalAdapter.
             public TextView getTextViewDescription() {
                 return textViewDescription;
             }
-
             public TextView getTextViewValue() {
                 return textViewValue;
             }
-
 
         }
 
@@ -58,7 +55,7 @@ public class ConfirmGoalAdapter extends RecyclerView.Adapter<ConfirmGoalAdapter.
         public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
             // Create a new view.
             View v = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.set_goal_element, viewGroup, false);
+                    .inflate(R.layout.confirm_goal_element, viewGroup, false);
 
             return new ViewHolder(v);
         }
