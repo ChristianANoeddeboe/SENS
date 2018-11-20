@@ -80,12 +80,5 @@ public class data {
     }
 
 
-    public static Call<Response> getDataFromSens(){
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("ttps://beta.sens.dk/exapi/1.0/patients/data/external/").addConverterFactory(GsonConverterFactory.create()).build();
-        SENSAPI service = retrofit.create(SENSAPI.class);
-        Call<Response> temp = service.getData();
-        return  temp;
-
-    }
 
 }
