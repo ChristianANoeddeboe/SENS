@@ -9,7 +9,7 @@ public class User {
     private int id;
     private String name;
     private Date birthday;
-    private ArrayList<Goal> goals;
+    private ArrayList<GoalHistory> goals;
     private ArrayList<DayData> dayData;
 
     public User(int id, String name, Date birthday) {
@@ -42,11 +42,11 @@ public class User {
         this.birthday = birthday;
     }
 
-    public ArrayList<Goal> getGoals() {
+    public ArrayList<GoalHistory> getGoals() {
         return goals;
     }
 
-    public void setGoals(ArrayList<Goal> goals) {
+    public void setGoals(ArrayList<GoalHistory> goals) {
         this.goals = goals;
     }
 
