@@ -25,9 +25,9 @@ public class ViewHolderData extends ViewHolder {
     public void bindType(ListItem item) {
         for(DayData d : data.user.getDayData()){
            if(isToday(d)){
-               ArrayList<Goal> goals = data.user.getGoals();
-               int numofgoals = goals.size();
-               PointF point = new PointF(0f, 0f);
+               int size = data.user.getGoals().size();
+               Goal[] goals = data.user.getGoals().get(size - 1).getGoals();
+               int numofgoals = goals.length;
                int[] colors = {
                        Color.argb(255, 0, 0, 255),
                        Color.argb(255, 255, 0, 255),
@@ -56,18 +56,6 @@ public class ViewHolderData extends ViewHolder {
 
                    inset += progresswidth;
                }
-
-               /*
-               Float test = numofgoals*(progresswidth/numofgoals);
-
-               for(int i = 0 ; i < numofgoals ; i++) {
-                   progressCircle.addSeries(new SeriesItem.Builder(colors[i])
-                           .setRange(0, 100, 33)
-                           .setLineWidth(progresswidth)
-                           .setInset(new PointF(point.x + i*progresswidth - test, point.y + i*progresswidth - test))
-                           .build());
-               }*/
-
 
                break;
            }
