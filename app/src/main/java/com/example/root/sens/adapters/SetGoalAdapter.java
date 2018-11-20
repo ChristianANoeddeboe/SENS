@@ -1,4 +1,4 @@
-package com.example.root.sens.adapter;
+package com.example.root.sens.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;

@@ -1,4 +1,4 @@
-package com.example.root.sens.fragment;
+package com.example.root.sens.view.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.root.sens.DTO.SetGoalItemModel;
 import com.example.root.sens.R;
-import com.example.root.sens.adapter.SetGoalAdapter;
+import com.example.root.sens.adapters.SetGoalAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

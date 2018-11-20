@@ -9,10 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.root.sens.DTO.ConfirmGoalItemModel;
-import com.example.root.sens.DTO.SetGoalItemModel;
 import com.example.root.sens.R;
 import com.example.root.sens.adapter.ConfirmGoalAdapter;
-import com.example.root.sens.adapter.SetGoalAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

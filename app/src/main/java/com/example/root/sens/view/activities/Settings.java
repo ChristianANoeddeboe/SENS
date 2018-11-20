@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.root.sens.adapters.SettingsAdapter;
-import com.example.root.sens.domain.dto.ItemModel;
+import com.example.root.sens.DTO.ItemModel;
 
 public class Settings extends AppCompatActivity {
     private RecyclerView mRecyclerView;

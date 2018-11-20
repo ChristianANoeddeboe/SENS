@@ -13,7 +13,7 @@ import com.example.root.sens.R;
 
 import java.util.List;
 
-import com.example.root.sens.domain.dto.ItemModel;
+import com.example.root.sens.DTO.ItemModel;
 
 public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHolder> {
         private static final String TAG = "SettingsAdapter";

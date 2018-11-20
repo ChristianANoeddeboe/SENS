@@ -16,7 +16,7 @@ import android.widget.Button;
 
 import com.example.root.sens.R;
 import com.example.root.sens.fragment.UserConfigConfirmInfoFragment;
-import com.example.root.sens.fragment.UserConfigGoalInfoFragment;
+import com.example.root.sens.view.fragments.UserConfigGoalInfoFragment;
 import com.example.root.sens.fragment.UserConfigNameInfoFragment;
 
 public class UserConfigActivity extends AppCompatActivity {
