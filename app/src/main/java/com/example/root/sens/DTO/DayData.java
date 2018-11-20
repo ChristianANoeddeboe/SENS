@@ -80,6 +80,10 @@ public class DayData {
         this.other = other;
     }
 
+    public double[] getGoalData() {
+        return new double[] {resting, standing, walking, exercise, cycling};
+    }
+
     public double getNodata() {
         return nodata;
     }

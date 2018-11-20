@@ -51,7 +51,7 @@ public class ViewHolderData extends ViewHolder {
 
                for (int i = 0; i < numofgoals; i++) {
                    progressCircle.addSeries(new SeriesItem.Builder(colors[i])
-                           .setRange(0, 100, 33)
+                           .setRange(0, goals[i].getValue(), (float) d.getGoalData()[i])
                            .setLineWidth(progresswidth)
                            .setInset(new PointF(inset, inset))
                            .build());
@@ -66,7 +66,7 @@ public class ViewHolderData extends ViewHolder {
     private boolean isToday(DayData d) {
         Calendar todayCalendar = Calendar.getInstance();
         Calendar dCalendar = Calendar.getInstance();
-        dCalendar.setTime(d.getStart_time());
+        dCalendar.setTime(d.getEnd_time());
         if(dCalendar.get(Calendar.DAY_OF_YEAR) == todayCalendar.get(Calendar.DAY_OF_YEAR) && dCalendar.get(Calendar.YEAR) == todayCalendar.get(Calendar.YEAR)){
             return true;
         }else{
