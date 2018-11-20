@@ -1,6 +1,7 @@
 package com.example.root.sens.activity;
 
 import android.content.Intent;
+import android.inputmethodservice.Keyboard;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.transition.Slide;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
 import com.example.root.sens.R;
@@ -64,6 +66,8 @@ public class UserConfigActivity extends AppCompatActivity {
             }
             else{
                 mPager.setCurrentItem(mPager.getCurrentItem()+1, true);
+                InputMethodManager imm = (InputMethodManager) getSystemService(getApplication().INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
             }
             setSliderButtonText();
         });
