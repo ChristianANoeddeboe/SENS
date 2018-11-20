@@ -8,13 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.root.sens.DTO.Goal;
 import com.example.root.sens.R;
 import com.example.root.sens.adapters.OverviewAdapter;
-import com.example.root.sens.data;
 import com.example.root.sens.view.fragments.interfaces.ListItem;
 import com.example.root.sens.view.fragments.interfaces.TypeCalendar;
-import com.example.root.sens.view.fragments.interfaces.TypeData;
+import com.example.root.sens.view.fragments.interfaces.TypeGraph;
 
 import java.util.ArrayList;
 
@@ -46,9 +44,7 @@ public class OverviewFragment extends Fragment {
     public static ArrayList<ListItem> generateData(){
         ArrayList<ListItem> temp = new ArrayList<>();
         temp.add(new TypeCalendar());
-        for(Goal g : data.user.getGoals()){
-            temp.add(new TypeData(g));
-        }
+        temp.add(new TypeGraph());
         return temp;
     }
 

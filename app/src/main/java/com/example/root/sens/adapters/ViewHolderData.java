@@ -3,97 +3,55 @@ package com.example.root.sens.adapters;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.view.View;
-import android.widget.TextView;
 
 import com.example.root.sens.DTO.DayData;
 import com.example.root.sens.DTO.Goal;
 import com.example.root.sens.R;
 import com.example.root.sens.data;
 import com.example.root.sens.view.fragments.interfaces.ListItem;
-import com.example.root.sens.view.fragments.interfaces.TypeData;
 import com.hookedonplay.decoviewlib.DecoView;
-import com.hookedonplay.decoviewlib.charts.EdgeDetail;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ViewHolderData extends ViewHolder {
-    private final TextView mTextView;
     private final DecoView progressCircle;
     public ViewHolderData(View itemView) {
         super(itemView);
-        mTextView = itemView.findViewById(R.id.header);
         progressCircle = itemView.findViewById(R.id.dynamicArcView);
     }
 
     public void bindType(ListItem item) {
-        Goal g = ((TypeData) item).getG();
         for(DayData d : data.user.getDayData()){
            if(isToday(d)){
-               Double temp;
-               switch (g.getType().getTypeId()){
-                   case 1:
-                       temp = d.getResting();
-                       break;
-                   case 2:
-                       temp = d.getStanding();
-                       break;
-                   case 3:
-                       temp = d.getWalking();
-                       break;
-                   case 4:
-                       temp = d.getCycling();
-                       break;
-                   case 5:
-                       temp = d.getExercise();
-                       break;
-                   default:
-                       temp = new Double(-1.0);
-                       break;
-               }
-               mTextView.setText(g.getType().getName()+" : "+temp.intValue()+"/"+g.getValue()+" timer");
-               //https://github.com/bmarrdev/android-DecoView-charting
+               ArrayList<Goal> goals = data.user.getGoals();
+               int numofgoals = goals.size();
                PointF point = new PointF(-20f, -20f);
+               int[] colors = {
+                       Color.argb(255, 0, 0, 255),
+                       Color.argb(255, 255, 0, 255),
+                       Color.argb(255, 255, 0, 0),
+                       Color.argb(255, 255, 255, 0),
+                       Color.argb(255, 0, 255, 0),
+                       Color.argb(255, 0, 255, 255)
+               };
 
+               Float progresswidth = 24f;
+
+               //https://github.com/bmarrdev/android-DecoView-charting
                progressCircle.addSeries(new SeriesItem.Builder(Color.argb(255, 218, 218, 218))
                        .setRange(0, 100, 100)
-                       .setLineWidth(64f)
+                       .setLineWidth(numofgoals*progresswidth)
                        .build());
 
-               progressCircle.addSeries(new SeriesItem.Builder(Color.argb(255, 64, 196, 0))
-                       .setRange(0, 100, 33)
-                       .setLineWidth(24f)
-                       .setInset(point)
-                       .build());
-               point = new PointF(point.x+20, point.y+20);
-
-               progressCircle.addSeries(new SeriesItem.Builder(Color.argb(255, 0, 0, 255))
-                       .setRange(0, 100, 50)
-                       .setLineWidth(24f)
-                       .setInset(point)
-                       .build());
-
-               point = new PointF(point.x+20, point.y+20);
-               progressCircle.addSeries(new SeriesItem.Builder(Color.argb(255, 255, 0, 0))
-                       .setRange(0, 100, 75)
-                       .setLineWidth(24f)
-                       .setInset(point)
-                       .build());
-
-               /*
-               progressCircle.addSeries(new SeriesItem.Builder(Color.argb(255, 218, 218, 218))
-                       .setRange(0, 100, 100)
-                       .setInitialVisibility(true)
-                       .setLineWidth(32f)
-                       .build());
-               progressCircle.addSeries(new SeriesItem.Builder(Color.argb(255, 64, 196, 0))
-                       .setRange(0, 1440, temp.intValue())
-                       .setLineWidth(32f)
-                       .addEdgeDetail(new EdgeDetail(EdgeDetail.EdgeType.EDGE_OUTER, Color.parseColor("#22000000"), 0.4f))
-                       .build());
-               */
-
-
+               for(int i = 0 ; i < numofgoals ; i++) {
+                   progressCircle.addSeries(new SeriesItem.Builder(colors[i])
+                           .setRange(0, 100, 33)
+                           .setLineWidth(24f)
+                           .setInset(new PointF(point.x + 20*i, point.y + 20*i))
+                           .build());
+               }
 
 
                break;
