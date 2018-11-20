@@ -4,6 +4,7 @@ import com.example.root.sens.Controlles.GoalController;
 import com.example.root.sens.DTO.DayData;
 import com.example.root.sens.DTO.Goal;
 import com.example.root.sens.DTO.GoalType;
+import com.example.root.sens.DTO.Response;
 import com.example.root.sens.DTO.User;
 import com.example.root.sens.view.fragments.interfaces.ListItem;
 import com.example.root.sens.view.fragments.interfaces.TypeCalendar;
@@ -18,6 +19,10 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class data {
 
@@ -75,5 +80,12 @@ public class data {
     }
 
 
+    public static Call<Response> getDataFromSens(){
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("ttps://beta.sens.dk/exapi/1.0/patients/data/external/").addConverterFactory(GsonConverterFactory.create()).build();
+        SENSAPI service = retrofit.create(SENSAPI.class);
+        Call<Response> temp = service.getData();
+        return  temp;
+
+    }
 
 }

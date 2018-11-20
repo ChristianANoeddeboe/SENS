@@ -21,7 +21,7 @@ android {
     compileOptions {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
-    }
+}
 }
 
 dependencies {
@@ -37,6 +37,8 @@ dependencies {
     implementation 'com.astuetz:pagerslidingtabstrip:1.0.1'
     implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
     implementation 'com.github.bmarrdev:android-DecoView-charting:v1.2'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
 }
 
 
