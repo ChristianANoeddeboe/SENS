@@ -31,7 +31,9 @@ public class data {
                     new Goal(1,df.parse("11/18/2018"),1,goalRest,60*8),
                     new Goal(2,df.parse("11/18/2018"),1,goalStanding,50),
                     new Goal(3,df.parse("11/18/2018"),1,goalWalking,300),
-                    new Goal(4,df.parse("11/18/2018"),1,goalExercise,350)
+                    new Goal(4,df.parse("11/18/2018"),1,goalExercise,350),
+                    new Goal(5,df.parse("11/18/2018"),1,goalCycling,350)
+
 
                 };
             user.setGoals(new ArrayList<Goal>(Arrays.asList(goalArray)));
