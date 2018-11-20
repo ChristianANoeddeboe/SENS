@@ -29,6 +29,7 @@ public class ViewHolderData extends ViewHolder {
                int size = data.user.getGoals().size();
                Goal[] goals = data.user.getGoals().get(size - 1).getGoals();
                int numofgoals = goals.length;
+
                int[] colors = {
                        Color.argb(255, 0, 0, 255),
                        Color.argb(255, 255, 0, 255),
@@ -38,8 +39,8 @@ public class ViewHolderData extends ViewHolder {
                        Color.argb(255, 0, 255, 255)
                };
 
-               Float progresswidth = 24f;
-               Float totalprogresswidth = numofgoals*progresswidth; //120
+               float progresswidth = 24f;
+               float totalprogresswidth = numofgoals*progresswidth; //120
 
                //https://github.com/bmarrdev/android-DecoView-charting
                progressCircle.addSeries(new SeriesItem.Builder(Color.argb(255, 218, 218, 218))
