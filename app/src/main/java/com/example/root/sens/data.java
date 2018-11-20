@@ -33,14 +33,16 @@ public class data {
                       new Goal(goalRest,60*8),
                       new Goal(goalStanding,50),
                       new Goal(goalWalking,300),
-                      new Goal(goalExercise,350)
+                      new Goal(goalExercise,350),
+                      new Goal(goalCycling, 120)
 
               }),
               new GoalHistory(2,df.parse("11/10/2018"), new Goal[]{
                       new Goal(goalRest,120*8),
                       new Goal(goalStanding,300),
                       new Goal(goalWalking,400),
-                      new Goal(goalExercise,550)
+                      new Goal(goalExercise,550),
+                      new Goal(goalCycling, 360)
               })
             };
 
@@ -60,8 +62,8 @@ public class data {
         try {
             dayDataArray = new DayData[]{
                     new DayData(
-                          sensDf.parse("2018-11-18T23:00:00"),
                           sensDf.parse("2018-11-19T23:00:00"),
+                          sensDf.parse("2018-11-20T23:00:00"),
                           60*8,20,300,0,100),
                     new DayData(
                             sensDf.parse("2018-11-17T23:00:00"),

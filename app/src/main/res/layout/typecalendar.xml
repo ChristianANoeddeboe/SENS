@@ -16,14 +16,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/compactcalendar_view"
     android:layout_width="fill_parent"
-    android:paddingRight="10dp"
-    android:paddingLeft="10dp"
     android:layout_height="200dp"
-    app:compactCalendarTargetHeight="200dp"
-    app:compactCalendarTextSize="18sp"
+    android:layout_marginTop="5dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
     app:compactCalendarEventIndicatorStyle="fill_large_indicator"
     app:compactCalendarMultiEventIndicatorColor="@color/sensBlue"
-    >
+    app:compactCalendarTargetHeight="200dp"
+    app:compactCalendarTextSize="18sp">
 
 </com.github.sundeepk.compactcalendarview.CompactCalendarView>
 
