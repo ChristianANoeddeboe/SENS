@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.example.root.sens.DTO.DayData;
 import com.example.root.sens.DTO.Goal;
 import com.example.root.sens.DTO.GoalHistory;
+import com.example.root.sens.DTO.Record;
 import com.example.root.sens.R;
 import com.example.root.sens.data;
 import com.example.root.sens.utilities.EpochConverter;
@@ -46,34 +47,13 @@ public class ViewHolderCalendar extends ViewHolder {
                 boolean completed = false;
                 for(Goal g : temp.getGoals()){
                     completed = false;
-                    switch(g.getType().getTypeId()){ //TODO: Probaly should do so that we can map daydata categories and goaltypes
-                        case 1:
-                            if(d.getResting() >= g.getValue()){
+                    for(Record r : d.getRecords()){
+                        if(r.getType().equals(g.getType())){
+                            if(r.getValue() >= g.getValue()){
                                 completed = true;
+                                break;
                             }
-                            break;
-                        case 2:
-                            if(d.getStanding() >= g.getValue()){
-                                completed = true;
-                            }
-                            break;
-                        case 3:
-                            if(d.getWalking() >= g.getValue()){
-                                completed = true;
-                            }
-                            break;
-                        case 4:
-                            if(d.getCycling() >= g.getValue()){
-                                completed = true;
-                            }
-                            break;
-                        case 5:
-                            if(d.getExercise() >= g.getValue()){
-                                completed = true;
-                            }
-                            break;
-                        default:
-                            break;
+                        }
                     }
                     if(!completed){
                         calendar.addEvent(new Event(Color.rgb(244,57,54), d.getEnd_time().getTime(), "test"));
