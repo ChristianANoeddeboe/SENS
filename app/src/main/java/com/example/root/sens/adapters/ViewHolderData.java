@@ -2,21 +2,19 @@ package com.example.root.sens.adapters;
 
 import android.graphics.Color;
 import android.graphics.PointF;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.root.sens.DTO.ActivityCategories;
 import com.example.root.sens.DTO.DayData;
 import com.example.root.sens.DTO.Goal;
-import com.example.root.sens.DTO.User;
 import com.example.root.sens.R;
 import com.example.root.sens.data;
 import com.example.root.sens.view.fragments.interfaces.ListItem;
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import io.realm.RealmList;
@@ -48,14 +46,6 @@ public class ViewHolderData extends ViewHolder {
                RealmList<Goal> goals = data.user.getGoals().get(size-1).getGoals();
                int numofgoals = goals.size();
 
-               int[] colors = {
-                       Color.argb(255, 0, 150, 136),
-                       Color.argb(255, 63, 81, 181),
-                       Color.argb(255, 76, 175, 80),
-                       Color.argb(255, 255, 152, 0),
-                       Color.argb(244, 244, 67, 54)
-               };
-
                int emptyGoals = 0;
 
                for(Goal curr : goals) {
@@ -78,34 +68,48 @@ public class ViewHolderData extends ViewHolder {
                float inset = -((progresswidth * ((numofgoals-emptyGoals) - 1)) / 2);
                int max, current;
                for (int i = 0; i < numofgoals; i++) {
-                   max = goals.get(i).getValue();
-                   current = (int) d.getGoalData()[i];
+                   Goal currGoal = goals.get(i);
+                   max = currGoal.getValue();
+                   current = (int) d.getRecords().get(i).getValue();
                    if(max > 0) {
                        if(current > max) {
                            current = max;
                        }
-                       progressCircle.addSeries(new SeriesItem.Builder(colors[i])
+                       addGoalIcon(currGoal, current);
+                       progressCircle.addSeries(new SeriesItem.Builder(getGoalColor(currGoal.getType()))
                                .setRange(0, max, current)
                                .setLineWidth(progresswidth)
                                .setInset(new PointF(inset, inset))
                                .build());
 
                        inset += progresswidth;
+                   } else {
+                       removeGoalIcon(currGoal.getType());
                    }
 
                }
-               chooseGoalIcons(goals, d);
            }
         }
     }
 
-    private Color getGoalColor(int id) {
-        switch (id) {
-            case 1:
-                return
+    private int getGoalColor(ActivityCategories curr) {
+        switch (curr) {
+            case Resting:
+                return Color.argb(255, 0, 150, 136);
+            case Standing:
+                return Color.argb(255, 63, 81, 181);
+            case Walking:
+                return Color.argb(255, 76, 175, 80);
+            case Cycling:
+                return Color.argb(255, 255, 152, 0);
+            case Exercise:
+                return Color.argb(244, 244, 67, 54);
+            default:
+                return Color.argb(255, 0, 0, 0);
         }
     }
 
+    /*
     private void chooseGoalIcons(RealmList<Goal> allGoals, DayData dayGoals) {
         for(Goal curr : allGoals) {
             if(curr.getValue() > 0) {
@@ -115,56 +119,56 @@ public class ViewHolderData extends ViewHolder {
                 removeGoalIcon(curr);
             }
         }
-    }
+    }*/
 
-    private void removeGoalIcon(Goal curr) {
-        switch (curr.getType().getTypeId()) {
-            case 1:
+    private void removeGoalIcon(ActivityCategories curr) {
+        switch (curr) {
+            case Resting:
                 restLogo.setVisibility(View.GONE);
                 restText.setVisibility(View.GONE);
                 break;
-            case 2:
+            case Standing:
                 standingLogo.setVisibility(View.GONE);
                 standingText.setVisibility(View.GONE);
                 break;
-            case 3:
+            case Walking:
                 walkingLogo.setVisibility(View.GONE);
                 walkingText.setVisibility(View.GONE);
                 break;
-            case 4:
+            case Cycling:
                 cyclingLogo.setVisibility(View.GONE);
                 cyclingText.setVisibility(View.GONE);
                 break;
-            case 5:
+            case Exercise:
                 exerciseLogo.setVisibility(View.GONE);
                 exerciseText.setVisibility(View.GONE);
                 break;
         }
     }
 
-    private void addGoalIcon(Goal curr, double currentGoalValue) {
-        switch (curr.getType().getTypeId()) {
-            case 1:
+    private void addGoalIcon(Goal curr, int currentGoalValue) {
+        switch (curr.getType()) {
+            case Resting:
                 restLogo.setVisibility(View.VISIBLE);
                 restText.setVisibility(View.VISIBLE);
                 restText.setText(createIconText(curr, currentGoalValue));
                 break;
-            case 2:
+            case Standing:
                 standingLogo.setVisibility(View.VISIBLE);
                 standingText.setVisibility(View.VISIBLE);
                 standingText.setText(createIconText(curr, currentGoalValue));
                 break;
-            case 3:
+            case Walking:
                 walkingLogo.setVisibility(View.VISIBLE);
                 walkingText.setVisibility(View.VISIBLE);
                 walkingText.setText(createIconText(curr, currentGoalValue));
                 break;
-            case 4:
+            case Exercise:
                 cyclingLogo.setVisibility(View.VISIBLE);
                 cyclingText.setVisibility(View.VISIBLE);
                 cyclingText.setText(createIconText(curr, currentGoalValue));
                 break;
-            case 5:
+            case Cycling:
                 exerciseLogo.setVisibility(View.VISIBLE);
                 exerciseText.setVisibility(View.VISIBLE);
                 exerciseText.setText(createIconText(curr, currentGoalValue));
@@ -172,8 +176,8 @@ public class ViewHolderData extends ViewHolder {
         }
     }
 
-    private String createIconText(Goal curr, double currentGoalValue) {
-        String current = ""+(int)currentGoalValue;
+    private String createIconText(Goal curr, int currentGoalValue) {
+        String current = ""+currentGoalValue;
         String total = ""+curr.getValue();
         return current+"/"+total;
     }
