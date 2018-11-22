@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,25 @@ import android.widget.TextView;
 import com.example.root.sens.R;
 import com.example.root.sens.view.activities.UserConfigActivity;
 
-public class UserConfigNameInfoFragment extends Fragment {
-        UserDataPassListener mCallback;
+public class UserConfigNameInfoFragment extends Fragment implements ViewPager.OnPageChangeListener {
+    UserDataPassListener mCallback;
 
-        public interface UserDataPassListener{
+    @Override
+    public void onPageScrolled(int i, float v, int i1) {
+        //nothing
+    }
+
+    @Override
+    public void onPageSelected(int i) {
+        if(i==UserConfigActivity.NUM_PAGES-1) mCallback.passUserData("user_data");
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int i) {
+        //nothing
+    }
+
+    public interface UserDataPassListener{
             public void passUserData(String data);
         }
 
@@ -44,10 +60,4 @@ public class UserConfigNameInfoFragment extends Fragment {
 
             return rootView;
         }
-
-    @Override
-    public void onDestroy() {
-            super.onDestroy();
-        mCallback.passUserData("User data");
-    }
 }

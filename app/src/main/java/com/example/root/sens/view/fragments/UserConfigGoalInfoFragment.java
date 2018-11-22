@@ -3,6 +3,7 @@ package com.example.root.sens.view.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,15 +13,31 @@ import android.view.ViewGroup;
 import com.example.root.sens.dto.SetGoalItemModel;
 import com.example.root.sens.R;
 import com.example.root.sens.adapters.SetGoalAdapter;
+import com.example.root.sens.view.activities.UserConfigActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserConfigGoalInfoFragment extends Fragment {
+public class UserConfigGoalInfoFragment extends Fragment implements ViewPager.OnPageChangeListener {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     GoalDataPassListener mCallback;
+
+    @Override
+    public void onPageScrolled(int i, float v, int i1) {
+        //nothing
+    }
+
+    @Override
+    public void onPageSelected(int i) {
+        if(i==UserConfigActivity.NUM_PAGES-1) mCallback.passGoalData("goal_data");
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int i) {
+        //nothing
+    }
 
     public interface GoalDataPassListener{
         public void passGoalData(String data);
@@ -60,8 +77,8 @@ public class UserConfigGoalInfoFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onPause() {
+        super.onPause();
         mCallback.passGoalData("goal data");
     }
 

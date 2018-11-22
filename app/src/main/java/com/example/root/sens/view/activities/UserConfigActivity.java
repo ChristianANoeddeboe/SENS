@@ -28,7 +28,7 @@ public class UserConfigActivity extends AppCompatActivity implements UserConfigN
     /**
      * The number of pages (wizard steps) to show in this demo.
      */
-    private static final int NUM_PAGES = 3;
+    public static final int NUM_PAGES = 3;
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -55,6 +55,10 @@ public class UserConfigActivity extends AppCompatActivity implements UserConfigN
         mPager = findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+        mPager.addOnPageChangeListener(nameInfoFragment);
+        mPager.addOnPageChangeListener(goalInfoFragment);
+        mPager.addOnPageChangeListener(confirmInfoFragment);
+
 
         TabLayout tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(mPager, true);
@@ -70,8 +74,8 @@ public class UserConfigActivity extends AppCompatActivity implements UserConfigN
                 mPager.setCurrentItem(mPager.getCurrentItem()+1, true);
                 InputMethodManager imm = (InputMethodManager) getSystemService(getApplication().INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-
             }
+
             setSliderButtonText();
         });
 
