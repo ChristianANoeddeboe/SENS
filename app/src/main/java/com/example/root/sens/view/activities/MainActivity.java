@@ -1,6 +1,8 @@
 package com.example.root.sens.view.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity
 
     private ViewPager viewPager;
     private static String[] viewNames = {"Overview", "Historik"};
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +55,10 @@ public class MainActivity extends AppCompatActivity
         //pagerSlidingTabStrip.setTabBackground(R.color.white);
         pagerSlidingTabStrip.setIndicatorColorResource(R.color.sensBlue);
         pagerSlidingTabStrip.setViewPager(viewPager);
-           }
+
+        sharedPreferences = getApplication().getSharedPreferences(
+                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+    }
 
     @Override
     public void onBackPressed() {
@@ -72,8 +79,13 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_manage) {
             // Settings
+
+            // Save state:
+            sharedPreferences.edit().putInt(getString(R.string.pagerWindowNumber), viewPager.getCurrentItem()).apply();
+
             Intent i = new Intent(getApplicationContext(), Settings.class);
             startActivity(i);
+
         } else if (id == R.id.nav_about) {
             // Show to about fragment
             Toast.makeText(this, "Denne app er lavet af Gruppe 6", Toast.LENGTH_SHORT).show();
@@ -85,8 +97,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private class ViewpagerAdapter extends FragmentPagerAdapter {
-
-
         public ViewpagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -99,9 +109,13 @@ public class MainActivity extends AppCompatActivity
         @Override
         public Fragment getItem(int i) {
             Fragment f = null;
-            if (i == 0) f = new OverviewFragment();
-            else  f = new HistoryFragment();
-
+            int savedWindow = sharedPreferences.getInt(getString(R.string.pagerWindowNumber), i);
+            if (savedWindow == 0) {
+                f = new OverviewFragment();
+            } else {
+                f = new HistoryFragment();
+            }
+            sharedPreferences.edit().remove(getString(R.string.pagerWindowNumber)).apply();
             return f;
 
         }
