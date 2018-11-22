@@ -34,30 +34,33 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainactivity_a_burgermenu);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        sharedPreferences = getApplication().getSharedPreferences(
+                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
         viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(new ViewpagerAdapter(getSupportFragmentManager()));
-        // viewPager.setPageTransformer(false, new ZoomOutPageTransformer());
+        viewPager.setCurrentItem(sharedPreferences.getInt(getString(R.string.pagerWindowNumber)
+                ,0));
+        sharedPreferences.edit().remove(getString(R.string.pagerWindowNumber)).apply();
 
         PagerSlidingTabStrip pagerSlidingTabStrip = findViewById(R.id.pagerTitleStrip);
         pagerSlidingTabStrip.setShouldExpand(true);
         //pagerSlidingTabStrip.setTabBackground(R.color.white);
         pagerSlidingTabStrip.setIndicatorColorResource(R.color.sensBlue);
         pagerSlidingTabStrip.setViewPager(viewPager);
-
-        sharedPreferences = getApplication().getSharedPreferences(
-                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
     }
 
     @Override
@@ -82,7 +85,6 @@ public class MainActivity extends AppCompatActivity
 
             // Save state:
             sharedPreferences.edit().putInt(getString(R.string.pagerWindowNumber), viewPager.getCurrentItem()).apply();
-
             Intent i = new Intent(getApplicationContext(), Settings.class);
             startActivity(i);
 
@@ -108,14 +110,12 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public Fragment getItem(int i) {
-            Fragment f = null;
-            int savedWindow = sharedPreferences.getInt(getString(R.string.pagerWindowNumber), i);
-            if (savedWindow == 0) {
+            Fragment f;
+            if (i == 0) {
                 f = new OverviewFragment();
             } else {
                 f = new HistoryFragment();
             }
-            sharedPreferences.edit().remove(getString(R.string.pagerWindowNumber)).apply();
             return f;
 
         }
