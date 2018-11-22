@@ -27,7 +27,6 @@ public class ViewHolderData extends ViewHolder {
     }
 
     public void bindType(ListItem item) {
-        User df = data.user;
         for(DayData d : data.user.getDayData()){
            if(isToday(d)){
                int size = data.user.getGoals().size();
