@@ -5,21 +5,21 @@ import java.util.Date;
 import io.realm.RealmObject;
 
 public class Goal extends RealmObject {
-    private GoalType type;
+    private ActivityCategories type;
     private int value;
 
     public Goal(){}
-    public Goal(GoalType type, int value) {
+    public Goal(ActivityCategories type, int value) {
         this.type = type;
         this.value = value;
     }
 
 
-    public GoalType getType() {
+    public ActivityCategories getType() {
         return type;
     }
 
-    public void setType(GoalType type) {
+    public void setType(ActivityCategories type) {
         this.type = type;
     }
 
