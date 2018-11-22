@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,15 +32,11 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHo
             public ViewHolder(View v) {
                 super(v);
                 // Define click listener for the ViewHolder's View.
-                v.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(v.getContext(), "Ikke implementeret", Toast.LENGTH_LONG).show();
-                    }
-                });
-                textViewPrimary = (TextView) v.findViewById(R.id.textViewPrimary);
-                textViewSecondary = (TextView) v.findViewById(R.id.textViewSecondary);
-                imageView = (ImageView) v.findViewById(R.id.imageView);
+                v.setOnClickListener(v1 -> Toast.makeText(v1.getContext(),
+                        "Ikke implementeret", Toast.LENGTH_LONG).show());
+                textViewPrimary =  v.findViewById(R.id.textViewPrimary);
+                textViewSecondary = v.findViewById(R.id.textViewSecondary);
+                imageView = v.findViewById(R.id.imageView);
             }
 
             public TextView getTextViewPrimary() {
@@ -61,7 +58,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHo
          * @param dataSet String[] containing the data to populate views to be used by RecyclerView.
          */
         public SettingsAdapter(List<ItemModel> dataSet) {
-            mDataSet = dataSet;
+            this.mDataSet = dataSet;
         }
 
         // BEGIN_INCLUDE(recyclerViewOnCreateViewHolder)
@@ -84,8 +81,11 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHo
 
             // Get element from your dataset at this position and replace the contents of the view
             // with that element
-            viewHolder.getTextViewPrimary().setText(mDataSet.get(position).getPrimaryTxt());
-            viewHolder.getTextViewSecondary().setText(mDataSet.get(position).getPrimaryTxt());
+            viewHolder.getTextViewPrimary().setText(mDataSet.get(position).getPrimaryText());
+            String secondaryText = mDataSet.get(position).getSecondaryText();
+            if(secondaryText != null){
+                viewHolder.getTextViewSecondary().setText(secondaryText);
+            }
             viewHolder.getImageView().setImageResource(mDataSet.get(position).getImgId());
         }
         // END_INCLUDE(recyclerViewOnBindViewHolder)

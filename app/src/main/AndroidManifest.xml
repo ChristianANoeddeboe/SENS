@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.activities.Settings"
+            android:name=".view.activities.SettingsActivity"
             android:label="Indstillinger"
             android:theme="@style/Theme.AppCompat.Light">
             <meta-data

@@ -1,18 +1,31 @@
 package com.example.root.sens.DTO;
 
 public class ItemModel{
-    private String primaryTxt;
+    private String primaryText;
+    private String secondaryText;
     private int imgId;
 
-    public ItemModel(String primaryTxt, int imgId){
-        this.primaryTxt = primaryTxt;
+    public ItemModel(String primaryText, int imgId){
+        this.primaryText = primaryText;
+        this.secondaryText = null;
         this.imgId = imgId;
     }
-    public String getPrimaryTxt() {
-        return primaryTxt;
+
+    public ItemModel(String primaryText, String secondaryText, int imgId){
+        this.primaryText = primaryText;
+        this.secondaryText = secondaryText;
+        this.imgId = imgId;
+    }
+
+    public String getPrimaryText() {
+        return primaryText;
     }
 
     public int getImgId() {
         return imgId;
+    }
+
+    public String getSecondaryText() {
+        return secondaryText;
     }
 }

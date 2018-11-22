@@ -14,7 +14,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.transition.Slide;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -81,11 +80,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_manage) {
-            // Settings
+            // SettingsActivity
 
             // Save state:
             sharedPreferences.edit().putInt(getString(R.string.pagerWindowNumber), viewPager.getCurrentItem()).apply();
-            Intent i = new Intent(getApplicationContext(), Settings.class);
+            Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(i);
 
         } else if (id == R.id.nav_about) {
