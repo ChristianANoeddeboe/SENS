@@ -13,6 +13,7 @@ public class User extends RealmObject {
     @PrimaryKey
     private int id;
     private String name;
+    private RealmList<Sensor> sensors;
     private Date birthday;
     private RealmList<GoalHistory> goals;
     private RealmList<DayData> dayData;
