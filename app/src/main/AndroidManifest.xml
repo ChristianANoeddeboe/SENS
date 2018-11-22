@@ -14,7 +14,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".view.activities.Login"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/AppTheme.NoActionBar.FullScreen"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,19 +23,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.activities.Settings"
+            android:name=".view.activities.SettingsActivity"
             android:label="Indstillinger"
-            android:theme="@style/Theme.AppCompat.Light"
-            >
+            android:theme="@style/Theme.AppCompat.Light">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activities.MainActivity"/>
+                android:value=".view.activities.MainActivity" />
         </activity>
         <activity
             android:name=".view.activities.MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:label="SENS">
+            android:label="SENS"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
+
+        <activity
+            android:name=".view.activities.UserConfigActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
