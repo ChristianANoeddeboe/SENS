@@ -66,7 +66,7 @@ public class data {
             dayData.add(new DayData(
                     sensDf.parse("2018-11-21T23:00:00"),
                     sensDf.parse("2018-11-22T23:00:00"),
-                    60*8,20,300,0,100));
+                    60*8,20,300,0,0));
             dayData.add(new DayData(
                             sensDf.parse("2018-11-17T23:00:00"),
                             sensDf.parse("2018-11-18T23:00:00"),

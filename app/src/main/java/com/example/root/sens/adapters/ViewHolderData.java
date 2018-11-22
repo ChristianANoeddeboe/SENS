@@ -67,10 +67,16 @@ public class ViewHolderData extends ViewHolder {
                        .build());
 
                float inset = -((progresswidth * (numofgoals - 1)) / 2);
-
+               int max;
+               float current;
                for (int i = 0; i < numofgoals; i++) {
+                   max = goals.get(i).getValue();
+                   current = (float) d.getGoalData()[i];
+                   if(current > max) {
+                       current = max;
+                   }
                    progressCircle.addSeries(new SeriesItem.Builder(colors[i])
-                           .setRange(0, goals.get(i).getValue(), (float) d.getGoalData()[i])
+                           .setRange(0, max, current)
                            .setLineWidth(progresswidth)
                            .setInset(new PointF(inset, inset))
                            .build());
