@@ -2,20 +2,18 @@ package com.example.root.sens.DTO;
 
 import java.util.Date;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 
 public class DayData extends RealmObject {
     private Date start_time, end_time;
-    private double resting,standing,walking,cycling,exercise,other,nodata,steps;
+    private RealmList<Record> records;
     public DayData(){}
-    public DayData(Date start_time, Date end_time, double resting, double standing, double walking, double cycling, double exercise) {
+
+    public DayData(Date start_time, Date end_time, RealmList<Record> records) {
         this.start_time = start_time;
         this.end_time = end_time;
-        this.resting = resting;
-        this.standing = standing;
-        this.walking = walking;
-        this.cycling = cycling;
-        this.exercise = exercise;
+        this.records = records;
     }
 
     public Date getStart_time() {
@@ -34,71 +32,11 @@ public class DayData extends RealmObject {
         this.end_time = end_time;
     }
 
-    public double getResting() {
-        return resting;
+    public RealmList<Record> getRecords() {
+        return records;
     }
 
-    public void setResting(double resting) {
-        this.resting = resting;
-    }
-
-    public double getStanding() {
-        return standing;
-    }
-
-    public void setStanding(double standing) {
-        this.standing = standing;
-    }
-
-    public double getWalking() {
-        return walking;
-    }
-
-    public void setWalking(double walking) {
-        this.walking = walking;
-    }
-
-    public double getCycling() {
-        return cycling;
-    }
-
-    public void setCycling(double cycling) {
-        this.cycling = cycling;
-    }
-
-    public double getExercise() {
-        return exercise;
-    }
-
-    public void setExercise(double exercise) {
-        this.exercise = exercise;
-    }
-
-    public double getOther() {
-        return other;
-    }
-
-    public void setOther(double other) {
-        this.other = other;
-    }
-
-    public double[] getGoalData() {
-        return new double[] {resting, standing, walking, exercise, cycling};
-    }
-
-    public double getNodata() {
-        return nodata;
-    }
-
-    public void setNodata(double nodata) {
-        this.nodata = nodata;
-    }
-
-    public double getSteps() {
-        return steps;
-    }
-
-    public void setSteps(double steps) {
-        this.steps = steps;
+    public void setRecords(RealmList<Record> records) {
+        this.records = records;
     }
 }
