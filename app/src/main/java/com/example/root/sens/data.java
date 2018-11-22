@@ -42,7 +42,7 @@ public class data {
 
 
            goals.clear();
-           goals.add(new Goal(goalRest,120*8));
+           goals.add(new Goal(goalRest,60*8));
            goals.add(new Goal(goalStanding,300));
            goals.add(new Goal(goalWalking,400));
            goals.add(new Goal(goalExercise,550));
@@ -70,7 +70,7 @@ public class data {
             dayData.add(new DayData(
                             sensDf.parse("2018-11-17T23:00:00"),
                             sensDf.parse("2018-11-18T23:00:00"),
-                            60*8,20,300,0,100));
+                            60*8,300,400,550,550));
             dayData.add(new DayData(
                     sensDf.parse("2018-11-16T23:00:00"),
                     sensDf.parse("2018-11-17T23:00:00"),
