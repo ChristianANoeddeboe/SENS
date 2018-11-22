@@ -100,6 +100,13 @@ public class ViewHolderData extends ViewHolder {
         }
     }
 
+    private Color getGoalColor(int id) {
+        switch (id) {
+            case 1:
+                return
+        }
+    }
+
     private void chooseGoalIcons(RealmList<Goal> allGoals, DayData dayGoals) {
         for(Goal curr : allGoals) {
             if(curr.getValue() > 0) {
