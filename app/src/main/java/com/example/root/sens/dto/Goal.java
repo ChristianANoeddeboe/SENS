@@ -1,6 +1,4 @@
-package com.example.root.sens.DTO;
-
-import java.util.Date;
+package com.example.root.sens.dto;
 
 public class Goal {
     private GoalType type;

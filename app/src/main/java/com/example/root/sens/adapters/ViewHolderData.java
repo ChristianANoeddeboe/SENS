@@ -2,18 +2,16 @@ package com.example.root.sens.adapters;
 
 import android.graphics.Color;
 import android.graphics.PointF;
-import android.util.Log;
 import android.view.View;
 
-import com.example.root.sens.DTO.DayData;
-import com.example.root.sens.DTO.Goal;
+import com.example.root.sens.dto.DayData;
+import com.example.root.sens.dto.Goal;
 import com.example.root.sens.R;
 import com.example.root.sens.data;
 import com.example.root.sens.view.fragments.interfaces.ListItem;
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ViewHolderData extends ViewHolder {

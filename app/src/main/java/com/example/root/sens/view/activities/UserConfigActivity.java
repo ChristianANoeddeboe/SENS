@@ -15,12 +15,16 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
 import com.example.root.sens.R;
-import com.example.root.sens.fragment.UserConfigConfirmInfoFragment;
+import com.example.root.sens.view.fragments.UserConfigConfirmInfoFragment;
 import com.example.root.sens.view.fragments.UserConfigGoalInfoFragment;
-import com.example.root.sens.fragment.UserConfigNameInfoFragment;
+import com.example.root.sens.view.fragments.UserConfigNameInfoFragment;
 
-public class UserConfigActivity extends AppCompatActivity {
+public class UserConfigActivity extends AppCompatActivity implements UserConfigNameInfoFragment.UserDataPassListener, UserConfigGoalInfoFragment.GoalDataPassListener {
     private final static String TAG = UserConfigActivity.class.getSimpleName();
+    UserConfigNameInfoFragment nameInfoFragment = new UserConfigNameInfoFragment();
+    UserConfigGoalInfoFragment goalInfoFragment = new UserConfigGoalInfoFragment();
+    UserConfigConfirmInfoFragment confirmInfoFragment = new UserConfigConfirmInfoFragment();
+
     /**
      * The number of pages (wizard steps) to show in this demo.
      */
@@ -66,6 +70,7 @@ public class UserConfigActivity extends AppCompatActivity {
                 mPager.setCurrentItem(mPager.getCurrentItem()+1, true);
                 InputMethodManager imm = (InputMethodManager) getSystemService(getApplication().INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
             }
             setSliderButtonText();
         });
@@ -117,6 +122,20 @@ public class UserConfigActivity extends AppCompatActivity {
         setSliderButtonText();
     }
 
+    @Override
+    public void passUserData(String data) {
+        Bundle args = new Bundle();
+        args.putString(confirmInfoFragment.USER_DATA_RECEIVE, data);
+        confirmInfoFragment.setArguments(args);
+    }
+
+    @Override
+    public void passGoalData(String data) {
+        Bundle args = new Bundle();
+        args.putString(confirmInfoFragment.GOAL_DATA_RECEIVE, data);
+        confirmInfoFragment.setArguments(args);
+    }
+
     /**
      * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
      * sequence.
@@ -129,9 +148,9 @@ public class UserConfigActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             switch(position){
-                case 0: return new UserConfigNameInfoFragment();
-                case 1: return new UserConfigGoalInfoFragment();
-                case 2: return new UserConfigConfirmInfoFragment();
+                case 0: return nameInfoFragment;
+                case 1: return goalInfoFragment;
+                case 2: return confirmInfoFragment;
                 default: Log.d(TAG, "Fatal pager error, position does not exist! "+position);
             }
             return null;

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.example.root.sens.DTO.SetGoalItemModel;
+import com.example.root.sens.dto.SetGoalItemModel;
 import com.example.root.sens.R;
 
 import java.util.List;

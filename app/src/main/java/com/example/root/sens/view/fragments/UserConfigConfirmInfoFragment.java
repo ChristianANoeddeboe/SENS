@@ -1,4 +1,4 @@
-package com.example.root.sens.fragment;
+package com.example.root.sens.view.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.root.sens.DTO.ConfirmGoalItemModel;
+import com.example.root.sens.dto.ConfirmGoalItemModel;
 import com.example.root.sens.R;
 import com.example.root.sens.adapter.ConfirmGoalAdapter;
 
@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserConfigConfirmInfoFragment extends Fragment {
+    public final static String USER_DATA_RECEIVE = "user_data_receive";
+    public final static String GOAL_DATA_RECEIVE = "goal_data_receive";
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -46,14 +48,14 @@ public class UserConfigConfirmInfoFragment extends Fragment {
     private List<ConfirmGoalItemModel> createItem() {
         ArrayList<ConfirmGoalItemModel> items = new ArrayList<>();
 
-        items.add(new ConfirmGoalItemModel("Fornavn", 1 + ""));
-        items.add(new ConfirmGoalItemModel("Efternavn", 1 + ""));
-        items.add(new ConfirmGoalItemModel("Fødselsdag", 1 + ""));
-        items.add(new ConfirmGoalItemModel("Cykling", 1 + ""));
-        items.add(new ConfirmGoalItemModel("Gang", 1 + ""));
-        items.add(new ConfirmGoalItemModel("Træning", 1 + ""));
-        items.add(new ConfirmGoalItemModel("Stå", 1 + ""));
-        items.add(new ConfirmGoalItemModel("Anden bevægelse", 1 + ""));
+        items.add(new ConfirmGoalItemModel("Fornavn", 1 + getArguments().getString(USER_DATA_RECEIVE)));
+        items.add(new ConfirmGoalItemModel("Efternavn", 1 + getArguments().getString(USER_DATA_RECEIVE)));
+        items.add(new ConfirmGoalItemModel("Fødselsdag", 1 + getArguments().getString(USER_DATA_RECEIVE)));
+        items.add(new ConfirmGoalItemModel("Cykling", 1 + getArguments().getString(GOAL_DATA_RECEIVE)));
+        items.add(new ConfirmGoalItemModel("Gang", 1 + getArguments().getString(GOAL_DATA_RECEIVE)));
+        items.add(new ConfirmGoalItemModel("Træning", 1 + getArguments().getString(GOAL_DATA_RECEIVE)));
+        items.add(new ConfirmGoalItemModel("Stå", 1 + getArguments().getString(GOAL_DATA_RECEIVE)));
+        items.add(new ConfirmGoalItemModel("Anden bevægelse", 1 + getArguments().getString(GOAL_DATA_RECEIVE)));
 
         return items;
     }

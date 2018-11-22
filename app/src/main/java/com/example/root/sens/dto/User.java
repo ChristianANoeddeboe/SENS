@@ -1,9 +1,7 @@
-package com.example.root.sens.DTO;
+package com.example.root.sens.dto;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 public class User {
     private int id;

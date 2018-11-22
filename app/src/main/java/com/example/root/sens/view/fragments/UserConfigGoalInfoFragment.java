@@ -1,5 +1,6 @@
 package com.example.root.sens.view.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.root.sens.DTO.SetGoalItemModel;
+import com.example.root.sens.dto.SetGoalItemModel;
 import com.example.root.sens.R;
 import com.example.root.sens.adapters.SetGoalAdapter;
 
@@ -19,6 +20,21 @@ public class UserConfigGoalInfoFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    GoalDataPassListener mCallback;
+
+    public interface GoalDataPassListener{
+        public void passGoalData(String data);
+    }
+
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+        try{
+            mCallback = (GoalDataPassListener) context;
+        } catch(ClassCastException e){
+            throw new ClassCastException(context.toString()+ " must implement OnImageClickListener");
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,6 +57,12 @@ public class UserConfigGoalInfoFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
 
         return rootView;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mCallback.passGoalData("goal data");
     }
 
     private List<SetGoalItemModel> createItem() {
