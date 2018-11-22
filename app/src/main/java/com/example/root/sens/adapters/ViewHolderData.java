@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.example.root.sens.DTO.DayData;
 import com.example.root.sens.DTO.Goal;
+import com.example.root.sens.DTO.User;
 import com.example.root.sens.R;
 import com.example.root.sens.data;
 import com.example.root.sens.view.fragments.interfaces.ListItem;
@@ -16,6 +17,8 @@ import com.hookedonplay.decoviewlib.charts.SeriesItem;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import io.realm.RealmList;
+
 public class ViewHolderData extends ViewHolder {
     private final DecoView progressCircle;
     public ViewHolderData(View itemView) {
@@ -24,11 +27,12 @@ public class ViewHolderData extends ViewHolder {
     }
 
     public void bindType(ListItem item) {
+        User df = data.user;
         for(DayData d : data.user.getDayData()){
            if(isToday(d)){
                int size = data.user.getGoals().size();
-               Goal[] goals = data.user.getGoals().get(size - 1).getGoals();
-               int numofgoals = goals.length;
+               RealmList<Goal> goals = data.user.getGoals().get(size-1).getGoals();
+               int numofgoals = goals.size();
 
                int[] colors = {
                        Color.argb(255, 0, 0, 255),
@@ -52,7 +56,7 @@ public class ViewHolderData extends ViewHolder {
 
                for (int i = 0; i < numofgoals; i++) {
                    progressCircle.addSeries(new SeriesItem.Builder(colors[i])
-                           .setRange(0, goals[i].getValue(), (float) d.getGoalData()[i])
+                           .setRange(0, goals.get(i).getValue(), (float) d.getGoalData()[i])
                            .setLineWidth(progresswidth)
                            .setInset(new PointF(inset, inset))
                            .build());

@@ -1,8 +1,12 @@
 package com.example.root.sens.DTO;
 
-public class Sensor {
-    private String id;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
+public class Sensor extends RealmObject {
+    @PrimaryKey
+    private String id;
+    public Sensor(){}
     public Sensor(String id) {
         this.id = id;
     }

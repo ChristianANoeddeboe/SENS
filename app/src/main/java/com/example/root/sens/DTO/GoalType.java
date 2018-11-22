@@ -1,9 +1,13 @@
 package com.example.root.sens.DTO;
 
-public class GoalType {
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+public class GoalType extends RealmObject {
+    @PrimaryKey
     private int typeId;
     private String name;
-
+    public GoalType(){}
     public GoalType(int typeId, String name) {
         this.typeId = typeId;
         this.name = name;

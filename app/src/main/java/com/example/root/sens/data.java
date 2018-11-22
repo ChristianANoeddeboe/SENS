@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
+import io.realm.RealmList;
+
 public class data {
 
     public static User user = new User(1,"Hans hansen", Calendar.getInstance().getTime());
@@ -25,28 +27,29 @@ public class data {
     private static GoalType goalExercise = new GoalType(5,"Motion");
 
     private static DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-    private static GoalHistory[] goalHistoryArray;
+    private static RealmList<GoalHistory> goalHistories = new RealmList<>();
     static {
         try {
-            goalHistoryArray = new GoalHistory[]{
-              new GoalHistory(1,df.parse("11/18/2018"), new Goal[]{
-                      new Goal(goalRest,60*8),
-                      new Goal(goalStanding,50),
-                      new Goal(goalWalking,300),
-                      new Goal(goalExercise,350),
-                      new Goal(goalCycling, 120)
+           RealmList<Goal> goals = new RealmList<>();
+           goals.add(new Goal(goalRest,60*8));
+           goals.add(new Goal(goalStanding,50));
+           goals.add(new Goal(goalWalking,300));
+           goals.add(new Goal(goalExercise,350));
+           goals.add(new Goal(goalCycling, 120));
+           GoalHistory temp =  new GoalHistory(1,df.parse("11/18/2018"),goals);
+           temp.setGoals(goals);
+           goalHistories.add(temp);
 
-              }),
-              new GoalHistory(2,df.parse("11/10/2018"), new Goal[]{
-                      new Goal(goalRest,120*8),
-                      new Goal(goalStanding,300),
-                      new Goal(goalWalking,400),
-                      new Goal(goalExercise,550),
-                      new Goal(goalCycling, 360)
-              })
-            };
 
-            user.setGoals(new ArrayList<>(Arrays.asList(goalHistoryArray)));
+           goals.clear();
+           goals.add(new Goal(goalRest,120*8));
+           goals.add(new Goal(goalStanding,300));
+           goals.add(new Goal(goalWalking,400));
+           goals.add(new Goal(goalExercise,550));
+           goals.add(new Goal(goalCycling, 360));
+           GoalHistory temp2 = new GoalHistory(2,df.parse("11/10/2018"),goals);
+           goalHistories.add(temp2);
+           user.setGoals(goalHistories);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -56,30 +59,29 @@ public class data {
 
     //"2018-11-07T23:00:00"
     private static DateFormat sensDf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-    private static DayData[] dayDataArray;
+    private static RealmList<DayData> dayData = new RealmList<>();
 
     static {
         try {
-            dayDataArray = new DayData[]{
-                    new DayData(
-                          sensDf.parse("2018-11-19T23:00:00"),
-                          sensDf.parse("2018-11-20T23:00:00"),
-                          60*8,20,300,0,100),
-                    new DayData(
+            dayData.add(new DayData(
+                    sensDf.parse("2018-11-21T23:00:00"),
+                    sensDf.parse("2018-11-22T23:00:00"),
+                    60*8,20,300,0,100));
+            dayData.add(new DayData(
                             sensDf.parse("2018-11-17T23:00:00"),
                             sensDf.parse("2018-11-18T23:00:00"),
-                            60*8,20,300,0,100),
-                    new DayData(
-                            sensDf.parse("2018-11-16T23:00:00"),
-                            sensDf.parse("2018-11-17T23:00:00"),
-                            60*8,20,300,0,100),
-                };
+                            60*8,20,300,0,100));
+            dayData.add(new DayData(
+                    sensDf.parse("2018-11-16T23:00:00"),
+                    sensDf.parse("2018-11-17T23:00:00"),
+                    60*8,20,300,0,100));
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
     static{
-        user.setDayData(new ArrayList<DayData>(Arrays.asList(dayDataArray)));
+        user.setDayData(dayData);
     }
 
 

@@ -14,7 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.example.root.sens.DAO.GoalDAO;
 import com.example.root.sens.R;
+import com.example.root.sens.data;
 import com.example.root.sens.view.fragments.HistoryFragment;
 import com.example.root.sens.view.fragments.OverviewFragment;
 
@@ -70,9 +72,11 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-
+            GoalDAO temp = new GoalDAO();
+            temp.saveGoalHistory(data.user);
         } else if (id == R.id.nav_slideshow) {
-
+            GoalDAO temp2 = new GoalDAO();
+            temp2.loadGoalHistory(data.user);
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {

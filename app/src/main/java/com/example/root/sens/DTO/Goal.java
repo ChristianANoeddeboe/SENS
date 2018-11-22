@@ -2,11 +2,13 @@ package com.example.root.sens.DTO;
 
 import java.util.Date;
 
-public class Goal {
+import io.realm.RealmObject;
+
+public class Goal extends RealmObject {
     private GoalType type;
     private int value;
 
-
+    public Goal(){}
     public Goal(GoalType type, int value) {
         this.type = type;
         this.value = value;
