@@ -4,9 +4,9 @@ import io.realm.RealmObject;
 
 public class Record extends RealmObject {
     private int value;
-    private ActivityCategories type;
+    private String type;
     public Record(){}
-    public Record(int value, ActivityCategories type) {
+    public Record(int value, String type) {
         this.value = value;
         this.type = type;
     }
@@ -20,10 +20,10 @@ public class Record extends RealmObject {
     }
 
     public ActivityCategories getType() {
-        return type;
+        return ActivityCategories.valueOf(type);
     }
 
     public void setType(ActivityCategories type) {
-        this.type = type;
+        this.type = type.toString();
     }
 }
