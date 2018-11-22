@@ -1,18 +1,16 @@
 package com.example.root.sens;
 
 
+import com.example.root.sens.DTO.ActivityCategories;
 import com.example.root.sens.DTO.DayData;
 import com.example.root.sens.DTO.Goal;
 import com.example.root.sens.DTO.GoalHistory;
-import com.example.root.sens.DTO.GoalType;
 import com.example.root.sens.DTO.User;
-
+import com.example.root.sens.DTO.Record;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 
 import io.realm.RealmList;
@@ -20,33 +18,27 @@ import io.realm.RealmList;
 public class data {
 
     public static User user = new User(1,"Hans hansen", Calendar.getInstance().getTime());
-    private static GoalType goalRest = new GoalType(1,"Afslapning");
-    private static GoalType goalStanding = new GoalType(2,"Stå");
-    private static GoalType goalWalking = new GoalType(3,"Gang");
-    private static GoalType goalCycling = new GoalType(4,"Cykling");
-    private static GoalType goalExercise = new GoalType(5,"Motion");
-
     private static DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
     private static RealmList<GoalHistory> goalHistories = new RealmList<>();
     static {
         try {
            RealmList<Goal> goals = new RealmList<>();
-           goals.add(new Goal(goalRest,60*8));
-           goals.add(new Goal(goalStanding,50));
-           goals.add(new Goal(goalWalking,300));
-           goals.add(new Goal(goalExercise,350));
-           goals.add(new Goal(goalCycling, 120));
+           goals.add(new Goal(ActivityCategories.Resting.toString(),60*8));
+           goals.add(new Goal(ActivityCategories.Standing.toString(),50));
+           goals.add(new Goal(ActivityCategories.Walking.toString(),300));
+           goals.add(new Goal(ActivityCategories.Exercise.toString(),350));
+           goals.add(new Goal(ActivityCategories.Cycling.toString(), 120));
            GoalHistory temp =  new GoalHistory(1,df.parse("11/18/2018"),goals);
            temp.setGoals(goals);
            goalHistories.add(temp);
 
 
            goals.clear();
-           goals.add(new Goal(goalRest,120*8));
-           goals.add(new Goal(goalStanding,300));
-           goals.add(new Goal(goalWalking,400));
-           goals.add(new Goal(goalExercise,550));
-           goals.add(new Goal(goalCycling, 360));
+           goals.add(new Goal(ActivityCategories.Resting.toString(),60*8));
+           goals.add(new Goal(ActivityCategories.Standing.toString(),300));
+           goals.add(new Goal(ActivityCategories.Walking.toString(),400));
+           goals.add(new Goal(ActivityCategories.Exercise.toString(),550));
+           goals.add(new Goal(ActivityCategories.Cycling.toString(), 360));
            GoalHistory temp2 = new GoalHistory(2,df.parse("11/10/2018"),goals);
            goalHistories.add(temp2);
            user.setGoals(goalHistories);
@@ -63,18 +55,27 @@ public class data {
 
     static {
         try {
-            dayData.add(new DayData(
-                    sensDf.parse("2018-11-21T23:00:00"),
-                    sensDf.parse("2018-11-22T23:00:00"),
-                    60*8,20,300,0,100));
-            dayData.add(new DayData(
-                            sensDf.parse("2018-11-17T23:00:00"),
-                            sensDf.parse("2018-11-18T23:00:00"),
-                            60*8,20,300,0,100));
-            dayData.add(new DayData(
-                    sensDf.parse("2018-11-16T23:00:00"),
-                    sensDf.parse("2018-11-17T23:00:00"),
-                    60*8,20,300,0,100));
+            RealmList<Record> temp = new RealmList<Record>();
+            temp.add( new Record(50,ActivityCategories.Resting.toString()));
+            temp.add( new Record(75, ActivityCategories.Standing.toString()));
+            temp.add( new Record(100,ActivityCategories.Walking.toString()));
+            temp.add( new Record(125, ActivityCategories.Exercise.toString()));
+            temp.add( new Record(150,ActivityCategories.Cycling.toString()));
+            dayData.add(new DayData( sensDf.parse("2018-11-21T23:00:00"), sensDf.parse("2018-11-22T23:00:00"),temp));
+            temp.clear();
+            temp.add( new Record(60*8,ActivityCategories.Resting.toString()));
+            temp.add( new Record(300, ActivityCategories.Standing.toString()));
+            temp.add( new Record(400,ActivityCategories.Walking.toString()));
+            temp.add( new Record(550, ActivityCategories.Exercise.toString()));
+            temp.add( new Record(550,ActivityCategories.Cycling.toString()));
+            dayData.add(new DayData(sensDf.parse("2018-11-17T23:00:00"),sensDf.parse("2018-11-18T23:00:00"),temp));
+            temp.clear();
+            temp.add( new Record(60*8,ActivityCategories.Resting.toString()));
+            temp.add( new Record(20, ActivityCategories.Standing.toString()));
+            temp.add( new Record(300,ActivityCategories.Walking.toString()));
+            temp.add( new Record(0, ActivityCategories.Exercise.toString()));
+            temp.add( new Record(100,ActivityCategories.Cycling.toString()));
+            dayData.add(new DayData(sensDf.parse("2018-11-16T23:00:00"),sensDf.parse("2018-11-17T23:00:00"),temp));
 
         } catch (ParseException e) {
             e.printStackTrace();
