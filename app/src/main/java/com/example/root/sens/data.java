@@ -34,8 +34,8 @@ public class data {
            goals.add(new Goal(goalRest,60*8));
            goals.add(new Goal(goalStanding,50));
            goals.add(new Goal(goalWalking,300));
-           goals.add(new Goal(goalExercise,350));
            goals.add(new Goal(goalCycling, 120));
+            goals.add(new Goal(goalExercise,350));
            GoalHistory temp =  new GoalHistory(1,df.parse("11/18/2018"),goals);
            temp.setGoals(goals);
            goalHistories.add(temp);
@@ -45,8 +45,8 @@ public class data {
            goals.add(new Goal(goalRest,120*8));
            goals.add(new Goal(goalStanding,300));
            goals.add(new Goal(goalWalking,400));
-           goals.add(new Goal(goalExercise,550));
            goals.add(new Goal(goalCycling, 360));
+            goals.add(new Goal(goalExercise,0));
            GoalHistory temp2 = new GoalHistory(2,df.parse("11/10/2018"),goals);
            goalHistories.add(temp2);
            user.setGoals(goalHistories);
