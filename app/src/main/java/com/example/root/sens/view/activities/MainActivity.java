@@ -18,7 +18,9 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.example.root.sens.DAO.GoalDAO;
 import com.example.root.sens.R;
+import com.example.root.sens.data;
 import com.example.root.sens.view.fragments.HistoryFragment;
 import com.example.root.sens.view.fragments.OverviewFragment;
 
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+
         if (id == R.id.nav_manage) {
             // SettingsActivity
 
@@ -86,6 +89,7 @@ public class MainActivity extends AppCompatActivity
             sharedPreferences.edit().putInt(getString(R.string.pagerWindowNumber), viewPager.getCurrentItem()).apply();
             Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(i);
+
 
         } else if (id == R.id.nav_about) {
             // Show to about fragment

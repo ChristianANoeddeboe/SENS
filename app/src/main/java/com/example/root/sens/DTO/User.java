@@ -5,13 +5,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-public class User {
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+public class User extends RealmObject {
+    @PrimaryKey
     private int id;
     private String name;
+    private RealmList<Sensor> sensors;
     private Date birthday;
-    private ArrayList<GoalHistory> goals;
-    private ArrayList<DayData> dayData;
-
+    private RealmList<GoalHistory> goals;
+    private RealmList<DayData> dayData;
+    public User(){}
     public User(int id, String name, Date birthday) {
         this.id = id;
         this.name = name;
@@ -42,19 +48,19 @@ public class User {
         this.birthday = birthday;
     }
 
-    public ArrayList<GoalHistory> getGoals() {
+    public RealmList<GoalHistory> getGoals() {
         return goals;
     }
 
-    public void setGoals(ArrayList<GoalHistory> goals) {
+    public void setGoals(RealmList<GoalHistory> goals) {
         this.goals = goals;
     }
 
-    public ArrayList<DayData> getDayData() {
+    public RealmList<DayData> getDayData() {
         return dayData;
     }
 
-    public void setDayData(ArrayList<DayData> dayData) {
+    public void setDayData(RealmList<DayData> dayData) {
         this.dayData = dayData;
     }
 }

@@ -2,12 +2,15 @@ package com.example.root.sens.DTO;
 
 import java.util.Date;
 
-public class GoalHistory {
+import io.realm.RealmList;
+import io.realm.RealmObject;
+
+public class GoalHistory extends RealmObject {
     private int goalHistoryId;
     private Date date;
-    private Goal[] goals;
-
-    public GoalHistory(int goalHistoryId, Date date, Goal[] goals) {
+    private RealmList<Goal> goals;
+    public GoalHistory(){}
+    public GoalHistory(int goalHistoryId, Date date, RealmList<Goal> goals) {
         this.goalHistoryId = goalHistoryId;
         this.date = date;
         this.goals = goals;
@@ -29,11 +32,11 @@ public class GoalHistory {
         this.date = date;
     }
 
-    public Goal[] getGoals() {
+    public RealmList<Goal> getGoals() {
         return goals;
     }
 
-    public void setGoals(Goal[] goals) {
+    public void setGoals(RealmList<Goal> goals) {
         this.goals = goals;
     }
 }
