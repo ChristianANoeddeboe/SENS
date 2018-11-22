@@ -12,14 +12,14 @@ import com.example.root.sens.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.root.sens.adapters.ItemClickListener;
 import com.example.root.sens.adapters.SettingsAdapter;
 import com.example.root.sens.DTO.ItemModel;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements ItemClickListener {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private View.OnClickListener onItemClickListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-       // mRecyclerView.setHasFixedSize(true);
+        // mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
@@ -37,6 +37,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         // specify an adapter (see also next example)
         mAdapter = new SettingsAdapter(createItem());
+        ((SettingsAdapter) mAdapter).setClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -54,7 +55,16 @@ public class SettingsActivity extends AppCompatActivity {
         return items;
     }
 
-    public void setItemClickListener(View.OnClickListener clickListener) {
-        onItemClickListener = clickListener;
+    @Override
+    public void onClick(View view, int position) {
+        // The onClick implementation of the RecyclerView item click
+        switch (position){
+            case 0:
+                Toast.makeText(this, "Alt din data er succesfuldt blevet slettet.", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                Toast.makeText(this, "Not yet implmented", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
