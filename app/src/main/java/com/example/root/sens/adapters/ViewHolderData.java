@@ -57,8 +57,18 @@ public class ViewHolderData extends ViewHolder {
                        Color.argb(255, 0, 255, 255)
                };
 
+               int emptyGoals = 0;
+
+               for(Goal curr : goals) {
+                   if(curr.getValue() == 0) {
+                       emptyGoals++;
+                   }
+               }
+
                float progresswidth = 24f;
-               float totalprogresswidth = numofgoals*progresswidth; //120
+               float totalprogresswidth = (numofgoals-emptyGoals)*progresswidth; //120
+
+
 
                //https://github.com/bmarrdev/android-DecoView-charting
                progressCircle.addSeries(new SeriesItem.Builder(Color.argb(255, 218, 218, 218))
@@ -66,22 +76,24 @@ public class ViewHolderData extends ViewHolder {
                        .setLineWidth(totalprogresswidth)
                        .build());
 
-               float inset = -((progresswidth * (numofgoals - 1)) / 2);
-               int max;
-               float current;
+               float inset = -((progresswidth * ((numofgoals-emptyGoals) - 1)) / 2);
+               int max, current;
                for (int i = 0; i < numofgoals; i++) {
                    max = goals.get(i).getValue();
-                   current = (float) d.getGoalData()[i];
-                   if(current > max) {
-                       current = max;
-                   }
-                   progressCircle.addSeries(new SeriesItem.Builder(colors[i])
-                           .setRange(0, max, current)
-                           .setLineWidth(progresswidth)
-                           .setInset(new PointF(inset, inset))
-                           .build());
+                   current = (int) d.getGoalData()[i];
+                   if(max > 0) {
+                       if(current > max) {
+                           current = max;
+                       }
+                       progressCircle.addSeries(new SeriesItem.Builder(colors[i])
+                               .setRange(0, max, current)
+                               .setLineWidth(progresswidth)
+                               .setInset(new PointF(inset, inset))
+                               .build());
 
-                   inset += progresswidth;
+                       inset += progresswidth;
+                   }
+
                }
                chooseGoalIcons(goals, d);
            }
