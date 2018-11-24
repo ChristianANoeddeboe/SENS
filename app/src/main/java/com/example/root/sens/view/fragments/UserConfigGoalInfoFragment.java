@@ -18,40 +18,10 @@ import com.example.root.sens.view.activities.UserConfigActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserConfigGoalInfoFragment extends Fragment implements ViewPager.OnPageChangeListener {
+public class UserConfigGoalInfoFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    GoalDataPassListener mCallback;
-
-    @Override
-    public void onPageScrolled(int i, float v, int i1) {
-        //nothing
-    }
-
-    @Override
-    public void onPageSelected(int i) {
-        if(i==UserConfigActivity.NUM_PAGES-1) mCallback.passGoalData("goal_data");
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int i) {
-        //nothing
-    }
-
-    public interface GoalDataPassListener{
-        public void passGoalData(String data);
-    }
-
-    @Override
-    public void onAttach(Context context){
-        super.onAttach(context);
-        try{
-            mCallback = (GoalDataPassListener) context;
-        } catch(ClassCastException e){
-            throw new ClassCastException(context.toString()+ " must implement OnImageClickListener");
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,14 +42,7 @@ public class UserConfigGoalInfoFragment extends Fragment implements ViewPager.On
         // specify an adapter (see also next example)
         mAdapter = new SetGoalAdapter(createItem());
         mRecyclerView.setAdapter(mAdapter);
-
         return rootView;
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mCallback.passGoalData("goal data");
     }
 
     private List<SetGoalItemModel> createItem() {
@@ -93,4 +56,9 @@ public class UserConfigGoalInfoFragment extends Fragment implements ViewPager.On
 
         return items;
     }
+
+    public RecyclerView.Adapter getmAdapter() {
+        return mAdapter;
+    }
+
 }

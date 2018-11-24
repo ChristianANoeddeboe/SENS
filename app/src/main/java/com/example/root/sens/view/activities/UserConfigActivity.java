@@ -9,18 +9,23 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.root.sens.R;
+import com.example.root.sens.adapters.SetGoalAdapter;
 import com.example.root.sens.view.fragments.UserConfigConfirmInfoFragment;
 import com.example.root.sens.view.fragments.UserConfigGoalInfoFragment;
 import com.example.root.sens.view.fragments.UserConfigNameInfoFragment;
 
-public class UserConfigActivity extends AppCompatActivity implements UserConfigNameInfoFragment.UserDataPassListener, UserConfigGoalInfoFragment.GoalDataPassListener {
+public class UserConfigActivity extends AppCompatActivity {
     private final static String TAG = UserConfigActivity.class.getSimpleName();
+    public final static int CONFIRM_INFO_POS = 2;
     UserConfigNameInfoFragment nameInfoFragment = new UserConfigNameInfoFragment();
     UserConfigGoalInfoFragment goalInfoFragment = new UserConfigGoalInfoFragment();
     UserConfigConfirmInfoFragment confirmInfoFragment = new UserConfigConfirmInfoFragment();
@@ -55,8 +60,6 @@ public class UserConfigActivity extends AppCompatActivity implements UserConfigN
         mPager = findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
-        mPager.addOnPageChangeListener(nameInfoFragment);
-        mPager.addOnPageChangeListener(goalInfoFragment);
         mPager.addOnPageChangeListener(confirmInfoFragment);
 
 
@@ -65,12 +68,15 @@ public class UserConfigActivity extends AppCompatActivity implements UserConfigN
 
         slide = findViewById(R.id.user_config_a_slide_button);
         slide.setOnClickListener((View v) -> {
+            if(mPager.getCurrentItem()==NUM_PAGES-2){
+                setDataArgs();
+            }
             if(mPager.getCurrentItem()==NUM_PAGES-1){
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
             }
-            else{
+            else {
                 mPager.setCurrentItem(mPager.getCurrentItem()+1, true);
                 InputMethodManager imm = (InputMethodManager) getSystemService(getApplication().INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
@@ -126,20 +132,6 @@ public class UserConfigActivity extends AppCompatActivity implements UserConfigN
         setSliderButtonText();
     }
 
-    @Override
-    public void passUserData(String data) {
-        Bundle args = new Bundle();
-        args.putString(confirmInfoFragment.USER_DATA_RECEIVE, data);
-        confirmInfoFragment.setArguments(args);
-    }
-
-    @Override
-    public void passGoalData(String data) {
-        Bundle args = new Bundle();
-        args.putString(confirmInfoFragment.GOAL_DATA_RECEIVE, data);
-        confirmInfoFragment.setArguments(args);
-    }
-
     /**
      * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
      * sequence.
@@ -164,5 +156,18 @@ public class UserConfigActivity extends AppCompatActivity implements UserConfigN
         public int getCount() {
             return NUM_PAGES;
         }
+    }
+
+    private void setDataArgs(){
+        Bundle dataArgs = new Bundle();
+        dataArgs.putString("Fornavn", String.valueOf(((EditText) findViewById(R.id.tv_user_config_name_first)).getText()));
+        dataArgs.putString("Efternavn", String.valueOf(((EditText) findViewById(R.id.tv_user_config_name_last)).getText()));
+        dataArgs.putString("Fødselsdag", String.valueOf(((TextView) findViewById(R.id.tv_user_config_birth_date)).getText()));
+        dataArgs.putString("Cykling", String.valueOf(((SetGoalAdapter) goalInfoFragment.getmAdapter()).getDataItem(0).getValue()));
+        dataArgs.putString("Gang", String.valueOf(((SetGoalAdapter) goalInfoFragment.getmAdapter()).getDataItem(1).getValue()));
+        dataArgs.putString("Træning", String.valueOf(((SetGoalAdapter) goalInfoFragment.getmAdapter()).getDataItem(2).getValue()));
+        dataArgs.putString("Stå", String.valueOf(((SetGoalAdapter) goalInfoFragment.getmAdapter()).getDataItem(3).getValue()));
+        dataArgs.putString("Anden bevægelse", String.valueOf(((SetGoalAdapter) goalInfoFragment.getmAdapter()).getDataItem(4).getValue()));
+        confirmInfoFragment.setArguments(dataArgs);
     }
 }

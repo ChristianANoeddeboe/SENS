@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserConfigConfirmInfoFragment extends Fragment implements ViewPager.OnPageChangeListener {
-    public final static String USER_DATA_RECEIVE = "user_data_receive";
-    public final static String GOAL_DATA_RECEIVE = "goal_data_receive";
+    private final static String TAG = UserConfigConfirmInfoFragment.class.getSimpleName();
+
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -68,7 +69,7 @@ public class UserConfigConfirmInfoFragment extends Fragment implements ViewPager
 
     @Override
     public void onPageSelected(int i) {
-        if (i == UserConfigActivity.NUM_PAGES - 1) {
+        if (i == UserConfigActivity.CONFIRM_INFO_POS) {
             replaceOldListWithNewList();
         }
     }
@@ -84,14 +85,14 @@ public class UserConfigConfirmInfoFragment extends Fragment implements ViewPager
 
         // add new list
         List<ConfirmGoalItemModel> newList = new ArrayList<>();
-        newList.add(new ConfirmGoalItemModel("Fornavn", getArguments().getString(USER_DATA_RECEIVE)));
-        newList.add(new ConfirmGoalItemModel("Efternavn", getArguments().getString(USER_DATA_RECEIVE)));
-        newList.add(new ConfirmGoalItemModel("Fødselsdag", getArguments().getString(USER_DATA_RECEIVE)));
-        newList.add(new ConfirmGoalItemModel("Cykling", getArguments().getString(GOAL_DATA_RECEIVE)));
-        newList.add(new ConfirmGoalItemModel("Gang", getArguments().getString(GOAL_DATA_RECEIVE)));
-        newList.add(new ConfirmGoalItemModel("Træning", getArguments().getString(GOAL_DATA_RECEIVE)));
-        newList.add(new ConfirmGoalItemModel("Stå", getArguments().getString(GOAL_DATA_RECEIVE)));
-        newList.add(new ConfirmGoalItemModel("Anden bevægelse", getArguments().getString(GOAL_DATA_RECEIVE)));
+        newList.add(new ConfirmGoalItemModel("Fornavn", getArguments().getString("Fornavn")));
+        newList.add(new ConfirmGoalItemModel("Efternavn", getArguments().getString("Efternavn")));
+        newList.add(new ConfirmGoalItemModel("Fødselsdag", getArguments().getString("Fødselsdag")));
+        newList.add(new ConfirmGoalItemModel("Cykling", getArguments().getString("Cykling")));
+        newList.add(new ConfirmGoalItemModel("Gang", getArguments().getString("Gang")));
+        newList.add(new ConfirmGoalItemModel("Træning", getArguments().getString("Træning")));
+        newList.add(new ConfirmGoalItemModel("Stå", getArguments().getString("Stå")));
+        newList.add(new ConfirmGoalItemModel("Anden bevægelse", getArguments().getString("Anden bevægelse")));
         recyclerItems.addAll(newList);
 
         // notify adapter
