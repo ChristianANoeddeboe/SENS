@@ -14,7 +14,9 @@ public class LoginController implements ILoginController {
 
     @Override
     public boolean isUser(String sensorID) {
-        userManager.getUser(sensorID);
+        if(userManager.getUser(sensorID) != null){
+            return true;
+        }
         return false;
     }
 
