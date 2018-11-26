@@ -8,6 +8,9 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 import io.realm.exceptions.RealmPrimaryKeyConstraintException;
 
+/**
+ * Used to load/save goals from sqlite
+ */
 public class GoalDAO{
     public void saveGoalHistory(User user){
         Realm realm = Realm.getDefaultInstance();
