@@ -2,6 +2,7 @@ package com.example.root.sens.dto;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -9,7 +10,7 @@ import io.realm.annotations.PrimaryKey;
 
 public class User extends RealmObject {
     @PrimaryKey
-    private int id;
+    private String id = UUID.randomUUID().toString();
     private String name;
     private RealmList<Sensor> sensors;
     private Date birthday;
@@ -17,18 +18,25 @@ public class User extends RealmObject {
     private RealmList<DayData> dayData;
 
     public User(){}
-    public User(int id, String name, Date birthday) {
-        this.id = id;
+    public User(String name, Date birthday) {
         this.name = name;
         this.birthday = birthday;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public RealmList<Sensor> getSensors() {
+        return sensors;
+    }
+
+    public void setSensors(RealmList<Sensor> sensors) {
+        this.sensors = sensors;
     }
 
     public String getName() {
