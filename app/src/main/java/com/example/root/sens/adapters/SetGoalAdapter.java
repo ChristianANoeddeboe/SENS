@@ -93,4 +93,8 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
         public SetGoalItemModel getDataItem(int position){
             return mDataSet.get(position);
         }
+
+        public List<SetGoalItemModel> getmDataSet(){
+            return mDataSet;
+        }
 }

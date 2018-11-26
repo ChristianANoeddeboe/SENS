@@ -5,20 +5,21 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.root.sens.UserObserver;
 import com.example.root.sens.dto.ConfirmGoalItemModel;
 import com.example.root.sens.R;
 import com.example.root.sens.adapters.ConfirmGoalAdapter;
+import com.example.root.sens.dto.User;
 import com.example.root.sens.view.activities.UserConfigActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserConfigConfirmInfoFragment extends Fragment implements ViewPager.OnPageChangeListener {
+public class UserConfigConfirmInfoFragment extends Fragment implements ViewPager.OnPageChangeListener, UserObserver {
     private final static String TAG = UserConfigConfirmInfoFragment.class.getSimpleName();
 
     private RecyclerView mRecyclerView;
@@ -96,6 +97,32 @@ public class UserConfigConfirmInfoFragment extends Fragment implements ViewPager
         recyclerItems.addAll(newList);
 
         // notify adapter
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void update(String tag, User user) {
+        switch (tag) {
+            case User.USERDATA:
+                updateRecycler(0, "Fornavn", user.getFirstName());
+                updateRecycler(1, "Efternavn", user.getLastName());
+                updateRecycler(2, "Fødselsdag", String.valueOf(user.getBirthday()));
+                break;
+            case User.GOALDATA:
+                updateRecycler(3, "Cykling", String.valueOf(user.getGoals().get(0).getGoals().get(0)));
+                updateRecycler(4, "Gang", String.valueOf(user.getGoals().get(0).getGoals().get(1)));
+                updateRecycler(5, "Træning", String.valueOf(user.getGoals().get(0).getGoals().get(2)));
+                updateRecycler(6, "Stå", String.valueOf(user.getGoals().get(0).getGoals().get(3)));
+                updateRecycler(7, "Anden bevægelse", String.valueOf(user.getGoals().get(0).getGoals().get(4)));
+                break;
+            default:
+
+        }
+    }
+
+    private void updateRecycler(int position, String description, String value){
+        List<ConfirmGoalItemModel> list = ((ConfirmGoalAdapter) mAdapter).getmDataSet();
+        list.set(position, new ConfirmGoalItemModel(description, value));
         mAdapter.notifyDataSetChanged();
     }
 }

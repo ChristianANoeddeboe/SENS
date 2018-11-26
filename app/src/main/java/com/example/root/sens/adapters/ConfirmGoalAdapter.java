@@ -72,4 +72,8 @@ public class ConfirmGoalAdapter extends RecyclerView.Adapter<ConfirmGoalAdapter.
         public int getItemCount() {
             return mDataSet.size();
         }
+
+    public List<ConfirmGoalItemModel> getmDataSet() {
+        return mDataSet;
+    }
 }

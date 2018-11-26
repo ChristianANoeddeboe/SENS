@@ -28,4 +28,12 @@ public class Goal extends RealmObject {
     public void setValue(int value) {
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return "Goal{" +
+                "type='" + type + '\'' +
+                ", value=" + value +
+                '}';
+    }
 }

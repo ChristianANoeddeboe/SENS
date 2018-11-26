@@ -20,9 +20,16 @@ import android.widget.TextView;
 
 import com.example.root.sens.R;
 import com.example.root.sens.adapters.SetGoalAdapter;
+import com.example.root.sens.controllers.ILoginController;
+import com.example.root.sens.controllers.LoginController;
 import com.example.root.sens.view.fragments.UserConfigConfirmInfoFragment;
 import com.example.root.sens.view.fragments.UserConfigGoalInfoFragment;
 import com.example.root.sens.view.fragments.UserConfigNameInfoFragment;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.Locale;
 
 public class UserConfigActivity extends AppCompatActivity {
     private final static String TAG = UserConfigActivity.class.getSimpleName();
@@ -30,6 +37,7 @@ public class UserConfigActivity extends AppCompatActivity {
     UserConfigNameInfoFragment nameInfoFragment = new UserConfigNameInfoFragment();
     UserConfigGoalInfoFragment goalInfoFragment = new UserConfigGoalInfoFragment();
     UserConfigConfirmInfoFragment confirmInfoFragment = new UserConfigConfirmInfoFragment();
+    ILoginController loginController = new LoginController();
 
     /**
      * The number of pages (wizard steps) to show in this demo.
@@ -75,20 +83,37 @@ public class UserConfigActivity extends AppCompatActivity {
 
         slide = findViewById(R.id.user_config_a_slide_button);
         slide.setOnClickListener((View v) -> {
-            if(mPager.getCurrentItem()==NUM_PAGES-2){
-                setDataArgs();
-            }
-            if(mPager.getCurrentItem()==NUM_PAGES-1){
-                Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
-            }
-            else {
-                mPager.setCurrentItem(mPager.getCurrentItem()+1, true);
-                InputMethodManager imm = (InputMethodManager) getSystemService(getApplication().INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-            }
+            switch (mPager.getCurrentItem()){
+                case 0:
+                    Date date = new Date();
+                    DateFormat df =  DateFormat.getDateInstance(DateFormat.SHORT, Locale.ENGLISH);
+                    try {
+                        String dato = String.valueOf(((TextView) findViewById(R.id.tv_user_config_birth_date)).getText());
+                        date = df.parse(dato);
+                    } catch (ParseException e) {
+                        Log.e(TAG, "Could not convert date to Date" + e.getMessage());
+                        finish();
+                    }
+                    loginController.save1(String.valueOf(((EditText) findViewById(R.id.tv_user_config_name_first)).getText()),
+                            String.valueOf(((EditText) findViewById(R.id.tv_user_config_name_last)).getText()),
+                            date, confirmInfoFragment);
 
+                    switchPage(v, 1);
+                    break;
+                case 1:
+                    loginController.save2(((SetGoalAdapter) goalInfoFragment.getmAdapter()).getmDataSet());
+                    switchPage(v, 2);
+                    break;
+                case 2:
+                    loginController.confirm();
+                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(i);
+                    break;
+                default:
+                    Log.e(TAG, "Page does not exist");
+                    finish();
+            }
             setSliderButtonText();
         });
 
@@ -103,6 +128,12 @@ public class UserConfigActivity extends AppCompatActivity {
             }
             setSliderButtonText();
         });
+    }
+
+    private void switchPage(View v, int nextPage){
+        mPager.setCurrentItem(nextPage, true);
+        InputMethodManager imm = (InputMethodManager) getSystemService(getApplication().INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
     private void setSliderButtonText(){
@@ -163,18 +194,5 @@ public class UserConfigActivity extends AppCompatActivity {
         public int getCount() {
             return NUM_PAGES;
         }
-    }
-
-    private void setDataArgs(){
-        Bundle dataArgs = new Bundle();
-        dataArgs.putString("Fornavn", String.valueOf(((EditText) findViewById(R.id.tv_user_config_name_first)).getText()));
-        dataArgs.putString("Efternavn", String.valueOf(((EditText) findViewById(R.id.tv_user_config_name_last)).getText()));
-        dataArgs.putString("Fødselsdag", String.valueOf(((TextView) findViewById(R.id.tv_user_config_birth_date)).getText()));
-        dataArgs.putString("Cykling", String.valueOf(((SetGoalAdapter) goalInfoFragment.getmAdapter()).getDataItem(0).getValue()));
-        dataArgs.putString("Gang", String.valueOf(((SetGoalAdapter) goalInfoFragment.getmAdapter()).getDataItem(1).getValue()));
-        dataArgs.putString("Træning", String.valueOf(((SetGoalAdapter) goalInfoFragment.getmAdapter()).getDataItem(2).getValue()));
-        dataArgs.putString("Stå", String.valueOf(((SetGoalAdapter) goalInfoFragment.getmAdapter()).getDataItem(3).getValue()));
-        dataArgs.putString("Anden bevægelse", String.valueOf(((SetGoalAdapter) goalInfoFragment.getmAdapter()).getDataItem(4).getValue()));
-        confirmInfoFragment.setArguments(dataArgs);
     }
 }

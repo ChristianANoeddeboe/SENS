@@ -39,4 +39,13 @@ public class GoalHistory extends RealmObject {
     public void setGoals(RealmList<Goal> goals) {
         this.goals = goals;
     }
+
+    @Override
+    public String toString() {
+        return "GoalHistory{" +
+                "goalHistoryId=" + goalHistoryId +
+                ", date=" + date +
+                ", goals=" + goals +
+                '}';
+    }
 }

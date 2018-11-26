@@ -17,7 +17,7 @@ import io.realm.RealmList;
 
 public class data {
 
-    public static User user = new User(1,"Hans hansen", Calendar.getInstance().getTime());
+    public static User user = new User("Hans hansen", Calendar.getInstance().getTime());
     private static DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
     private static RealmList<GoalHistory> goalHistories = new RealmList<>();
     static {
