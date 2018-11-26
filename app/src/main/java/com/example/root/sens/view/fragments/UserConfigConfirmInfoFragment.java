@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,17 +84,17 @@ public class UserConfigConfirmInfoFragment extends Fragment implements ViewPager
     private void replaceOldListWithNewList() {
         // clear old list
         recyclerItems.clear();
-
+        List<ConfirmGoalItemModel> list = ((ConfirmGoalAdapter) mAdapter).getmDataSet();
         // add new list
         List<ConfirmGoalItemModel> newList = new ArrayList<>();
-        newList.add(new ConfirmGoalItemModel("Fornavn", getArguments().getString("Fornavn")));
-        newList.add(new ConfirmGoalItemModel("Efternavn", getArguments().getString("Efternavn")));
-        newList.add(new ConfirmGoalItemModel("Fødselsdag", getArguments().getString("Fødselsdag")));
-        newList.add(new ConfirmGoalItemModel("Cykling", getArguments().getString("Cykling")));
-        newList.add(new ConfirmGoalItemModel("Gang", getArguments().getString("Gang")));
-        newList.add(new ConfirmGoalItemModel("Træning", getArguments().getString("Træning")));
-        newList.add(new ConfirmGoalItemModel("Stå", getArguments().getString("Stå")));
-        newList.add(new ConfirmGoalItemModel("Anden bevægelse", getArguments().getString("Anden bevægelse")));
+        newList.add(new ConfirmGoalItemModel("Fornavn", String.valueOf(list.get(0))));
+        newList.add(new ConfirmGoalItemModel("Efternavn", String.valueOf(list.get(1))));
+        newList.add(new ConfirmGoalItemModel("Fødselsdag", String.valueOf(list.get(2))));
+        newList.add(new ConfirmGoalItemModel("Cykling", String.valueOf(list.get(3))));
+        newList.add(new ConfirmGoalItemModel("Gang", String.valueOf(list.get(4))));
+        newList.add(new ConfirmGoalItemModel("Træning", String.valueOf(list.get(5))));
+        newList.add(new ConfirmGoalItemModel("Stå", String.valueOf(list.get(6))));
+        newList.add(new ConfirmGoalItemModel("Anden bevægelse", String.valueOf(list.get(7))));
         recyclerItems.addAll(newList);
 
         // notify adapter
@@ -121,8 +122,12 @@ public class UserConfigConfirmInfoFragment extends Fragment implements ViewPager
     }
 
     private void updateRecycler(int position, String description, String value){
-        List<ConfirmGoalItemModel> list = ((ConfirmGoalAdapter) mAdapter).getmDataSet();
-        list.set(position, new ConfirmGoalItemModel(description, value));
-        mAdapter.notifyDataSetChanged();
+        try {
+            List<ConfirmGoalItemModel> list = ((ConfirmGoalAdapter) mAdapter).getmDataSet();
+            list.set(position, new ConfirmGoalItemModel(description, value));
+            mAdapter.notifyDataSetChanged();
+        }catch (NullPointerException e){
+            Log.e(TAG, e.getMessage() + "\n\n" + e.getStackTrace().toString());
+        }
     }
 }
