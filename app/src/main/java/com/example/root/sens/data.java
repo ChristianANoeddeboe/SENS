@@ -86,8 +86,6 @@ public class data {
     }
     static{
         user.setDayData(dayData);
-
-
     }
 
 
