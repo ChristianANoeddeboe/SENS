@@ -20,7 +20,7 @@ import com.example.root.sens.view.activities.UserConfigActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserConfigConfirmInfoFragment extends Fragment implements ViewPager.OnPageChangeListener, UserObserver {
+public class UserConfigConfirmInfoFragment extends Fragment implements UserObserver {
     private final static String TAG = UserConfigConfirmInfoFragment.class.getSimpleName();
 
     private RecyclerView mRecyclerView;
@@ -65,43 +65,6 @@ public class UserConfigConfirmInfoFragment extends Fragment implements ViewPager
     }
 
     @Override
-    public void onPageScrolled(int i, float v, int i1) {
-        //nothing
-    }
-
-    @Override
-    public void onPageSelected(int i) {
-        if (i == UserConfigActivity.CONFIRM_INFO_POS) {
-            replaceOldListWithNewList();
-        }
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int i) {
-        //nothing
-    }
-
-    private void replaceOldListWithNewList() {
-        // clear old list
-        recyclerItems.clear();
-        List<ConfirmGoalItemModel> list = ((ConfirmGoalAdapter) mAdapter).getmDataSet();
-        // add new list
-        List<ConfirmGoalItemModel> newList = new ArrayList<>();
-        newList.add(new ConfirmGoalItemModel("Fornavn", String.valueOf(list.get(0))));
-        newList.add(new ConfirmGoalItemModel("Efternavn", String.valueOf(list.get(1))));
-        newList.add(new ConfirmGoalItemModel("Fødselsdag", String.valueOf(list.get(2))));
-        newList.add(new ConfirmGoalItemModel("Cykling", String.valueOf(list.get(3))));
-        newList.add(new ConfirmGoalItemModel("Gang", String.valueOf(list.get(4))));
-        newList.add(new ConfirmGoalItemModel("Træning", String.valueOf(list.get(5))));
-        newList.add(new ConfirmGoalItemModel("Stå", String.valueOf(list.get(6))));
-        newList.add(new ConfirmGoalItemModel("Anden bevægelse", String.valueOf(list.get(7))));
-        recyclerItems.addAll(newList);
-
-        // notify adapter
-        mAdapter.notifyDataSetChanged();
-    }
-
-    @Override
     public void update(String tag, User user) {
         switch (tag) {
             case User.USERDATA:
@@ -110,14 +73,13 @@ public class UserConfigConfirmInfoFragment extends Fragment implements ViewPager
                 updateRecycler(2, "Fødselsdag", String.valueOf(user.getBirthday()));
                 break;
             case User.GOALDATA:
-                updateRecycler(3, "Cykling", String.valueOf(user.getGoals().get(0).getGoals().get(0)));
-                updateRecycler(4, "Gang", String.valueOf(user.getGoals().get(0).getGoals().get(1)));
-                updateRecycler(5, "Træning", String.valueOf(user.getGoals().get(0).getGoals().get(2)));
-                updateRecycler(6, "Stå", String.valueOf(user.getGoals().get(0).getGoals().get(3)));
-                updateRecycler(7, "Anden bevægelse", String.valueOf(user.getGoals().get(0).getGoals().get(4)));
+                updateRecycler(3, "Cykling", String.valueOf(user.getGoals().get(0).getGoals().get(0).getValue()));
+                updateRecycler(4, "Gang", String.valueOf(user.getGoals().get(0).getGoals().get(1).getValue()));
+                updateRecycler(5, "Træning", String.valueOf(user.getGoals().get(0).getGoals().get(2).getValue()));
+                updateRecycler(6, "Stå", String.valueOf(user.getGoals().get(0).getGoals().get(3).getValue()));
+                updateRecycler(7, "Anden bevægelse", String.valueOf(user.getGoals().get(0).getGoals().get(4).getValue()));
                 break;
             default:
-
         }
     }
 

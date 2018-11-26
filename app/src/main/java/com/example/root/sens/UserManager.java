@@ -18,13 +18,6 @@ public class UserManager {
         this.userDao = userDao;
     }
 
-    public User getUserFromDb(String sensorId){
-        if(user==null){
-            user = userDao.getUser(sensorId);
-        }
-        return user;
-    }
-
     public void createUser(User user, UserObserver userObserver){
         this.user = user;
         user.addObserver(userObserver);

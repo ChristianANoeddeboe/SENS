@@ -69,7 +69,6 @@ public class UserConfigActivity extends AppCompatActivity {
         mPager = findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
-        mPager.addOnPageChangeListener(confirmInfoFragment);
 
 
         TabLayout tabLayout = findViewById(R.id.tablayout);
