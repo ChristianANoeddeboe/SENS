@@ -8,11 +8,15 @@ import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 public class User extends RealmObject {
+    @Ignore
     public static final String USERDATA = "userdata";
+    @Ignore
     public static final String GOALDATA = "goaldata";
+    @Ignore
     private List<UserObserver> observers = new ArrayList<>();
     @PrimaryKey
     private int id;
