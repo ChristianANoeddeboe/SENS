@@ -1,4 +1,4 @@
-package com.example.root.sens.DAO;
+package com.example.root.sens.dao;
 
 import com.example.root.sens.Singleton;
 import com.example.root.sens.dto.User;
