@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.root.sens.R;
 import com.example.root.sens.adapters.SetGoalAdapter;
@@ -25,11 +26,9 @@ import com.example.root.sens.view.fragments.UserConfigConfirmInfoFragment;
 import com.example.root.sens.view.fragments.UserConfigGoalInfoFragment;
 import com.example.root.sens.view.fragments.UserConfigNameInfoFragment;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 public class UserConfigActivity extends AppCompatActivity {
     private final static String TAG = UserConfigActivity.class.getSimpleName();
@@ -74,20 +73,25 @@ public class UserConfigActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mPager, true);
 
         // Removes tabLayout functionality
-        LinearLayout tabStrip = ((LinearLayout)tabLayout.getChildAt(0));
-        for(int i = 0; i < tabStrip.getChildCount(); i++) {
+        LinearLayout tabStrip = ((LinearLayout) tabLayout.getChildAt(0));
+        for (int i = 0; i < tabStrip.getChildCount(); i++) {
             tabStrip.getChildAt(i).setOnTouchListener((v, event) -> true);
         }
-
         slide = findViewById(R.id.user_config_a_slide_button);
         slide.setOnClickListener((View v) -> {
-            switch (mPager.getCurrentItem()){
+            switch (mPager.getCurrentItem()) {
                 case 0:
-                        loginController.save1(String.valueOf(((EditText) findViewById(R.id.tv_user_config_name_first)).getText()),
-                                String.valueOf(((EditText) findViewById(R.id.tv_user_config_name_last)).getText()),
-                                parseDate(), confirmInfoFragment);
+                    String firstName = String.valueOf(((EditText) findViewById(R.id.tv_user_config_name_first)).getText());
+                    String lastName = String.valueOf(((EditText) findViewById(R.id.tv_user_config_name_last)).getText());
+                    Date date = parseDate(String.valueOf(((TextView) findViewById(R.id.tv_user_config_birth_date)).getText()));
+                    String sensorID = getIntent().getExtras().getString("sensorID", "0");
+                    if(firstName.length() == 0 || lastName.length() == 0 || date == null){
+                        Toast.makeText(this, "Du skal udfylde alle felter før du kan gå videre", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    loginController.save1(firstName, lastName, date, sensorID , confirmInfoFragment);
 
-                        switchPage(v, 1);
+                    switchPage(v, 1);
                     break;
                 case 1:
                     loginController.save2(((SetGoalAdapter) goalInfoFragment.getmAdapter()).getmDataSet());
@@ -108,26 +112,25 @@ public class UserConfigActivity extends AppCompatActivity {
 
         back = findViewById(R.id.btn_user_config_a_back_button);
         back.setOnClickListener((View v) -> {
-            if(mPager.getCurrentItem()==0){
+            if (mPager.getCurrentItem() == 0) {
                 finish();
                 overridePendingTransition(R.anim.slide_out_r, R.anim.slide_in_r);
-            }
-            else{
-                mPager.setCurrentItem(mPager.getCurrentItem()-1, true);
+            } else {
+                mPager.setCurrentItem(mPager.getCurrentItem() - 1, true);
             }
             setSliderButtonText();
         });
     }
 
-    private void switchPage(View v, int nextPage){
+    private void switchPage(View v, int nextPage) {
         mPager.setCurrentItem(nextPage, true);
         InputMethodManager imm = (InputMethodManager) getSystemService(getApplication().INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
-    private void setSliderButtonText(){
+    private void setSliderButtonText() {
         int counter = mPager.getCurrentItem();
-        switch (counter){
+        switch (counter) {
             case 0:
                 slide.setText("Videre");
                 back.setText("Annullér");
@@ -170,11 +173,15 @@ public class UserConfigActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            switch(position){
-                case 0: return nameInfoFragment;
-                case 1: return goalInfoFragment;
-                case 2: return confirmInfoFragment;
-                default: Log.d(TAG, "Fatal pager error, position does not exist! "+position);
+            switch (position) {
+                case 0:
+                    return nameInfoFragment;
+                case 1:
+                    return goalInfoFragment;
+                case 2:
+                    return confirmInfoFragment;
+                default:
+                    Log.d(TAG, "Fatal pager error, position does not exist! " + position);
             }
             return null;
         }
@@ -185,14 +192,12 @@ public class UserConfigActivity extends AppCompatActivity {
         }
     }
 
-    private Date parseDate(){
-        String dato = String.valueOf(((TextView) findViewById(R.id.tv_user_config_birth_date)).getText());
-        Date date = null;
+    private Date parseDate(String date) {
         try {
-            date = new SimpleDateFormat("dd/MM/yyyy").parse(dato);
+            return new SimpleDateFormat("dd/MM/yyyy").parse(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return date;
+        return null;
     }
 }

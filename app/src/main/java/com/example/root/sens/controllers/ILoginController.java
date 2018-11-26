@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface ILoginController {
-    void save1(String firstMame, String lastName, Date birthday, UserObserver userObserver);
+    void save1(String firstMame, String lastName, Date birthday, String sensorID, UserObserver userObserver);
     void save2(List<SetGoalItemModel> Goal);
     void confirm();
 }

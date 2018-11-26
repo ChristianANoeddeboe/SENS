@@ -3,6 +3,7 @@ package com.example.root.sens;
 import com.example.root.sens.dao.IUserDao;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
+import com.example.root.sens.dto.Sensor;
 import com.example.root.sens.dto.SetGoalItemModel;
 import com.example.root.sens.dto.User;
 import java.util.Date;
@@ -18,8 +19,9 @@ public class UserManager {
         this.userDao = userDao;
     }
 
-    public void createUser(User user, UserObserver userObserver){
+    public void createUser(User user, String sensorID, UserObserver userObserver){
         this.user = user;
+        user.setSensors(new RealmList<>(new Sensor(sensorID)));
         user.addObserver(userObserver);
         user.notifyObservers(User.USERDATA);
     }

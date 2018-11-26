@@ -25,7 +25,15 @@ public class Login extends AppCompatActivity {
         Button help = findViewById(R.id.help_btn);
 
         login.setOnClickListener((View v) ->{
+                String sensorID = String.valueOf(sensorField.getText());
+                if(sensorID.length() == 0){
+                    Toast.makeText(this, "Du skal angive et sensor id for at fortsætte", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent i = new Intent(getApplicationContext(), UserConfigActivity.class);
+                Bundle b = new Bundle();
+                b.putString("sensorID", sensorID);
+                i.putExtras(b);
                 startActivity(i);
                 getWindow().setEnterTransition(new Slide());
         });

@@ -22,6 +22,15 @@ public class User extends RealmObject {
     private int id;
     private String firstName;
     private String lastName;
+
+    public RealmList<Sensor> getSensors() {
+        return sensors;
+    }
+
+    public void setSensors(RealmList<Sensor> sensors) {
+        this.sensors = sensors;
+    }
+
     private RealmList<Sensor> sensors;
     private Date birthday;
     private RealmList<GoalHistory> goals;
