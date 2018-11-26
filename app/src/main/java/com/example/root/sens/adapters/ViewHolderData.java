@@ -40,55 +40,52 @@ public class ViewHolderData extends ViewHolder {
     }
 
     public void bindType(ListItem item) {
-        for(DayData d : data.user.getDayData()){
-           if(isToday(d)){
-               int size = data.user.getGoals().size();
-               RealmList<Goal> goals = data.user.getGoals().get(size-1).getGoals();
-               int numofgoals = goals.size();
+        DayData d = getNewestData();
+        int size = data.user.getGoals().size();
+        RealmList<Goal> goals = data.user.getGoals().get(size-1).getGoals();
+        int numofgoals = goals.size();
 
-               int emptyGoals = 0;
+        int emptyGoals = 0;
 
-               for(Goal curr : goals) {
-                   if(curr.getValue() == 0) {
-                       emptyGoals++;
-                   }
-               }
+        for(Goal curr : goals) {
+            if(curr.getValue() == 0) {
+                emptyGoals++;
+            }
+        }
 
-               float progresswidth = 24f;
-               float totalprogresswidth = (numofgoals-emptyGoals)*progresswidth; //120
-
+        float progresswidth = 24f;
+        float totalprogresswidth = (numofgoals-emptyGoals)*progresswidth; //120
 
 
-               //https://github.com/bmarrdev/android-DecoView-charting
-               progressCircle.addSeries(new SeriesItem.Builder(Color.argb(180, 218, 218, 218))
-                       .setRange(0, 100, 100)
-                       .setLineWidth(totalprogresswidth)
-                       .build());
 
-               float inset = -((progresswidth * ((numofgoals-emptyGoals) - 1)) / 2);
-               int max, current;
-               for (int i = 0; i < numofgoals; i++) {
-                   Goal currGoal = goals.get(i);
-                   max = currGoal.getValue();
-                   current = (int) d.getRecords().get(i).getValue();
-                   if(max > 0) {
-                       if(current > max) {
-                           current = max;
-                       }
-                       addGoalIcon(currGoal, current);
-                       progressCircle.addSeries(new SeriesItem.Builder(getGoalColor(currGoal.getType()))
-                               .setRange(0, max, current)
-                               .setLineWidth(progresswidth)
-                               .setInset(new PointF(inset, inset))
-                               .build());
+        //https://github.com/bmarrdev/android-DecoView-charting
+        progressCircle.addSeries(new SeriesItem.Builder(Color.argb(180, 218, 218, 218))
+                .setRange(0, 100, 100)
+                .setLineWidth(totalprogresswidth)
+                .build());
 
-                       inset += progresswidth;
-                   } else {
-                       removeGoalIcon(currGoal.getType());
-                   }
+        float inset = -((progresswidth * ((numofgoals-emptyGoals) - 1)) / 2);
+        int max, current;
+        for (int i = 0; i < numofgoals; i++) {
+            Goal currGoal = goals.get(i);
+            max = currGoal.getValue();
+            current = (int) d.getRecords().get(i).getValue();
+            if(max > 0) {
+                if(current > max) {
+                    current = max;
+                }
+                addGoalIcon(currGoal, current);
+                progressCircle.addSeries(new SeriesItem.Builder(getGoalColor(currGoal.getType()))
+                        .setRange(0, max, current)
+                        .setLineWidth(progresswidth)
+                        .setInset(new PointF(inset, inset))
+                        .build());
 
-               }
-           }
+                inset += progresswidth;
+            } else {
+                removeGoalIcon(currGoal.getType());
+            }
+
         }
     }
 
@@ -174,6 +171,19 @@ public class ViewHolderData extends ViewHolder {
                 exerciseText.setText(createIconText(curr, currentGoalValue));
                 break;
         }
+    }
+
+    private DayData getNewestData() {
+        RealmList<DayData> daydata = data.user.getDayData();
+        DayData data = daydata.get(0);
+        DayData temp;
+        for(int i = 0 ; i < daydata.size()-1 ; i++) {
+            temp = daydata.get(i);
+            if(temp.getEnd_time().getTime() > data.getEnd_time().getTime()) {
+                data = temp;
+            }
+        }
+        return data;
     }
 
     private String createIconText(Goal curr, int currentGoalValue) {
