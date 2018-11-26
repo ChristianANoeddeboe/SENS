@@ -25,6 +25,7 @@ public class Login extends AppCompatActivity {
         Button help = findViewById(R.id.help_btn);
 
         login.setOnClickListener((View v) ->{
+                // TODO: Perform user check, does this ID already consist i the DB?
                 String sensorID = String.valueOf(sensorField.getText());
                 if(sensorID.length() == 0){
                     Toast.makeText(this, "Du skal angive et sensor id for at fortsætte", Toast.LENGTH_SHORT).show();
