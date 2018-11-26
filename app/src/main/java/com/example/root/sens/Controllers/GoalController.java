@@ -1,8 +1,4 @@
-package com.example.root.sens.Controlles;
-
-import android.util.Log;
-
-import java.util.Calendar;
+package com.example.root.sens.Controllers;
 
 public class GoalController {
     /**
@@ -21,7 +17,4 @@ public class GoalController {
         return instance;
     }
 
-    public void updateDayProgress(){
-        Log.d("Test",Calendar.getInstance().toString());
-    }
 }
