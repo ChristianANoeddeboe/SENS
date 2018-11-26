@@ -61,7 +61,7 @@ public class data {
             temp.add( new Record(100,ActivityCategories.Walking.toString()));
             temp.add( new Record(125, ActivityCategories.Exercise.toString()));
             temp.add( new Record(150,ActivityCategories.Cycling.toString()));
-            dayData.add(new DayData( sensDf.parse("2018-11-21T23:00:00"), sensDf.parse("2018-11-22T23:00:00"),temp));
+            dayData.add(new DayData( sensDf.parse("2018-11-25T23:00:00"), sensDf.parse("2018-11-26T23:00:00"),temp));
             temp.clear();
             temp.add( new Record(60*8,ActivityCategories.Resting.toString()));
             temp.add( new Record(300, ActivityCategories.Standing.toString()));
