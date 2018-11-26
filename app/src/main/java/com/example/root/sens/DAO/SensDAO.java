@@ -9,6 +9,9 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Used to download data from SENS
+ */
 public class SensDAO implements Callback<Response> {
     private static final String TAG = SensDAO.class.getSimpleName();
     private Retrofit retrofitInstance;
