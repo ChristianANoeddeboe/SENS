@@ -2,7 +2,7 @@ package com.example.root.sens.controllers;
 
 import com.example.root.sens.UserManager;
 import com.example.root.sens.UserObserver;
-import com.example.root.sens.dao.UserDao;
+import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dto.SetGoalItemModel;
 import com.example.root.sens.dto.User;
 
@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 public class LoginController implements ILoginController {
-    UserManager userManager = new UserManager(new UserDao());
+    UserManager userManager = new UserManager(new UserDAO());
 
     @Override
     public boolean isUser(String sensorID) {

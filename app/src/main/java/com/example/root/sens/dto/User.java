@@ -5,6 +5,7 @@ import com.example.root.sens.UserObserver;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -19,7 +20,6 @@ public class User extends RealmObject {
     @Ignore
     private List<UserObserver> observers = new ArrayList<>();
     @PrimaryKey
-    private int id;
     private String firstName;
     private String lastName;
 
@@ -31,6 +31,9 @@ public class User extends RealmObject {
         this.sensors = sensors;
     }
 
+    private String id = UUID.randomUUID().toString();
+    private String name;
+
     private RealmList<Sensor> sensors;
     private Date birthday;
     private RealmList<GoalHistory> goals;
@@ -38,22 +41,30 @@ public class User extends RealmObject {
 
     public User(){}
 
+
     public User(String firstName, String lastName, Date birthday) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
+
     public String getFirstName() {
         return firstName;
+    }
+
+
+    public String getName() {
+        return name;
+
     }
 
     public void setFirstName(String firstName) {
@@ -120,5 +131,4 @@ public class User extends RealmObject {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
 }
