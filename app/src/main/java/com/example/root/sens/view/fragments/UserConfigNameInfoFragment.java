@@ -1,5 +1,6 @@
 package com.example.root.sens.view.fragments;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.root.sens.R;
+
+import java.util.Calendar;
 
 public class UserConfigNameInfoFragment extends Fragment {
 

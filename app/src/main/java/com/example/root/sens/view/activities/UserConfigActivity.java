@@ -9,7 +9,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -28,12 +27,12 @@ import com.example.root.sens.view.fragments.UserConfigNameInfoFragment;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 public class UserConfigActivity extends AppCompatActivity {
     private final static String TAG = UserConfigActivity.class.getSimpleName();
-    public final static int CONFIRM_INFO_POS = 2;
     UserConfigNameInfoFragment nameInfoFragment = new UserConfigNameInfoFragment();
     UserConfigGoalInfoFragment goalInfoFragment = new UserConfigGoalInfoFragment();
     UserConfigConfirmInfoFragment confirmInfoFragment = new UserConfigConfirmInfoFragment();
@@ -84,20 +83,11 @@ public class UserConfigActivity extends AppCompatActivity {
         slide.setOnClickListener((View v) -> {
             switch (mPager.getCurrentItem()){
                 case 0:
-                    Date date = new Date();
-                    DateFormat df =  DateFormat.getDateInstance(DateFormat.SHORT, Locale.ENGLISH);
-                    try {
-                        String dato = String.valueOf(((TextView) findViewById(R.id.tv_user_config_birth_date)).getText());
-                        date = df.parse(dato);
-                    } catch (ParseException e) {
-                        Log.e(TAG, "Could not convert date to Date" + e.getMessage());
-                        finish();
-                    }
-                    loginController.save1(String.valueOf(((EditText) findViewById(R.id.tv_user_config_name_first)).getText()),
-                            String.valueOf(((EditText) findViewById(R.id.tv_user_config_name_last)).getText()),
-                            date, confirmInfoFragment);
+                        loginController.save1(String.valueOf(((EditText) findViewById(R.id.tv_user_config_name_first)).getText()),
+                                String.valueOf(((EditText) findViewById(R.id.tv_user_config_name_last)).getText()),
+                                parseDate(), confirmInfoFragment);
 
-                    switchPage(v, 1);
+                        switchPage(v, 1);
                     break;
                 case 1:
                     loginController.save2(((SetGoalAdapter) goalInfoFragment.getmAdapter()).getmDataSet());
@@ -193,5 +183,16 @@ public class UserConfigActivity extends AppCompatActivity {
         public int getCount() {
             return NUM_PAGES;
         }
+    }
+
+    private Date parseDate(){
+        String dato = String.valueOf(((TextView) findViewById(R.id.tv_user_config_birth_date)).getText());
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("dd/MM/yyyy").parse(dato);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 }
