@@ -9,6 +9,7 @@ public class Singleton extends Application {
     public void onCreate() {
         super.onCreate();
         Realm.init(this);
+
     }
 }
 
