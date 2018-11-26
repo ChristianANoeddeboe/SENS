@@ -46,4 +46,8 @@ public class UserManager {
     public void saveUser(){
         userDao.saveUser(user);
     }
+
+    public User getUser(String sensorID){
+        return userDao.getUser(sensorID);
+    }
 }
