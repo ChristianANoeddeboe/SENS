@@ -15,6 +15,7 @@ public class User extends RealmObject {
     private Date birthday;
     private RealmList<GoalHistory> goals;
     private RealmList<DayData> dayData;
+
     public User(){}
     public User(int id, String name, Date birthday) {
         this.id = id;
