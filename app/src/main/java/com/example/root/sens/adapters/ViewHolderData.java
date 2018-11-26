@@ -101,9 +101,9 @@ public class ViewHolderData extends ViewHolder {
             case Walking:
                 return Color.argb(255, 76, 175, 80);
             case Cycling:
-                return Color.argb(255, 255, 152, 0);
-            case Exercise:
                 return Color.argb(244, 244, 67, 54);
+            case Exercise:
+                return Color.argb(255, 255, 152, 0);
             default:
                 return Color.argb(255, 0, 0, 0);
         }

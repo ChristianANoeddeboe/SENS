@@ -36,6 +36,9 @@ public class ViewHolderCalendar extends ViewHolder {
         for(DayData d : data.user.getDayData()){
             long timeDelta = -1;
             GoalHistory temp = null;
+            /**
+             * Find the smallest difference which is positive
+             */
             for(GoalHistory g : data.user.getGoals()){
                 long temp2 = d.getStart_time().getTime() - g.getDate().getTime();
                 if((temp2 < timeDelta && temp2 >= 0)||timeDelta == -1) {
@@ -43,11 +46,12 @@ public class ViewHolderCalendar extends ViewHolder {
                     temp = g;
                 }
             }
+            //If temp is null then we did not find a valid match
             if(temp != null){
                 boolean completed = false;
                 for(Goal g : temp.getGoals()){
                     completed = false;
-                    for(Record r : d.getRecords()){
+                    for(Record r : d.getRecords()){ // Check if the user completed all its goals
                         if(r.getType().equals(g.getType())){
                             if(r.getValue() >= g.getValue()){
                                 completed = true;
