@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.root.sens.R;
+import com.example.root.sens.dao.UserDAO;
+import com.example.root.sens.data;
 import com.example.root.sens.view.fragments.HistoryFragment;
 import com.example.root.sens.view.fragments.OverviewFragment;
 
@@ -60,6 +62,8 @@ public class MainActivity extends AppCompatActivity
         //pagerSlidingTabStrip.setTabBackground(R.color.white);
         pagerSlidingTabStrip.setIndicatorColorResource(R.color.sensBlue);
         pagerSlidingTabStrip.setViewPager(viewPager);
+        UserDAO d = new UserDAO();
+        d.createUser(data.user);
     }
 
     @Override
