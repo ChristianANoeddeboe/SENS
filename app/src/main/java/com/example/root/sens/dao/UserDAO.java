@@ -1,24 +1,21 @@
 package com.example.root.sens.dao;
 
-import com.example.root.sens.Singleton;
-import com.example.root.sens.dto.Sensor;
 import com.example.root.sens.dto.Settings;
 import com.example.root.sens.dto.User;
-
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class UserDAO implements IUserDao {
     @Override
     public void createUser(User user){
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        User tempUser = realm.where(User.class).sort("id").findFirst();
+       /* User tempUser = realm.where(User.class).sort("id").findFirst();
         if(tempUser == null){
             user.setId(tempUser.getId()+1);
         }else{
             user.setId(1);
         }
+       */
         realm.copyToRealm(user);
         realm.commitTransaction();
     }
