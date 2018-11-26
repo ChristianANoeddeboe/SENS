@@ -24,30 +24,46 @@ public class SensDAO implements Callback<Response> {
         return sensDAOInstance;
     }
 
-    private SensDAO(){
+    private SensDAO() {
     }
-
     public void getData(String patientKey){
         Call<Response> temp = service.getData(patientKey);
         temp.enqueue(this);
     }
-
     public void getData(String patientKey, int dayCount){
+        validateDayCount(dayCount);
         Call<Response> temp = service.getData(patientKey, dayCount);
         temp.enqueue(this);
     }
-    //TODO: Check that the parameters are valid, i.e that daycount is between 1 and 14, and that date format is correct
     public void getDataSpecificDate(String patientKey, int dayCount, String date){
+        validateDayCount(dayCount);
+        validateDate(date);
         Call<Response> temp = service.getData(patientKey, dayCount);
         temp.enqueue(this);
     }
 
     public void getDataSpecificDate(String patientKey, String date){
+        validateDate(date);
         Call<Response> temp = service.getData(patientKey);
         temp.enqueue(this);
     }
 
+    private void validateDayCount(int dayCount){
+        if(dayCount < 0 || dayCount > 14){
+            //Throw some kind of exception here
+        }
+    }
 
+    private void validateDate(String date){
+        String[] temp = date.split("-");
+        if(temp.length != 3){
+            //Throw error
+        }
+        //Check following format size ####-##-##, year-month-day
+        if(temp[1].length() != 4 || temp[2].length() != 2 || temp[3].length() != 2){
+            //Throw error
+        }
+    }
 
     @Override
     public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
