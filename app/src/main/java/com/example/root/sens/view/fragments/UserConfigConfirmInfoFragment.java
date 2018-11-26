@@ -1,5 +1,6 @@
 package com.example.root.sens.view.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -17,7 +18,9 @@ import com.example.root.sens.adapters.ConfirmGoalAdapter;
 import com.example.root.sens.dto.User;
 import com.example.root.sens.view.activities.UserConfigActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class UserConfigConfirmInfoFragment extends Fragment implements UserObserver {
@@ -29,6 +32,11 @@ public class UserConfigConfirmInfoFragment extends Fragment implements UserObser
     private List<ConfirmGoalItemModel> recyclerItems = new ArrayList<>();
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
@@ -38,7 +46,7 @@ public class UserConfigConfirmInfoFragment extends Fragment implements UserObser
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        // mRecyclerView.setHasFixedSize(true);
+         mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getContext());
@@ -70,7 +78,7 @@ public class UserConfigConfirmInfoFragment extends Fragment implements UserObser
             case User.USERDATA:
                 updateRecycler(0, "Fornavn", user.getFirstName());
                 updateRecycler(1, "Efternavn", user.getLastName());
-                updateRecycler(2, "Fødselsdag", String.valueOf(user.getBirthday()));
+                updateRecycler(2, "Fødselsdag", dateFormat(user.getBirthday()));
                 break;
             case User.GOALDATA:
                 updateRecycler(3, "Cykling", String.valueOf(user.getGoals().get(0).getGoals().get(0).getValue()));
@@ -91,5 +99,11 @@ public class UserConfigConfirmInfoFragment extends Fragment implements UserObser
         }catch (NullPointerException e){
             Log.e(TAG, e.getMessage() + "\n\n" + e.getStackTrace().toString());
         }
+    }
+
+    private String dateFormat(Date date){
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String formattedDate = df.format(date);
+        return formattedDate;
     }
 }

@@ -68,7 +68,7 @@ public class UserConfigActivity extends AppCompatActivity {
         mPager = findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
-
+        mPager.setOffscreenPageLimit(10);
 
         TabLayout tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(mPager, true);
