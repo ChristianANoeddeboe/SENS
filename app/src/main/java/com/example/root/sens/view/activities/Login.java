@@ -50,6 +50,9 @@ public class Login extends AppCompatActivity {
             if (checkForUser(sensorID)) {
                 Toast.makeText(this, "This is an user!", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                Bundle b = new Bundle();
+                b.putString("snackbar", "Text to show in the snackbar");
+                i.putExtras(b);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
                 return;

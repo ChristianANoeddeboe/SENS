@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -47,6 +49,17 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        final CoordinatorLayout coordinatorLayout = findViewById(R.id.main_a_coordinator_layout);
+        try {
+            String snackbarText = getIntent().getExtras().getString("snackbar");
+
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, snackbarText, Snackbar.LENGTH_LONG);
+            snackbar.show();
+
+        } catch (NullPointerException e) {
+
+        }
 
         sharedPreferences = getApplication().getSharedPreferences(
                 getString(R.string.preference_file_key), Context.MODE_PRIVATE);
@@ -54,7 +67,7 @@ public class MainActivity extends AppCompatActivity
         viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(new ViewpagerAdapter(getSupportFragmentManager()));
         viewPager.setCurrentItem(sharedPreferences.getInt(getString(R.string.pagerWindowNumber)
-                ,0));
+                , 0));
         sharedPreferences.edit().remove(getString(R.string.pagerWindowNumber)).apply();
 
         PagerSlidingTabStrip pagerSlidingTabStrip = findViewById(R.id.pagerTitleStrip);
