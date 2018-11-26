@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.root.sens.R;
@@ -65,6 +66,12 @@ public class UserConfigActivity extends AppCompatActivity {
 
         TabLayout tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(mPager, true);
+
+        // Removes tabLayout functionality
+        LinearLayout tabStrip = ((LinearLayout)tabLayout.getChildAt(0));
+        for(int i = 0; i < tabStrip.getChildCount(); i++) {
+            tabStrip.getChildAt(i).setOnTouchListener((v, event) -> true);
+        }
 
         slide = findViewById(R.id.user_config_a_slide_button);
         slide.setOnClickListener((View v) -> {

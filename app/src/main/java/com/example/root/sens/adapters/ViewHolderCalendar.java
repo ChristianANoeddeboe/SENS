@@ -3,9 +3,9 @@ package com.example.root.sens.adapters;
 import android.graphics.Color;
 import android.view.View;
 
-import com.example.root.sens.DTO.DayData;
-import com.example.root.sens.DTO.Goal;
-import com.example.root.sens.DTO.GoalHistory;
+import com.example.root.sens.dto.DayData;
+import com.example.root.sens.dto.Goal;
+import com.example.root.sens.dto.GoalHistory;
 import com.example.root.sens.dto.Record;
 import com.example.root.sens.R;
 import com.example.root.sens.data;

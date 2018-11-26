@@ -14,7 +14,7 @@ import java.util.List;
 
 import com.example.root.sens.adapters.ItemClickListener;
 import com.example.root.sens.adapters.SettingsAdapter;
-import com.example.root.sens.DTO.ItemModel;
+import com.example.root.sens.dto.ItemModel;
 
 public class SettingsActivity extends AppCompatActivity implements ItemClickListener {
     private RecyclerView mRecyclerView;

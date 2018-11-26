@@ -20,7 +20,8 @@
             android:inputType="textPersonName"
             android:hint="Fornavn"
             android:textColor="@color/sensBlue"
-            android:layout_margin="8dp" />
+            android:layout_margin="8dp"
+            android:textSize="20dp" />
 
         <EditText
             android:id="@+id/tv_user_config_name_last"
@@ -31,7 +32,8 @@
             android:inputType="textPersonName"
             android:hint="Efternavn"
             android:textColor="@color/sensBlue"
-            android:layout_margin="8dp" />
+            android:layout_margin="8dp"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/tv_user_config_birth_date"
@@ -42,7 +44,8 @@
             android:inputType="textPersonName"
             android:hint="Fødselsdag"
             android:textColor="@color/sensBlue"
-            android:layout_margin="8dp" />
+            android:layout_margin="8dp"
+            android:textSize="20dp" />
 
     </LinearLayout>
 </ScrollView>

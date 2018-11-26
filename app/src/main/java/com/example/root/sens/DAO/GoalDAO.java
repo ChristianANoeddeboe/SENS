@@ -1,7 +1,7 @@
 package com.example.root.sens.DAO;
 
-import com.example.root.sens.DTO.GoalHistory;
-import com.example.root.sens.DTO.User;
+import com.example.root.sens.dto.GoalHistory;
+import com.example.root.sens.dto.User;
 
 import io.realm.Realm;
 import io.realm.RealmList;
