@@ -1,16 +1,19 @@
 package com.example.root.sens.view.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.root.sens.DTO.SetGoalItemModel;
+import com.example.root.sens.dto.SetGoalItemModel;
 import com.example.root.sens.R;
 import com.example.root.sens.adapters.SetGoalAdapter;
+import com.example.root.sens.view.activities.UserConfigActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +42,6 @@ public class UserConfigGoalInfoFragment extends Fragment {
         // specify an adapter (see also next example)
         mAdapter = new SetGoalAdapter(createItem());
         mRecyclerView.setAdapter(mAdapter);
-
         return rootView;
     }
 
@@ -54,4 +56,9 @@ public class UserConfigGoalInfoFragment extends Fragment {
 
         return items;
     }
+
+    public RecyclerView.Adapter getmAdapter() {
+        return mAdapter;
+    }
+
 }

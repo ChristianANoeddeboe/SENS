@@ -1,4 +1,6 @@
-package com.example.root.sens.DTO;
+package com.example.root.sens.dto;
+
+import com.example.root.sens.dto.ActivityCategories;
 
 import io.realm.RealmObject;
 

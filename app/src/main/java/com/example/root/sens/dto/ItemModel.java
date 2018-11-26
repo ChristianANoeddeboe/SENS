@@ -1,4 +1,4 @@
-package com.example.root.sens.DTO;
+package com.example.root.sens.dto;
 
 public class ItemModel{
     private String primaryText;

@@ -1,15 +1,14 @@
-package com.example.root.sens.adapter;
+package com.example.root.sens.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.example.root.sens.DTO.ConfirmGoalItemModel;
-import com.example.root.sens.DTO.SetGoalItemModel;
+import com.example.root.sens.dto.ConfirmGoalItemModel;
 import com.example.root.sens.R;
 
 import java.util.List;
@@ -17,6 +16,7 @@ import java.util.List;
 public class ConfirmGoalAdapter extends RecyclerView.Adapter<ConfirmGoalAdapter.ViewHolder> {
         private static final String TAG = ConfirmGoalAdapter.class.getSimpleName();
         private List<ConfirmGoalItemModel> mDataSet;
+        private LayoutInflater mInflater;
 
         /**
          * Provide a reference to the type of views that you are using (custom ViewHolder)
@@ -46,7 +46,8 @@ public class ConfirmGoalAdapter extends RecyclerView.Adapter<ConfirmGoalAdapter.
          *
          * @param dataSet String[] containing the data to populate views to be used by RecyclerView.
          */
-        public ConfirmGoalAdapter(List<ConfirmGoalItemModel> dataSet) {
+        public ConfirmGoalAdapter(Context context, List<ConfirmGoalItemModel> dataSet) {
+            mInflater = LayoutInflater.from(context);
             mDataSet = dataSet;
         }
 
@@ -54,9 +55,7 @@ public class ConfirmGoalAdapter extends RecyclerView.Adapter<ConfirmGoalAdapter.
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
             // Create a new view.
-            View v = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.confirm_goal_element, viewGroup, false);
-
+            View v = mInflater.inflate(R.layout.confirm_goal_element, viewGroup, false);
             return new ViewHolder(v);
         }
 

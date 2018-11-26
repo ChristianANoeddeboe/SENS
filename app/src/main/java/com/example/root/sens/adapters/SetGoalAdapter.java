@@ -8,20 +8,20 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.example.root.sens.DTO.SetGoalItemModel;
+import com.example.root.sens.dto.SetGoalItemModel;
 import com.example.root.sens.R;
 
 import java.util.List;
+import java.util.Observable;
 
 public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHolder> {
         private static final String TAG = "SettingsAdapter";
-
         private List<SetGoalItemModel> mDataSet;
 
         /**
          * Provide a reference to the type of views that you are using (custom ViewHolder)
          */
-        public static class ViewHolder extends RecyclerView.ViewHolder {
+        public class ViewHolder extends RecyclerView.ViewHolder {
             private final TextView textViewPrimary;
             private final TextView textViewSecondary;
 
@@ -49,7 +49,7 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
 
                 @Override
                 public void onStopTrackingTouch(SeekBar seekBar) {
-                    // called after the user finishes moving the SeekBar
+                    mDataSet.get(getAdapterPosition()).setValue(seekBar.getProgress());
                 }
             };
 
@@ -88,5 +88,9 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
         @Override
         public int getItemCount() {
             return mDataSet.size();
+        }
+
+        public SetGoalItemModel getDataItem(int position){
+            return mDataSet.get(position);
         }
 }

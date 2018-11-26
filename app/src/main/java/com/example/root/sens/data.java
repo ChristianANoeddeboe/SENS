@@ -1,12 +1,12 @@
 package com.example.root.sens;
 
 
-import com.example.root.sens.DTO.ActivityCategories;
-import com.example.root.sens.DTO.DayData;
-import com.example.root.sens.DTO.Goal;
-import com.example.root.sens.DTO.GoalHistory;
-import com.example.root.sens.DTO.User;
-import com.example.root.sens.DTO.Record;
+import com.example.root.sens.dto.ActivityCategories;
+import com.example.root.sens.dto.DayData;
+import com.example.root.sens.dto.Goal;
+import com.example.root.sens.dto.GoalHistory;
+import com.example.root.sens.dto.Record;
+import com.example.root.sens.dto.User;
 
 import java.text.DateFormat;
 import java.text.ParseException;

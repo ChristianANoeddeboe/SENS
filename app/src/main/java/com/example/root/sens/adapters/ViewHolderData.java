@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.root.sens.DTO.ActivityCategories;
-import com.example.root.sens.DTO.DayData;
-import com.example.root.sens.DTO.Goal;
+import com.example.root.sens.dto.ActivityCategories;
+import com.example.root.sens.dto.DayData;
+import com.example.root.sens.dto.Goal;
 import com.example.root.sens.R;
 import com.example.root.sens.data;
 import com.example.root.sens.view.fragments.interfaces.ListItem;

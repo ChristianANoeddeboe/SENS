@@ -1,8 +1,8 @@
-package com.example.root.sens.DAO;
+package com.example.root.sens.dao;
 
 import android.util.Log;
 
-import com.example.root.sens.DTO.Response;
+import com.example.root.sens.dto.Response;
 
 import retrofit2.Call;
 import retrofit2.Callback;

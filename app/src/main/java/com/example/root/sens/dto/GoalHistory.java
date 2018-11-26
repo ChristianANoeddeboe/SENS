@@ -1,4 +1,4 @@
-package com.example.root.sens.DTO;
+package com.example.root.sens.dto;
 
 import java.util.Date;
 

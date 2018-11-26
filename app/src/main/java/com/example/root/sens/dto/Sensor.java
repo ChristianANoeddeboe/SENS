@@ -1,4 +1,4 @@
-package com.example.root.sens.DTO;
+package com.example.root.sens.dto;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
