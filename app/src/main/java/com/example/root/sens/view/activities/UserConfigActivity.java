@@ -98,7 +98,6 @@ public class UserConfigActivity extends AppCompatActivity {
                     switchPage(v, 2);
                     break;
                 case 2:
-                    loginController.confirm();
                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(i);
