@@ -26,28 +26,28 @@ class Values {
 
     @SerializedName("activity/resting/time")
     @Expose
-    public Integer activityRestingTime;
+    public Float activityRestingTime;
     @SerializedName("activity/standing/time")
     @Expose
-    public Integer activityStandingTime;
+    public Float activityStandingTime;
     @SerializedName("activity/walking/time")
     @Expose
-    public Integer activityWalkingTime;
+    public Float activityWalkingTime;
     @SerializedName("activity/cycling/time")
     @Expose
-    public Integer activityCyclingTime;
+    public Float activityCyclingTime;
     @SerializedName("activity/exercise/time")
     @Expose
-    public Integer activityExerciseTime;
+    public Float activityExerciseTime;
     @SerializedName("activity/other/time")
     @Expose
-    public Integer activityOtherTime;
+    public Float activityOtherTime;
     @SerializedName("general/nodata/time")
     @Expose
-    public Integer generalNodataTime;
+    public Float generalNodataTime;
     @SerializedName("activity/steps/count")
     @Expose
-    public Integer activityStepsCount;
+    public Float activityStepsCount;
 
 }
 

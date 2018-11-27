@@ -3,6 +3,7 @@ package com.example.root.sens.view.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,15 +20,19 @@ import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.root.sens.R;
+import com.example.root.sens.dao.SensDAO;
+import com.example.root.sens.dao.SensObserver;
+import com.example.root.sens.dao.Subject;
 import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.data;
 import com.example.root.sens.view.fragments.HistoryFragment;
 import com.example.root.sens.view.fragments.OverviewFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, SensObserver {
 
     private ViewPager viewPager;
+    private Subject s;
     private static String[] viewNames = {"Overview", "Historik"};
     SharedPreferences sharedPreferences;
 
@@ -62,6 +67,10 @@ public class MainActivity extends AppCompatActivity
         //pagerSlidingTabStrip.setTabBackground(R.color.white);
         pagerSlidingTabStrip.setIndicatorColorResource(R.color.sensBlue);
         pagerSlidingTabStrip.setViewPager(viewPager);
+
+        s = SensDAO.getInstance();
+        s.registerObserver(this);
+        SensDAO.getInstance().getData("6rT39u");
 
     }
 
@@ -102,6 +111,11 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public void onDataReceived() {
+
+    }
+
     private class ViewpagerAdapter extends FragmentPagerAdapter {
         public ViewpagerAdapter(FragmentManager fm) {
             super(fm);
@@ -128,5 +142,11 @@ public class MainActivity extends AppCompatActivity
         public int getCount() {
             return 2;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        s.removeObserver(this);
     }
 }

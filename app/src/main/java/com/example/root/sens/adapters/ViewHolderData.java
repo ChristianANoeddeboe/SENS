@@ -12,6 +12,7 @@ import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.R;
 import com.example.root.sens.data;
+import com.example.root.sens.dto.GoalHistory;
 import com.example.root.sens.dto.User;
 import com.example.root.sens.view.fragments.interfaces.ListItem;
 import com.hookedonplay.decoviewlib.DecoView;
@@ -45,7 +46,8 @@ public class ViewHolderData extends ViewHolder {
         DayData d = getNewestData();
         User activeUser = UserDAO.getInstance().getUserLoggedIn();
         int size = activeUser.getGoals().size();
-        RealmList<Goal> goals = activeUser.getGoals().get(size-1).getGoals();
+        RealmList<GoalHistory> temp = activeUser.getGoals();
+        RealmList<Goal> goals = activeUser.getGoals().get(0).getGoals();
         int numofgoals = goals.size();
 
         int emptyGoals = 0;
