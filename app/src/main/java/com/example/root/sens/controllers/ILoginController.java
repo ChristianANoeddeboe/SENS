@@ -1,7 +1,7 @@
 package com.example.root.sens.controllers;
 
 import com.example.root.sens.UserObserver;
-import com.example.root.sens.dto.SetGoalItemModel;
+import com.example.root.sens.recyclers.adapters.itemmodels.SetGoalItemModel;
 
 import java.util.Date;
 import java.util.List;

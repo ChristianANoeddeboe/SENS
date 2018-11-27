@@ -65,7 +65,7 @@
             app:layout_constraintTop_toBottomOf="@+id/pager" />
     </LinearLayout>
 
-    <com.example.root.sens.view.NonSwipeableViewPager
+    <com.example.root.sens.views.NonSwipeableViewPager
         android:id="@+id/pager"
         android:layout_width="0dp"
         android:layout_height="0dp"
