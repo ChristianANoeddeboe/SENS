@@ -1,6 +1,7 @@
 package com.example.root.sens;
 
 import com.example.root.sens.dao.IUserDao;
+import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
 import com.example.root.sens.dto.Sensor;
@@ -54,6 +55,8 @@ public class UserManager {
 
         user.setGoals(goalHistories);
         user.notifyObservers(User.GOALDATA);
+        RealmList<DayData> daydata = new RealmList<>();
+        user.setDayData(daydata);
     }
 
     public void saveUser(){
