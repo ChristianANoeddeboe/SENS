@@ -7,6 +7,7 @@ import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
 import com.example.root.sens.dto.Record;
+import com.example.root.sens.dto.Sensor;
 import com.example.root.sens.dto.User;
 
 import java.text.DateFormat;
@@ -18,7 +19,8 @@ import io.realm.RealmList;
 
 public class data {
 
-    public static User user = new User("Hans hansen", Calendar.getInstance().getTime());
+    public static User user = new User("Hans", "Hansen",   Calendar.getInstance().getTime());
+
     private static DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
     private static RealmList<GoalHistory> goalHistories = new RealmList<>();
     static {
@@ -42,6 +44,7 @@ public class data {
            GoalHistory temp2 = new GoalHistory(2,df.parse("11/10/2018"),goals2);
            goalHistories.add(temp2);
            user.setGoals(goalHistories);
+           user.setSensors(new RealmList<>(new Sensor("1234")));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -83,8 +86,6 @@ public class data {
     }
     static{
         user.setDayData(dayData);
-
-
     }
 
 

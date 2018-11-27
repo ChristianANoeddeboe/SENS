@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.root.sens.R;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class DatePickerFragment extends DialogFragment
@@ -23,7 +24,6 @@ public class DatePickerFragment extends DialogFragment
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
-
         datePickerText = getActivity().findViewById(R.id.tv_user_config_birth_date);
 
         // Create a new instance of DatePickerDialog and return it
@@ -32,6 +32,10 @@ public class DatePickerFragment extends DialogFragment
 
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        datePickerText.setText(day + "/" + month + "/"  + year);
+       Calendar c = Calendar.getInstance();
+       c.set(year, month, day);
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String formattedDate = df.format(c.getTime());
+        datePickerText.setText(formattedDate);
     }
 }

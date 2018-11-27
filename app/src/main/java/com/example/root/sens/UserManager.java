@@ -3,8 +3,13 @@ package com.example.root.sens;
 import com.example.root.sens.dao.IUserDao;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
+import com.example.root.sens.dto.Sensor;
+import com.example.root.sens.dto.SetGoalItemModel;
 import com.example.root.sens.dto.User;
 import java.util.Date;
+import java.util.List;
+
+import io.realm.RealmList;
 
 public class UserManager {
     IUserDao userDao;
@@ -14,18 +19,35 @@ public class UserManager {
         this.userDao = userDao;
     }
 
-    public User getUserFromDb(String sensorId){
-        if(user==null){
-            user = userDao.getUser(sensorId);
+    public void createUser(User user, String sensorID, UserObserver userObserver){
+        this.user = user;
+        user.setSensors(new RealmList<>(new Sensor(sensorID)));
+        user.addObserver(userObserver);
+        user.notifyObservers(User.USERDATA);
+    }
+
+    public void createGoals(List<SetGoalItemModel> goals){
+        RealmList<Goal> list = new RealmList<>();
+        for(SetGoalItemModel goal : goals){
+            list.add(new Goal(goal.getPrimaryTxt(), goal.getValue()));
         }
-        return user;
+
+        GoalHistory goalHistory = new GoalHistory();
+        goalHistory.setGoals(list);
+
+        RealmList<GoalHistory> goalHistories = new RealmList<>();
+
+        goalHistories.add(goalHistory);
+
+        user.setGoals(goalHistories);
+        user.notifyObservers(User.GOALDATA);
     }
 
-    public void createUser(User user){
-
+    public void saveUser(){
+        userDao.saveUser(user);
     }
 
-    public void createGoals(Goal[] goals){
-
+    public User getUser(String sensorID){
+        return userDao.getUser(sensorID);
     }
 }

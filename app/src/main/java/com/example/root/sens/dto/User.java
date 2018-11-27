@@ -1,25 +1,50 @@
 package com.example.root.sens.dto;
 
+import com.example.root.sens.UserObserver;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 public class User extends RealmObject {
+    @Ignore
+    public static final String USERDATA = "userdata";
+    @Ignore
+    public static final String GOALDATA = "goaldata";
+    @Ignore
+    private List<UserObserver> observers = new ArrayList<>();
     @PrimaryKey
+    private String firstName;
+    private String lastName;
+
+    public RealmList<Sensor> getSensors() {
+        return sensors;
+    }
+
+    public void setSensors(RealmList<Sensor> sensors) {
+        this.sensors = sensors;
+    }
+
     private String id = UUID.randomUUID().toString();
     private String name;
+
     private RealmList<Sensor> sensors;
     private Date birthday;
     private RealmList<GoalHistory> goals;
     private RealmList<DayData> dayData;
 
     public User(){}
-    public User(String name, Date birthday) {
-        this.name = name;
+
+
+    public User(String firstName, String lastName, Date birthday) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.birthday = birthday;
     }
 
@@ -31,20 +56,19 @@ public class User extends RealmObject {
         this.id = id;
     }
 
-    public RealmList<Sensor> getSensors() {
-        return sensors;
+
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setSensors(RealmList<Sensor> sensors) {
-        this.sensors = sensors;
-    }
 
     public String getName() {
         return name;
+
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public Date getBirthday() {
@@ -69,5 +93,42 @@ public class User extends RealmObject {
 
     public void setDayData(RealmList<DayData> dayData) {
         this.dayData = dayData;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "observers=" + observers +
+                ", id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", sensors=" + sensors +
+                ", birthday=" + birthday +
+                ", goals=" + goals +
+                ", dayData=" + dayData +
+                '}';
+    }
+
+    public void notifyObservers(String tag){
+        for(UserObserver observer : observers){
+            observer.update(tag, this);
+        }
+    }
+
+    public void addObserver(UserObserver userObserver){
+        observers.add(userObserver);
+    }
+
+    public void removeObserver(UserObserver userObserver){
+        observers.remove(userObserver);
+    }
+
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

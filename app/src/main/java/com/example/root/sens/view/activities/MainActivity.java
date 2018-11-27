@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity
         pagerSlidingTabStrip.setIndicatorColorResource(R.color.sensBlue);
         pagerSlidingTabStrip.setViewPager(viewPager);
         UserDAO d = new UserDAO();
-        d.createUser(data.user);
+//        d.createUser(data.user);
     }
 
     @Override

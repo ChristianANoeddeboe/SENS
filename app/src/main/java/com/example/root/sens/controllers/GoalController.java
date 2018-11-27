@@ -1,4 +1,4 @@
-package com.example.root.sens.Controllers;
+package com.example.root.sens.controllers;
 
 public class GoalController {
     /**

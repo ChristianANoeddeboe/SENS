@@ -9,14 +9,29 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.root.sens.Controlles.ILoginController;
+import com.example.root.sens.controllers.ILoginController;
 import com.example.root.sens.R;
+import com.example.root.sens.controllers.LoginController;
+import com.example.root.sens.dao.UserDAO;
+import com.example.root.sens.dto.Sensor;
+import com.example.root.sens.dto.User;
+
+import java.util.Calendar;
+
+import io.realm.RealmList;
 
 public class Login extends AppCompatActivity {
-    ILoginController loginController;
+    private final static String TAG = Login.class.getSimpleName();
+    ILoginController loginController = new LoginController();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        UserDAO userDAO = new UserDAO();
+//        User user = new User("Kenneth", "Klodshans", Calendar.getInstance().getTime());
+//        user.setSensors(new RealmList<>(new Sensor("1234")));
+//        userDAO.createUser(user);
+//        userDAO.saveUser(user);
 
         setContentView(R.layout.activity_login);
 
@@ -24,14 +39,38 @@ public class Login extends AppCompatActivity {
         Button login = findViewById(R.id.login_btn);
         Button help = findViewById(R.id.help_btn);
 
-        login.setOnClickListener((View v) ->{
-                Intent i = new Intent(getApplicationContext(), UserConfigActivity.class);
+        login.setOnClickListener((View v) -> {
+            String sensorID = String.valueOf(sensorField.getText());
+
+            if (sensorID.length() == 0) {
+                Toast.makeText(this, "Du skal angive et sensor id for at fortsætte", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (checkForUser(sensorID)) {
+                Toast.makeText(this, "This is an user!", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
-                getWindow().setEnterTransition(new Slide());
+                return;
+            } else {
+                Toast.makeText(this, "No user found", Toast.LENGTH_SHORT).show();
+            }
+
+            Intent i = new Intent(getApplicationContext(), UserConfigActivity.class);
+            Bundle b = new Bundle();
+            b.putString("sensorID", sensorID);
+            i.putExtras(b);
+            startActivity(i);
+            getWindow().setEnterTransition(new Slide());
         });
 
-        help.setOnClickListener((View v) ->{
+        help.setOnClickListener((View v) -> {
             Toast.makeText(this, "Not implemented yet!", Toast.LENGTH_LONG).show();
         });
+    }
+
+    private boolean checkForUser(String sensorID) {
+        return loginController.isUser(sensorID);
     }
 }

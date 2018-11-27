@@ -1,5 +1,6 @@
 package com.example.root.sens.view.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -10,21 +11,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.root.sens.UserObserver;
 import com.example.root.sens.dto.ConfirmGoalItemModel;
 import com.example.root.sens.R;
 import com.example.root.sens.adapters.ConfirmGoalAdapter;
+import com.example.root.sens.dto.User;
 import com.example.root.sens.view.activities.UserConfigActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class UserConfigConfirmInfoFragment extends Fragment implements ViewPager.OnPageChangeListener {
+public class UserConfigConfirmInfoFragment extends Fragment implements UserObserver {
     private final static String TAG = UserConfigConfirmInfoFragment.class.getSimpleName();
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private List<ConfirmGoalItemModel> recyclerItems = new ArrayList<>();
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,7 +46,7 @@ public class UserConfigConfirmInfoFragment extends Fragment implements ViewPager
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        // mRecyclerView.setHasFixedSize(true);
+         mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getContext());
@@ -63,39 +73,37 @@ public class UserConfigConfirmInfoFragment extends Fragment implements ViewPager
     }
 
     @Override
-    public void onPageScrolled(int i, float v, int i1) {
-        //nothing
-    }
-
-    @Override
-    public void onPageSelected(int i) {
-        if (i == UserConfigActivity.CONFIRM_INFO_POS) {
-            replaceOldListWithNewList();
+    public void update(String tag, User user) {
+        switch (tag) {
+            case User.USERDATA:
+                updateRecycler(0, "Fornavn", user.getFirstName());
+                updateRecycler(1, "Efternavn", user.getLastName());
+                updateRecycler(2, "Fødselsdag", dateFormat(user.getBirthday()));
+                break;
+            case User.GOALDATA:
+                updateRecycler(3, "Cykling", String.valueOf(user.getGoals().get(0).getGoals().get(0).getValue()));
+                updateRecycler(4, "Gang", String.valueOf(user.getGoals().get(0).getGoals().get(1).getValue()));
+                updateRecycler(5, "Træning", String.valueOf(user.getGoals().get(0).getGoals().get(2).getValue()));
+                updateRecycler(6, "Stå", String.valueOf(user.getGoals().get(0).getGoals().get(3).getValue()));
+                updateRecycler(7, "Anden bevægelse", String.valueOf(user.getGoals().get(0).getGoals().get(4).getValue()));
+                break;
+            default:
         }
     }
 
-    @Override
-    public void onPageScrollStateChanged(int i) {
-        //nothing
+    private void updateRecycler(int position, String description, String value){
+        try {
+            List<ConfirmGoalItemModel> list = ((ConfirmGoalAdapter) mAdapter).getmDataSet();
+            list.set(position, new ConfirmGoalItemModel(description, value));
+            mAdapter.notifyDataSetChanged();
+        }catch (NullPointerException e){
+            Log.e(TAG, e.getMessage() + "\n\n" + e.getStackTrace().toString());
+        }
     }
 
-    private void replaceOldListWithNewList() {
-        // clear old list
-        recyclerItems.clear();
-
-        // add new list
-        List<ConfirmGoalItemModel> newList = new ArrayList<>();
-        newList.add(new ConfirmGoalItemModel("Fornavn", getArguments().getString("Fornavn")));
-        newList.add(new ConfirmGoalItemModel("Efternavn", getArguments().getString("Efternavn")));
-        newList.add(new ConfirmGoalItemModel("Fødselsdag", getArguments().getString("Fødselsdag")));
-        newList.add(new ConfirmGoalItemModel("Cykling", getArguments().getString("Cykling")));
-        newList.add(new ConfirmGoalItemModel("Gang", getArguments().getString("Gang")));
-        newList.add(new ConfirmGoalItemModel("Træning", getArguments().getString("Træning")));
-        newList.add(new ConfirmGoalItemModel("Stå", getArguments().getString("Stå")));
-        newList.add(new ConfirmGoalItemModel("Anden bevægelse", getArguments().getString("Anden bevægelse")));
-        recyclerItems.addAll(newList);
-
-        // notify adapter
-        mAdapter.notifyDataSetChanged();
+    private String dateFormat(Date date){
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String formattedDate = df.format(date);
+        return formattedDate;
     }
 }
