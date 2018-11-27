@@ -124,4 +124,20 @@ public class User extends RealmObject {
     public void setSensors(RealmList<Sensor> sensors) {
         this.sensors = sensors;
     }
+
+    public static String getUSERDATA() {
+        return USERDATA;
+    }
+
+    public static String getGOALDATA() {
+        return GOALDATA;
+    }
+
+    public List<UserObserver> getObservers() {
+        return observers;
+    }
+
+    public void setObservers(List<UserObserver> observers) {
+        this.observers = observers;
+    }
 }

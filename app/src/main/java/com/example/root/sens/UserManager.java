@@ -58,7 +58,8 @@ public class UserManager {
 
     public void saveUser(){
         userDao.saveUser(user);
-        userDao.setUserLoggedIn(user);
+        userDao.setUserLoggedIn(userDao.getUser(user.getSensors().get(0).getId()));
+        data.initializeData();
     }
 
     public User getUser(String sensorID){
