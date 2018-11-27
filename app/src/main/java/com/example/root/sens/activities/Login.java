@@ -31,7 +31,7 @@ public class Login extends AppCompatActivity {
         EditText sensorField = findViewById(R.id.key_text);
         Button login = findViewById(R.id.login_btn);
         Button help = findViewById(R.id.help_btn);
-
+        sensorField.setText("17-3B.BA");
         login.setOnClickListener((View v) -> {
             String sensorID = String.valueOf(sensorField.getText());
 
@@ -41,7 +41,6 @@ public class Login extends AppCompatActivity {
             }
 
             if (checkForUser(sensorID)) {
-                Toast.makeText(this, "This is an user!", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 Bundle b = new Bundle();
                 b.putString("snackbar", "Text to show in the snackbar");
