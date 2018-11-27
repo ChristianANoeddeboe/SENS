@@ -3,12 +3,14 @@ package com.example.root.sens.adapters;
 import android.graphics.Color;
 import android.view.View;
 
+import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
 import com.example.root.sens.dto.Record;
 import com.example.root.sens.R;
 import com.example.root.sens.data;
+import com.example.root.sens.dto.User;
 import com.example.root.sens.view.fragments.interfaces.ListItem;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -30,13 +32,14 @@ public class ViewHolderCalendar extends ViewHolder {
     }
 
     public void bindType(ListItem item) {
-        for(DayData d : data.user.getDayData()){
+        User activeUser = UserDAO.getInstance().getUserLoggedIn();
+        for(DayData d : activeUser.getDayData()){
             long timeDelta = -1;
             GoalHistory temp = null;
             /**
              * Find the smallest difference which is positive
              */
-            for(GoalHistory g : data.user.getGoals()){
+            for(GoalHistory g : activeUser.getGoals()){
                 long temp2 = d.getStart_time().getTime() - g.getDate().getTime();
                 if((temp2 < timeDelta && temp2 >= 0)||timeDelta == -1) {
                     timeDelta = temp2;

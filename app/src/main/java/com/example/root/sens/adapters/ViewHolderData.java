@@ -6,11 +6,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dto.ActivityCategories;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.R;
 import com.example.root.sens.data;
+import com.example.root.sens.dto.User;
 import com.example.root.sens.view.fragments.interfaces.ListItem;
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
@@ -41,8 +43,9 @@ public class ViewHolderData extends ViewHolder {
 
     public void bindType(ListItem item) {
         DayData d = getNewestData();
-        int size = data.user.getGoals().size();
-        RealmList<Goal> goals = data.user.getGoals().get(size-1).getGoals();
+        User activeUser = UserDAO.getInstance().getUserLoggedIn();
+        int size = activeUser.getGoals().size();
+        RealmList<Goal> goals = activeUser.getGoals().get(size-1).getGoals();
         int numofgoals = goals.size();
 
         int emptyGoals = 0;
@@ -174,7 +177,8 @@ public class ViewHolderData extends ViewHolder {
     }
 
     private DayData getNewestData() {
-        RealmList<DayData> daydata = data.user.getDayData();
+
+        RealmList<DayData> daydata = UserDAO.getInstance().getUserLoggedIn().getDayData();
         DayData data = daydata.get(0);
         DayData temp;
         for(int i = 0 ; i < daydata.size()-1 ; i++) {

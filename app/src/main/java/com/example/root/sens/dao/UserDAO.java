@@ -5,21 +5,14 @@ import com.example.root.sens.dto.User;
 import io.realm.Realm;
 
 public class UserDAO implements IUserDao {
-    @Override
-    public void createUser(User user){
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-       /* User tempUser = realm.where(User.class).sort("id").findFirst();
-        if(tempUser == null){
-            user.setId(tempUser.getId()+1);
-        }else{
-            user.setId(1);
+    private static UserDAO instance;
+    private UserDAO(){}
+    public static UserDAO getInstance(){
+        if(instance==null){
+            instance = new UserDAO();
         }
-       */
-        realm.copyToRealm(user);
-        realm.commitTransaction();
+        return instance;
     }
-
     @Override
     public void setUserLoggedIn(User user){
         Realm realm = Realm.getDefaultInstance();
@@ -45,7 +38,15 @@ public class UserDAO implements IUserDao {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(user);
+        setUserLoggedIn(user);
         realm.commitTransaction();
+    }
+
+    @Override
+    public User getUserLoggedIn() {
+        Realm realm = Realm.getDefaultInstance();
+        Settings set = realm.where(Settings.class).findFirst();
+        return set.getLoggedInUser();
     }
 
     @Override

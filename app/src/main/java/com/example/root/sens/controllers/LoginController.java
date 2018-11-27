@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 public class LoginController implements ILoginController {
-    UserManager userManager = new UserManager(new UserDAO());
+    UserManager userManager = new UserManager(UserDAO.getInstance());
 
     @Override
     public boolean isUser(String sensorID) {

@@ -19,28 +19,19 @@ public class User extends RealmObject {
     public static final String GOALDATA = "goaldata";
     @Ignore
     private List<UserObserver> observers = new ArrayList<>();
+
     @PrimaryKey
-    private String firstName;
-    private String lastName;
-
-    public RealmList<Sensor> getSensors() {
-        return sensors;
-    }
-
-    public void setSensors(RealmList<Sensor> sensors) {
-        this.sensors = sensors;
-    }
-
     private String id = UUID.randomUUID().toString();
     private String name;
-
     private RealmList<Sensor> sensors;
     private Date birthday;
     private RealmList<GoalHistory> goals;
     private RealmList<DayData> dayData;
+    private String firstName;
+    private String lastName;
+
 
     public User(){}
-
 
     public User(String firstName, String lastName, Date birthday) {
         this.firstName = firstName;
@@ -130,5 +121,13 @@ public class User extends RealmObject {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public RealmList<Sensor> getSensors() {
+        return sensors;
+    }
+
+    public void setSensors(RealmList<Sensor> sensors) {
+        this.sensors = sensors;
     }
 }

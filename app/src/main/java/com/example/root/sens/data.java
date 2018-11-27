@@ -19,21 +19,19 @@ import io.realm.RealmList;
 
 public class data {
 
-    public static User user = new User("Hans", "Hansen",   Calendar.getInstance().getTime());
-
     private static DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-    private static RealmList<GoalHistory> goalHistories = new RealmList<>();
     static {
         try {
+           UserDAO tempdao = UserDAO.getInstance();
+           User tempuser = tempdao.getUserLoggedIn();
+
            RealmList<Goal> goals = new RealmList<>();
            goals.add(new Goal(ActivityCategories.Resting.toString(),60*8));
            goals.add(new Goal(ActivityCategories.Standing.toString(),50));
            goals.add(new Goal(ActivityCategories.Walking.toString(),300));
            goals.add(new Goal(ActivityCategories.Exercise.toString(),350));
            goals.add(new Goal(ActivityCategories.Cycling.toString(), 120));
-           GoalHistory temp =  new GoalHistory(1,df.parse("11/18/2018"),goals);
-           temp.setGoals(goals);
-           goalHistories.add(temp);
+           tempuser.getGoals().add(new GoalHistory(1,df.parse("11/18/2018"),goals));
 
            RealmList<Goal> goals2 = new RealmList<>();
            goals2.add(new Goal(ActivityCategories.Resting.toString(),60*8));
@@ -41,10 +39,8 @@ public class data {
            goals2.add(new Goal(ActivityCategories.Walking.toString(),400));
            goals2.add(new Goal(ActivityCategories.Exercise.toString(),550));
            goals2.add(new Goal(ActivityCategories.Cycling.toString(), 360));
-           GoalHistory temp2 = new GoalHistory(2,df.parse("11/10/2018"),goals2);
-           goalHistories.add(temp2);
-           user.setGoals(goalHistories);
-           user.setSensors(new RealmList<>(new Sensor("1234")));
+           tempuser.getGoals().add(new GoalHistory(2,df.parse("11/10/2018"),goals2));
+           tempdao.saveUser(tempuser);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -79,15 +75,13 @@ public class data {
             temp3.add( new Record(0, ActivityCategories.Exercise.toString()));
             temp3.add( new Record(100,ActivityCategories.Cycling.toString()));
             dayData.add(new DayData(sensDf.parse("2018-11-16T23:00:00"),sensDf.parse("2018-11-17T23:00:00"),temp3));
-
+            UserDAO tempdao = UserDAO.getInstance();
+            User tempuser = tempdao.getUserLoggedIn();
+            tempuser.setDayData(dayData);
+            tempdao.saveUser(tempuser);
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
-    static{
-        user.setDayData(dayData);
-    }
-
-
 
 }
