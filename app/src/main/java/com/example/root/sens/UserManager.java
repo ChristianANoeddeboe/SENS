@@ -1,6 +1,9 @@
 package com.example.root.sens;
 
+import android.util.Log;
+
 import com.example.root.sens.dao.IUserDao;
+import com.example.root.sens.dto.ActivityCategories;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
@@ -20,7 +23,7 @@ import io.realm.RealmList;
 public class UserManager {
     IUserDao userDao;
     private User user = null;
-
+    private static final String TAG = "USERMANAGER";
     public UserManager(IUserDao userDao){
         this.userDao = userDao;
     }
@@ -35,15 +38,35 @@ public class UserManager {
     public void createGoals(List<SetGoalItemModel> goals){
         RealmList<Goal> list = new RealmList<>();
         for(SetGoalItemModel goal : goals){
-            list.add(new Goal(goal.getPrimaryTxt(), goal.getValue()));
+            switch(goal.getPrimaryTxt()){
+                case "Cykling":
+                    list.add(new Goal(ActivityCategories.Cycling.toString(),goal.getValue()));
+                    break;
+                case "Gang":
+                    list.add(new Goal(ActivityCategories.Walking.toString(),goal.getValue()));
+                    break;
+                case "Træning":
+                    list.add(new Goal(ActivityCategories.Exercise.toString(),goal.getValue()));
+                    break;
+                case "Stå":
+                    list.add(new Goal(ActivityCategories.Standing.toString(),goal.getValue()));
+                    break;
+                case "Søvn":
+                    list.add(new Goal(ActivityCategories.Resting.toString(),goal.getValue()));
+                    break;
+                default:
+                    //TODO: Throw error
+                    break;
+            }
         }
 
         GoalHistory goalHistory = new GoalHistory();
         goalHistory.setGoals(list);
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-        String MM = Integer.toString(Calendar.getInstance().get(Calendar.MONTH));
+        String MM = Integer.toString(Calendar.getInstance().get(Calendar.MONTH)+1);
         String dd = Integer.toString(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         String yyyy = Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
+        Log.d(TAG,MM+"/"+dd+"/"+yyyy);
         try {
             goalHistory.setDate(df.parse(MM+"/"+dd+"/"+yyyy));
         } catch (ParseException e) {
