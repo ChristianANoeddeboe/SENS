@@ -83,12 +83,9 @@ public class UserConfigActivity extends AppCompatActivity {
                 case 0:
                     String firstName = String.valueOf(((EditText) findViewById(R.id.tv_user_config_name_first)).getText());
                     String lastName = String.valueOf(((EditText) findViewById(R.id.tv_user_config_name_last)).getText());
-                    Date date = parseDate(String.valueOf(((TextView) findViewById(R.id.tv_user_config_birth_date)).getText()));
                     String sensorID = getIntent().getExtras().getString("sensorID", "0");
-                    if(firstName.length() == 0 || lastName.length() == 0 || date == null){
-                        Toast.makeText(this, "Du skal udfylde alle felter før du kan gå videre", Toast.LENGTH_SHORT).show();
-                        break;
-                    }
+                    Date date = parseDate(String.valueOf(((TextView) findViewById(R.id.tv_user_config_birth_date)).getText()));
+
                     loginController.save1(firstName, lastName, date, sensorID , confirmInfoFragment);
 
                     switchPage(v, 1);
