@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".view.fragments.HistoryFragment">
+    tools:context=".fragments.HistoryFragment">
 
 
     <android.support.v7.widget.RecyclerView

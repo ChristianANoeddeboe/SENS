@@ -8,14 +8,13 @@ import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
 import com.example.root.sens.dto.Sensor;
-import com.example.root.sens.dto.SetGoalItemModel;
+import com.example.root.sens.recyclers.adapters.itemmodels.SetGoalItemModel;
 import com.example.root.sens.dto.User;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import io.realm.RealmList;
