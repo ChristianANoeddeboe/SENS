@@ -22,7 +22,6 @@ public class User extends RealmObject {
 
     @PrimaryKey
     private String id = UUID.randomUUID().toString();
-    private String name;
     private RealmList<Sensor> sensors;
     private Date birthday;
     private RealmList<GoalHistory> goals;
@@ -52,11 +51,6 @@ public class User extends RealmObject {
         return firstName;
     }
 
-
-    public String getName() {
-        return name;
-
-    }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;

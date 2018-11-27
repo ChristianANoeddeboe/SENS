@@ -6,6 +6,11 @@ import com.example.root.sens.dto.GoalHistory;
 import com.example.root.sens.dto.Sensor;
 import com.example.root.sens.dto.SetGoalItemModel;
 import com.example.root.sens.dto.User;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +39,15 @@ public class UserManager {
 
         GoalHistory goalHistory = new GoalHistory();
         goalHistory.setGoals(list);
-
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        String MM = Integer.toString(Calendar.getInstance().get(Calendar.MONTH));
+        String dd = Integer.toString(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        String yyyy = Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
+        try {
+            goalHistory.setDate(df.parse(MM+"/"+dd+"/"+yyyy));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         RealmList<GoalHistory> goalHistories = new RealmList<>();
 
         goalHistories.add(goalHistory);
@@ -45,6 +58,7 @@ public class UserManager {
 
     public void saveUser(){
         userDao.saveUser(user);
+        userDao.setUserLoggedIn(user);
     }
 
     public User getUser(String sensorID){

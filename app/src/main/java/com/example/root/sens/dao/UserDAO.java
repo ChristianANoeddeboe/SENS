@@ -3,6 +3,7 @@ package com.example.root.sens.dao;
 import com.example.root.sens.dto.Settings;
 import com.example.root.sens.dto.User;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class UserDAO implements IUserDao {
     private static UserDAO instance;
@@ -21,8 +22,10 @@ public class UserDAO implements IUserDao {
         if(settings == null){
             settings = new Settings();
         }
-        settings.setLoggedInUser(user);
-        realm.copyToRealm(settings);
+        String id = user.getSensors().get(0).getId();
+        User temp = getUser(id);
+        settings.setLoggedInUser(temp);
+        realm.copyToRealmOrUpdate(settings);
         realm.commitTransaction();
     }
     @Override
@@ -42,7 +45,6 @@ public class UserDAO implements IUserDao {
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(user);
         realm.commitTransaction();
-        setUserLoggedIn(user);
     }
 
     @Override
@@ -55,6 +57,7 @@ public class UserDAO implements IUserDao {
     @Override
     public User getUser(String sensorId){
         Realm realm = Realm.getDefaultInstance();
+        RealmResults<User>
         User user = realm.where(User.class).equalTo("sensors.id",sensorId).findFirst();
         return user;
     }
