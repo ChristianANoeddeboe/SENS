@@ -18,8 +18,11 @@ public class UserDAO implements IUserDao {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         Settings settings = realm.where(Settings.class).findFirst();
+        if(settings == null){
+            settings = new Settings();
+        }
         settings.setLoggedInUser(user);
-        realm.copyToRealmOrUpdate(settings);
+        realm.copyToRealm(settings);
         realm.commitTransaction();
     }
     @Override
@@ -38,8 +41,8 @@ public class UserDAO implements IUserDao {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(user);
-        setUserLoggedIn(user);
         realm.commitTransaction();
+        setUserLoggedIn(user);
     }
 
     @Override
