@@ -52,8 +52,7 @@ public class UserConfigGoalInfoFragment extends Fragment {
         items.add(new SetGoalItemModel("Gang"));
         items.add(new SetGoalItemModel("Træning"));
         items.add(new SetGoalItemModel("Stå"));
-        items.add(new SetGoalItemModel("Anden bevægelse"));
-
+        items.add(new SetGoalItemModel("Søvn"));
         return items;
     }
 
