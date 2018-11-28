@@ -21,11 +21,15 @@ import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.root.sens.R;
+import com.example.root.sens.activities.SettingsActivity;
+import com.example.root.sens.dao.SensDAO;
+import com.example.root.sens.dao.SensObserver;
+import com.example.root.sens.dao.Subject;
 import com.example.root.sens.fragments.HistoryFragment;
 import com.example.root.sens.fragments.OverviewFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, SensObserver {
 
     private ViewPager viewPager;
     private Subject s;
