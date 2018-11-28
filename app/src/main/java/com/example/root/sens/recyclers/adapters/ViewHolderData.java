@@ -2,8 +2,11 @@ package com.example.root.sens.adapters;
 
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.root.sens.dao.UserDAO;
@@ -11,6 +14,7 @@ import com.example.root.sens.dto.ActivityCategories;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.R;
+import com.example.root.sens.dto.GoalHistory;
 import com.example.root.sens.dto.User;
 import com.example.root.sens.fragments.interfaces.ListItem;
 import com.hookedonplay.decoviewlib.DecoView;
@@ -24,9 +28,12 @@ public class ViewHolderData extends ViewHolder {
     private final DecoView progressCircle;
     private TextView exerciseText, standingText, walkingText, restText, cyclingText;
     private ImageView exerciseLogo, standingLogo, walkingLogo, restLogo, cyclingLogo;
+    private LinearLayout layout;
     public ViewHolderData(View itemView) {
         super(itemView);
+        layout = itemView.findViewById(R.id.iconContainer);
         progressCircle = itemView.findViewById(R.id.dynamicArcView);
+        /*
         exerciseText = itemView.findViewById(R.id.exerciselogotxt);
         standingText = itemView.findViewById(R.id.standinglogotxt);
         walkingText = itemView.findViewById(R.id.walkinglogotxt);
@@ -38,11 +45,14 @@ public class ViewHolderData extends ViewHolder {
         walkingLogo = itemView.findViewById(R.id.walkinglogo);
         restLogo = itemView.findViewById(R.id.restlogo);
         cyclingLogo = itemView.findViewById(R.id.cyclinglogo);
+        */
     }
 
     public void bindType(ListItem item) {
+
         DayData d = getNewestData();
         User activeUser = UserDAO.getInstance().getUserLoggedIn();
+        RealmList<GoalHistory> g = activeUser.getGoals();
         int size = activeUser.getGoals().size();
         //TODO: Actually loop through and check that the newest date
         RealmList<Goal> goals = activeUser.getGoals().get(0).getGoals();
@@ -69,6 +79,7 @@ public class ViewHolderData extends ViewHolder {
 
         float inset = -((progresswidth * ((numofgoals-emptyGoals) - 1)) / 2);
         int max, current;
+
         for (int i = 0; i < numofgoals; i++) {
             Goal currGoal = goals.get(i);
             max = currGoal.getValue();
@@ -77,7 +88,8 @@ public class ViewHolderData extends ViewHolder {
                 if(current > max) {
                     current = max;
                 }
-                addGoalIcon(currGoal, current);
+                //addGoalIcon(currGoal, current);
+                generateIcons(currGoal,current);
                 progressCircle.addSeries(new SeriesItem.Builder(getGoalColor(currGoal.getType()))
                         .setRange(0, max, current)
                         .setLineWidth(progresswidth)
@@ -86,7 +98,7 @@ public class ViewHolderData extends ViewHolder {
 
                 inset += progresswidth;
             } else {
-                removeGoalIcon(currGoal.getType());
+                //removeGoalIcon(currGoal.getType());
             }
 
         }
@@ -101,13 +113,50 @@ public class ViewHolderData extends ViewHolder {
             case Walking:
                 return Color.argb(255, 76, 175, 80);
             case Cycling:
-                return Color.argb(244, 244, 67, 54);
-            case Exercise:
                 return Color.argb(255, 255, 152, 0);
+            case Exercise:
+                return Color.argb(244, 244, 67, 54);
             default:
                 return Color.argb(255, 0, 0, 0);
         }
     }
+
+
+    private void generateIcons(Goal curr, int currentGoalValue) {
+        ImageView temp = new ImageView(layout.getContext());
+        LinearLayout ll = new LinearLayout(layout.getContext());
+        ll.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(0, 0, 8, 0);
+
+
+        TextView t = new TextView(layout.getContext());
+        t.setText(Integer.toString(currentGoalValue)+"/"+Integer.toString(curr.getValue()));
+        t.setGravity(Gravity.CENTER_HORIZONTAL);
+        ll.addView(t);
+
+        switch (curr.getType()) {
+            case Resting:
+                temp.setImageResource(R.mipmap.icon_resting);
+                break;
+            case Standing:
+                temp.setImageResource(R.mipmap.icon_standing);
+                break;
+            case Walking:
+                temp.setImageResource(R.mipmap.icon_walking);
+                break;
+            case Cycling:
+                temp.setImageResource(R.mipmap.icon_cycling);
+                break;
+            case Exercise:
+                temp.setImageResource(R.mipmap.icon_exercise);
+                break;
+        }
+        ll.addView(temp);
+        layout.addView(ll,layoutParams);
+    }
+
 
     /*
     private void chooseGoalIcons(RealmList<Goal> allGoals, DayData dayGoals) {
@@ -121,61 +170,6 @@ public class ViewHolderData extends ViewHolder {
         }
     }*/
 
-    private void removeGoalIcon(ActivityCategories curr) {
-        switch (curr) {
-            case Resting:
-                restLogo.setVisibility(View.GONE);
-                restText.setVisibility(View.GONE);
-                break;
-            case Standing:
-                standingLogo.setVisibility(View.GONE);
-                standingText.setVisibility(View.GONE);
-                break;
-            case Walking:
-                walkingLogo.setVisibility(View.GONE);
-                walkingText.setVisibility(View.GONE);
-                break;
-            case Cycling:
-                cyclingLogo.setVisibility(View.GONE);
-                cyclingText.setVisibility(View.GONE);
-                break;
-            case Exercise:
-                exerciseLogo.setVisibility(View.GONE);
-                exerciseText.setVisibility(View.GONE);
-                break;
-        }
-    }
-
-    private void addGoalIcon(Goal curr, int currentGoalValue) {
-        switch (curr.getType()) {
-            case Resting:
-                restLogo.setVisibility(View.VISIBLE);
-                restText.setVisibility(View.VISIBLE);
-                restText.setText(createIconText(curr, currentGoalValue));
-                break;
-            case Standing:
-                standingLogo.setVisibility(View.VISIBLE);
-                standingText.setVisibility(View.VISIBLE);
-                standingText.setText(createIconText(curr, currentGoalValue));
-                break;
-            case Walking:
-                walkingLogo.setVisibility(View.VISIBLE);
-                walkingText.setVisibility(View.VISIBLE);
-                walkingText.setText(createIconText(curr, currentGoalValue));
-                break;
-            case Exercise:
-                cyclingLogo.setVisibility(View.VISIBLE);
-                cyclingText.setVisibility(View.VISIBLE);
-                cyclingText.setText(createIconText(curr, currentGoalValue));
-                break;
-            case Cycling:
-                exerciseLogo.setVisibility(View.VISIBLE);
-                exerciseText.setVisibility(View.VISIBLE);
-                exerciseText.setText(createIconText(curr, currentGoalValue));
-                break;
-        }
-    }
-
     private DayData getNewestData() {
 
         RealmList<DayData> daydata = UserDAO.getInstance().getUserLoggedIn().getDayData();
@@ -188,12 +182,6 @@ public class ViewHolderData extends ViewHolder {
             }
         }
         return data;
-    }
-
-    private String createIconText(Goal curr, int currentGoalValue) {
-        String current = ""+currentGoalValue;
-        String total = ""+curr.getValue();
-        return current+"/"+total;
     }
 
     private boolean isToday(DayData d) {

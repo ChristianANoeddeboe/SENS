@@ -101,7 +101,6 @@ public class UserConfigConfirmInfoFragment extends Fragment implements UserObser
 
     private String dateFormat(Date date){
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        String formattedDate = df.format(date);
-        return formattedDate;
+        return (date == null) ?  "" :  df.format(date);
     }
 }
