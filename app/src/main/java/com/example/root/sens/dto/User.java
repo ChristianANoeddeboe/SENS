@@ -1,6 +1,6 @@
 package com.example.root.sens.dto;
 
-import com.example.root.sens.UserObserver;
+import com.example.root.sens.dao.interfaces.UserObserver;
 
 import java.util.ArrayList;
 import java.util.Date;

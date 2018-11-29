@@ -1,11 +1,11 @@
 package com.example.root.sens.dao;
 
+import com.example.root.sens.dao.interfaces.IUserDao;
 import com.example.root.sens.dto.Sensor;
 import com.example.root.sens.dto.Settings;
 import com.example.root.sens.dto.User;
 import io.realm.Realm;
 import io.realm.RealmList;
-import io.realm.RealmResults;
 
 public class UserDAO implements IUserDao {
     private static UserDAO instance;

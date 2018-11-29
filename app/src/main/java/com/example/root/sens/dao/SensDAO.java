@@ -4,6 +4,9 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
 
+import com.example.root.sens.dao.interfaces.ISensAPI;
+import com.example.root.sens.dao.interfaces.SensObserver;
+import com.example.root.sens.dao.interfaces.Subject;
 import com.example.root.sens.dto.ActivityCategories;
 import com.example.root.sens.dto.Record;
 import com.example.root.sens.dto.sensresponse.Datum;

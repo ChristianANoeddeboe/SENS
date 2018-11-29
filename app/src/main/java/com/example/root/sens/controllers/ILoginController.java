@@ -1,6 +1,6 @@
 package com.example.root.sens.controllers;
 
-import com.example.root.sens.UserObserver;
+import com.example.root.sens.dao.interfaces.UserObserver;
 import com.example.root.sens.recyclers.adapters.itemmodels.SetGoalItemModel;
 
 import java.util.Date;

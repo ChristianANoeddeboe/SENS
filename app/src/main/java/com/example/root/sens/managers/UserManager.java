@@ -1,8 +1,10 @@
-package com.example.root.sens;
+package com.example.root.sens.managers;
 
 import android.util.Log;
 
-import com.example.root.sens.dao.IUserDao;
+import com.example.root.sens.dao.interfaces.UserObserver;
+import com.example.root.sens.dao.interfaces.IUserDao;
+import com.example.root.sens.data;
 import com.example.root.sens.dto.ActivityCategories;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
