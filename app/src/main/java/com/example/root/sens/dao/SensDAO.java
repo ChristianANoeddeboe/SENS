@@ -4,10 +4,21 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
 
-import com.example.root.sens.dto.Response;
+import com.example.root.sens.dto.ActivityCategories;
+import com.example.root.sens.dto.Record;
+import com.example.root.sens.dto.sensresponse.Datum;
+import com.example.root.sens.dto.DayData;
+import com.example.root.sens.dto.sensresponse.Response;
+import com.example.root.sens.dto.User;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -34,18 +45,24 @@ public class SensDAO implements Callback<Response>, Subject {
 
     private SensDAO() {
     }
+
     public void getData(String patientKey){
-        Call<Response> temp = service.getDataSpecificDate(patientKey,13,"2018-20-10");
+        Call<Response> temp = service.getData("xt9w2r",14);
         temp.enqueue(new Callback<Response>() {
             @Override
             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
                 if(response.isSuccessful()){
                     Response t = response.body();
-                    Log.d(TAG,"SUCESSFULL");
-                    notifyObservers();
+                    if(t != null && t.statusMsg.equals("OK") && t.statusCode == 0){
+                        Log.d(TAG,"SUCESSFULL");
+                        notifyObservers(t);
+                    }else{
+                        Log.d(TAG, "Response was supposedly sucessfull but was not as expected" + t.toString());
+                    }
+
 
                 }else{
-
+                    if(response.errorBody().contentLength() == 67){
                     Log.d(TAG,"Retrying....");
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -59,7 +76,10 @@ public class SensDAO implements Callback<Response>, Subject {
                                 }
                             }.execute();
                         }
-                    }, 300000);
+                    }, 30000);
+                    }else{
+                        Log.d(TAG, "Some other error: " + response.errorBody());
+                    }
 
                 }
             }
@@ -108,12 +128,6 @@ public class SensDAO implements Callback<Response>, Subject {
 
     @Override
     public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-        if(response.isSuccessful()){
-            Response t = response.body();
-            Log.d(TAG,"Received response from sens");
-        }else{
-            Log.d(TAG,"Error receiving response from sens");
-        }
 
     }
 
@@ -137,7 +151,53 @@ public class SensDAO implements Callback<Response>, Subject {
     }
 
     @Override
-    public void notifyObservers() {
+    public void notifyObservers(Response r) {
+        User tempUser = UserDAO.getInstance().getUserLoggedIn();
+        RealmList<DayData>  tempUserDayData = tempUser.getDayData();
+        List<Datum> responseData = r.getData();
+        DateFormat sensDf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        //First generate the daydata from the data we have received and then merge with the users
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        for(Datum d : responseData){
+            boolean found = false;
+            RealmList<Record> tempRecords = new RealmList<>();
+            tempRecords.add(new Record(d.values.activityRestingTime,ActivityCategories.Resting.toString()));
+            tempRecords.add(new Record(d.values.activityStandingTime,ActivityCategories.Standing.toString()));
+            tempRecords.add(new Record(d.values.activityWalkingTime,ActivityCategories.Walking.toString()));
+            tempRecords.add(new Record(d.values.activityExerciseTime,ActivityCategories.Exercise.toString()));
+            tempRecords.add(new Record(d.values.activityCyclingTime,ActivityCategories.Cycling.toString()));
+            DayData temp = null;
+            try {
+                temp = new DayData(sensDf.parse(d.startTime), sensDf.parse(d.endTime),tempRecords);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            for(DayData userData : tempUserDayData){
+                if(userData.getStart_time().equals(temp.getStart_time()) && userData.getEnd_time().equals(temp.getEnd_time())){
+                    for(int i = 0; i < userData.getRecords().size(); i++){
+                        if(userData.getRecords().get(i).getType() == tempRecords.get(i).getType()){
+                            userData.getRecords().get(i).setValue(tempRecords.get(i).getValue());
+                        }else{
+                            Log.d(TAG, "FATAL ERROR WHILE TRYING TO NOTIFY OBSERVERS IN SENS DAO");
+                            System.exit(0);
+                        }
+
+                    }
+                    found = true;
+                    break;
+                }
+            }
+            if(!found){
+                tempUserDayData.add(temp);
+            }
+        }
+
+        // At this point the tempUserDayDAta realmlist has the up to date version of the day data.
+        tempUser.setDayData(tempUserDayData);
+        realm.commitTransaction();
+        UserDAO.getInstance().saveUser(tempUser);
+
         for (SensObserver observer: mObservers) {
             observer.onDataReceived();
         }

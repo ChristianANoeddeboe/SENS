@@ -1,4 +1,4 @@
-package com.example.root.sens.view.activities;
+package com.example.root.sens.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity
     private Subject s;
     private static String[] viewNames = {"Overview", "Historik"};
     SharedPreferences sharedPreferences;
-
+    private ViewpagerAdapter viewpagerAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +68,8 @@ public class MainActivity extends AppCompatActivity
                 getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
         viewPager = findViewById(R.id.viewPager);
-        viewPager.setAdapter(new ViewpagerAdapter(getSupportFragmentManager()));
+        viewpagerAdapter = new ViewpagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(viewpagerAdapter);
         viewPager.setCurrentItem(sharedPreferences.getInt(getString(R.string.pagerWindowNumber)
                 ,0));
         sharedPreferences.edit().remove(getString(R.string.pagerWindowNumber)).apply();
@@ -124,7 +125,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onDataReceived() {
-
+        viewpagerAdapter.notifyDataSetChanged();
+        //OverviewFragment f = (OverviewFragment) viewpagerAdapter.getItem(1);
+        //f.getOverviewAdapter().notifyDataSetChanged();
     }
 
     private class ViewpagerAdapter extends FragmentPagerAdapter {

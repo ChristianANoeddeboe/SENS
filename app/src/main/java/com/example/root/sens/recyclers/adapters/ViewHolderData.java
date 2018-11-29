@@ -1,4 +1,4 @@
-package com.example.root.sens.adapters;
+package com.example.root.sens.recyclers.adapters;
 
 import android.graphics.Color;
 import android.graphics.PointF;

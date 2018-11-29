@@ -1,10 +1,9 @@
 package com.example.root.sens.dao;
 
-import com.example.root.sens.dto.Response;
+import com.example.root.sens.dto.sensresponse.Response;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ISensAPI {

@@ -1,28 +1,9 @@
-package com.example.root.sens.dto;
+package com.example.root.sens.dto.sensresponse;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-/**
- * This is used for when downloading data from sens only
- */
-public class Response {
-
-    @SerializedName("status_code")
-    @Expose
-    public Integer statusCode;
-    @SerializedName("status_msg")
-    @Expose
-    public String statusMsg;
-    @SerializedName("value")
-    @Expose
-    public Value value;
-
-}
-
-class Values {
+public class Values {
 
     @SerializedName("activity/resting/time")
     @Expose
@@ -49,26 +30,6 @@ class Values {
     @Expose
     public Float activityStepsCount;
 
-}
 
-class Value {
-
-    @SerializedName("data")
-    @Expose
-    public List<Datum> data = null;
-
-}
-
-class Datum {
-
-    @SerializedName("start_time")
-    @Expose
-    public String startTime;
-    @SerializedName("end_time")
-    @Expose
-    public String endTime;
-    @SerializedName("values")
-    @Expose
-    public Values values;
 
 }
