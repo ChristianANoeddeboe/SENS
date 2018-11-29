@@ -16,6 +16,7 @@ import java.util.List;
 public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHolder> {
         private static final String TAG = "SettingsAdapter";
         private List<SetGoalItemModel> mDataSet;
+        private final static int MIN_PER_DAY = 24*60;
 
         /**
          * Provide a reference to the type of views that you are using (custom ViewHolder)
@@ -30,6 +31,7 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
                 textViewSecondary = v.findViewById(R.id.textView_set_goal_total);
 
                 SeekBar seekBar = v.findViewById(R.id.seekBar_set_goal);
+                seekBar.setMax(MIN_PER_DAY);
                 seekBar.setOnSeekBarChangeListener(seekBarChangeListener);
 
             }
@@ -38,7 +40,7 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                     // updated continuously as the user slides the thumb
-                    textViewSecondary.setText(progress + " minutter");
+                    textViewSecondary.setText(generateProgressText(progress));
                 }
 
                 @Override
@@ -95,5 +97,13 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
 
         public List<SetGoalItemModel> getmDataSet(){
             return mDataSet;
+        }
+
+        private String generateProgressText(int progress){
+            String result = null;
+            int hours = progress/60;
+            int minuttes = progress%60;
+            result = ""+hours+"Timer "+minuttes+"Minutter";
+            return result;
         }
 }
