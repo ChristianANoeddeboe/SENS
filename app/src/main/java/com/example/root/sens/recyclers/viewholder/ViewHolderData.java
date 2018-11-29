@@ -1,8 +1,7 @@
-package com.example.root.sens.recyclers.adapters;
+package com.example.root.sens.recyclers.viewholder;
 
 import android.graphics.Color;
 import android.graphics.PointF;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;

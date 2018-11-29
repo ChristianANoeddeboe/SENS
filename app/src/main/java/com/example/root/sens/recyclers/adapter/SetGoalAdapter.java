@@ -1,4 +1,4 @@
-package com.example.root.sens.recyclers.adapters;
+package com.example.root.sens.recyclers.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.example.root.sens.recyclers.adapters.itemmodels.SetGoalItemModel;
+import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
 import com.example.root.sens.R;
 
 import java.util.List;

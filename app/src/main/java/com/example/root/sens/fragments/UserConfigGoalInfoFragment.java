@@ -8,9 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.root.sens.recyclers.adapters.itemmodels.SetGoalItemModel;
+import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
 import com.example.root.sens.R;
-import com.example.root.sens.recyclers.adapters.SetGoalAdapter;
+import com.example.root.sens.recyclers.adapter.SetGoalAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

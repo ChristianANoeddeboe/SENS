@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.root.sens.R;
-import com.example.root.sens.recyclers.adapters.OverviewAdapter;
+import com.example.root.sens.recyclers.adapter.OverviewAdapter;
 import com.example.root.sens.fragments.interfaces.ListItem;
 import com.example.root.sens.fragments.interfaces.TypeCalendar;
 import com.example.root.sens.fragments.interfaces.TypeGraph;

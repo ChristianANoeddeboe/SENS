@@ -10,7 +10,7 @@ import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
 import com.example.root.sens.dto.Sensor;
-import com.example.root.sens.recyclers.adapters.itemmodels.SetGoalItemModel;
+import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
 import com.example.root.sens.dto.User;
 
 import java.text.DateFormat;

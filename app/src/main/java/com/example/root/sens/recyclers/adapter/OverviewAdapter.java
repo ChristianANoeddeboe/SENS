@@ -1,4 +1,4 @@
-package com.example.root.sens.recyclers.adapters;
+package com.example.root.sens.recyclers.adapter;
 
 
 
@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 
 import com.example.root.sens.R;
 import com.example.root.sens.fragments.interfaces.ListItem;
+import com.example.root.sens.recyclers.viewholder.ViewHolder;
+import com.example.root.sens.recyclers.viewholder.ViewHolderCalendar;
+import com.example.root.sens.recyclers.viewholder.ViewHolderData;
 
 import java.util.List;
 

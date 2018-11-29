@@ -1,4 +1,4 @@
-package com.example.root.sens.recyclers.adapters;
+package com.example.root.sens.recyclers.viewholder;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
