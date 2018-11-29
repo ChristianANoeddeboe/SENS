@@ -1,4 +1,4 @@
-package com.example.root.sens.recyclers.adapters.itemmodels;
+package com.example.root.sens.recyclers.itemmodels;
 
 public class SetGoalItemModel {
     private String primaryTxt;

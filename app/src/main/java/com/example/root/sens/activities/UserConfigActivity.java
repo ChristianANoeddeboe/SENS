@@ -16,10 +16,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.root.sens.R;
-import com.example.root.sens.recyclers.adapters.SetGoalAdapter;
+import com.example.root.sens.recyclers.adapter.SetGoalAdapter;
 import com.example.root.sens.controllers.ILoginController;
 import com.example.root.sens.controllers.LoginController;
 import com.example.root.sens.fragments.UserConfigConfirmInfoFragment;

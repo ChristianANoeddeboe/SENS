@@ -1,4 +1,4 @@
-package com.example.root.sens.recyclers.adapters;
+package com.example.root.sens.recyclers.viewholder;
 
 import android.graphics.Color;
 import android.view.View;

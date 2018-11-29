@@ -1,4 +1,4 @@
-package com.example.root.sens.recyclers.adapters;
+package com.example.root.sens.recyclers.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,7 +12,7 @@ import com.example.root.sens.R;
 
 import java.util.List;
 
-import com.example.root.sens.recyclers.adapters.itemmodels.ItemModel;
+import com.example.root.sens.recyclers.itemmodels.ItemModel;
 
 public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHolder> {
     private static final String TAG = "SettingsAdapter";

@@ -12,9 +12,9 @@ import com.example.root.sens.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.root.sens.recyclers.adapters.ItemClickListener;
-import com.example.root.sens.recyclers.adapters.SettingsAdapter;
-import com.example.root.sens.recyclers.adapters.itemmodels.ItemModel;
+import com.example.root.sens.recyclers.adapter.ItemClickListener;
+import com.example.root.sens.recyclers.adapter.SettingsAdapter;
+import com.example.root.sens.recyclers.itemmodels.ItemModel;
 
 public class SettingsActivity extends AppCompatActivity implements ItemClickListener {
     private RecyclerView mRecyclerView;

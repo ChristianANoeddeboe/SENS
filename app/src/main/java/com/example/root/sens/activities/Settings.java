@@ -10,8 +10,8 @@ import com.example.root.sens.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.root.sens.recyclers.adapters.SettingsAdapter;
-import com.example.root.sens.recyclers.adapters.itemmodels.ItemModel;
+import com.example.root.sens.recyclers.adapter.SettingsAdapter;
+import com.example.root.sens.recyclers.itemmodels.ItemModel;
 
 public class Settings extends AppCompatActivity {
     private RecyclerView mRecyclerView;

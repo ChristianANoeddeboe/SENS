@@ -3,7 +3,7 @@ package com.example.root.sens.controllers;
 import com.example.root.sens.managers.UserManager;
 import com.example.root.sens.dao.interfaces.UserObserver;
 import com.example.root.sens.dao.UserDAO;
-import com.example.root.sens.recyclers.adapters.itemmodels.SetGoalItemModel;
+import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
 import com.example.root.sens.dto.User;
 
 import java.util.Date;
