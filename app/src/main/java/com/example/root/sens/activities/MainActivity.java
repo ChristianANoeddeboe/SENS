@@ -21,16 +21,21 @@ import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.root.sens.R;
+import com.example.root.sens.activities.SettingsActivity;
+import com.example.root.sens.dao.SensDAO;
+import com.example.root.sens.dao.SensObserver;
+import com.example.root.sens.dao.Subject;
 import com.example.root.sens.fragments.HistoryFragment;
 import com.example.root.sens.fragments.OverviewFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, SensObserver {
 
     private ViewPager viewPager;
+    private Subject s;
     private static String[] viewNames = {"Overview", "Historik"};
     SharedPreferences sharedPreferences;
-
+    private ViewpagerAdapter viewpagerAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,9 +68,10 @@ public class MainActivity extends AppCompatActivity
                 getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
         viewPager = findViewById(R.id.viewPager);
-        viewPager.setAdapter(new ViewpagerAdapter(getSupportFragmentManager()));
+        viewpagerAdapter = new ViewpagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(viewpagerAdapter);
         viewPager.setCurrentItem(sharedPreferences.getInt(getString(R.string.pagerWindowNumber)
-                , 0));
+                ,0));
         sharedPreferences.edit().remove(getString(R.string.pagerWindowNumber)).apply();
 
         PagerSlidingTabStrip pagerSlidingTabStrip = findViewById(R.id.pagerTitleStrip);
@@ -73,6 +79,10 @@ public class MainActivity extends AppCompatActivity
         //pagerSlidingTabStrip.setTabBackground(R.color.white);
         pagerSlidingTabStrip.setIndicatorColorResource(R.color.sensBlue);
         pagerSlidingTabStrip.setViewPager(viewPager);
+
+        s = SensDAO.getInstance();
+        s.registerObserver(this);
+        SensDAO.getInstance().getData("6rT39u");
 
     }
 
@@ -113,6 +123,13 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public void onDataReceived() {
+        viewpagerAdapter.notifyDataSetChanged();
+        //OverviewFragment f = (OverviewFragment) viewpagerAdapter.getItem(1);
+        //f.getOverviewAdapter().notifyDataSetChanged();
+    }
+
     private class ViewpagerAdapter extends FragmentPagerAdapter {
         public ViewpagerAdapter(FragmentManager fm) {
             super(fm);
@@ -139,5 +156,11 @@ public class MainActivity extends AppCompatActivity
         public int getCount() {
             return 2;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        s.removeObserver(this);
     }
 }

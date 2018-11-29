@@ -54,7 +54,7 @@ public class ViewHolderData extends ViewHolder {
         User activeUser = UserDAO.getInstance().getUserLoggedIn();
         RealmList<GoalHistory> g = activeUser.getGoals();
         int size = activeUser.getGoals().size();
-        //TODO: Actually loop through and check that the newest date 
+        //TODO: Actually loop through and check that the newest date
         RealmList<Goal> goals = activeUser.getGoals().get(0).getGoals();
         int numofgoals = goals.size();
 

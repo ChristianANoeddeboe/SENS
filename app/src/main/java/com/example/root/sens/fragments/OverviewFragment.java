@@ -18,11 +18,14 @@ import java.util.ArrayList;
 
 
 public class OverviewFragment extends Fragment {
-
+    private OverviewAdapter overviewAdapter;
     public OverviewFragment() {
         // Required empty public constructor
     }
 
+    public OverviewAdapter getOverviewAdapter() {
+        return overviewAdapter;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,7 +40,8 @@ public class OverviewFragment extends Fragment {
         // Vi laver en arrayliste så vi kan fjerne/indsætte elementer
         recyclerView = v.findViewById(R.id.goalsRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
-        recyclerView.setAdapter(new OverviewAdapter(this.getContext(),generateData()));
+        overviewAdapter = new OverviewAdapter(this.getContext(),generateData());
+        recyclerView.setAdapter(overviewAdapter);
 
         return v;
     }
