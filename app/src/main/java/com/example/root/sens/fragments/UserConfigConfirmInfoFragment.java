@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.root.sens.UserObserver;
+import com.example.root.sens.dao.interfaces.UserObserver;
 import com.example.root.sens.recyclers.adapters.itemmodels.ConfirmGoalItemModel;
 import com.example.root.sens.R;
 import com.example.root.sens.recyclers.adapters.ConfirmGoalAdapter;

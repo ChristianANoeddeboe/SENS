@@ -1,4 +1,4 @@
-package com.example.root.sens.dao;
+package com.example.root.sens.dao.interfaces;
 
 import com.example.root.sens.dto.User;
 
