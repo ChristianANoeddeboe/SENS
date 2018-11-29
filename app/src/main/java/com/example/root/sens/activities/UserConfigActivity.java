@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.example.root.sens.R;
 import com.example.root.sens.recyclers.adapter.SetGoalAdapter;
-import com.example.root.sens.controllers.ILoginController;
+import com.example.root.sens.controllers.interfaces.ILoginController;
 import com.example.root.sens.controllers.LoginController;
 import com.example.root.sens.fragments.UserConfigConfirmInfoFragment;
 import com.example.root.sens.fragments.UserConfigGoalInfoFragment;

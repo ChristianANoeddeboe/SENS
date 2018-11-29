@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.root.sens.controllers.ILoginController;
+import com.example.root.sens.controllers.interfaces.ILoginController;
 import com.example.root.sens.R;
 import com.example.root.sens.controllers.LoginController;
 

@@ -1,5 +1,6 @@
 package com.example.root.sens.controllers;
 
+import com.example.root.sens.controllers.interfaces.ILoginController;
 import com.example.root.sens.managers.UserManager;
 import com.example.root.sens.dao.interfaces.UserObserver;
 import com.example.root.sens.dao.UserDAO;

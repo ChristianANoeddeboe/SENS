@@ -1,4 +1,4 @@
-package com.example.root.sens.controllers;
+package com.example.root.sens.controllers.interfaces;
 
 import com.example.root.sens.dao.interfaces.UserObserver;
 import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
