@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.root.sens.R;
+import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.recyclers.adapter.OverviewAdapter;
 import com.example.root.sens.fragments.interfaces.ListItem;
 import com.example.root.sens.fragments.interfaces.TypeCalendar;
@@ -48,11 +49,10 @@ public class OverviewFragment extends Fragment {
     public static ArrayList<ListItem> generateData(){
         ArrayList<ListItem> temp = new ArrayList<>();
         temp.add(new TypeCalendar());
-        temp.add(new TypeGraph());
-        temp.add(new TypeGraph());
-        temp.add(new TypeGraph());
-        temp.add(new TypeGraph());
-        temp.add(new TypeGraph());
+        int amount = UserDAO.getInstance().getUserLoggedIn().getGoals().get(0).getGoals().size();
+        for(int i = 0; i < amount; i++) {
+            temp.add(new TypeGraph());
+        }
         return temp;
     }
 

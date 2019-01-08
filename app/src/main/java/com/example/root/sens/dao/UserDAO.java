@@ -58,10 +58,6 @@ public class UserDAO implements IUserDao {
     public User getUser(String sensorId){
         Realm realm = Realm.getDefaultInstance();
         User user = realm.where(User.class).equalTo("sensors.id",sensorId).findFirst();
-        RealmList<Sensor> templist;
-        if(user != null) {
-           templist = user.getSensors();
-        }
         return user;
     }
 }
