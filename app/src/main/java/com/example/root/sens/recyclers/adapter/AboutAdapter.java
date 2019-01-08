@@ -10,11 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.root.sens.R;
+import com.example.root.sens.recyclers.itemmodels.AboutItemModel;
 import com.example.root.sens.recyclers.itemmodels.ConfirmGoalItemModel;
 
 import java.util.List;
 
-public class AboutAdapter extends RecyclerView.Adapter<ConfirmGoalAdapter.ViewHolder> {
+public class AboutAdapter extends RecyclerView.Adapter<AboutAdapter.ViewHolder> {
     private static final String TAG = AboutAdapter.class.getSimpleName();
     private List<AboutItemModel> mDataSet;
     private LayoutInflater mInflater;
@@ -73,7 +74,7 @@ public class AboutAdapter extends RecyclerView.Adapter<ConfirmGoalAdapter.ViewHo
 
         viewHolder.getTextViewName().setText(mDataSet.get(position).getName());
         viewHolder.getTextViewSt().setText(mDataSet.get(position).getStudentNumber());
-        viewHolder.getImageView().setImageDrawable(mDataSet.get(position).getImg());
+        viewHolder.getImageView().setImageResource(mDataSet.get(position).getImg());
     }
 
 
