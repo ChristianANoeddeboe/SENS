@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity
          */
         s = SensDAO.getInstance();
         s.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
-        SensDAO.getInstance().getDataSpecificDate("xt9w2r",14,"2018-09-26");
+        SensDAO.getInstance().getData("xt9w2r");
         sensProgressBar(coordinatorLayout);
 
         new Handler().postDelayed(new Runnable() {
