@@ -5,13 +5,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:background="@drawable/customborder">
+    >
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/goalBox"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/boxbackground">
 
         <TextView
             android:id="@+id/goalstatusTextView"
