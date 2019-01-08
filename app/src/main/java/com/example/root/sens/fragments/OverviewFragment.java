@@ -49,6 +49,10 @@ public class OverviewFragment extends Fragment {
         ArrayList<ListItem> temp = new ArrayList<>();
         temp.add(new TypeCalendar());
         temp.add(new TypeGraph());
+        temp.add(new TypeGraph());
+        temp.add(new TypeGraph());
+        temp.add(new TypeGraph());
+        temp.add(new TypeGraph());
         return temp;
     }
 

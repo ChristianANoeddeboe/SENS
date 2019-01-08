@@ -14,11 +14,13 @@ import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.R;
 import com.example.root.sens.dto.GoalHistory;
+import com.example.root.sens.dto.Record;
 import com.example.root.sens.dto.User;
 import com.example.root.sens.fragments.interfaces.ListItem;
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import io.realm.RealmList;
@@ -34,7 +36,6 @@ public class ViewHolderData extends ViewHolder {
         textView = itemView.findViewById(R.id.goalstatusTextView);
         imageView = itemView.findViewById(R.id.goalIconImageView);
         type = i;
-
     }
 
     public void bindType(ListItem item) {
@@ -51,14 +52,28 @@ public class ViewHolderData extends ViewHolder {
                 .setLineWidth(BACKGROUNDSERIESWIDTH)
                 .build());
         Goal currGoal = goals.get(type);
-        int current = (int) d.getRecords().get(type).getValue();
+        RealmList<Record> temp = d.getRecords();
+        int current = 0;
+        for(Record record : temp){
+            if(record.getType().equals(currGoal.getType())){
+                current = (int) record.getValue();
+                break;
+            }
+        }
+
         int max = currGoal.getValue();
-        generateIcons(currGoal,current);
-        progressCircle.addSeries(new SeriesItem.Builder(getGoalColor(currGoal.getType()))
-                .setRange(0,max, current)
-                .setLineWidth(20)
-                .setInset(new PointF(0,2))
-                .build());
+        if(max > 0 ) {
+
+            if(current > max){
+                current = max;
+            }
+            generateIcons(currGoal, current);
+            progressCircle.addSeries(new SeriesItem.Builder(getGoalColor(currGoal.getType()))
+                    .setRange(0, max, current)
+                    .setLineWidth(20)
+                    .setInset(new PointF(0, 2))
+                    .build());
+        }
     }
 
     private int getGoalColor(ActivityCategories curr) {

@@ -20,7 +20,7 @@ import java.util.List;
 public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
     private final Context mContext;
     private final List<ListItem> mItems;
-
+    private int i = 0;
     public OverviewAdapter(Context ctx, List<ListItem> items) {
         mContext = ctx;
         mItems = items;
@@ -35,19 +35,20 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int type) {
         View view = null;
         ViewHolder viewHolderType = null;
-        int i = 0;
         switch (type) {
             case ListItem.TYPE_A:
                 view = LayoutInflater
                         .from(viewGroup.getContext())
                         .inflate(R.layout.typecalendar, viewGroup, false);
                 viewHolderType = new ViewHolderCalendar(view);
+                break;
             case ListItem.TYPE_B:
                 view = LayoutInflater
                         .from(viewGroup.getContext())
                         .inflate(R.layout.typegoal, viewGroup, false);
                 viewHolderType = new ViewHolderData(view,i);
                 i++;
+                break;
         }
         return viewHolderType;
     }
