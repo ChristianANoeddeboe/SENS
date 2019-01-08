@@ -30,9 +30,9 @@ public class AboutAdapter extends RecyclerView.Adapter<AboutAdapter.ViewHolder> 
 
         public ViewHolder(View v) {
             super(v);
-            textViewName = v.findViewById(R.id.textView_confirm_goal_description);
-            textViewSt = v.findViewById(R.id.textView_confirm_goal_value);
-            img = v.findViewById(R.id.image);
+            textViewName = v.findViewById(R.id.name);
+            textViewSt = v.findViewById(R.id.studentNumber);
+            img = v.findViewById(R.id.imageView);
         }
 
 

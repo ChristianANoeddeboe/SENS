@@ -13,7 +13,7 @@
 
         <FrameLayout
             android:id="@+id/frameLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/blue_button"
             app:layout_constraintBottom_toBottomOf="parent"
