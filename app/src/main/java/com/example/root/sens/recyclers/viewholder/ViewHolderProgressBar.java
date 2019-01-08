@@ -1,16 +1,12 @@
 package com.example.root.sens.recyclers.viewholder;
 
 import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.root.sens.dao.UserDAO;
@@ -18,25 +14,20 @@ import com.example.root.sens.dto.ActivityCategories;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.R;
-import com.example.root.sens.dto.GoalHistory;
 import com.example.root.sens.dto.Record;
-import com.example.root.sens.dto.User;
-import com.example.root.sens.fragments.interfaces.ListItem;
+import com.example.root.sens.fragments.interfaces.OverviewListItem;
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-
 import io.realm.RealmList;
 
-public class ViewHolderData extends ViewHolder {
+public class ViewHolderProgressBar extends ViewHolder {
     private final DecoView progressCircle;
     private TextView textView;
     private ImageView imageView;
     private ConstraintLayout goalbox;
     private int type;
-    public ViewHolderData(View itemView, int i) {
+    public ViewHolderProgressBar(View itemView, int i) {
         super(itemView);
         progressCircle = itemView.findViewById(R.id.dynamicArcView);
         textView = itemView.findViewById(R.id.goalstatusTextView);
@@ -45,7 +36,7 @@ public class ViewHolderData extends ViewHolder {
         type = i;
     }
 
-    public void bindType(ListItem item) {
+    public void bindType(OverviewListItem item) {
         final int BACKGROUNDSERIESWIDTH = 10;
         DayData d = getNewestData();
         RealmList<Goal> goals = UserDAO.getInstance().getNewestGoal().getGoals();

@@ -1,10 +1,10 @@
 package com.example.root.sens.fragments.interfaces;
 
-public class TypeCalendar implements ListItem {
+public class TypeCalendar implements OverviewListItem {
     public TypeCalendar(){}
 
     @Override
     public int getListItemType() {
-        return ListItem.TYPE_A;
+        return OverviewListItem.TYPE_CALENDAR;
     }
 }

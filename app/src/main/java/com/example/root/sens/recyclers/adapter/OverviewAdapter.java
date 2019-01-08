@@ -9,19 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.root.sens.R;
-import com.example.root.sens.fragments.interfaces.ListItem;
+import com.example.root.sens.fragments.interfaces.OverviewListItem;
 import com.example.root.sens.recyclers.viewholder.ViewHolder;
 import com.example.root.sens.recyclers.viewholder.ViewHolderCalendar;
-import com.example.root.sens.recyclers.viewholder.ViewHolderData;
+import com.example.root.sens.recyclers.viewholder.ViewHolderProgressBar;
 
 import java.util.List;
 
 
 public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
     private final Context mContext;
-    private final List<ListItem> mItems;
+    private final List<OverviewListItem> mItems;
     private int i = 0;
-    public OverviewAdapter(Context ctx, List<ListItem> items) {
+    public OverviewAdapter(Context ctx, List<OverviewListItem> items) {
         mContext = ctx;
         mItems = items;
     }
@@ -36,17 +36,17 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
         View view = null;
         ViewHolder viewHolderType = null;
         switch (type) {
-            case ListItem.TYPE_A:
+            case OverviewListItem.TYPE_CALENDAR:
                 view = LayoutInflater
                         .from(viewGroup.getContext())
                         .inflate(R.layout.typecalendar, viewGroup, false);
                 viewHolderType = new ViewHolderCalendar(view);
                 break;
-            case ListItem.TYPE_B:
+            case OverviewListItem.TYPE_PROGRESS:
                 view = LayoutInflater
                         .from(viewGroup.getContext())
                         .inflate(R.layout.typegoal, viewGroup, false);
-                viewHolderType = new ViewHolderData(view,i);
+                viewHolderType = new ViewHolderProgressBar(view,i);
                 i++;
                 break;
         }
@@ -55,7 +55,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int pos) {
-        ListItem item = mItems.get(pos);
+        OverviewListItem item = mItems.get(pos);
         viewHolder.bindType(item);
     }
 

@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import com.example.root.sens.R;
 import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.recyclers.adapter.OverviewAdapter;
-import com.example.root.sens.fragments.interfaces.ListItem;
+import com.example.root.sens.fragments.interfaces.OverviewListItem;
 import com.example.root.sens.fragments.interfaces.TypeCalendar;
-import com.example.root.sens.fragments.interfaces.TypeGraph;
+import com.example.root.sens.fragments.interfaces.TypeProgress;
 
 import java.util.ArrayList;
 
@@ -46,13 +46,13 @@ public class OverviewFragment extends Fragment {
 
         return v;
     }
-    public static ArrayList<ListItem> generateData(){
-        ArrayList<ListItem> temp = new ArrayList<>();
+    public static ArrayList<OverviewListItem> generateData(){
+        ArrayList<OverviewListItem> temp = new ArrayList<>();
         temp.add(new TypeCalendar());
 
         int amount = UserDAO.getInstance().getNewestGoal().getGoals().size()-1;
         for(int i = 0; i < amount; i++) {
-            temp.add(new TypeGraph());
+            temp.add(new TypeProgress());
         }
         return temp;
     }

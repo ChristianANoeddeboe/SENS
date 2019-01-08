@@ -1,4 +1,4 @@
-package com.example.root.sens.fragment;
+package com.example.root.sens.fragments;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
