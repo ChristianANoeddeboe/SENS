@@ -1,6 +1,5 @@
 package com.example.root.sens.recyclers.itemmodels;
 
-import android.widget.ImageView;
 
 public class AboutItemModel {
     private String name;
