@@ -1,7 +1,12 @@
 package com.example.root.sens.recyclers.viewholder;
 
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.PointF;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,12 +34,14 @@ public class ViewHolderData extends ViewHolder {
     private final DecoView progressCircle;
     private TextView textView;
     private ImageView imageView;
+    private ConstraintLayout goalbox;
     private int type;
     public ViewHolderData(View itemView, int i) {
         super(itemView);
         progressCircle = itemView.findViewById(R.id.dynamicArcView);
         textView = itemView.findViewById(R.id.goalstatusTextView);
         imageView = itemView.findViewById(R.id.goalIconImageView);
+        goalbox = itemView.findViewById(R.id.goalBox);
         type = i;
     }
 
@@ -43,11 +50,13 @@ public class ViewHolderData extends ViewHolder {
         DayData d = getNewestData();
         RealmList<Goal> goals = UserDAO.getInstance().getNewestGoal().getGoals();
 
+
+
         //https://github.com/bmarrdev/android-DecoView-charting
-        progressCircle.addSeries(new SeriesItem.Builder(Color.argb(180, 218, 218, 218))
+        /*progressCircle.addSeries(new SeriesItem.Builder(Color.argb(180, 218, 218, 218))
                 .setRange(0, 100, 100)
                 .setLineWidth(BACKGROUNDSERIESWIDTH)
-                .build());
+                .build());*/
         Goal currGoal = goals.get(type);
         RealmList<Record> temp = d.getRecords();
         int current = 0;
@@ -64,8 +73,12 @@ public class ViewHolderData extends ViewHolder {
             if(current > max){
                 current = max;
             }
+            int color = getGoalColor(currGoal.getType());
+
+            goalbox.getBackground().mutate().setColorFilter(itemView.getResources().getColor(color), PorterDuff.Mode.MULTIPLY);
+
             generateIcons(currGoal, current);
-            progressCircle.addSeries(new SeriesItem.Builder(getGoalColor(currGoal.getType()))
+            progressCircle.addSeries(new SeriesItem.Builder(Color.argb(255, 255, 255, 255))
                     .setRange(0, max, current)
                     .setLineWidth(20)
                     .setInset(new PointF(0, 2))
@@ -76,15 +89,20 @@ public class ViewHolderData extends ViewHolder {
     private int getGoalColor(ActivityCategories curr) {
         switch (curr) {
             case Resting:
-                return Color.argb(255, 0, 150, 136);
+                //return Color.argb(255, 0, 150, 136);
+                return R.color.restingColor;
             case Standing:
-                return Color.argb(255, 63, 81, 181);
+                //return Color.argb(255, 63, 81, 181);
+                return R.color.standingColor;
             case Walking:
-                return Color.argb(255, 76, 175, 80);
+                //return Color.argb(255, 76, 175, 80);
+                return R.color.walkingColor;
             case Cycling:
-                return Color.argb(255, 255, 152, 0);
+                //return Color.argb(255, 255, 152, 0);
+                return R.color.cyclingColor;
             case Exercise:
-                return Color.argb(244, 244, 67, 54);
+                //return Color.argb(244, 244, 67, 54);
+                return R.color.exerciseColor;
             default:
                 return Color.argb(255, 0, 0, 0);
         }
@@ -93,6 +111,8 @@ public class ViewHolderData extends ViewHolder {
 
     private void generateIcons(Goal curr, int currentGoalValue) {
         textView.setText(Integer.toString(currentGoalValue)+"/"+Integer.toString(curr.getValue()));
+        int color = ContextCompat.getColor(itemView.getContext(), R.color.white);
+        textView.setTextColor(color);
         switch (curr.getType()) {
             case Resting:
                 imageView.setImageResource(R.mipmap.icon_resting);
