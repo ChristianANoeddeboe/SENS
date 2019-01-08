@@ -49,7 +49,8 @@ public class OverviewFragment extends Fragment {
     public static ArrayList<ListItem> generateData(){
         ArrayList<ListItem> temp = new ArrayList<>();
         temp.add(new TypeCalendar());
-        int amount = UserDAO.getInstance().getUserLoggedIn().getGoals().get(0).getGoals().size();
+
+        int amount = UserDAO.getInstance().getNewestGoal().getGoals().size()-1;
         for(int i = 0; i < amount; i++) {
             temp.add(new TypeGraph());
         }

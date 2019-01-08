@@ -1,9 +1,15 @@
 package com.example.root.sens.dao;
 
 import com.example.root.sens.dao.interfaces.IUserDao;
+import com.example.root.sens.dto.GoalHistory;
 import com.example.root.sens.dto.Sensor;
 import com.example.root.sens.dto.Settings;
 import com.example.root.sens.dto.User;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+
 import io.realm.Realm;
 import io.realm.RealmList;
 
@@ -60,4 +66,25 @@ public class UserDAO implements IUserDao {
         User user = realm.where(User.class).equalTo("sensors.id",sensorId).findFirst();
         return user;
     }
+
+    @Override
+    public GoalHistory getNewestGoal() {
+        RealmList<GoalHistory> goals = getUserLoggedIn().getGoals();
+        ArrayList<Date> dates = new ArrayList<>();
+
+        for(GoalHistory curr : goals) {
+            dates.add(curr.getDate());
+        }
+        Collections.sort(dates);
+
+        for(GoalHistory curr : goals) {
+            if(curr.getDate().equals(dates.get(0))) {
+                return curr;
+            }
+        }
+        //TODO: Cast en execption her.
+        return goals.get(0);
+    }
+
+
 }

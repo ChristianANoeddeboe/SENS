@@ -5,7 +5,7 @@ import java.util.Date;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
-public class GoalHistory extends RealmObject {
+public class GoalHistory extends RealmObject implements Comparable {
     private int goalHistoryId;
     private Date date;
     private RealmList<Goal> goals;
@@ -47,5 +47,11 @@ public class GoalHistory extends RealmObject {
                 ", date=" + date +
                 ", goals=" + goals +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        GoalHistory curr = (GoalHistory) o;
+        return date.compareTo(curr.getDate());
     }
 }
