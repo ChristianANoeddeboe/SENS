@@ -21,7 +21,7 @@ public class UserConfigNameInfoFragment extends Fragment {
 
         datePickerText.setOnClickListener((View v) -> {
             FragmentManager fm = getActivity().getSupportFragmentManager();
-            DialogFragment newFragment = new com.example.root.sens.fragment.DatePickerFragment();
+            DialogFragment newFragment = new com.example.root.sens.fragments.DatePickerFragment();
             newFragment.show(fm, "datePicker");
         });
 

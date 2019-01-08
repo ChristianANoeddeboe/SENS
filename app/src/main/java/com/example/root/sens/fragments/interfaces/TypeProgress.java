@@ -1,9 +1,9 @@
 package com.example.root.sens.fragments.interfaces;
 
-public class TypeGraph implements ListItem {
+public class TypeProgress implements OverviewListItem {
 
     @Override
     public int getListItemType() {
-        return ListItem.TYPE_B;
+        return OverviewListItem.TYPE_PROGRESS;
     }
 }

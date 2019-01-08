@@ -29,11 +29,10 @@ import com.example.root.sens.fragments.OverviewFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SensObserver {
-
     private ViewPager viewPager;
     private Subject s;
     private static String[] viewNames = {"Overview", "Historik"};
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
     private ViewpagerAdapter viewpagerAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,16 +71,20 @@ public class MainActivity extends AppCompatActivity
         viewPager.setCurrentItem(sharedPreferences.getInt(getString(R.string.pagerWindowNumber)
                 ,0));
         sharedPreferences.edit().remove(getString(R.string.pagerWindowNumber)).apply();
-
+        /**
+         * Declare the view pager sliding tab
+         */
         PagerSlidingTabStrip pagerSlidingTabStrip = findViewById(R.id.pagerTitleStrip);
         pagerSlidingTabStrip.setShouldExpand(true);
-        //pagerSlidingTabStrip.setTabBackground(R.color.white);
         pagerSlidingTabStrip.setIndicatorColorResource(R.color.sensBlue);
         pagerSlidingTabStrip.setViewPager(viewPager);
-
+        /**
+         * Fetch data from SENS.
+         * TODO: Do this periodically aswell, right now only called when app is started.
+         */
         s = SensDAO.getInstance();
-        s.registerObserver(this);
-        SensDAO.getInstance().getData("6rT39u");
+        s.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
+        SensDAO.getInstance().getData("xt9w2r",14);
 
     }
 
@@ -122,13 +125,16 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * When daydata is fetched from sens sucessfully, this is called, telling the view to be refreshed.
+     */
     @Override
     public void onDataReceived() {
         viewpagerAdapter.notifyDataSetChanged();
-        //OverviewFragment f = (OverviewFragment) viewpagerAdapter.getItem(1);
-        //f.getOverviewAdapter().notifyDataSetChanged();
     }
-
+    /*
+    The view pager is handled here
+     */
     private class ViewpagerAdapter extends FragmentPagerAdapter {
         public ViewpagerAdapter(FragmentManager fm) {
             super(fm);
@@ -157,6 +163,9 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * When view is removed, we remove ourself from the observer list
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();

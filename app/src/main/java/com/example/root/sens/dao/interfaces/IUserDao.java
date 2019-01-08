@@ -1,5 +1,6 @@
 package com.example.root.sens.dao.interfaces;
 
+import com.example.root.sens.dto.GoalHistory;
 import com.example.root.sens.dto.User;
 
 public interface IUserDao {
@@ -10,4 +11,5 @@ public interface IUserDao {
     void saveUser(User user);
     User getUserLoggedIn();
     User getUser(String sensorId);
+    GoalHistory getNewestGoal();
 }

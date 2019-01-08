@@ -10,7 +10,7 @@ import com.example.root.sens.dto.GoalHistory;
 import com.example.root.sens.dto.Record;
 import com.example.root.sens.R;
 import com.example.root.sens.dto.User;
-import com.example.root.sens.fragments.interfaces.ListItem;
+import com.example.root.sens.fragments.interfaces.OverviewListItem;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
@@ -30,7 +30,7 @@ public class ViewHolderCalendar extends ViewHolder {
 
     }
 
-    public void bindType(ListItem item) {
+    public void bindType(OverviewListItem item) {
         User activeUser = UserDAO.getInstance().getUserLoggedIn();
         for(DayData d : activeUser.getDayData()){
             long timeDelta = -1;
