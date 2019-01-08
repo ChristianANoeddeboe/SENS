@@ -26,6 +26,7 @@ import com.example.root.sens.dao.interfaces.SensObserver;
 import com.example.root.sens.dao.interfaces.Subject;
 import com.example.root.sens.fragments.HistoryFragment;
 import com.example.root.sens.fragments.OverviewFragment;
+import com.example.root.sens.notification.NotificationsManager;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SensObserver {
@@ -110,8 +111,9 @@ public class MainActivity extends AppCompatActivity
             sharedPreferences.edit().putInt(getString(R.string.pagerWindowNumber), viewPager.getCurrentItem()).apply();
             Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(i);
-
-
+        }else if(id == R.id.nav_send_notification){
+            NotificationsManager notificationsManager = new NotificationsManager("String", this);
+            notificationsManager.displayNotification();
         } else if (id == R.id.nav_about) {
             // Show to about fragment
             Toast.makeText(this, "Denne app er lavet af Gruppe 6", Toast.LENGTH_SHORT).show();

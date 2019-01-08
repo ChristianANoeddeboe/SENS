@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.example.root.sens.controllers.interfaces.ILoginController;
 import com.example.root.sens.R;
 import com.example.root.sens.controllers.LoginController;
-import com.example.root.sens.notification.NotificationsManager;
 import com.example.root.sens.notification.TimeReceiver;
 
 public class Login extends AppCompatActivity {
@@ -31,22 +30,15 @@ public class Login extends AppCompatActivity {
 //        userDAO.createUser(user);
 //        userDAO.saveUser(user);
 
-        setContentView(R.layout.activity_login);
-
-
-        Intent notifyIntent = new Intent(this, TimeReceiver.class);
-
+        Intent notifyIntent = new Intent(this,TimeReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast
                 (this, 42, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
+        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis(),
-                AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+                10000, pendingIntent);
 
-
-
-
+        setContentView(R.layout.activity_login);
 
         EditText sensorField = findViewById(R.id.key_text);
         Button login = findViewById(R.id.login_btn);
