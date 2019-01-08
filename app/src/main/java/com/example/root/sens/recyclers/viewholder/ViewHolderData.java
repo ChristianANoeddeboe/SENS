@@ -31,6 +31,8 @@ public class ViewHolderData extends ViewHolder {
     public ViewHolderData(View itemView, int i) {
         super(itemView);
         progressCircle = itemView.findViewById(R.id.dynamicArcView);
+        textView = itemView.findViewById(R.id.goalstatusTextView);
+        imageView = itemView.findViewById(R.id.goalIconImageView);
         type = i;
 
     }

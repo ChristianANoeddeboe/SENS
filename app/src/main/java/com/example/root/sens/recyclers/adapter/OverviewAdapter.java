@@ -45,7 +45,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
             case ListItem.TYPE_B:
                 view = LayoutInflater
                         .from(viewGroup.getContext())
-                        .inflate(R.layout.typegraph, viewGroup, false);
+                        .inflate(R.layout.typegoal, viewGroup, false);
                 viewHolderType = new ViewHolderData(view,i);
                 i++;
         }
