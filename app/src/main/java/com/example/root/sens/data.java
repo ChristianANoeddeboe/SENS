@@ -35,7 +35,7 @@ public class data {
                 goals.add(new Goal(ActivityCategories.Walking.toString(), 300));
                 goals.add(new Goal(ActivityCategories.Exercise.toString(), 350));
                 goals.add(new Goal(ActivityCategories.Cycling.toString(), 120));
-                tempuser.getGoals().add(new GoalHistory(1, df.parse("11/18/2018"), goals));
+                tempuser.getGoals().add(new GoalHistory(1, df.parse("01/07/2019"), goals));
 
                 RealmList<Goal> goals2 = new RealmList<>();
                 goals2.add(new Goal(ActivityCategories.Resting.toString(), 60 * 8));
@@ -66,7 +66,7 @@ public class data {
                 temp.add(new Record(100, ActivityCategories.Walking.toString()));
                 temp.add(new Record(125, ActivityCategories.Exercise.toString()));
                 temp.add(new Record(150, ActivityCategories.Cycling.toString()));
-                tempuser.getDayData().add(new DayData(sensDf.parse("2018-11-25T23:00:00"), sensDf.parse("2018-11-26T23:00:00"), temp));
+                tempuser.getDayData().add(new DayData(sensDf.parse("2019-01-08T23:00:00"), sensDf.parse("2019-01-09T23:00:00"), temp));
                 RealmList<Record> temp2 = new RealmList<Record>();
                 temp2.add(new Record(60 * 8, ActivityCategories.Resting.toString()));
                 temp2.add(new Record(300, ActivityCategories.Standing.toString()));
