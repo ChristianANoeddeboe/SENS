@@ -10,7 +10,6 @@ public interface ISensAPI {
     @GET("overview?project_key=k5W2uX")
     Call<Response> getData(@Query("patient_key") String patient_key);
 
-
     @GET("overview?project_key=k5W2uX")
     Call<Response> getData(@Query("patient_key") String patient_key, @Query("day_count") int dayCount);
 

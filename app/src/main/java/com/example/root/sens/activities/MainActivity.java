@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity
 
         s = SensDAO.getInstance();
         s.registerObserver(this);
-        SensDAO.getInstance().getData("6rT39u");
+        SensDAO.getInstance().getData("xt9w2r");
 
     }
 
