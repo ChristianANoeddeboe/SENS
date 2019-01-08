@@ -21,6 +21,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity
     private SharedPreferences sharedPreferences;
     private ViewpagerAdapter viewpagerAdapter;
     private ProgressBar progressBar;
+    private Snackbar snackbar;
+    private AsyncTask asyncTask;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,23 +91,36 @@ public class MainActivity extends AppCompatActivity
         pagerSlidingTabStrip.setShouldExpand(true);
         pagerSlidingTabStrip.setIndicatorColorResource(R.color.sensBlue);
         pagerSlidingTabStrip.setViewPager(viewPager);
-        progressBar = findViewById(R.id.progressBar);
         /**
          * Fetch data from SENS.
          * TODO: Do this periodically aswell, right now only called when app is started.
          */
         s = SensDAO.getInstance();
         s.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
-        SensDAO.getInstance().getData("xt9w2r");
+        SensDAO.getInstance().getDataSpecificDate("xt9w2r",14,"2018-09-26");
+        sensProgressBar(coordinatorLayout);
 
-        new Handler().postDelayed(() -> new AsyncTask() {
+        new Handler().postDelayed(new Runnable() {
             @Override
-            protected Object doInBackground(Object[] objects) {
-                progressBar.setVisibility(View.VISIBLE);
-                SensDAO.getInstance().getData("xt9w2r");
-                return null;
+            public void run() {
+                asyncTask = new AsyncTask() {
+                    @Override
+                    protected Object doInBackground(Object[] objects) {
+                        snackbar.show();
+                        SensDAO.getInstance().getData("xt9w2r");
+                        return null;
+                    }
+                }.execute();
             }
-        }.execute(), 1800000); // Fetch data every 30 min
+        }, 1800000); // Fetch data every 30 min
+    }
+
+    private void sensProgressBar(CoordinatorLayout coordinatorLayout) {
+        snackbar = Snackbar.make(coordinatorLayout, "Fetching data", Snackbar.LENGTH_INDEFINITE);
+        ViewGroup contentLay = (ViewGroup) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text).getParent();
+        progressBar = new ProgressBar(coordinatorLayout.getContext());
+        contentLay.addView(progressBar,0);
+        snackbar.show();
     }
 
     @Override
@@ -150,7 +166,7 @@ public class MainActivity extends AppCompatActivity
      */
     @Override
     public void onDataReceived() {
-        progressBar.setVisibility(View.GONE);
+        snackbar.dismiss();
         viewpagerAdapter.notifyDataSetChanged();
     }
     /*
@@ -191,5 +207,8 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         s.removeObserver(this);
+        if(asyncTask != null){
+            asyncTask.cancel(true);
+        }
     }
 }
