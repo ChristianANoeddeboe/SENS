@@ -9,6 +9,11 @@
             android:icon="@drawable/ic_menu_manage"
             android:title="Indstillinger" />
         <item
+            android:id="@+id/nav_send_notification"
+            android:icon="@drawable/ic_bell_regular"
+            android:title="Send notifikation"
+            />
+        <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_info_circle_solid"
             android:title="Om"

@@ -4,6 +4,7 @@
     package="com.example.root.sens">
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
+
         android:name=".Singleton"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -39,6 +40,14 @@
         <activity
             android:name=".activities.UserConfigActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <receiver
+            android:name=".notification.TimeReceiver"
+            android:enabled="true"
+            android:exported="false" >
+        </receiver>
+        <service
+            android:name=".notification.TimeService"
+            android:exported="false" >
+        </service>
     </application>
-
 </manifest>
