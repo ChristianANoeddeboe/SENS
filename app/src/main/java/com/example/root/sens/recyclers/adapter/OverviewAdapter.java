@@ -34,20 +34,22 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int type) {
         View view = null;
+        ViewHolder viewHolderType = null;
+        int i = 0;
         switch (type) {
             case ListItem.TYPE_A:
                 view = LayoutInflater
                         .from(viewGroup.getContext())
                         .inflate(R.layout.typecalendar, viewGroup, false);
-                return new ViewHolderCalendar(view);
+                viewHolderType = new ViewHolderCalendar(view);
             case ListItem.TYPE_B:
                 view = LayoutInflater
                         .from(viewGroup.getContext())
                         .inflate(R.layout.typegraph, viewGroup, false);
-
-                return new ViewHolderData(view);
+                viewHolderType = new ViewHolderData(view,i);
+                i++;
         }
-        return null;
+        return viewHolderType;
     }
 
     @Override
