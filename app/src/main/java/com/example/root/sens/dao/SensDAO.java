@@ -52,6 +52,10 @@ public class SensDAO implements Callback<Response>, Subject {
      */
     private SensDAO() {
     }
+    public void getData(String patientKey){
+        Call<Response> temp = service.getData(patientKey);
+        getDataFromSens(patientKey,temp);
+    }
 
     public void getData(String patientKey, int dayCount){
         validateDayCount(dayCount);
@@ -61,13 +65,13 @@ public class SensDAO implements Callback<Response>, Subject {
     public void getDataSpecificDate(String patientKey, int dayCount, String date){
         validateDayCount(dayCount);
         validateDate(date);
-        Call<Response> temp = service.getData(patientKey, dayCount);
+        Call<Response> temp = service.getDataSpecificDate(patientKey, dayCount,date);
         getDataFromSens(patientKey,temp);
     }
 
     public void getDataSpecificDate(String patientKey, String date){
         validateDate(date);
-        Call<Response> temp = service.getData(patientKey);
+        Call<Response> temp = service.getDataSpecificDate(patientKey,date);
         getDataFromSens(patientKey,temp);
     }
 
@@ -175,19 +179,16 @@ public class SensDAO implements Callback<Response>, Subject {
                 }else{
                     if(response.errorBody().contentLength() == 67){ //Content lenght will be 67 when the data is being processed atm
                         Log.d(TAG,"Retrying....");
-                        new Handler().postDelayed(new Runnable() {
+                        new Handler().postDelayed(() -> new AsyncTask() {
                             @Override
-                            public void run() {
-                                new AsyncTask() {
-                                    @Override
-                                    protected Object doInBackground(Object[] objects) {
-                                        Log.d(TAG,"Retrying the call");
-                                        getDataFromSens(patientKey, call);
-                                        return null;
-                                    }
-                                }.execute();
+                            protected Object doInBackground(Object[] objects) {
+                                Log.d(TAG,"Retrying the call");
+                                Call<Response> temp = call.clone();
+                                getDataFromSens(patientKey, temp);
+                                return null;
                             }
-                        }, 30000); // Delay the retry, note this function is recursive and calls itself until data is fetched sucessfully.
+                        }.execute(), 10000); // Delay the retry, note this function is recursive and calls itself until data is fetched sucessfully.
+                                                        // We try every 10 seconds
                     }else{
                         Log.d(TAG, "Some other error: " + response.errorBody());
                     }
@@ -215,7 +216,7 @@ public class SensDAO implements Callback<Response>, Subject {
             Log.d(TAG,"Error while validating the date len was: " + temp.length);
         }
         //Check following format size ####-##-##, year-month-day
-        if(temp[1].length() != 4 || temp[2].length() != 2 || temp[3].length() != 2){
+        if(temp[0].length() != 4 || temp[1].length() != 2 || temp[2].length() != 2){
             Log.d(TAG,"Error while validating date, format not as expected " + Arrays.deepToString(temp));
         }
     }

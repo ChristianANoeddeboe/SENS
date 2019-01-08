@@ -3,7 +3,9 @@ package com.example.root.sens.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -16,7 +18,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -24,9 +29,12 @@ import com.example.root.sens.R;
 import com.example.root.sens.dao.SensDAO;
 import com.example.root.sens.dao.interfaces.SensObserver;
 import com.example.root.sens.dao.interfaces.Subject;
+import com.example.root.sens.dto.sensresponse.Response;
 import com.example.root.sens.fragments.HistoryFragment;
 import com.example.root.sens.fragments.OverviewFragment;
 import com.example.root.sens.notification.NotificationsManager;
+
+import retrofit2.Call;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SensObserver {
@@ -35,6 +43,7 @@ public class MainActivity extends AppCompatActivity
     private static String[] viewNames = {"Overview", "Historik"};
     private SharedPreferences sharedPreferences;
     private ViewpagerAdapter viewpagerAdapter;
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,14 +88,23 @@ public class MainActivity extends AppCompatActivity
         pagerSlidingTabStrip.setShouldExpand(true);
         pagerSlidingTabStrip.setIndicatorColorResource(R.color.sensBlue);
         pagerSlidingTabStrip.setViewPager(viewPager);
+        progressBar = findViewById(R.id.progressBar);
         /**
          * Fetch data from SENS.
          * TODO: Do this periodically aswell, right now only called when app is started.
          */
         s = SensDAO.getInstance();
         s.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
-        SensDAO.getInstance().getData("xt9w2r",14);
+        SensDAO.getInstance().getData("xt9w2r");
 
+        new Handler().postDelayed(() -> new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                progressBar.setVisibility(View.VISIBLE);
+                SensDAO.getInstance().getData("xt9w2r");
+                return null;
+            }
+        }.execute(), 1800000); // Fetch data every 30 min
     }
 
     @Override
@@ -132,6 +150,7 @@ public class MainActivity extends AppCompatActivity
      */
     @Override
     public void onDataReceived() {
+        progressBar.setVisibility(View.GONE);
         viewpagerAdapter.notifyDataSetChanged();
     }
     /*
