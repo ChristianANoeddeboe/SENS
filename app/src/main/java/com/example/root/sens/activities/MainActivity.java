@@ -24,6 +24,7 @@ import com.example.root.sens.R;
 import com.example.root.sens.dao.SensDAO;
 import com.example.root.sens.dao.interfaces.SensObserver;
 import com.example.root.sens.dao.interfaces.Subject;
+import com.example.root.sens.fragments.AboutFragment;
 import com.example.root.sens.fragments.HistoryFragment;
 import com.example.root.sens.fragments.OverviewFragment;
 import com.example.root.sens.notification.NotificationsManager;
@@ -118,8 +119,10 @@ public class MainActivity extends AppCompatActivity
             NotificationsManager notificationsManager = new NotificationsManager("String", this);
             notificationsManager.displayNotification();
         } else if (id == R.id.nav_about) {
-            // Show to about fragment
-            Toast.makeText(this, "Denne app er lavet af Gruppe 6", Toast.LENGTH_SHORT).show();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_overlay_layout, new AboutFragment())
+                    .addToBackStack(null)
+                    .commit();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
