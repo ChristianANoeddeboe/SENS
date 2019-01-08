@@ -3,7 +3,9 @@ package com.example.root.sens.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -16,7 +18,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -24,9 +30,12 @@ import com.example.root.sens.R;
 import com.example.root.sens.dao.SensDAO;
 import com.example.root.sens.dao.interfaces.SensObserver;
 import com.example.root.sens.dao.interfaces.Subject;
+import com.example.root.sens.dto.sensresponse.Response;
 import com.example.root.sens.fragments.HistoryFragment;
 import com.example.root.sens.fragments.OverviewFragment;
 import com.example.root.sens.notification.NotificationsManager;
+
+import retrofit2.Call;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SensObserver {
@@ -35,6 +44,9 @@ public class MainActivity extends AppCompatActivity
     private static String[] viewNames = {"Overview", "Historik"};
     private SharedPreferences sharedPreferences;
     private ViewpagerAdapter viewpagerAdapter;
+    private ProgressBar progressBar;
+    private Snackbar snackbar;
+    private AsyncTask asyncTask;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,8 +97,30 @@ public class MainActivity extends AppCompatActivity
          */
         s = SensDAO.getInstance();
         s.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
-        SensDAO.getInstance().getData("xt9w2r",14);
+        SensDAO.getInstance().getData("xt9w2r");
+        sensProgressBar(coordinatorLayout);
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                asyncTask = new AsyncTask() {
+                    @Override
+                    protected Object doInBackground(Object[] objects) {
+                        snackbar.show();
+                        SensDAO.getInstance().getData("xt9w2r");
+                        return null;
+                    }
+                }.execute();
+            }
+        }, 1800000); // Fetch data every 30 min
+    }
+
+    private void sensProgressBar(CoordinatorLayout coordinatorLayout) {
+        snackbar = Snackbar.make(coordinatorLayout, "Fetching data", Snackbar.LENGTH_INDEFINITE);
+        ViewGroup contentLay = (ViewGroup) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text).getParent();
+        progressBar = new ProgressBar(coordinatorLayout.getContext());
+        contentLay.addView(progressBar,0);
+        snackbar.show();
     }
 
     @Override
@@ -132,6 +166,7 @@ public class MainActivity extends AppCompatActivity
      */
     @Override
     public void onDataReceived() {
+        snackbar.dismiss();
         viewpagerAdapter.notifyDataSetChanged();
     }
     /*
@@ -172,5 +207,8 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         s.removeObserver(this);
+        if(asyncTask != null){
+            asyncTask.cancel(true);
+        }
     }
 }
