@@ -41,10 +41,7 @@ public class ViewHolderData extends ViewHolder {
     public void bindType(ListItem item) {
         final int BACKGROUNDSERIESWIDTH = 10;
         DayData d = getNewestData();
-        User activeUser = UserDAO.getInstance().getUserLoggedIn();
-        RealmList<GoalHistory> g = activeUser.getGoals();
-        //TODO: Actually loop through and check that the newest date
-        RealmList<Goal> goals = activeUser.getGoals().get(0).getGoals();
+        RealmList<Goal> goals = UserDAO.getInstance().getNewestGoal().getGoals();
 
         //https://github.com/bmarrdev/android-DecoView-charting
         progressCircle.addSeries(new SeriesItem.Builder(Color.argb(180, 218, 218, 218))
