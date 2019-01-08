@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.example.root.sens.controllers.interfaces.ILoginController;
 import com.example.root.sens.R;
 import com.example.root.sens.controllers.LoginController;
+import com.example.root.sens.notification.NotificationsManager;
 
 public class Login extends AppCompatActivity {
     private final static String TAG = Login.class.getSimpleName();
@@ -27,6 +28,9 @@ public class Login extends AppCompatActivity {
 //        userDAO.saveUser(user);
 
         setContentView(R.layout.activity_login);
+
+        NotificationsManager noti = new NotificationsManager("42", this);
+
 
         EditText sensorField = findViewById(R.id.key_text);
         Button login = findViewById(R.id.login_btn);
