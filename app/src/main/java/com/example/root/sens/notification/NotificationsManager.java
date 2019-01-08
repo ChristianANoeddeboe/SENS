@@ -1,8 +1,10 @@
 package com.example.root.sens.notification;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
@@ -58,7 +60,8 @@ public class NotificationsManager {
 
         String[] text = getNotiText(currentUser);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ctx, channelId)
-                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setSmallIcon(R.mipmap.ic_notification_round)
+                .setLargeIcon(BitmapFactory.decodeResource(ctx.getResources(), R.drawable.ic_launcher_round))
                 .setContentTitle("Hej " + currentUser.getFirstName() + "!")
                 .setContentText("Status rapport, du har klaret " + text[0] + " af 5 mål")
                 .setStyle(new NotificationCompat.BigTextStyle()

@@ -36,7 +36,7 @@ public class Login extends AppCompatActivity {
 
         AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis(),
-                10000, pendingIntent);
+                AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
 
         setContentView(R.layout.activity_login);
 
