@@ -50,7 +50,7 @@ public class SensDAO implements Callback<Response>, Subject {
     }
 
     public void getData(String patientKey){
-        Call<Response> temp = service.getData("xt9w2r",14);
+        Call<Response> temp = service.getData(patientKey,14);
         temp.enqueue(new Callback<Response>() {
             @Override
             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
