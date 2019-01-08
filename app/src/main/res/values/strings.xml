@@ -13,5 +13,6 @@
     <string name="helloach">Hello ach fragment</string>
     <string name="preference_file_key">mainActivity</string>
     <string name="pagerWindowNumber">pagerWindow</string>
+    <string name="unit">minutter</string>
 
 </resources>

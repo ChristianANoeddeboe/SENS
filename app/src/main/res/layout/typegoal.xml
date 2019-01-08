@@ -3,63 +3,101 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/goalbox_LinearLayout_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
+    android:padding="0dp"
     android:layout_marginStart="5dp"
     android:layout_marginEnd="5dp"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/boxbackground"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/goalBox"
+    <TextView
+        android:id="@+id/goalbox_TextView_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/boxbackground">
+        android:padding="3dp"
+        android:paddingStart="20dp"
+        android:text="Titel"
+        android:textColor="@android:color/black"
+        android:textSize="22sp"
+        android:background="@drawable/boxheader"
+        />
 
-        <TextView
-            android:id="@+id/goalstatusTextView"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="TextView/TextView"
-            android:textColor="@android:color/black"
-            android:textSize="26sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.506" />
+            android:orientation="vertical">
 
-        <com.hookedonplay.decoviewlib.DecoView
-            android:id="@+id/dynamicArcView"
-            android:layout_width="94dp"
-            android:layout_height="94dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/goalstatusTextView"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingStart="10dp"
+                android:paddingEnd="20dp"
+                android:paddingTop="25dp">
 
-        <ImageView
-            android:id="@+id/goalIconImageView"
+                <TextView
+                    android:id="@+id/goalstatusTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Text/Text"
+                    android:textColor="@android:color/black"
+                    android:textSize="26sp" />
+
+                <TextView
+                    android:id="@+id/goalbox_Textview_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingStart="10dp"
+                    android:text="@string/unit"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/goalbox_ConstraintLayout_grahpbox"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/dynamicArcView"
-            app:layout_constraintEnd_toEndOf="@+id/dynamicArcView"
-            app:layout_constraintStart_toStartOf="@+id/dynamicArcView"
-            app:layout_constraintTop_toTopOf="@+id/dynamicArcView"
-            app:srcCompat="@mipmap/icon_cycling" />
+            android:layout_height="wrap_content">
 
-    </android.support.constraint.ConstraintLayout>
+            <com.hookedonplay.decoviewlib.DecoView
+                android:id="@+id/dynamicArcView"
+                android:layout_width="94dp"
+                android:layout_height="94dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="8dp"
+
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/goalIconImageView"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                app:layout_constraintBottom_toBottomOf="@+id/dynamicArcView"
+                app:layout_constraintEnd_toEndOf="@+id/dynamicArcView"
+                app:layout_constraintStart_toStartOf="@+id/dynamicArcView"
+                app:layout_constraintTop_toTopOf="@+id/dynamicArcView"
+                app:srcCompat="@mipmap/icon_cycling_inverted" />
+
+        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 
 </LinearLayout>
