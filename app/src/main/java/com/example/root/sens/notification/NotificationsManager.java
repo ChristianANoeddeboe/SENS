@@ -1,11 +1,9 @@
 package com.example.root.sens.notification;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -19,11 +17,8 @@ import com.example.root.sens.dto.GoalHistory;
 import com.example.root.sens.dto.Record;
 import com.example.root.sens.dto.User;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
 
 public class NotificationsManager {
@@ -76,54 +71,54 @@ public class NotificationsManager {
                         .setGroupSummary(true)
                         .build();
 
-        int PROGRESS_MAX = goalMap.get(String.valueOf(ActivityCategories.Walking));
-        int PROGRESS_CURRENT = dataMap.get(String.valueOf(ActivityCategories.Walking)).intValue();
+        int process_max = goalMap.get(String.valueOf(ActivityCategories.Walking));
+        int progress_current = dataMap.get(String.valueOf(ActivityCategories.Walking)).intValue();
         Notification notificationWalking = new NotificationCompat.Builder(ctx, channelId)
                 .setSmallIcon(R.mipmap.ic_notification_round)
                 .setContentTitle("Walking")
-                .setContentText(""+PROGRESS_CURRENT+"/"+PROGRESS_MAX)
+                .setContentText(""+progress_current+"/"+process_max)
                 .setGroup(GROUP_KEY_PROGRESS)
-                .setProgress(PROGRESS_MAX, PROGRESS_CURRENT, false)
+                .setProgress(process_max, progress_current, false)
                 .build();
 
-        PROGRESS_MAX = goalMap.get(String.valueOf(ActivityCategories.Cycling));
-        PROGRESS_CURRENT = dataMap.get(String.valueOf(ActivityCategories.Cycling)).intValue();
+        process_max = goalMap.get(String.valueOf(ActivityCategories.Cycling));
+        progress_current = dataMap.get(String.valueOf(ActivityCategories.Cycling)).intValue();
         Notification notificationCycling= new NotificationCompat.Builder(ctx, channelId)
                 .setSmallIcon(R.mipmap.ic_notification_round)
                 .setContentTitle("Cycling")
-                .setContentText(""+PROGRESS_CURRENT+"/"+PROGRESS_MAX)
+                .setContentText(""+progress_current+"/"+process_max)
                 .setGroup(GROUP_KEY_PROGRESS)
-                .setProgress(PROGRESS_MAX, PROGRESS_CURRENT, false)
+                .setProgress(process_max, progress_current, false)
                 .build();
 
-        PROGRESS_MAX = goalMap.get(String.valueOf(ActivityCategories.Exercise));
-        PROGRESS_CURRENT = dataMap.get(String.valueOf(ActivityCategories.Exercise)).intValue();
+        process_max = goalMap.get(String.valueOf(ActivityCategories.Exercise));
+        progress_current = dataMap.get(String.valueOf(ActivityCategories.Exercise)).intValue();
         Notification notificationExercise = new NotificationCompat.Builder(ctx, channelId)
                 .setSmallIcon(R.mipmap.ic_notification_round)
-                .setContentText(""+PROGRESS_CURRENT+"/"+PROGRESS_MAX)
+                .setContentText(""+progress_current+"/"+process_max)
                 .setContentTitle("Exercise")
                 .setGroup(GROUP_KEY_PROGRESS)
-                .setProgress(PROGRESS_MAX, PROGRESS_CURRENT, false)
+                .setProgress(process_max, progress_current, false)
                 .build();
 
-        PROGRESS_MAX = goalMap.get(String.valueOf(ActivityCategories.Standing));
-        PROGRESS_CURRENT = dataMap.get(String.valueOf(ActivityCategories.Standing)).intValue();
+        process_max = goalMap.get(String.valueOf(ActivityCategories.Standing));
+        progress_current = dataMap.get(String.valueOf(ActivityCategories.Standing)).intValue();
         Notification notificationStanding = new NotificationCompat.Builder(ctx, channelId)
                 .setSmallIcon(R.mipmap.ic_notification_round)
-                .setContentText(""+PROGRESS_CURRENT+"/"+PROGRESS_MAX)
+                .setContentText(""+progress_current+"/"+process_max)
                 .setContentTitle("Standing")
                 .setGroup(GROUP_KEY_PROGRESS)
-                .setProgress(PROGRESS_MAX, PROGRESS_CURRENT, false)
+                .setProgress(process_max, progress_current, false)
                 .build();
 
-        PROGRESS_MAX = goalMap.get(String.valueOf(ActivityCategories.Resting));
-        PROGRESS_CURRENT = dataMap.get(String.valueOf(ActivityCategories.Resting)).intValue();
+        process_max = goalMap.get(String.valueOf(ActivityCategories.Resting));
+        progress_current = dataMap.get(String.valueOf(ActivityCategories.Resting)).intValue();
         Notification notificationResting = new NotificationCompat.Builder(ctx, channelId)
                 .setSmallIcon(R.mipmap.ic_notification_round)
-                .setContentText(""+PROGRESS_CURRENT+"/"+PROGRESS_MAX)
+                .setContentText(""+progress_current+"/"+process_max)
                 .setContentTitle("Resting")
                 .setGroup(GROUP_KEY_PROGRESS)
-                .setProgress(PROGRESS_MAX, PROGRESS_CURRENT, false)
+                .setProgress(process_max, progress_current, false)
                 .build();
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(ctx);
@@ -138,8 +133,7 @@ public class NotificationsManager {
     private void loadData(User user){
         GoalHistory goals = user.getGoals().get(0);
         DayData dayData = user.getDayData().get(0);
-
-
+        
         for(Goal goal : goals.getGoals()){
             goalMap.put(String.valueOf(goal.getType()), goal.getValue());
         }
