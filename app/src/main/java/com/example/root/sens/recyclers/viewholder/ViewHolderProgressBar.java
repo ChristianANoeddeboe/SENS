@@ -1,21 +1,28 @@
 package com.example.root.sens.recyclers.viewholder;
 
+import android.app.Activity;
+import android.app.FragmentManager;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
-import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.root.sens.R;
 import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dto.ActivityCategories;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
-import com.example.root.sens.R;
 import com.example.root.sens.dto.Record;
+import com.example.root.sens.fragments.AboutFragment;
 import com.example.root.sens.fragments.interfaces.OverviewListItem;
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
@@ -27,8 +34,9 @@ public class ViewHolderProgressBar extends ViewHolder {
     private TextView progressTextView, title, unitTextview;
     private ImageView imageView;
     private LinearLayout goalbox, header;
+    private ImageButton expandButton;
     private int type;
-    public ViewHolderProgressBar(View itemView, int i) {
+    public ViewHolderProgressBar(View itemView, int i, Context viewGroup) {
         super(itemView);
         progressCircle = itemView.findViewById(R.id.dynamicArcView);
         progressTextView = itemView.findViewById(R.id.goalstatusTextView);
@@ -37,6 +45,17 @@ public class ViewHolderProgressBar extends ViewHolder {
         header = itemView.findViewById(R.id.typegoal_LinearLayout_header);
         unitTextview = itemView.findViewById(R.id.goalbox_Textview_unit);
         title = itemView.findViewById(R.id.goalbox_TextView_title);
+        expandButton = itemView.findViewById(R.id.typegoal_ImageButton_showmore);
+        expandButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment f = new AboutFragment();
+                android.support.v4.app.FragmentManager fragmentManager = ((AppCompatActivity)viewGroup).getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.fragment_container,f).commit();
+                //myActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,f).commit();
+                Log.d("test1234", "onClick: aa");
+            }
+        });
         type = i;
     }
 

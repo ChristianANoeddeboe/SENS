@@ -31,7 +31,6 @@
             android:text="Titel"
             android:textColor="@android:color/black"
             android:textSize="22sp" />
-
         <ImageButton
             android:id="@+id/typegoal_ImageButton_showmore"
             android:background="@color/transparent"
@@ -68,7 +67,6 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="20dp"
                 android:paddingTop="25dp">
-
                 <TextView
                     android:id="@+id/goalstatusTextView"
                     android:layout_width="wrap_content"
