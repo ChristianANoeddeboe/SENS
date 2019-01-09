@@ -4,6 +4,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.transition.Slide;
@@ -33,6 +35,8 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         EditText sensorField = findViewById(R.id.key_text);
+
+        sensorField.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
         Button login = findViewById(R.id.login_btn);
         Button help = findViewById(R.id.help_btn);
         sensorField.setText("17-3B.BA");

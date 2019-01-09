@@ -13,7 +13,8 @@
     android:layout_marginBottom="10dp"
     android:background="@drawable/boxbackground"
     android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:elevation="1dp">
 
     <TextView
         android:id="@+id/goalbox_TextView_title"

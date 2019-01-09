@@ -22,32 +22,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/key_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/sens_edit_text"
-            android:ems="10"
-            android:hint="Nøgle"
-            android:inputType="textPersonName"
-            android:textColor="@color/sensBlue"
-            tools:layout_editor_absoluteX="62dp"
-            tools:layout_editor_absoluteY="414dp" />
 
+        <android.support.design.widget.TextInputLayout
+            android:layout_margin="4dp"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/key_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Sensor ID" />
+        </android.support.design.widget.TextInputLayout>
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="5dp" />
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
+            style="@style/BlueButton"
             android:id="@+id/login_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/blue_button"
             android:text="Log ind"
-            android:textColor="@color/white"
-            tools:layout_editor_absoluteX="107dp"
-            tools:layout_editor_absoluteY="478dp" />
+            />
     </LinearLayout>
 
     <ImageView
@@ -64,7 +63,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.6" />
+        app:layout_constraintVertical_bias="0.6"
+        />
 
     <Button
         android:id="@+id/help_btn"

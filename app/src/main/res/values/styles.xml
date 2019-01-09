@@ -38,4 +38,11 @@
         <item name="android:progressTint">@color/sensRedDarkerBright</item>
         <item name="android:colorControlActivated">@color/sensRed</item>
     </style>
+
+    <!-- Buttons -->
+    <style name="BlueButton" parent="Base.Widget.AppCompat.Button">
+        <item name="android:backgroundTint">@color/sensBlueBrighter</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
 </resources>
