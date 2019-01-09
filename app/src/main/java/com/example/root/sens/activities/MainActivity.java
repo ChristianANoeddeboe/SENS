@@ -89,7 +89,9 @@ public class MainActivity extends AppCompatActivity
         navigationDrawerSensorId.setText(currentUser.getSensors().get(0).getId());
 
 
-
+        /**
+         * Initializing the view pager
+         */
         sharedPreferences = getApplication().getSharedPreferences(
                 getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
@@ -115,7 +117,7 @@ public class MainActivity extends AppCompatActivity
         s = SensDAO.getInstance();
         s.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
         SensDAO.getInstance().getData("xt9w2r");
-        sensProgressBar(coordinatorLayout);
+        fetchDataProgressBar(coordinatorLayout);
 
         new Handler().postDelayed(() -> asyncTask = new AsyncTask() {
             @Override
@@ -127,14 +129,13 @@ public class MainActivity extends AppCompatActivity
         }.execute(), 1800000); // Fetch data every 30 min
     }
 
-    private void sensProgressBar(CoordinatorLayout coordinatorLayout) {
-        snackbar = Snackbar.make(coordinatorLayout, "Fetching data", Snackbar.LENGTH_INDEFINITE);
+    private void fetchDataProgressBar(CoordinatorLayout coordinatorLayout) {
+        snackbar = Snackbar.make(coordinatorLayout, "Henter data", Snackbar.LENGTH_INDEFINITE);
         ViewGroup contentLay = (ViewGroup) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text).getParent();
         progressBar = new ProgressBar(coordinatorLayout.getContext());
         contentLay.addView(progressBar,0);
         snackbar.show();
         startNotification();
-
     }
 
     @Override
@@ -151,17 +152,18 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_manage) {
             sharedPreferences.edit().putInt(getString(R.string.pagerWindowNumber), viewPager.getCurrentItem()).apply();
             Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(i);
-        }else if(id == R.id.nav_send_notification){
+        }
+        else if(id == R.id.nav_send_notification){
             NotificationsManager notificationsManager = new NotificationsManager("String", this);
             notificationsManager.displayNotification();
-        } else if (id == R.id.nav_about) {
+        }
+        else if (id == R.id.nav_about) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_overlay_layout_main, new AboutFragment())
                     .addToBackStack(null)
@@ -170,19 +172,21 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 
     /**
-     * When daydata is fetched from sens sucessfully, this is called, telling the view to be refreshed.
+     * When daydata is fetched from sens successfully, this is called, telling the view to be refreshed.
      */
     @Override
     public void onDataReceived() {
         snackbar.dismiss();
         viewpagerAdapter.notifyDataSetChanged();
     }
-    /*
-    The view pager is handled here
+
+    /**
+     * The view pager is handled here
      */
     private class ViewpagerAdapter extends FragmentPagerAdapter {
         public ViewpagerAdapter(FragmentManager fm) {
@@ -224,6 +228,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Setting an alarm to trigger an event every 15 minute.
+     * The event to trigger is sending a notification.
+     */
     private void startNotification(){
         Intent notifyIntent = new Intent(this,TimeReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast
@@ -232,6 +240,5 @@ public class MainActivity extends AppCompatActivity
         AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis(),
                 AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
-
     }
 }
