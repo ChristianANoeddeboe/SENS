@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.root.sens.controllers.interfaces.ILoginController;
 import com.example.root.sens.R;
 import com.example.root.sens.controllers.LoginController;
+import com.example.root.sens.fragments.LoginHelpFragment;
 import com.example.root.sens.notification.TimeReceiver;
 
 public class Login extends AppCompatActivity {
@@ -62,9 +63,10 @@ public class Login extends AppCompatActivity {
         });
 
         help.setOnClickListener((View v) -> {
-            Snackbar.make(findViewById(R.id.login_coordinator_layout),
-                    "Du kan ikke få noget hjælp enndu",
-                    Snackbar.LENGTH_SHORT).show();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_overlay_layout_login, new LoginHelpFragment())
+                    .addToBackStack(null)
+                    .commit();
         });
     }
 
