@@ -105,7 +105,7 @@ public class HistoryFragment extends Fragment {
             String[] arr = result.get(i).split(",");
             int count = Integer.parseInt(arr[1]);
             listElementViewHolder.date.setText( arr[0]);
-            listElementViewHolder.title.setText(arr[1]+" Streak");
+            listElementViewHolder.title.setText(arr[1]+" dage!");
             listElementViewHolder.info.setText("Du har opnået alle dine mål " + arr[1] + " dage i træk!");
             if(count < 5){
                 listElementViewHolder.award.setImageResource(R.drawable.ic_bronze_medal);
