@@ -20,15 +20,20 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.root.sens.R;
 import com.example.root.sens.dao.SensDAO;
+import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dao.interfaces.SensObserver;
 import com.example.root.sens.dao.interfaces.Subject;
+import com.example.root.sens.dto.User;
 import com.example.root.sens.fragments.AboutFragment;
 import com.example.root.sens.fragments.HistoryFragment;
 import com.example.root.sens.fragments.OverviewFragment;
@@ -63,16 +68,16 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         final CoordinatorLayout coordinatorLayout = findViewById(R.id.main_a_coordinator_layout);
-        try {
-            String snackbarText = getIntent().getExtras().getString("snackbar");
-
-            Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, snackbarText, Snackbar.LENGTH_LONG);
-            snackbar.show();
-
-        } catch (NullPointerException e) {
-
-        }
+//        try {
+//            String snackbarText = getIntent().getExtras().getString("snackbar");
+//
+//            Snackbar snackbar = Snackbar
+//                    .make(coordinatorLayout, snackbarText, Snackbar.LENGTH_LONG);
+//            snackbar.show();
+//
+//        } catch (NullPointerException e) {
+//
+//        }
 
         sharedPreferences = getApplication().getSharedPreferences(
                 getString(R.string.preference_file_key), Context.MODE_PRIVATE);
@@ -111,6 +116,23 @@ public class MainActivity extends AppCompatActivity
                 }.execute();
             }
         }, 1800000); // Fetch data every 30 min
+    }
+
+    @Override
+    public View onCreateView(String name, Context context, AttributeSet attrs) {
+        return super.onCreateView(name, context, attrs);
+
+        /**
+         * Set text in Navigation drawer
+         */
+//        TextView navigationDrawerName = findViewById(R.id.textViewNavDrawerName);
+//        TextView navigationDrawerSensorId = findViewById(R.id.textViewNavDrawerSensorID);
+//
+//
+//        User currentUser = UserDAO.getInstance().getUserLoggedIn();
+//        System.out.println(currentUser.getFirstName());
+//        navigationDrawerName.setText(currentUser.getFirstName() + " " + currentUser.getLastName());
+//        navigationDrawerSensorId.setText(currentUser.getSensors().get(0).getId());
     }
 
     private void sensProgressBar(CoordinatorLayout coordinatorLayout) {

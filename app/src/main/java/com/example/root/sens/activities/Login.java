@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.transition.Slide;
@@ -24,11 +25,6 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        UserDAO userDAO = new UserDAO();
-//        User user = new User("Kenneth", "Klodshans", Calendar.getInstance().getTime());
-//        user.setSensors(new RealmList<>(new Sensor("1234")));
-//        userDAO.createUser(user);
-//        userDAO.saveUser(user);
 
         setContentView(R.layout.activity_login);
 
@@ -40,20 +36,24 @@ public class Login extends AppCompatActivity {
             String sensorID = String.valueOf(sensorField.getText());
 
             if (sensorID.length() == 0) {
-                Toast.makeText(this, "Du skal angive et sensor id for at fortsætte", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.login_coordinator_layout),
+                        "Du skal angive et sensor id for at fortsætte",
+                        Snackbar.LENGTH_SHORT).show();
                 return;
             }
 
             if (checkForUser(sensorID)) {
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 Bundle b = new Bundle();
-                b.putString("snackbar", "Text to show in the snackbar");
+                b.putString("snackbar", "Hej, " + " du er nu logget ind");
                 i.putExtras(b);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
                 return;
             } else {
-                Toast.makeText(this, "No user found", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.login_coordinator_layout),
+                        "Brugeren er ikke fundet!",
+                        Snackbar.LENGTH_SHORT).show();
             }
 
             Intent i = new Intent(getApplicationContext(), UserConfigActivity.class);
@@ -65,7 +65,9 @@ public class Login extends AppCompatActivity {
         });
 
         help.setOnClickListener((View v) -> {
-            Toast.makeText(this, "Not implemented yet!", Toast.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.login_coordinator_layout),
+                    "Du kan ikke få noget hjælp enndu",
+                    Snackbar.LENGTH_SHORT).show();
         });
     }
 
