@@ -28,7 +28,7 @@ public class Login extends AppCompatActivity {
         Button help = findViewById(R.id.help_btn);
 
         sensorField.setText("17-3B.BA"); // Sættes da appen bruges til fremvisning
-        
+
         login.setOnClickListener((View v) -> {
             String sensorID = String.valueOf(sensorField.getText());
 

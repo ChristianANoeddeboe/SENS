@@ -55,13 +55,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mainactivity_a_burgermenu);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         /**
          * Navigation Drawer
          */
+        setContentView(R.layout.mainactivity_a_burgermenu);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -86,7 +88,7 @@ public class MainActivity extends AppCompatActivity
         navigationDrawerName.setText(currentUser.getFirstName() + " " + currentUser.getLastName());
         navigationDrawerSensorId.setText(currentUser.getSensors().get(0).getId());
 
-        final CoordinatorLayout coordinatorLayout = findViewById(R.id.main_a_coordinator_layout);
+
 
         sharedPreferences = getApplication().getSharedPreferences(
                 getString(R.string.preference_file_key), Context.MODE_PRIVATE);
@@ -97,6 +99,7 @@ public class MainActivity extends AppCompatActivity
         viewPager.setCurrentItem(sharedPreferences.getInt(getString(R.string.pagerWindowNumber)
                 ,0));
         sharedPreferences.edit().remove(getString(R.string.pagerWindowNumber)).apply();
+
         /**
          * Declare the view pager sliding tab
          */
@@ -104,27 +107,24 @@ public class MainActivity extends AppCompatActivity
         pagerSlidingTabStrip.setShouldExpand(true);
         pagerSlidingTabStrip.setIndicatorColorResource(R.color.sensBlue);
         pagerSlidingTabStrip.setViewPager(viewPager);
+
         /**
          * Fetch data from SENS.
          */
+        CoordinatorLayout coordinatorLayout = findViewById(R.id.main_a_coordinator_layout);
         s = SensDAO.getInstance();
         s.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
         SensDAO.getInstance().getData("xt9w2r");
         sensProgressBar(coordinatorLayout);
 
-        new Handler().postDelayed(new Runnable() {
+        new Handler().postDelayed(() -> asyncTask = new AsyncTask() {
             @Override
-            public void run() {
-                asyncTask = new AsyncTask() {
-                    @Override
-                    protected Object doInBackground(Object[] objects) {
-                        snackbar.show();
-                        SensDAO.getInstance().getData("xt9w2r");
-                        return null;
-                    }
-                }.execute();
+            protected Object doInBackground(Object[] objects) {
+                snackbar.show();
+                SensDAO.getInstance().getData("xt9w2r");
+                return null;
             }
-        }, 1800000); // Fetch data every 30 min
+        }.execute(), 1800000); // Fetch data every 30 min
     }
 
     private void sensProgressBar(CoordinatorLayout coordinatorLayout) {
