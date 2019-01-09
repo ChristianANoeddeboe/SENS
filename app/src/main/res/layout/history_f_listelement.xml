@@ -60,12 +60,12 @@
 
         <ImageView
             android:id="@+id/history_ImageView_award"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            app:srcCompat="@mipmap/award"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
             android:layout_weight="0"
-            android:layout_gravity="center"/>
+            android:adjustViewBounds="true"
+            app:srcCompat="@drawable/ic_bronze_medal" />
     </LinearLayout>
 
 </LinearLayout>
