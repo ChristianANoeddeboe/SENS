@@ -24,9 +24,9 @@ import io.realm.RealmList;
 
 public class ViewHolderProgressBar extends ViewHolder {
     private final DecoView progressCircle;
-    private TextView progressTextView, titleTextView, unitTextview;
+    private TextView progressTextView, title, unitTextview;
     private ImageView imageView;
-    private LinearLayout goalbox;
+    private LinearLayout goalbox, header;
     private int type;
     public ViewHolderProgressBar(View itemView, int i) {
         super(itemView);
@@ -34,8 +34,9 @@ public class ViewHolderProgressBar extends ViewHolder {
         progressTextView = itemView.findViewById(R.id.goalstatusTextView);
         imageView = itemView.findViewById(R.id.goalIconImageView);
         goalbox = itemView.findViewById(R.id.goalbox_LinearLayout_container);
-        titleTextView = itemView.findViewById(R.id.goalbox_TextView_title);
+        header = itemView.findViewById(R.id.typegoal_LinearLayout_header);
         unitTextview = itemView.findViewById(R.id.goalbox_Textview_unit);
+        title = itemView.findViewById(R.id.goalbox_TextView_title);
         type = i;
     }
 
@@ -73,7 +74,7 @@ public class ViewHolderProgressBar extends ViewHolder {
 
             color = getGoalHeaderColor(currGoal.getType());
 
-            titleTextView.getBackground().mutate().setColorFilter(itemView.getResources().getColor(color), PorterDuff.Mode.MULTIPLY);
+            header.getBackground().mutate().setColorFilter(itemView.getResources().getColor(color), PorterDuff.Mode.MULTIPLY);
 
             generateIcons(currGoal, current);
             progressCircle.addSeries(new SeriesItem.Builder(Color.argb(255, 255, 255, 255))
@@ -127,11 +128,11 @@ public class ViewHolderProgressBar extends ViewHolder {
     private void generateIcons(Goal curr, int currentGoalValue) {
         progressTextView.setText(Integer.toString(currentGoalValue)+"/"+Integer.toString(curr.getValue()));
         unitTextview.setText("meter");
-        titleTextView.setText(curr.getType().toString());
+        title.setText(curr.getType().toString());
         int color = ContextCompat.getColor(itemView.getContext(), R.color.white);
         progressTextView.setTextColor(color);
         unitTextview.setTextColor(color);
-        titleTextView.setTextColor(color);
+        title.setTextColor(color);
         switch (curr.getType()) {
             case Resting:
                 imageView.setImageResource(R.mipmap.icon_resting_inverted);
