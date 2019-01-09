@@ -101,9 +101,17 @@ public class HistoryFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ListElementViewHolder listElementViewHolder, int i) {
             String[] arr = result.get(i).split(",");
+            int count = Integer.parseInt(arr[1]);
             listElementViewHolder.date.setText( arr[0]);
             listElementViewHolder.title.setText(arr[1]+" Streak");
             listElementViewHolder.info.setText("Du har opnået alle dine mål " + arr[1] + " dage i træk!");
+            if(count < 5){
+                listElementViewHolder.award.setImageResource(R.drawable.ic_bronze_medal);
+            }else if(count < 15){
+                listElementViewHolder.award.setImageResource(R.drawable.ic_silver_medal);
+            }else{
+                listElementViewHolder.award.setImageResource(R.drawable.ic_gold_medal);
+            }
         }
 
         @Override
