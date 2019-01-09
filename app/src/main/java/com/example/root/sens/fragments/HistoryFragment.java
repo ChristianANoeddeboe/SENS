@@ -108,7 +108,7 @@ public class HistoryFragment extends Fragment {
             listElementViewHolder.date.setText( arr[0]);
             listElementViewHolder.title.setText(arr[1]+" Streak");
             listElementViewHolder.info.setText("Du har opnået alle dine mål " + arr[1] + " dage i træk!");
-            int color = R.color.white;
+            int color;
             if(count < 5){
                 listElementViewHolder.award.setImageResource(R.drawable.ic_bronze_medal);
                 color = R.color.bronze;

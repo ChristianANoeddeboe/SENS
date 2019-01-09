@@ -15,10 +15,11 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/history_LinearLayout_header"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
         android:background="@drawable/boxheader"
+        android:orientation="horizontal"
         android:padding="3dp"
         android:paddingStart="20dp"
         android:paddingEnd="20dp">
@@ -36,15 +37,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/white"
+            android:gravity="end"
             android:text="TextView"
-            android:gravity="end"/>
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
 
     <LinearLayout
-        android:id="@+id/history_LinearLayout_header"
+        android:id="@+id/history_LinearLayout_body"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/sensBlue"
