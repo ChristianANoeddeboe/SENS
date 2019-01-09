@@ -35,7 +35,6 @@ public class ViewHolderProgressBar extends ViewHolder {
     private ImageView imageView;
     private LinearLayout goalbox, header;
     private ImageButton expandButton;
-    private int headerColor;
     private int type;
     public ViewHolderProgressBar(View itemView, int i, Context viewGroup) {
         super(itemView);
@@ -52,7 +51,11 @@ public class ViewHolderProgressBar extends ViewHolder {
             public void onClick(View v) {
                 if(v.equals(expandButton)) {
                     Bundle args = new Bundle();
-                    args.putInt("headerColor",headerColor);
+                    args.putString("title",title.getText().toString());
+                    args.putString("progress",progressTextView.getText().toString());
+                    args.putString("unit",unitTextview.getText().toString());
+                    args.putInt("type",type);
+
                     Fragment f = new GoalInfoFragment();
                     f.setArguments(args);
                     FragmentManager manager = ((AppCompatActivity) viewGroup).getSupportFragmentManager();
@@ -94,13 +97,11 @@ public class ViewHolderProgressBar extends ViewHolder {
             int color = getGoalColor(currGoal.getType());
 
             color = ContextCompat.getColor(itemView.getContext(), color);
-
             goalbox.getBackground().mutate().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
 
             color = getGoalHeaderColor(currGoal.getType());
 
             color = ContextCompat.getColor(itemView.getContext(), color);
-            headerColor = color;
             header.getBackground().mutate().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
 
             generateIcons(currGoal, current);
@@ -111,8 +112,8 @@ public class ViewHolderProgressBar extends ViewHolder {
                     .build());
         }
     }
-
-    private int getGoalHeaderColor(ActivityCategories curr) {
+    //TODO: Move the two methods below in some utility class
+    public static int getGoalHeaderColor(ActivityCategories curr) {
         switch (curr) {
             case Resting:
                 return R.color.restingHeaderColor;
@@ -129,7 +130,7 @@ public class ViewHolderProgressBar extends ViewHolder {
         }
     }
 
-    private int getGoalColor(ActivityCategories curr) {
+    public static int getGoalColor(ActivityCategories curr) {
         switch (curr) {
             case Resting:
                 //return Color.argb(255, 0, 150, 136);
