@@ -9,43 +9,39 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_margin="8dp">
 
         <EditText
+            style="@style/FilledTextFieldWhite"
             android:id="@+id/tv_user_config_name_first"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/sens_edit_text"
-            android:ems="10"
             android:inputType="textPersonName"
             android:hint="Fornavn"
-            android:textColor="@color/sensBlue"
-            android:layout_margin="8dp"
-            android:textSize="20dp" />
+            android:textSize="20sp"
+            android:layout_marginBottom="8dp"/>
 
         <EditText
+            style="@style/FilledTextFieldWhite"
             android:id="@+id/tv_user_config_name_last"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/sens_edit_text"
             android:ems="10"
             android:inputType="textPersonName"
             android:hint="Efternavn"
-            android:textColor="@color/sensBlue"
-            android:layout_margin="8dp"
-            android:textSize="20dp" />
+            android:textSize="20sp"
+            android:layout_marginBottom="8dp"/>
 
         <TextView
+            style="@style/FilledTextFieldWhite"
             android:id="@+id/tv_user_config_birth_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/sens_edit_text"
             android:ems="10"
-            android:inputType="textPersonName"
             android:hint="Fødselsdag"
-            android:textColor="@color/sensBlue"
-            android:layout_margin="8dp"
-            android:textSize="20dp" />
+            android:textSize="20sp"
+            android:layout_marginBottom="8dp"/>
 
     </LinearLayout>
 </ScrollView>

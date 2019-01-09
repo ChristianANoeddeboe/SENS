@@ -45,9 +45,20 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="TransparentButton" parent="Base.Widget.AppCompat.Button">
+        <item name="android:backgroundTint">@color/transparent</item>
+        <item name="android:textColor">@color/sensBlueDarker</item>
+    </style>
+
+
     <!-- Text fields -->
     <style name="FilledTextFieldWhite" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="android:backgroundTint">@color/white</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="FilledTextFieldBlue" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:backgroundTint">@color/sensBlueDarker</item>
+        <item name="android:textColor">@color/sensBlue</item>
     </style>
 </resources>
