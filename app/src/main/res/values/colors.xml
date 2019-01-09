@@ -28,4 +28,8 @@
     <color name="white">#ffffff</color>
     <color name="grey">#e1e1e1</color>
 
+    <color name="gold">#FF9800</color>
+    <color name="silver">#CFCFED</color>
+    <color name="bronze">#E47500</color>
+
 </resources>

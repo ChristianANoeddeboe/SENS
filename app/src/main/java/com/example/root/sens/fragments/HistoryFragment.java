@@ -1,5 +1,6 @@
 package com.example.root.sens.fragments;
 
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.example.root.sens.R;
 import com.example.root.sens.dao.UserDAO;
@@ -94,6 +96,7 @@ public class HistoryFragment extends Fragment {
             vh.date = view.findViewById(R.id.history_TextView_date);
             vh.info = view.findViewById(R.id.history_TextView_info);
             vh.title = view.findViewById(R.id.history_TextView_title);
+            vh.header = view.findViewById(R.id.history_LinearLayout_header);
 
             return vh;
         }
@@ -105,13 +108,18 @@ public class HistoryFragment extends Fragment {
             listElementViewHolder.date.setText( arr[0]);
             listElementViewHolder.title.setText(arr[1]+" Streak");
             listElementViewHolder.info.setText("Du har opnået alle dine mål " + arr[1] + " dage i træk!");
+            int color = R.color.white;
             if(count < 5){
                 listElementViewHolder.award.setImageResource(R.drawable.ic_bronze_medal);
+                color = R.color.bronze;
             }else if(count < 15){
                 listElementViewHolder.award.setImageResource(R.drawable.ic_silver_medal);
+                color = R.color.silver;
             }else{
                 listElementViewHolder.award.setImageResource(R.drawable.ic_gold_medal);
+                color = R.color.gold;
             }
+            listElementViewHolder.header.getBackground().mutate().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
         }
 
         @Override
@@ -123,6 +131,7 @@ public class HistoryFragment extends Fragment {
     class ListElementViewHolder extends RecyclerView.ViewHolder {
         TextView title,date,info;
         ImageView award;
+        LinearLayout header;
         public ListElementViewHolder(View itemView) {
             super(itemView);
         }
