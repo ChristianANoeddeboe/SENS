@@ -15,5 +15,6 @@
     <string name="pagerWindowNumber">pagerWindow</string>
     <string name="channel_name">Nemt</string>
     <string name="channel_description">Dette er nemt</string>
+    <string name="unit">minutter</string>
 
 </resources>

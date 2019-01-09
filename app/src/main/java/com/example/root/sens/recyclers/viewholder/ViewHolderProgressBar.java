@@ -7,6 +7,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.root.sens.dao.UserDAO;
@@ -23,16 +24,18 @@ import io.realm.RealmList;
 
 public class ViewHolderProgressBar extends ViewHolder {
     private final DecoView progressCircle;
-    private TextView textView;
+    private TextView progressTextView, titleTextView, unitTextview;
     private ImageView imageView;
-    private ConstraintLayout goalbox;
+    private LinearLayout goalbox;
     private int type;
     public ViewHolderProgressBar(View itemView, int i) {
         super(itemView);
         progressCircle = itemView.findViewById(R.id.dynamicArcView);
-        textView = itemView.findViewById(R.id.goalstatusTextView);
+        progressTextView = itemView.findViewById(R.id.goalstatusTextView);
         imageView = itemView.findViewById(R.id.goalIconImageView);
-        goalbox = itemView.findViewById(R.id.goalBox);
+        goalbox = itemView.findViewById(R.id.goalbox_LinearLayout_container);
+        titleTextView = itemView.findViewById(R.id.goalbox_TextView_title);
+        unitTextview = itemView.findViewById(R.id.goalbox_Textview_unit);
         type = i;
     }
 
@@ -68,12 +71,33 @@ public class ViewHolderProgressBar extends ViewHolder {
 
             goalbox.getBackground().mutate().setColorFilter(itemView.getResources().getColor(color), PorterDuff.Mode.MULTIPLY);
 
+            color = getGoalHeaderColor(currGoal.getType());
+
+            titleTextView.getBackground().mutate().setColorFilter(itemView.getResources().getColor(color), PorterDuff.Mode.MULTIPLY);
+
             generateIcons(currGoal, current);
             progressCircle.addSeries(new SeriesItem.Builder(Color.argb(255, 255, 255, 255))
                     .setRange(0, max, current)
                     .setLineWidth(20)
                     .setInset(new PointF(0, 2))
                     .build());
+        }
+    }
+
+    private int getGoalHeaderColor(ActivityCategories curr) {
+        switch (curr) {
+            case Resting:
+                return R.color.restingHeaderColor;
+            case Standing:
+                return R.color.standingHeaderColor;
+            case Walking:
+                return R.color.walkingHeaderColor;
+            case Cycling:
+                return R.color.cyclingHeaderColor;
+            case Exercise:
+                return R.color.exerciseHeaderColor;
+            default:
+                return R.color.white;
         }
     }
 
@@ -95,30 +119,34 @@ public class ViewHolderProgressBar extends ViewHolder {
                 //return Color.argb(244, 244, 67, 54);
                 return R.color.exerciseColor;
             default:
-                return Color.argb(255, 0, 0, 0);
+                return R.color.white;
         }
     }
 
 
     private void generateIcons(Goal curr, int currentGoalValue) {
-        textView.setText(Integer.toString(currentGoalValue)+"/"+Integer.toString(curr.getValue()));
+        progressTextView.setText(Integer.toString(currentGoalValue)+"/"+Integer.toString(curr.getValue()));
+        unitTextview.setText("meter");
+        titleTextView.setText(curr.getType().toString());
         int color = ContextCompat.getColor(itemView.getContext(), R.color.white);
-        textView.setTextColor(color);
+        progressTextView.setTextColor(color);
+        unitTextview.setTextColor(color);
+        titleTextView.setTextColor(color);
         switch (curr.getType()) {
             case Resting:
-                imageView.setImageResource(R.mipmap.icon_resting);
+                imageView.setImageResource(R.mipmap.icon_resting_inverted);
                 break;
             case Standing:
-                imageView.setImageResource(R.mipmap.icon_standing);
+                imageView.setImageResource(R.mipmap.icon_standing_inverted);
                 break;
             case Walking:
-                imageView.setImageResource(R.mipmap.icon_walking);
+                imageView.setImageResource(R.mipmap.icon_walking_inverted);
                 break;
             case Cycling:
-                imageView.setImageResource(R.mipmap.icon_cycling);
+                imageView.setImageResource(R.mipmap.icon_cycling_inverted);
                 break;
             case Exercise:
-                imageView.setImageResource(R.mipmap.icon_exercise);
+                imageView.setImageResource(R.mipmap.icon_exercise_inverted);
                 break;
         }
     }
