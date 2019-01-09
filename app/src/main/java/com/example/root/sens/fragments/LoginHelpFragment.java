@@ -22,11 +22,6 @@ public class LoginHelpFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_login_help, container, false);
 
-        ImageButton imageButton = rootView.findViewById(R.id.image_button_exit_about);
-        imageButton.setOnClickListener((View v) -> {
-            getActivity().onBackPressed();
-        });
-
         FrameLayout frameLayout = rootView.findViewById(R.id.frameLayout_login_help);
         frameLayout.setOnClickListener((View v) -> {
             getActivity().onBackPressed();
