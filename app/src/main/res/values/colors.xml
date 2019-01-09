@@ -18,6 +18,12 @@
     <color name="cyclingColor">#FF9800</color>
     <color name="exerciseColor">#F44336</color>
 
+    <color name="restingHeaderColor">#01655b</color>
+    <color name="standingHeaderColor">#242f6d</color>
+    <color name="walkingHeaderColor">#306d32</color>
+    <color name="cyclingHeaderColor">#a56200</color>
+    <color name="exerciseHeaderColor">#a12920</color>
+
     <color name="iconColor">#FF000000</color>
     <color name="white">#ffffff</color>
     <color name="grey">#e1e1e1</color>

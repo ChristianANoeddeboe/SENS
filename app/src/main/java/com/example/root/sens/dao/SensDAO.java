@@ -77,12 +77,19 @@ public class SensDAO implements Callback<Response>, Subject {
 
     @Override
     public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-        Log.d(TAG,"Error");
+        Log.d(TAG,"Error, not supposed to end here [ONRESPONSE]");
+        /**
+         * Note this method is not used, instead we use the one in getDataFromSens
+         */
     }
 
     @Override
     public void onFailure(Call<Response> call, Throwable t) {
+        Log.d(TAG,"Error, not supposed to end here [ONFAILURE]");
         t.printStackTrace();
+        /**
+         * Note this method is not used, instead we use the one in getDataFromSens
+         */
     }
 
     @Override
