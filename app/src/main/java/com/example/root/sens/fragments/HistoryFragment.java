@@ -15,12 +15,6 @@ import com.example.root.sens.R;
 
 public class HistoryFragment extends Fragment {
     RecyclerView recyclerView;
-    private String[] lande = {"Danmark", "Norge", "Sverige", "Finland",
-            "Holland", "Italien", "Tyskland", "Frankrig", "Spanien", "Portugal",
-            "Nepal", "Indien", "Kina", "Japan", "Thailand",
-            "Danmark", "Norge", "Sverige", "Finland",
-            "Holland", "Italien", "Tyskland", "Frankrig", "Spanien", "Portugal",
-            "Nepal", "Indien", "Kina", "Japan", "Thailand"};
 
 
     public HistoryFragment() {
@@ -51,25 +45,28 @@ public class HistoryFragment extends Fragment {
         public ListElementViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             View view = getLayoutInflater().inflate(R.layout.history_f_listelement,viewGroup,false);
             ListElementViewHolder vh = new ListElementViewHolder(view);
-            vh.icon = view.findViewById(R.id.historyListElementImage);
-            vh.text = view.findViewById(R.id.historyListElementText);
+            vh.award = view.findViewById(R.id.history_ImageView_award);
+            vh.date = view.findViewById(R.id.history_TextView_date);
+            vh.info = view.findViewById(R.id.history_TextView_info);
+            vh.title = view.findViewById(R.id.history_TextView_title);
+
             return vh;
         }
 
         @Override
         public void onBindViewHolder(@NonNull ListElementViewHolder listElementViewHolder, int i) {
-            listElementViewHolder.text.setText(lande[i]);
+//            listElementViewHolder.text.setText(lande[i]);
         }
 
         @Override
         public int getItemCount() {
-            return lande.length;
+            return 1;
         }
     };
 
     class ListElementViewHolder extends RecyclerView.ViewHolder {
-        TextView text;
-        ImageView icon;
+        TextView title,date,info;
+        ImageView award;
         public ListElementViewHolder(View itemView) {
             super(itemView);
         }
