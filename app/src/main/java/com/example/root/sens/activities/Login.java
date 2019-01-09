@@ -44,9 +44,6 @@ public class Login extends AppCompatActivity {
 
             if (checkForUser(sensorID)) {
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                Bundle b = new Bundle();
-                b.putString("snackbar", "Hej, " + " du er nu logget ind");
-                i.putExtras(b);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
                 return;

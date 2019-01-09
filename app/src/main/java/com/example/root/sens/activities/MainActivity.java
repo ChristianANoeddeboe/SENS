@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity
     private ProgressBar progressBar;
     private Snackbar snackbar;
     private AsyncTask asyncTask;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +60,9 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        /**
+         * Navigation Drawer
+         */
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -67,17 +72,22 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        /**
+         * Set text in Navigation drawer
+         */
+        View navigationHeader = navigationView.getHeaderView(0);
+
+        TextView navigationDrawerName = navigationHeader.findViewById(R.id.textViewNavDrawerName);
+        TextView navigationDrawerSensorId = navigationHeader.findViewById(R.id.textViewNavDrawerSensorID);
+
+        User currentUser = UserDAO.getInstance().getUserLoggedIn();
+        System.out.println(currentUser.getFirstName());
+        System.out.println(currentUser.getLastName());
+
+        navigationDrawerName.setText(currentUser.getFirstName() + " " + currentUser.getLastName());
+        navigationDrawerSensorId.setText(currentUser.getSensors().get(0).getId());
+
         final CoordinatorLayout coordinatorLayout = findViewById(R.id.main_a_coordinator_layout);
-//        try {
-//            String snackbarText = getIntent().getExtras().getString("snackbar");
-//
-//            Snackbar snackbar = Snackbar
-//                    .make(coordinatorLayout, snackbarText, Snackbar.LENGTH_LONG);
-//            snackbar.show();
-//
-//        } catch (NullPointerException e) {
-//
-//        }
 
         sharedPreferences = getApplication().getSharedPreferences(
                 getString(R.string.preference_file_key), Context.MODE_PRIVATE);
@@ -116,23 +126,6 @@ public class MainActivity extends AppCompatActivity
                 }.execute();
             }
         }, 1800000); // Fetch data every 30 min
-    }
-
-    @Override
-    public View onCreateView(String name, Context context, AttributeSet attrs) {
-        return super.onCreateView(name, context, attrs);
-
-        /**
-         * Set text in Navigation drawer
-         */
-//        TextView navigationDrawerName = findViewById(R.id.textViewNavDrawerName);
-//        TextView navigationDrawerSensorId = findViewById(R.id.textViewNavDrawerSensorID);
-//
-//
-//        User currentUser = UserDAO.getInstance().getUserLoggedIn();
-//        System.out.println(currentUser.getFirstName());
-//        navigationDrawerName.setText(currentUser.getFirstName() + " " + currentUser.getLastName());
-//        navigationDrawerSensorId.setText(currentUser.getSensors().get(0).getId());
     }
 
     private void sensProgressBar(CoordinatorLayout coordinatorLayout) {
