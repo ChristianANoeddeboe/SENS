@@ -2,6 +2,7 @@ package com.example.root.sens.recyclers.viewholder;
 
 import android.graphics.Color;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dto.DayData;
@@ -14,9 +15,14 @@ import com.example.root.sens.fragments.interfaces.OverviewListItem;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class ViewHolderCalendar extends ViewHolder {
     private final CompactCalendarView calendar;
-
+    private TextView calendarMonth;
+    private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", Locale.US);
     public ViewHolderCalendar(View itemView) {
         super(itemView);
         calendar = itemView.findViewById(R.id.compactcalendar_view);
@@ -28,9 +34,25 @@ public class ViewHolderCalendar extends ViewHolder {
         };
         calendar.setDayColumnNames(temp);
 
+        calendarMonth = itemView.findViewById(R.id.calendarMonth);
+        calendarMonth.setText(dateFormatForMonth.format(calendar.getFirstDayOfCurrentMonth()));
+
+
+
     }
 
     public void bindType(OverviewListItem item) {
+        calendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
+            @Override
+            public void onDayClick(Date dateClicked) {
+
+            }
+
+            @Override
+            public void onMonthScroll(Date firstDayOfNewMonth) {
+                calendarMonth.setText(dateFormatForMonth.format(calendar.getFirstDayOfCurrentMonth()));
+            }
+        });
         User activeUser = UserDAO.getInstance().getUserLoggedIn();
         for(DayData d : activeUser.getDayData()){
             long timeDelta = -1;
