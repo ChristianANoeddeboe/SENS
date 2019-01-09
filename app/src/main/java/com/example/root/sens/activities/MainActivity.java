@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity
         pagerSlidingTabStrip.setViewPager(viewPager);
         /**
          * Fetch data from SENS.
-         * TODO: Do this periodically aswell, right now only called when app is started.
          */
         s = SensDAO.getInstance();
         s.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
