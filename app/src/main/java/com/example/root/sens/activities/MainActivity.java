@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity
             notificationsManager.displayNotification();
         } else if (id == R.id.nav_about) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_overlay_layout, new AboutFragment())
+                    .replace(R.id.fragment_overlay_layout_main, new AboutFragment())
                     .addToBackStack(null)
                     .commit();
         }

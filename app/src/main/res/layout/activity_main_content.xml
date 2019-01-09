@@ -69,7 +69,7 @@
     </android.support.design.widget.CoordinatorLayout>
 
     <FrameLayout
-        android:id="@+id/fragment_overlay_layout"
+        android:id="@+id/fragment_overlay_layout_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

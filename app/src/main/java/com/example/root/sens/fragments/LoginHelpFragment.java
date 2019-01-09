@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.example.root.sens.R;
@@ -23,6 +24,11 @@ public class LoginHelpFragment extends Fragment{
 
         ImageButton imageButton = rootView.findViewById(R.id.image_button_exit_about);
         imageButton.setOnClickListener((View v) -> {
+            getActivity().onBackPressed();
+        });
+
+        FrameLayout frameLayout = rootView.findViewById(R.id.frameLayout_login_help);
+        frameLayout.setOnClickListener((View v) -> {
             getActivity().onBackPressed();
         });
 
