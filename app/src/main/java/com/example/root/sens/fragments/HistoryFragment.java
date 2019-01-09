@@ -8,14 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.root.sens.R;
-import com.example.root.sens.recyclers.viewholder.ViewHolder;
 
 
 public class HistoryFragment extends Fragment {
@@ -32,9 +27,6 @@ public class HistoryFragment extends Fragment {
         // Required empty public constructor
     }
 
-
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,21 +36,16 @@ public class HistoryFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.history_f_content, container, false);
-
-
         recyclerView = v.findViewById(R.id.historyRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
         recyclerView.setAdapter(adapter);
-
-        // Inflate the layout for this fragment
         return v;
     }
 
     private RecyclerView.Adapter adapter = new RecyclerView.Adapter<ListElementViewHolder>() {
-
         @NonNull
         @Override
         public ListElementViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
