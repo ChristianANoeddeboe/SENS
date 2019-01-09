@@ -14,31 +14,26 @@ import com.example.root.sens.recyclers.adapter.SettingsAdapter;
 import com.example.root.sens.recyclers.itemmodels.ItemModel;
 
 public class Settings extends AppCompatActivity {
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-       // mRecyclerView.setHasFixedSize(true);
+        recyclerView = findViewById(R.id.recyclerView);
 
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 
-        // specify an adapter (see also next example)
-        mAdapter = new SettingsAdapter(createItem());
-        mRecyclerView.setAdapter(mAdapter);
+        adapter = new SettingsAdapter(createItem());
+        recyclerView.setAdapter(adapter);
     }
 
     private List<ItemModel> createItem(){
-        ArrayList<ItemModel> items = new ArrayList<ItemModel>();
+        ArrayList<ItemModel> items = new ArrayList<>();
         for(int i=0; i<10; i++) {
             items.add(new ItemModel("Entry "+i, R.mipmap.ic_launcher));
         }
