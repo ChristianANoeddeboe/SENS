@@ -23,10 +23,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="1dp"
-        android:layout_marginBottom="1dp"
         android:text="TextView"
         android:textColor="@color/iconColor"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:textStyle="bold" />
 
     <com.github.sundeepk.compactcalendarview.CompactCalendarView
@@ -41,7 +40,7 @@
         app:compactCalendarMultiEventIndicatorColor="@color/sensBlue"
         app:compactCalendarOtherMonthDaysTextColor="@color/grey"
         app:compactCalendarTargetHeight="200dp"
-        app:compactCalendarTextSize="18sp"></com.github.sundeepk.compactcalendarview.CompactCalendarView>
+        app:compactCalendarTextSize="14sp"></com.github.sundeepk.compactcalendarview.CompactCalendarView>
 
 </FrameLayout>
 
