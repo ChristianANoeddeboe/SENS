@@ -41,7 +41,7 @@ public class AboutFragment extends Fragment{
 
         ImageButton imageButton = rootView.findViewById(R.id.image_button_exit_about);
         imageButton.setOnClickListener((View v) -> {
-            Toast.makeText(container.getContext(), "Luk", Toast.LENGTH_SHORT).show();
+            getActivity().onBackPressed();
         });
 
         return rootView;
