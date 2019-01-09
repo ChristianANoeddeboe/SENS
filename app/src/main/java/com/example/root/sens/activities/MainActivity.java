@@ -1,5 +1,7 @@
 package com.example.root.sens.activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,6 +33,7 @@ import com.example.root.sens.fragments.AboutFragment;
 import com.example.root.sens.fragments.HistoryFragment;
 import com.example.root.sens.fragments.OverviewFragment;
 import com.example.root.sens.notification.NotificationsManager;
+import com.example.root.sens.notification.TimeReceiver;
 
 
 public class MainActivity extends AppCompatActivity
@@ -116,6 +119,8 @@ public class MainActivity extends AppCompatActivity
         progressBar = new ProgressBar(coordinatorLayout.getContext());
         contentLay.addView(progressBar,0);
         snackbar.show();
+        startNotification();
+
     }
 
     @Override
@@ -207,5 +212,16 @@ public class MainActivity extends AppCompatActivity
         if(asyncTask != null){
             asyncTask.cancel(true);
         }
+    }
+
+    private void startNotification(){
+        Intent notifyIntent = new Intent(this,TimeReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast
+                (this, 42, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis(),
+                AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+
     }
 }

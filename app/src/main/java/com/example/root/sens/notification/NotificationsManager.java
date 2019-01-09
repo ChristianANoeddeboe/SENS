@@ -1,5 +1,6 @@
 package com.example.root.sens.notification;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -7,6 +8,7 @@ import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 
 import com.example.root.sens.R;
 import com.example.root.sens.dao.UserDAO;
@@ -25,9 +27,12 @@ import java.util.concurrent.atomic.AtomicReference;
 
 
 public class NotificationsManager {
-    String channelId;
-    Context ctx;
-    NotificationManager notificationManager;
+    private final static String GROUP_KEY_PROGRESS = "sens.goalprogress";
+    private String channelId;
+    private Context ctx;
+    private NotificationManager notificationManager;
+    private Map<String, Integer> goalMap = new HashMap();
+    private Map<String, Float> dataMap = new HashMap();
 
 
     public NotificationsManager(String channelId, Context ctx){
@@ -55,51 +60,93 @@ public class NotificationsManager {
     public void displayNotification(){
         UserDAO userDAO = UserDAO.getInstance();
         User currentUser = userDAO.getUserLoggedIn();
-
+        loadData(currentUser);
         currentUser.getFirstName();
 
-        String[] text = getNotiText(currentUser);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ctx, channelId)
-                .setSmallIcon(R.mipmap.ic_notification_round)
-                .setLargeIcon(BitmapFactory.decodeResource(ctx.getResources(), R.drawable.ic_launcher_round))
-                .setContentTitle("Hej " + currentUser.getFirstName() + "!")
-                .setContentText("Status rapport, du har klaret " + text[0] + " af 5 mål")
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(text[1]))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        Notification summaryNotification =
+                new NotificationCompat.Builder(ctx, channelId)
+                        .setContentTitle("Hej " + currentUser.getFirstName() + "!")
+                        //set content text to support devices running API level < 24
+                        .setContentText("Status rapport.")
+                        .setSmallIcon(R.mipmap.ic_notification_round)
+                        //build summary info into InboxStyle template
+                        //specify which group this notification belongs to
+                        .setGroup(GROUP_KEY_PROGRESS)
+                        //set this notification as the summary for the group
+                        .setGroupSummary(true)
+                        .build();
 
-        notificationManager.notify(42, mBuilder.build());
+        int PROGRESS_MAX = goalMap.get(String.valueOf(ActivityCategories.Walking));
+        int PROGRESS_CURRENT = dataMap.get(String.valueOf(ActivityCategories.Walking)).intValue();
+        Notification notificationWalking = new NotificationCompat.Builder(ctx, channelId)
+                .setSmallIcon(R.mipmap.ic_notification_round)
+                .setContentTitle("Walking")
+                .setContentText(""+PROGRESS_CURRENT+"/"+PROGRESS_MAX)
+                .setGroup(GROUP_KEY_PROGRESS)
+                .setProgress(PROGRESS_MAX, PROGRESS_CURRENT, false)
+                .build();
+
+        PROGRESS_MAX = goalMap.get(String.valueOf(ActivityCategories.Cycling));
+        PROGRESS_CURRENT = dataMap.get(String.valueOf(ActivityCategories.Cycling)).intValue();
+        Notification notificationCycling= new NotificationCompat.Builder(ctx, channelId)
+                .setSmallIcon(R.mipmap.ic_notification_round)
+                .setContentTitle("Cycling")
+                .setContentText(""+PROGRESS_CURRENT+"/"+PROGRESS_MAX)
+                .setGroup(GROUP_KEY_PROGRESS)
+                .setProgress(PROGRESS_MAX, PROGRESS_CURRENT, false)
+                .build();
+
+        PROGRESS_MAX = goalMap.get(String.valueOf(ActivityCategories.Exercise));
+        PROGRESS_CURRENT = dataMap.get(String.valueOf(ActivityCategories.Exercise)).intValue();
+        Notification notificationExercise = new NotificationCompat.Builder(ctx, channelId)
+                .setSmallIcon(R.mipmap.ic_notification_round)
+                .setContentText(""+PROGRESS_CURRENT+"/"+PROGRESS_MAX)
+                .setContentTitle("Exercise")
+                .setGroup(GROUP_KEY_PROGRESS)
+                .setProgress(PROGRESS_MAX, PROGRESS_CURRENT, false)
+                .build();
+
+        PROGRESS_MAX = goalMap.get(String.valueOf(ActivityCategories.Standing));
+        PROGRESS_CURRENT = dataMap.get(String.valueOf(ActivityCategories.Standing)).intValue();
+        Notification notificationStanding = new NotificationCompat.Builder(ctx, channelId)
+                .setSmallIcon(R.mipmap.ic_notification_round)
+                .setContentText(""+PROGRESS_CURRENT+"/"+PROGRESS_MAX)
+                .setContentTitle("Standing")
+                .setGroup(GROUP_KEY_PROGRESS)
+                .setProgress(PROGRESS_MAX, PROGRESS_CURRENT, false)
+                .build();
+
+        PROGRESS_MAX = goalMap.get(String.valueOf(ActivityCategories.Resting));
+        PROGRESS_CURRENT = dataMap.get(String.valueOf(ActivityCategories.Resting)).intValue();
+        Notification notificationResting = new NotificationCompat.Builder(ctx, channelId)
+                .setSmallIcon(R.mipmap.ic_notification_round)
+                .setContentText(""+PROGRESS_CURRENT+"/"+PROGRESS_MAX)
+                .setContentTitle("Resting")
+                .setGroup(GROUP_KEY_PROGRESS)
+                .setProgress(PROGRESS_MAX, PROGRESS_CURRENT, false)
+                .build();
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(ctx);
+        notificationManager.notify(0, notificationStanding);
+        notificationManager.notify(1, notificationWalking);
+        notificationManager.notify(2, notificationExercise);
+        notificationManager.notify(3, notificationCycling);
+        notificationManager.notify(4, notificationResting);
+        notificationManager.notify(5, summaryNotification);
     }
 
-    private String[] getNotiText(User user){
+    private void loadData(User user){
         GoalHistory goals = user.getGoals().get(0);
         DayData dayData = user.getDayData().get(0);
 
-        Map<String, Integer> goalMap = new HashMap();
+
         for(Goal goal : goals.getGoals()){
             goalMap.put(String.valueOf(goal.getType()), goal.getValue());
         }
-        Map<String, Float> dataMap = new HashMap();
+
         for(Record record : dayData.getRecords()){
             dataMap.put(String.valueOf(record.getType()), record.getValue());
         }
-
-
-        ArrayList<String> list = new ArrayList<>();
-        EnumSet.allOf(ActivityCategories.class).forEach(day -> list.add(String.valueOf(day)));
-
-        String string = "";
-        int goalCompletedCounter = 0, goal = 0, day = 0;
-        for(String str : list){
-            goal = goalMap.get(str);
-            day = dataMap.get(str).intValue();
-            string += str + ": " + day + "/" + goal  + "\n";
-            if(day >= goal){
-                goalCompletedCounter++;
-            }
-        }
-
-        return new String[]{String.valueOf(goalCompletedCounter), string};
     }
 
 }
