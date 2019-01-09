@@ -15,17 +15,36 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/goalbox_TextView_title"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
         android:padding="3dp"
         android:paddingStart="20dp"
-        android:text="Titel"
-        android:textColor="@android:color/black"
-        android:textSize="22sp"
-        android:background="@drawable/boxheader"
-        />
+        android:background="@drawable/boxheader">
+
+        <TextView
+            android:id="@+id/goalbox_TextView_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Titel"
+            android:textColor="@android:color/black"
+            android:textSize="22sp" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:background="none"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scaleType="fitEnd"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:paddingEnd="3dp"
+            android:src="@drawable/ic_info_circle_solid"
+            android:textSize="30sp" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
