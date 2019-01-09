@@ -140,11 +140,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-
         if (id == R.id.nav_manage) {
-            // SettingsActivity
-
-            // Save state:
             sharedPreferences.edit().putInt(getString(R.string.pagerWindowNumber), viewPager.getCurrentItem()).apply();
             Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(i);
