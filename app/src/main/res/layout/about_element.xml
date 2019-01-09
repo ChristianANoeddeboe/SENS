@@ -38,15 +38,17 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Some text"
             android:textSize="14dp"
-            android:text="Some text" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/studentNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="TextView"
             android:textSize="11dp"
-            android:text="TextView" />
+            android:textStyle="bold" />
     </LinearLayout>
 
 </LinearLayout>

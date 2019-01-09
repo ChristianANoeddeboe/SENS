@@ -26,7 +26,7 @@ public class AboutFragment extends Fragment{
         aboutItemModelArrayList.add(new AboutItemModel("Chrsitan Andersen Nøddeboe", "s164150", R.drawable.christian));
         aboutItemModelArrayList.add(new AboutItemModel("Mathias", "s175192", R.drawable.mathias));
         aboutItemModelArrayList.add(new AboutItemModel("Jeppe Trip Kofoed", "s175197", R.drawable.jeppe));
-        aboutItemModelArrayList.add(new AboutItemModel("thyge Skødt Steffensen", "s175176", R.drawable.thyge));
+        aboutItemModelArrayList.add(new AboutItemModel("Thyge Skødt Steffensen", "s175176", R.drawable.thyge));
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recycler_view_about);
         recyclerView.setHasFixedSize(true);

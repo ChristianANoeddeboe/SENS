@@ -28,7 +28,7 @@
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="20dp">
 
                 <TextView
@@ -36,55 +36,47 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:textSize="16dp"
                     android:text="Om"
-                    app:layout_constraintBottom_toTopOf="@+id/textView2"
-                    app:layout_constraintEnd_toStartOf="@+id/image_button_exit_about"
-                    app:layout_constraintHorizontal_bias="0.0"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Samarbejdet mellem Sens og nedestående medlemmer er indgået gennem DTU."
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/textView2"
+                    tools:layout_editor_absoluteX="0dp" />
 
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="Applikationen er udviklet i samarbjede med SENS Inovations ApS og medlemmer fra listen nedenunder."
-                    app:layout_constraintBottom_toTopOf="@+id/textView4"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/image_button_exit_about" />
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="Samarbejdet er ingået mellem partnere gennem DTU."
-                    app:layout_constraintBottom_toTopOf="@+id/recycler_view_about"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                    android:text="Applikationen er udviklet i samarbjede med SENS Inovations ApS og medlemmer fra listen nedenunder."
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
                 <ImageButton
                     android:id="@+id/image_button_exit_about"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
                     android:background="@color/transparent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.971"
-                    app:layout_constraintVertical_bias="0.063"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_times_circle_regular" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_view_about"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView4">
 
                 </android.support.v7.widget.RecyclerView>
