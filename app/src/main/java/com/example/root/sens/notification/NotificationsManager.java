@@ -133,7 +133,7 @@ public class NotificationsManager {
     private void loadData(User user){
         GoalHistory goals = user.getGoals().get(0);
         DayData dayData = user.getDayData().get(0);
-        
+
         for(Goal goal : goals.getGoals()){
             goalMap.put(String.valueOf(goal.getType()), goal.getValue());
         }
