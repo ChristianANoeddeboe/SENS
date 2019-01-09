@@ -7,8 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.example.root.sens.R;
 import com.example.root.sens.recyclers.adapter.AboutAdapter;
@@ -41,7 +41,12 @@ public class AboutFragment extends Fragment{
 
         ImageButton imageButton = rootView.findViewById(R.id.image_button_exit_about);
         imageButton.setOnClickListener((View v) -> {
-            Toast.makeText(container.getContext(), "Luk", Toast.LENGTH_SHORT).show();
+            getActivity().onBackPressed();
+        });
+
+        FrameLayout frameLayout = rootView.findViewById(R.id.frameLayout_about);
+        frameLayout.setOnClickListener((View v) -> {
+            getActivity().onBackPressed();
         });
 
         return rootView;

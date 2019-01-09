@@ -29,4 +29,11 @@
     <color name="grey">#e1e1e1</color>
 
     <color name="transparent">#00FFFFFF</color>
+    <color name="golddarker">#FFFF9800</color>
+    <color name="gold">#FFFFB64C</color>
+    <color name="silverdarker">#FFCFCFED</color>
+    <color name="silver">#FFEEEFFF</color>
+    <color name="bronzedarker">#FFE47500</color>
+    <color name="bronze">#FFFF8700</color>
+
 </resources>
