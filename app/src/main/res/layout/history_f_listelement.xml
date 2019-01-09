@@ -7,14 +7,14 @@
     android:layout_marginTop="20dp">
 
     <ImageView
-        android:id="@+id/listeelem_billede"
+        android:id="@+id/historyListElementImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dip"
         android:src="@mipmap/award" />
 
     <TextView
-        android:id="@+id/listelement_title"
+        android:id="@+id/historyListElementText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"

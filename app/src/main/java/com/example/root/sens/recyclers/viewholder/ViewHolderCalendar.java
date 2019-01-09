@@ -28,7 +28,7 @@ public class ViewHolderCalendar extends ViewHolder {
         calendar = itemView.findViewById(R.id.compactcalendar_view);
         calendar.setCurrentDayBackgroundColor(Color.rgb(240,240,240));
         calendar.setCurrentSelectedDayBackgroundColor(Color.rgb(218,218,218));
-        calendar.setCurrentSelectedDayIndicatorStyle(0);
+        calendar.setCurrentSelectedDayIndicatorStyle(1);
         String[] temp = new String[]{
                 "M","T","O","T","F","L","S"
         };
