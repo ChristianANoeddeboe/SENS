@@ -30,14 +30,6 @@ public class Login extends AppCompatActivity {
 //        userDAO.createUser(user);
 //        userDAO.saveUser(user);
 
-        Intent notifyIntent = new Intent(this,TimeReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast
-                (this, 42, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis(),
-                AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
-
         setContentView(R.layout.activity_login);
 
         EditText sensorField = findViewById(R.id.key_text);
