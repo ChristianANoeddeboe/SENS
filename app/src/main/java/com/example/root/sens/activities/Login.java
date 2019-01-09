@@ -1,5 +1,8 @@
 package com.example.root.sens.activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +15,7 @@ import android.widget.Toast;
 import com.example.root.sens.controllers.interfaces.ILoginController;
 import com.example.root.sens.R;
 import com.example.root.sens.controllers.LoginController;
+import com.example.root.sens.notification.TimeReceiver;
 
 public class Login extends AppCompatActivity {
     private final static String TAG = Login.class.getSimpleName();
@@ -25,6 +29,14 @@ public class Login extends AppCompatActivity {
 //        user.setSensors(new RealmList<>(new Sensor("1234")));
 //        userDAO.createUser(user);
 //        userDAO.saveUser(user);
+
+        Intent notifyIntent = new Intent(this,TimeReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast
+                (this, 42, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis(),
+                AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
 
         setContentView(R.layout.activity_login);
 
