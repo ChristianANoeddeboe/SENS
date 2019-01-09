@@ -1,10 +1,10 @@
 package com.example.root.sens.recyclers.viewholder;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -22,8 +22,7 @@ import com.example.root.sens.dto.ActivityCategories;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.Record;
-import com.example.root.sens.fragments.AboutFragment;
-import com.example.root.sens.fragments.HistoryFragment;
+import com.example.root.sens.fragments.GoalInfoFragment;
 import com.example.root.sens.fragments.interfaces.OverviewListItem;
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
@@ -36,6 +35,7 @@ public class ViewHolderProgressBar extends ViewHolder {
     private ImageView imageView;
     private LinearLayout goalbox, header;
     private ImageButton expandButton;
+    private int headerColor;
     private int type;
     public ViewHolderProgressBar(View itemView, int i, Context viewGroup) {
         super(itemView);
@@ -50,11 +50,14 @@ public class ViewHolderProgressBar extends ViewHolder {
         expandButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment f = new AboutFragment();
-                FragmentManager manager = ((AppCompatActivity)viewGroup).getSupportFragmentManager();
-                manager.beginTransaction().replace(R.id.test1234,f).commit();
-                //myActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,f).commit();
-                Log.d("test1234", "onClick: aa");
+                if(v.equals(expandButton)) {
+                    Bundle args = new Bundle();
+                    args.putInt("headerColor",headerColor);
+                    Fragment f = new GoalInfoFragment();
+                    f.setArguments(args);
+                    FragmentManager manager = ((AppCompatActivity) viewGroup).getSupportFragmentManager();
+                    manager.beginTransaction().replace(R.id.goalsContentContainer, f).addToBackStack(null).commit();
+                }
             }
         });
         type = i;
@@ -97,7 +100,7 @@ public class ViewHolderProgressBar extends ViewHolder {
             color = getGoalHeaderColor(currGoal.getType());
 
             color = ContextCompat.getColor(itemView.getContext(), color);
-
+            headerColor = color;
             header.getBackground().mutate().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
 
             generateIcons(currGoal, current);

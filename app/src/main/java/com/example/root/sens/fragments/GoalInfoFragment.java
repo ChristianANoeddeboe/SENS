@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import com.example.root.sens.R;
 import com.example.root.sens.recyclers.adapter.AboutAdapter;
@@ -20,9 +21,9 @@ public class GoalInfoFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_about, container, false);
-
-
+        View rootView = inflater.inflate(R.layout.fragment_goal_info, container, false);
+        FrameLayout ll = rootView.findViewById(R.id.goalInfoContainer);
+        ll.setBackgroundColor(getArguments().getInt("headerColor"));
         return rootView;
     }
 
