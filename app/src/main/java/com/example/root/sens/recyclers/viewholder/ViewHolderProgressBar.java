@@ -70,11 +70,15 @@ public class ViewHolderProgressBar extends ViewHolder {
             }
             int color = getGoalColor(currGoal.getType());
 
-            goalbox.getBackground().mutate().setColorFilter(itemView.getResources().getColor(color), PorterDuff.Mode.MULTIPLY);
+            color = ContextCompat.getColor(itemView.getContext(), color);
+
+            goalbox.getBackground().mutate().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
 
             color = getGoalHeaderColor(currGoal.getType());
 
-            header.getBackground().mutate().setColorFilter(itemView.getResources().getColor(color), PorterDuff.Mode.MULTIPLY);
+            color = ContextCompat.getColor(itemView.getContext(), color);
+
+            header.getBackground().mutate().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
 
             generateIcons(currGoal, current);
             progressCircle.addSeries(new SeriesItem.Builder(Color.argb(255, 255, 255, 255))
