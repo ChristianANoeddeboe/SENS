@@ -99,7 +99,7 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
             return mDataSet;
         }
 
-        private String generateProgressText(int progress){
+        public static String generateProgressText(int progress){
             String result = null;
             int hours = progress/60;
             int minuttes = progress%60;

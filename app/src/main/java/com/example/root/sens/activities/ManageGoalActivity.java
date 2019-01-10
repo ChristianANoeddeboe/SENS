@@ -12,6 +12,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.root.sens.R;
+import com.example.root.sens.recyclers.adapter.SetGoalAdapter;
 
 import java.util.ArrayList;
 
@@ -47,14 +48,32 @@ public class ManageGoalActivity extends AppCompatActivity {
             View view = getLayoutInflater().inflate(R.layout.set_goal_element,viewGroup,false);
             ListElementViewHolder vh = new ListElementViewHolder(view);
             vh.seekBar = view.findViewById(R.id.seekBar_set_goal);
-            vh.header = view.findViewById(R.id.textView_set_goal_total);
-            vh.total = view.findViewById(R.id.textView_set_goal_element_header);
+            vh.total = view.findViewById(R.id.textView_set_goal_total);
+            vh.header = view.findViewById(R.id.textView_set_goal_element_header);
             return vh;
         }
 
         @Override
         public void onBindViewHolder(@NonNull ListElementViewHolder listElementViewHolder, int i) {
             listElementViewHolder.header.setText(data.get(i));
+            listElementViewHolder.seekBar.setMax(24*60);
+            listElementViewHolder.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    listElementViewHolder.total.setText(SetGoalAdapter.generateProgressText(progress));
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
+            });
+
         }
 
         @Override
