@@ -6,9 +6,4 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.ManageGoalActivity">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/managegoal_RecyclerView_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 </FrameLayout>

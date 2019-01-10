@@ -14,6 +14,11 @@
             android:title="Send notifikation"
             />
         <item
+            android:id="@+id/nav_manageGoals"
+            android:icon="@drawable/ic_edit"
+            android:title="Rediger mål"
+            />
+        <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_info_circle_solid"
             android:title="Om"

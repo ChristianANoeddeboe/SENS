@@ -162,6 +162,9 @@ public class MainActivity extends AppCompatActivity
         else if(id == R.id.nav_send_notification){
             NotificationsManager notificationsManager = new NotificationsManager("String", this);
             notificationsManager.displayNotification();
+        } else if(id == R.id.nav_manageGoals) {
+            Intent i = new Intent(getApplicationContext(), ManageGoalActivity.class);
+            startActivity(i);
         }
         else if (id == R.id.nav_about) {
             getSupportFragmentManager().beginTransaction()
