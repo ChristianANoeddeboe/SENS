@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.root.sens.R;
@@ -40,13 +41,15 @@ import com.example.root.sens.fragments.HistoryFragment;
 import com.example.root.sens.fragments.OverviewFragment;
 import com.example.root.sens.notification.NotificationsManager;
 import com.example.root.sens.notification.TimeReceiver;
-import com.example.root.sens.observers.MainFullScreenFragment;
+import com.example.root.sens.observers.MainFullScreenFragmentObserver;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, SensObserver, MainFullScreenFragment {
+        implements NavigationView.OnNavigationItemSelectedListener, SensObserver, MainFullScreenFragmentObserver {
     private ViewPager viewPager;
     private Subject s;
     private static String[] viewNames = {"Overview", "Historik"};
@@ -55,6 +58,7 @@ public class MainActivity extends AppCompatActivity
     private ProgressBar progressBar;
     private Snackbar snackbar;
     private AsyncTask asyncTask;
+    private CoordinatorLayout coordinatorLayout;
 
 
     @Override
@@ -118,11 +122,11 @@ public class MainActivity extends AppCompatActivity
         /**
          * Fetch data from SENS.
          */
-        CoordinatorLayout coordinatorLayout = findViewById(R.id.main_a_coordinator_layout);
+        coordinatorLayout = findViewById(R.id.main_a_coordinator_layout);
         s = SensDAO.getInstance();
         s.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
         SensDAO.getInstance().getData("xt9w2r");
-        fetchDataProgressBar(coordinatorLayout);
+        fetchDataProgressBar();
 
         new Handler().postDelayed(() -> asyncTask = new AsyncTask() {
             @Override
@@ -134,7 +138,7 @@ public class MainActivity extends AppCompatActivity
         }.execute(), 1800000); // Fetch data every 30 min
     }
 
-    private void fetchDataProgressBar(CoordinatorLayout coordinatorLayout) {
+    private void fetchDataProgressBar() {
         snackbar = Snackbar.make(coordinatorLayout, "Henter data", Snackbar.LENGTH_INDEFINITE);
         ViewGroup contentLay = (ViewGroup) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text).getParent();
         progressBar = new ProgressBar(coordinatorLayout.getContext());
@@ -173,6 +177,7 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.fragment_overlay_layout_main, new AboutFragment())
                     .addToBackStack(null)
                     .commit();
+            showSnack();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -191,11 +196,25 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void showFragment(List<DayGoalDTO> dataList) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_overlay_layout_main, new DayDataFragment())
-                .addToBackStack(null)
-                .commit();
+    public void showFragment(Date date) {
+//        Snackbar.make(findViewById(R.id.fragment_overlay_layout_main), "Test", Snackbar.LENGTH_LONG).show();
+
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("date", date);
+
+//        Fragment dayDataFragment = new DayDataFragment();
+//        dayDataFragment.setArguments(bundle);
+//        getSupportFragmentManager().beginTransaction()
+
+//                .replace(R.id.fragment_overlay_layout_main, new AboutFragment())
+//                .addToBackStack(null)
+//                .commit();
+
+        showSnack();
+    }
+
+    private void showSnack(){
+        Snackbar.make(coordinatorLayout, "Test", Snackbar.LENGTH_LONG).show();
     }
 
     /**
