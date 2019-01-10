@@ -21,14 +21,18 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.root.sens.R;
 import com.example.root.sens.dao.SensDAO;
+import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dao.interfaces.SensObserver;
 import com.example.root.sens.dao.interfaces.Subject;
+import com.example.root.sens.dto.User;
 import com.example.root.sens.fragments.AboutFragment;
 import com.example.root.sens.fragments.HistoryFragment;
 import com.example.root.sens.fragments.OverviewFragment;
@@ -46,10 +50,17 @@ public class MainActivity extends AppCompatActivity
     private ProgressBar progressBar;
     private Snackbar snackbar;
     private AsyncTask asyncTask;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /**
+         * Navigation Drawer
+         */
         setContentView(R.layout.mainactivity_a_burgermenu);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -62,18 +73,25 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        final CoordinatorLayout coordinatorLayout = findViewById(R.id.main_a_coordinator_layout);
-        try {
-            String snackbarText = getIntent().getExtras().getString("snackbar");
+        /**
+         * Set text in Navigation drawer
+         */
+        View navigationHeader = navigationView.getHeaderView(0);
 
-            Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, snackbarText, Snackbar.LENGTH_LONG);
-            snackbar.show();
+        TextView navigationDrawerName = navigationHeader.findViewById(R.id.textViewNavDrawerName);
+        TextView navigationDrawerSensorId = navigationHeader.findViewById(R.id.textViewNavDrawerSensorID);
 
-        } catch (NullPointerException e) {
+        User currentUser = UserDAO.getInstance().getUserLoggedIn();
+        System.out.println(currentUser.getFirstName());
+        System.out.println(currentUser.getLastName());
 
-        }
+        navigationDrawerName.setText(currentUser.getFirstName() + " " + currentUser.getLastName());
+        navigationDrawerSensorId.setText(currentUser.getSensors().get(0).getId());
 
+
+        /**
+         * Initializing the view pager
+         */
         sharedPreferences = getApplication().getSharedPreferences(
                 getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
@@ -83,6 +101,7 @@ public class MainActivity extends AppCompatActivity
         viewPager.setCurrentItem(sharedPreferences.getInt(getString(R.string.pagerWindowNumber)
                 ,0));
         sharedPreferences.edit().remove(getString(R.string.pagerWindowNumber)).apply();
+
         /**
          * Declare the view pager sliding tab
          */
@@ -90,37 +109,33 @@ public class MainActivity extends AppCompatActivity
         pagerSlidingTabStrip.setShouldExpand(true);
         pagerSlidingTabStrip.setIndicatorColorResource(R.color.sensBlue);
         pagerSlidingTabStrip.setViewPager(viewPager);
+
         /**
          * Fetch data from SENS.
          */
+        CoordinatorLayout coordinatorLayout = findViewById(R.id.main_a_coordinator_layout);
         s = SensDAO.getInstance();
         s.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
         SensDAO.getInstance().getData("xt9w2r");
-        sensProgressBar(coordinatorLayout);
+        fetchDataProgressBar(coordinatorLayout);
 
-        new Handler().postDelayed(new Runnable() {
+        new Handler().postDelayed(() -> asyncTask = new AsyncTask() {
             @Override
-            public void run() {
-                asyncTask = new AsyncTask() {
-                    @Override
-                    protected Object doInBackground(Object[] objects) {
-                        snackbar.show();
-                        SensDAO.getInstance().getData("xt9w2r");
-                        return null;
-                    }
-                }.execute();
+            protected Object doInBackground(Object[] objects) {
+                snackbar.show();
+                SensDAO.getInstance().getData("xt9w2r");
+                return null;
             }
-        }, 1800000); // Fetch data every 30 min
+        }.execute(), 1800000); // Fetch data every 30 min
     }
 
-    private void sensProgressBar(CoordinatorLayout coordinatorLayout) {
-        snackbar = Snackbar.make(coordinatorLayout, "Fetching data", Snackbar.LENGTH_INDEFINITE);
+    private void fetchDataProgressBar(CoordinatorLayout coordinatorLayout) {
+        snackbar = Snackbar.make(coordinatorLayout, "Henter data", Snackbar.LENGTH_INDEFINITE);
         ViewGroup contentLay = (ViewGroup) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text).getParent();
         progressBar = new ProgressBar(coordinatorLayout.getContext());
         contentLay.addView(progressBar,0);
         snackbar.show();
         startNotification();
-
     }
 
     @Override
@@ -137,42 +152,41 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-
         if (id == R.id.nav_manage) {
-            // SettingsActivity
-
-            // Save state:
             sharedPreferences.edit().putInt(getString(R.string.pagerWindowNumber), viewPager.getCurrentItem()).apply();
             Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(i);
-        }else if(id == R.id.nav_send_notification){
+        }
+        else if(id == R.id.nav_send_notification){
             NotificationsManager notificationsManager = new NotificationsManager("String", this);
             notificationsManager.displayNotification();
-        } else if (id == R.id.nav_about) {
+        }
+        else if (id == R.id.nav_about) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_overlay_layout, new AboutFragment())
+                    .replace(R.id.fragment_overlay_layout_main, new AboutFragment())
                     .addToBackStack(null)
                     .commit();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 
     /**
-     * When daydata is fetched from sens sucessfully, this is called, telling the view to be refreshed.
+     * When daydata is fetched from sens successfully, this is called, telling the view to be refreshed.
      */
     @Override
     public void onDataReceived() {
         snackbar.dismiss();
         viewpagerAdapter.notifyDataSetChanged();
     }
-    /*
-    The view pager is handled here
+
+    /**
+     * The view pager is handled here
      */
     private class ViewpagerAdapter extends FragmentPagerAdapter {
         public ViewpagerAdapter(FragmentManager fm) {
@@ -214,6 +228,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Setting an alarm to trigger an event every 15 minute.
+     * The event to trigger is sending a notification.
+     */
     private void startNotification(){
         Intent notifyIntent = new Intent(this,TimeReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast
@@ -222,6 +240,5 @@ public class MainActivity extends AppCompatActivity
         AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis(),
                 AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
-
     }
 }

@@ -25,8 +25,18 @@
     <color name="exerciseHeaderColor">#a12920</color>
 
     <color name="iconColor">#FF000000</color>
-    <color name="white">#ffffff</color>
+    <color name="white">#FFFFFF</color>
     <color name="grey">#e1e1e1</color>
 
     <color name="transparent">#00FFFFFF</color>
+    <color name="golddarker">#FFFF9800</color>
+    <color name="gold">#FFFFB64C</color>
+    <color name="silverdarker">#FFCFCFED</color>
+    <color name="silver">#FFEEEFFF</color>
+    <color name="bronzedarker">#FFE47500</color>
+    <color name="bronze">#FFFF8700</color>
+    <color name="TextColorFragmentHeader">#DE000000</color>
+    <color name="TextColorBodyFragment">#99000000</color>
+    <color name="fragment_see_through_grey">#52000000</color>
+
 </resources>

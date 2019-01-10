@@ -1,7 +1,10 @@
 package com.example.root.sens.dao;
 
 import com.example.root.sens.dao.interfaces.IUserDao;
+import com.example.root.sens.dto.DayData;
+import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
+import com.example.root.sens.dto.Record;
 import com.example.root.sens.dto.Sensor;
 import com.example.root.sens.dto.Settings;
 import com.example.root.sens.dto.User;
@@ -9,6 +12,7 @@ import com.example.root.sens.dto.User;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -84,6 +88,52 @@ public class UserDAO implements IUserDao {
         }
         //TODO: Cast en execption her.
         return goals.get(0);
+    }
+
+
+    public HashMap<Date,Boolean> userFulfilledGoals() {
+        HashMap<Date,Boolean> result = new HashMap<>();
+        User activeUser = UserDAO.getInstance().getUserLoggedIn();
+        for(DayData d : activeUser.getDayData()){
+            long timeDelta = -1;
+            GoalHistory temp = null;
+            /**
+             * Find the smallest difference which is positive
+             */
+            for(GoalHistory g : activeUser.getGoals()){
+                long temp2 = d.getStart_time().getTime() - g.getDate().getTime();
+                if((temp2 < timeDelta && temp2 >= 0)||timeDelta == -1) {
+                    timeDelta = temp2;
+                    temp = g;
+                }
+            }
+            //If temp is null then we did not find a valid match
+            if(temp != null){
+                boolean completed = false;
+                for(Goal g : temp.getGoals()){
+                    completed = false;
+                    for(Record r : d.getRecords()){ // Check if the user completed all its goals
+                        if(r.getType().equals(g.getType())){
+                            if(r.getValue() >= g.getValue()){
+                                completed = true;
+                                break;
+                            }
+                        }
+                    }
+                    if(!completed){
+                        result.put(d.getEnd_time(),false);
+                        //calendar.addEvent(new Event(Color.rgb(244,57,54), d.getEnd_time().getTime(), "test"));
+                        break;
+                    }
+                }
+                if(completed){
+                    result.put(d.getEnd_time(),true);
+                    //calendar.addEvent(new Event(Color.rgb(76,175,80), d.getEnd_time().getTime(), "test1234"));
+                }
+            }
+
+        }
+        return result;
     }
 
 

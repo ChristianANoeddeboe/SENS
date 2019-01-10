@@ -17,6 +17,7 @@ import com.github.sundeepk.compactcalendarview.domain.Event;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 public class ViewHolderCalendar extends ViewHolder {
@@ -28,7 +29,7 @@ public class ViewHolderCalendar extends ViewHolder {
         calendar = itemView.findViewById(R.id.compactcalendar_view);
         calendar.setCurrentDayBackgroundColor(Color.rgb(240,240,240));
         calendar.setCurrentSelectedDayBackgroundColor(Color.rgb(218,218,218));
-        calendar.setCurrentSelectedDayIndicatorStyle(0);
+        calendar.setCurrentSelectedDayIndicatorStyle(1);
         String[] temp = new String[]{
                 "M","T","O","T","F","L","S"
         };
@@ -53,45 +54,18 @@ public class ViewHolderCalendar extends ViewHolder {
                 calendarMonth.setText(dateFormatForMonth.format(calendar.getFirstDayOfCurrentMonth()));
             }
         });
-        User activeUser = UserDAO.getInstance().getUserLoggedIn();
-        for(DayData d : activeUser.getDayData()){
-            long timeDelta = -1;
-            GoalHistory temp = null;
-            /**
-             * Find the smallest difference which is positive
-             */
-            for(GoalHistory g : activeUser.getGoals()){
-                long temp2 = d.getStart_time().getTime() - g.getDate().getTime();
-                if((temp2 < timeDelta && temp2 >= 0)||timeDelta == -1) {
-                    timeDelta = temp2;
-                    temp = g;
-                }
+        HashMap<Date,Boolean> result = UserDAO.getInstance().userFulfilledGoals();
+        for(Date date : result.keySet()){
+            boolean tempRes = result.get(date).booleanValue();
+            if(tempRes){
+                calendar.addEvent(new Event(Color.rgb(76,175,80), date.getTime(), "test1234"));
+            }else{
+                calendar.addEvent(new Event(Color.rgb(244,57,54), date.getTime(), "test"));
             }
-            //If temp is null then we did not find a valid match
-            if(temp != null){
-                boolean completed = false;
-                for(Goal g : temp.getGoals()){
-                    completed = false;
-                    for(Record r : d.getRecords()){ // Check if the user completed all its goals
-                        if(r.getType().equals(g.getType())){
-                            if(r.getValue() >= g.getValue()){
-                                completed = true;
-                                break;
-                            }
-                        }
-                    }
-                    if(!completed){
-                        calendar.addEvent(new Event(Color.rgb(244,57,54), d.getEnd_time().getTime(), "test"));
-                        break;
-                    }
-                }
-                if(completed){
-                    calendar.addEvent(new Event(Color.rgb(76,175,80), d.getEnd_time().getTime(), "test1234"));
-                }
-            }
-
         }
        // calendar.addEvent(new Event(Color.GREEN,1542530497*1000L,"Tesaasdt")); // This should be done dynamically
 
     }
+
+
 }

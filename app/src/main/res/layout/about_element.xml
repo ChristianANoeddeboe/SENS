@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:text="Some text"
             android:textSize="14dp"
-            android:textStyle="bold" />
+            android:textColor="@color/TextColorBodyFragment"/>
 
         <TextView
             android:id="@+id/studentNumber"
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:text="TextView"
             android:textSize="11dp"
-            android:textStyle="bold" />
+            android:textColor="@color/TextColorBodyFragment"/>
     </LinearLayout>
 
 </LinearLayout>

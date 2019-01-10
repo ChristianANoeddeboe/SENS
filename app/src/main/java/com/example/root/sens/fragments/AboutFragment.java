@@ -1,14 +1,16 @@
 package com.example.root.sens.fragments;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.example.root.sens.R;
 import com.example.root.sens.recyclers.adapter.AboutAdapter;
@@ -39,10 +41,11 @@ public class AboutFragment extends Fragment{
 
         recyclerView.setAdapter(aboutAdapter);
 
-        ImageButton imageButton = rootView.findViewById(R.id.image_button_exit_about);
-        imageButton.setOnClickListener((View v) -> {
-            Toast.makeText(container.getContext(), "Luk", Toast.LENGTH_SHORT).show();
-        });
+        Button exitButton = rootView.findViewById(R.id.button_about_exit);
+        exitButton.setOnClickListener((View v) -> getActivity().onBackPressed());
+
+        ConstraintLayout layout = rootView.findViewById(R.id.layout_about);
+        layout.setOnClickListener((View v) -> getActivity().onBackPressed());
 
         return rootView;
     }
