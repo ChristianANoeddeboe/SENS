@@ -56,7 +56,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int pos) {
         OverviewListItem item = mItems.get(pos);
-        //viewHolder.bindType(item);
+        viewHolder.bindType(item);
     }
 
     @Override

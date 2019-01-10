@@ -95,19 +95,10 @@ public class ViewHolderProgressBar extends ViewHolder {
             color = ContextCompat.getColor(itemView.getContext(), color);
             goalbox.getBackground().mutate().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
 
-            color = getGoalHeaderColor(currGoal.getType());
-
-            color = ContextCompat.getColor(itemView.getContext(), color);
-            header.getBackground().mutate().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
-
             progressTextView.setText(Integer.toString(current)+"/"+Integer.toString(currGoal.getValue()));
             unitTextview.setText("minutes");
 
             title.setText(currGoal.getType().toString());
-            int tempColor = ContextCompat.getColor(itemView.getContext(), R.color.white);
-            progressTextView.setTextColor(tempColor);
-            unitTextview.setTextColor(tempColor);
-            title.setTextColor(tempColor);
 
             imageView.setImageResource(generateIcons(currGoal.getType()));
 
