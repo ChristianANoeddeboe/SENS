@@ -71,38 +71,38 @@ public class NotificationsManager {
                         .setGroupSummary(true)
                         .build();
 
-        int process_max = goalMap.get(String.valueOf(ActivityCategories.Walking));
-        int progress_current = dataMap.get(String.valueOf(ActivityCategories.Walking)).intValue();
+        int process_max = goalMap.get(String.valueOf(ActivityCategories.Gang));
+        int progress_current = dataMap.get(String.valueOf(ActivityCategories.Gang)).intValue();
         Notification notificationWalking = new NotificationCompat.Builder(ctx, channelId)
                 .setSmallIcon(R.mipmap.ic_notification_round)
-                .setContentTitle("Walking")
+                .setContentTitle("Gang")
                 .setContentText(""+progress_current+"/"+process_max)
                 .setGroup(GROUP_KEY_PROGRESS)
                 .setProgress(process_max, progress_current, false)
                 .build();
 
-        process_max = goalMap.get(String.valueOf(ActivityCategories.Cycling));
-        progress_current = dataMap.get(String.valueOf(ActivityCategories.Cycling)).intValue();
+        process_max = goalMap.get(String.valueOf(ActivityCategories.Cykling));
+        progress_current = dataMap.get(String.valueOf(ActivityCategories.Cykling)).intValue();
         Notification notificationCycling= new NotificationCompat.Builder(ctx, channelId)
                 .setSmallIcon(R.mipmap.ic_notification_round)
-                .setContentTitle("Cycling")
+                .setContentTitle("Cykling")
                 .setContentText(""+progress_current+"/"+process_max)
                 .setGroup(GROUP_KEY_PROGRESS)
                 .setProgress(process_max, progress_current, false)
                 .build();
 
-        process_max = goalMap.get(String.valueOf(ActivityCategories.Exercise));
-        progress_current = dataMap.get(String.valueOf(ActivityCategories.Exercise)).intValue();
+        process_max = goalMap.get(String.valueOf(ActivityCategories.Træning));
+        progress_current = dataMap.get(String.valueOf(ActivityCategories.Træning)).intValue();
         Notification notificationExercise = new NotificationCompat.Builder(ctx, channelId)
                 .setSmallIcon(R.mipmap.ic_notification_round)
                 .setContentText(""+progress_current+"/"+process_max)
-                .setContentTitle("Exercise")
+                .setContentTitle("Træning")
                 .setGroup(GROUP_KEY_PROGRESS)
                 .setProgress(process_max, progress_current, false)
                 .build();
 
-        process_max = goalMap.get(String.valueOf(ActivityCategories.Standing));
-        progress_current = dataMap.get(String.valueOf(ActivityCategories.Standing)).intValue();
+        process_max = goalMap.get(String.valueOf(ActivityCategories.Stå));
+        progress_current = dataMap.get(String.valueOf(ActivityCategories.Stå)).intValue();
         Notification notificationStanding = new NotificationCompat.Builder(ctx, channelId)
                 .setSmallIcon(R.mipmap.ic_notification_round)
                 .setContentText(""+progress_current+"/"+process_max)
@@ -111,12 +111,12 @@ public class NotificationsManager {
                 .setProgress(process_max, progress_current, false)
                 .build();
 
-        process_max = goalMap.get(String.valueOf(ActivityCategories.Resting));
-        progress_current = dataMap.get(String.valueOf(ActivityCategories.Resting)).intValue();
+        process_max = goalMap.get(String.valueOf(ActivityCategories.Søvn));
+        progress_current = dataMap.get(String.valueOf(ActivityCategories.Søvn)).intValue();
         Notification notificationResting = new NotificationCompat.Builder(ctx, channelId)
                 .setSmallIcon(R.mipmap.ic_notification_round)
                 .setContentText(""+progress_current+"/"+process_max)
-                .setContentTitle("Resting")
+                .setContentTitle("Søvn")
                 .setGroup(GROUP_KEY_PROGRESS)
                 .setProgress(process_max, progress_current, false)
                 .build();

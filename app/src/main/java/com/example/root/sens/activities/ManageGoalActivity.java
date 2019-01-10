@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -13,9 +14,15 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.root.sens.R;
+import com.example.root.sens.dao.UserDAO;
+import com.example.root.sens.dto.ActivityCategories;
+import com.example.root.sens.dto.Goal;
 import com.example.root.sens.recyclers.adapter.SetGoalAdapter;
 
 import java.util.ArrayList;
+
+import io.realm.Realm;
+import io.realm.RealmList;
 
 
 public class ManageGoalActivity extends AppCompatActivity implements View.OnClickListener {
@@ -66,6 +73,15 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
         public void onBindViewHolder(@NonNull ListElementViewHolder listElementViewHolder, int i) {
             listElementViewHolder.header.setText(data.get(i));
             listElementViewHolder.seekBar.setMax(24*60);
+            RealmList<Goal> temp = UserDAO.getInstance().getNewestGoal().getGoals();
+            for(Goal g : temp){
+                if(g.getType().toString().equals(data.get(i))){
+                    listElementViewHolder.seekBar.setProgress(g.getValue());
+                    listElementViewHolder.total.setText(SetGoalAdapter.generateProgressText(g.getValue()));
+                    break;
+                }
+            }
+
             listElementViewHolder.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -79,7 +95,6 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
 
                 @Override
                 public void onStopTrackingTouch(SeekBar seekBar) {
-
                 }
             });
 
@@ -93,13 +108,19 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-
+        if(v.equals(donebtn)){
+            String str = "";
+            for(int i = 0; i < recyclerView.getChildCount(); i++){
+                ListElementViewHolder temp = (ListElementViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
+                str += temp.header.getText() + ":"+temp.seekBar.getProgress();
+            }
+            Log.d("test1234",str);
+        }else if(v.equals(cancelbtn)){
+            finish();
+        }
     }
 
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-        
-    }
+
 
     class ListElementViewHolder extends RecyclerView.ViewHolder {
         TextView header,total;
