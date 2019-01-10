@@ -96,6 +96,11 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
 
     }
 
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+        
+    }
+
     class ListElementViewHolder extends RecyclerView.ViewHolder {
         TextView header,total;
         SeekBar seekBar;
