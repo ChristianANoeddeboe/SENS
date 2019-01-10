@@ -174,5 +174,35 @@ public class UserDAO implements IUserDao {
         return mostRecent;
     }
 
+    @Override
+    public void updateOrMergeGoals(HashMap<String, Integer> newgoals) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        User u = UserDAO.getInstance().getUserLoggedIn();
+        RealmList<GoalHistory> temp = u.getGoals();
+        boolean found = false;
+        for(GoalHistory goalHistory : temp){
+            if(Math.abs(goalHistory.getDate().getTime()-new Date().getTime()) < 86400000){
+                RealmList<Goal> tempGoals = goalHistory.getGoals();
+                for(Goal goal : tempGoals){
+                    if(newgoals.containsKey(goal.getType().toString())){
+                        int i = newgoals.get(goal.getType().toString());
+                        goal.setValue(i);
+
+                    }
+                }
+                found = true;
+                break;
+            }
+        }
+        if(!found){
+            RealmList<Goal> tempGoals = new RealmList<>();
+            for
+            tempGoals.add(new Goal())
+            u.getGoals().add(new GoalHistory(,new Date()))
+        }
+        realm.commitTransaction();
+    }
+
 
 }
