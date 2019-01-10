@@ -103,7 +103,7 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
             String result = null;
             int hours = progress/60;
             int minuttes = progress%60;
-            result = ""+hours+"Timer "+minuttes+"Minutter";
+            result = ""+hours+" timer & "+minuttes+" minutter";
             return result;
         }
 }
