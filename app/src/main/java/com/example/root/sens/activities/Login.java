@@ -48,10 +48,6 @@ public class Login extends AppCompatActivity {
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
                 return;
-            } else {
-                Snackbar.make(findViewById(R.id.login_coordinator_layout),
-                        "Brugeren er ikke fundet!",
-                        Snackbar.LENGTH_LONG).show();
             }
 
             Intent i = new Intent(getApplicationContext(), UserConfigActivity.class);
