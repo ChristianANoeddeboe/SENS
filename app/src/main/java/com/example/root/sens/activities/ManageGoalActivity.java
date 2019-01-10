@@ -21,7 +21,7 @@ public class ManageGoalActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private final String TAG = this.getClass().getSimpleName();
     private ArrayList<String> data;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
