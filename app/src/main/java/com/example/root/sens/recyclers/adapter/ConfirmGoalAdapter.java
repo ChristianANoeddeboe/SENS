@@ -12,6 +12,8 @@ import com.example.root.sens.recyclers.itemmodels.ConfirmGoalItemModel;
 import com.example.root.sens.R;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ConfirmGoalAdapter extends RecyclerView.Adapter<ConfirmGoalAdapter.ViewHolder> {
     private static final String TAG = ConfirmGoalAdapter.class.getSimpleName();
@@ -65,7 +67,7 @@ public class ConfirmGoalAdapter extends RecyclerView.Adapter<ConfirmGoalAdapter.
         Log.d(TAG, "Element " + position + " set.");
 
         viewHolder.getTextViewDescription().setText(mDataSet.get(position).getDescription());
-        viewHolder.getTextViewValue().setText(mDataSet.get(position).getValue());
+        viewHolder.getTextViewValue().setText(generateProgressText(mDataSet.get(position).getValue()));
     }
 
 
@@ -76,5 +78,18 @@ public class ConfirmGoalAdapter extends RecyclerView.Adapter<ConfirmGoalAdapter.
 
     public List<ConfirmGoalItemModel> getmDataSet() {
         return mDataSet;
+    }
+
+    private String generateProgressText(String text){
+        String result = null;
+        if(Pattern.matches("[0-9]+", text)){
+            int progress = Integer.parseInt(text);
+            int hours = progress/60;
+            int minuttes = progress%60;
+            result = ""+hours+" timer & "+minuttes+" minutter";
+        }
+        else result = text;
+        return result;
+
     }
 }
