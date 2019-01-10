@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity
         CoordinatorLayout coordinatorLayout = findViewById(R.id.main_a_coordinator_layout);
         s = SensDAO.getInstance();
         s.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
-        SensDAO.getInstance().getData("xt9w2r",14);
+        SensDAO.getInstance().getData("xt9w2r");
         fetchDataProgressBar(coordinatorLayout);
 
         new Handler().postDelayed(() -> asyncTask = new AsyncTask() {
