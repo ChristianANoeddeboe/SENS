@@ -2,10 +2,11 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/managegoal_FrameLayout_Container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.ManageGoalActivity"
-    android:background="@color/sensBlue">
+    android:background="@color/sensBlue"
+    tools:context=".activities.ManageGoalActivity">
 
 
     <LinearLayout
