@@ -49,7 +49,10 @@
             android:name=".notification.TimeService"
             android:exported="false"></service>
 
-        <activity android:name=".activities.ManageGoalActivity"></activity>
+        <activity
+            android:name=".activities.ManageGoalActivity"
+            android:theme="@style/AppTheme.NoActionBar.FullScreen">
+        </activity>
     </application>
 
 </manifest>
