@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -32,10 +33,12 @@ public class ViewHolderProgressBar extends ViewHolder {
     private final DecoView progressCircle;
     private TextView progressTextView, title, unitTextview;
     private ImageView imageView;
-    private LinearLayout goalbox, header;
+    private LinearLayout header;
+    private CardView goalbox;
     private ImageButton expandButton;
     private int type;
     private String goalType;
+
     public ViewHolderProgressBar(View itemView, int i, Context viewGroup) {
         super(itemView);
         progressCircle = itemView.findViewById(R.id.dynamicArcView);
@@ -46,6 +49,7 @@ public class ViewHolderProgressBar extends ViewHolder {
         unitTextview = itemView.findViewById(R.id.goalbox_Textview_unit);
         title = itemView.findViewById(R.id.goalbox_TextView_title);
         expandButton = itemView.findViewById(R.id.typegoal_ImageButton_showmore);
+
         expandButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,17 +71,8 @@ public class ViewHolderProgressBar extends ViewHolder {
     }
 
     public void bindType(OverviewListItem item) {
-        final int BACKGROUNDSERIESWIDTH = 10;
         DayData d = getNewestData();
         RealmList<Goal> goals = UserDAO.getInstance().getNewestGoal().getGoals();
-
-
-
-        //https://github.com/bmarrdev/android-DecoView-charting
-        /*progressCircle.addSeries(new SeriesItem.Builder(Color.argb(180, 218, 218, 218))
-                .setRange(0, 100, 100)
-                .setLineWidth(BACKGROUNDSERIESWIDTH)
-                .build());*/
         Goal currGoal = goals.get(type);
         goalType = currGoal.getType().toString();
         RealmList<Record> temp = d.getRecords();
