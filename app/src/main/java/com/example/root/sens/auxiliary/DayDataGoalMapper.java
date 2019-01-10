@@ -17,7 +17,7 @@ public class DayDataGoalMapper {
     private Date date = null;
 
     public DayDataGoalMapper(UserDAO userDAO, Date date) {
-        this.userDAO = this.userDAO;
+        this.userDAO = userDAO;
         this.date = date;
         loadData();
     }

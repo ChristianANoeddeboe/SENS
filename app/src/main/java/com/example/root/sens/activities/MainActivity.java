@@ -25,7 +25,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.root.sens.R;
@@ -34,7 +33,6 @@ import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dao.interfaces.SensObserver;
 import com.example.root.sens.dao.interfaces.Subject;
 import com.example.root.sens.dto.User;
-import com.example.root.sens.dto.sensresponse.DayGoalDTO;
 import com.example.root.sens.fragments.AboutFragment;
 import com.example.root.sens.fragments.DayDataFragment;
 import com.example.root.sens.fragments.HistoryFragment;
@@ -44,8 +42,6 @@ import com.example.root.sens.notification.TimeReceiver;
 import com.example.root.sens.observers.MainFullScreenFragmentObserver;
 
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity
@@ -177,7 +173,6 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.fragment_overlay_layout_main, new AboutFragment())
                     .addToBackStack(null)
                     .commit();
-            showSnack();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -197,24 +192,23 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showFragment(Date date) {
-//        Snackbar.make(findViewById(R.id.fragment_overlay_layout_main), "Test", Snackbar.LENGTH_LONG).show();
+        if(date == null){
+            Snackbar.make(findViewById(R.id.fragment_overlay_layout_main),
+                    "Der er ikke data for den givne dato.",
+                    Snackbar.LENGTH_LONG).show();
+            return;
+        }
 
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable("date", date);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("date", date);
 
-//        Fragment dayDataFragment = new DayDataFragment();
-//        dayDataFragment.setArguments(bundle);
-//        getSupportFragmentManager().beginTransaction()
+        Fragment dayDataFragment = new DayDataFragment();
+        dayDataFragment.setArguments(bundle);
 
-//                .replace(R.id.fragment_overlay_layout_main, new AboutFragment())
-//                .addToBackStack(null)
-//                .commit();
-
-        showSnack();
-    }
-
-    private void showSnack(){
-        Snackbar.make(coordinatorLayout, "Test", Snackbar.LENGTH_LONG).show();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_activity_root, dayDataFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     /**

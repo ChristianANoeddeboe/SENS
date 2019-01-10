@@ -1,6 +1,8 @@
 package com.example.root.sens.fragments;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +15,7 @@ import com.example.root.sens.dao.UserDAO;
 import java.util.Date;
 import java.util.Map;
 
-public class DayDataFragment extends Fragment {
+public class DayDataFragment extends Fragment{
     private Map<String, Integer> goalMap;
     private Map<String, Float> dataMap;
 
@@ -24,7 +26,8 @@ public class DayDataFragment extends Fragment {
         Bundle bundle = savedInstanceState != null ? savedInstanceState : getArguments();
         Date date = (Date) bundle.getSerializable("date");
 
-        DayDataGoalMapper dayDataGoalMapper = new DayDataGoalMapper(UserDAO.getInstance(), date);
+        UserDAO user = UserDAO.getInstance();
+        DayDataGoalMapper dayDataGoalMapper = new DayDataGoalMapper(user, date);
         goalMap = dayDataGoalMapper.getGoalMap();
         dataMap = dayDataGoalMapper.getDataMap();
 

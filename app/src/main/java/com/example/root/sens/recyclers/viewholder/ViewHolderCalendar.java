@@ -79,10 +79,10 @@ public class ViewHolderCalendar extends ViewHolder {
         UserDAO userDAO = UserDAO.getInstance();
         DayData dayData = userDAO.getDataSpecificDate(dateClicked);
 
-        MainFullScreenFragmentObserver observer = new MainActivity();
+        MainFullScreenFragmentObserver observer = (MainFullScreenFragmentObserver) ctx;
 
         if (dayData == null) {
-            Toast.makeText(ctx, "No Data", Toast.LENGTH_SHORT).show();
+            observer.showFragment(null);
         }else {
             observer.showFragment(dateClicked);
         }
