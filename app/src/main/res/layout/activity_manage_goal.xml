@@ -7,7 +7,7 @@
     tools:context=".activities.ManageGoalActivity"
     android:background="@color/sensBlue">
 
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,21 +16,29 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView_manage_goal"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ic_times_circle_regular" />
+            android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ic_done" />
+            <ImageButton
+                android:id="@+id/managegoal_cancelbtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/transparent"
+                app:srcCompat="@drawable/ic_times_circle_regular" />
+
+            <ImageButton
+                android:id="@+id/managegoal_donebtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/transparent"
+                app:srcCompat="@drawable/ic_done" />
+        </LinearLayout>
     </LinearLayout>
 </FrameLayout>

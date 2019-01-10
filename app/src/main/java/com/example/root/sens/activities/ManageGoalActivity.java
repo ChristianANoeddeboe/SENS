@@ -21,7 +21,9 @@ public class ManageGoalActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private final String TAG = this.getClass().getSimpleName();
     private ArrayList<String> data;
-    
+
+    private ImageButton cancelbtn, donebtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +31,12 @@ public class ManageGoalActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView_manage_goal);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+
+        cancelbtn = findViewById(R.id.managegoal_cancelbtn);
+        donebtn = findViewById(R.id.managegoal_donebtn);
+
+        cancelbtn.setOnClickListener(this);
+        donebtn.setOnClickListener(this);
 
         data = new ArrayList<>();
         data.add("Cykling");
@@ -81,6 +89,11 @@ public class ManageGoalActivity extends AppCompatActivity {
             return data.size();
         }
     };
+
+    @Override
+    public void onClick(View v) {
+
+    }
 
     class ListElementViewHolder extends RecyclerView.ViewHolder {
         TextView header,total;
