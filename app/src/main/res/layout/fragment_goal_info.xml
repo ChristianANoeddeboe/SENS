@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="5dp"
+    android:background="@color/white"
+    android:id="@+id/goalInfoContainer"
+    tools:context=".fragments.GoalInfoFragment">
+
+    <LinearLayout
+        android:id="@+id/goalInfoBox_LinearLayout_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/boxbackground"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="0dp">
+
+        <LinearLayout
+            android:id="@+id/typeGoalInfo_LinearLayout_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/boxheader"
+            android:orientation="horizontal"
+            android:padding="3dp"
+            android:paddingStart="20dp">
+
+            <TextView
+                android:id="@+id/goalInfoBox_TextView_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Titel"
+                android:textColor="@color/white"
+                android:textSize="22sp" />
+
+            <ImageButton
+                android:id="@+id/typeGoalInfo_ImageButton_showless"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:contentDescription="Show Less"
+                android:paddingStart="0dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="3dp"
+                android:paddingBottom="2dp"
+                android:scaleType="fitEnd"
+                android:src="@drawable/ic_showless"
+                android:textSize="30sp" />
+        </LinearLayout>
+
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/goalInfoChart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+        </com.github.mikephil.charting.charts.BarChart>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <Button
+                android:id="@+id/goalInfo_Button_1week"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="1 uge"
+                android:textColor="@color/white"/>
+
+            <Button
+                android:id="@+id/goalInfo_Button_1month"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="1 måned"
+                android:textColor="@color/white"/>
+
+            <Button
+                android:id="@+id/goalInfo_Button_3month"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="3 måned"
+                android:textColor="@color/white" />
+
+            <ImageButton
+                android:id="@+id/goalInfo_Button_editgoal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/ic_edit" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</FrameLayout>

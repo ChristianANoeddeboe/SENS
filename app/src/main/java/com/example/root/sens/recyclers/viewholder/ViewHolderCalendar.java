@@ -35,7 +35,6 @@ public class ViewHolderCalendar extends ViewHolder {
                 "M","T","O","T","F","L","S"
         };
         calendar.setDayColumnNames(temp);
-
         calendarMonth = itemView.findViewById(R.id.calendarMonth);
         calendarMonth.setText(dateFormatForMonth.format(calendar.getFirstDayOfCurrentMonth()));
 

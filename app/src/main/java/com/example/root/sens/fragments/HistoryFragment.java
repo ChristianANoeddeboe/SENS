@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -96,7 +97,6 @@ public class HistoryFragment extends Fragment {
             vh.date = view.findViewById(R.id.history_TextView_date);
             vh.info = view.findViewById(R.id.history_TextView_info);
             vh.title = view.findViewById(R.id.history_TextView_title);
-
             return vh;
         }
 
