@@ -12,7 +12,6 @@ public class TimeReceiver extends BroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context, "Der kommer nu en notifikation!", Toast.LENGTH_LONG).show();
         NotificationsManager notificationsManager = new NotificationsManager("42", context);
         notificationsManager.displayNotification();
     }

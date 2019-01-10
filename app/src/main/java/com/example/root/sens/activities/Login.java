@@ -1,6 +1,8 @@
 package com.example.root.sens.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +26,8 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         EditText sensorField = findViewById(R.id.key_text);
+
+        sensorField.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
         Button login = findViewById(R.id.login_btn);
         Button help = findViewById(R.id.help_btn);
 
@@ -44,10 +48,6 @@ public class Login extends AppCompatActivity {
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
                 return;
-            } else {
-                Snackbar.make(findViewById(R.id.login_coordinator_layout),
-                        "Brugeren er ikke fundet!",
-                        Snackbar.LENGTH_LONG).show();
             }
 
             Intent i = new Intent(getApplicationContext(), UserConfigActivity.class);
