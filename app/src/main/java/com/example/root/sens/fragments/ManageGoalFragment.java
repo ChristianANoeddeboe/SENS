@@ -21,22 +21,11 @@ public class ManageGoalFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.user_config_f_viewpager_goal_info, container, false);
-
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView_set_goal);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        // mRecyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.user_config_f_viewpager_goal_info, container, false);
+        mRecyclerView = rootView.findViewById(R.id.recyclerView_set_goal);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-
-        // specify an adapter (see also next example)
         mAdapter = new SetGoalAdapter(createItem());
         mRecyclerView.setAdapter(mAdapter);
         return rootView;
@@ -44,7 +33,6 @@ public class ManageGoalFragment extends Fragment {
 
     private List<SetGoalItemModel> createItem() {
         ArrayList<SetGoalItemModel> items = new ArrayList<SetGoalItemModel>();
-
         items.add(new SetGoalItemModel("Cykling"));
         items.add(new SetGoalItemModel("Gang"));
         items.add(new SetGoalItemModel("Træning"));
