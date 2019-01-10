@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -17,10 +18,12 @@ import com.example.root.sens.recyclers.adapter.SetGoalAdapter;
 import java.util.ArrayList;
 
 
-public class ManageGoalActivity extends AppCompatActivity {
+public class ManageGoalActivity extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView recyclerView;
     private final String TAG = this.getClass().getSimpleName();
     private ArrayList<String> data;
+
+    private ImageButton cancelbtn, donebtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,12 @@ public class ManageGoalActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView_manage_goal);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+
+        cancelbtn = findViewById(R.id.managegoal_cancelbtn);
+        donebtn = findViewById(R.id.managegoal_donebtn);
+
+        cancelbtn.setOnClickListener(this);
+        donebtn.setOnClickListener(this);
 
         data = new ArrayList<>();
         data.add("Cykling");
@@ -81,6 +90,11 @@ public class ManageGoalActivity extends AppCompatActivity {
             return data.size();
         }
     };
+
+    @Override
+    public void onClick(View v) {
+
+    }
 
     class ListElementViewHolder extends RecyclerView.ViewHolder {
         TextView header,total;
