@@ -7,12 +7,14 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.root.sens.R;
+import com.example.root.sens.dao.SensDAO;
 import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dto.ActivityCategories;
 import com.example.root.sens.dto.DayData;
@@ -20,22 +22,27 @@ import com.example.root.sens.dto.Record;
 import com.example.root.sens.dto.User;
 import com.example.root.sens.recyclers.viewholder.ViewHolderProgressBar;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import io.realm.RealmList;
 
 public class GoalInfoFragment extends Fragment implements View.OnClickListener {
-    TextView title, progressTextView, unit;
-    ImageButton imageButton;
+    TextView title;
+    ImageButton updateButton, backButton;
     LinearLayout header,goalbox;
     ActivityCategories goalType;
     ImageView icon;
     BarChart chart;
+    Button oneweek, onemonth, threemonths;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         boolean debug = true;
@@ -44,44 +51,48 @@ public class GoalInfoFragment extends Fragment implements View.OnClickListener {
         goalbox = rootView.findViewById(R.id.goalInfoBox_LinearLayout_container);
         title = rootView.findViewById(R.id.goalInfoBox_TextView_title);
         header = rootView.findViewById(R.id.typeGoalInfo_LinearLayout_header);
-        progressTextView = rootView.findViewById(R.id.goalInfostatusTextView);
-        unit = rootView.findViewById(R.id.goalInfoBox_Textview_unit);
-        icon = rootView.findViewById(R.id.goalInfoIconImageView);
         chart = rootView.findViewById(R.id.goalInfoChart);
-        imageButton = rootView.findViewById(R.id.typeGoalInfo_ImageButton_showmore);
-        imageButton.setOnClickListener(this);
-        icon.setImageResource(ViewHolderProgressBar.generateIcons(goalType));
         title.setText(goalType.toString());
-        progressTextView.setText(getArguments().getString("progress"));
-        unit.setText(getArguments().getString("unit"));
-        setupColors(rootView);
-        List<BarEntry> entries = new ArrayList<>();
-        User temp = UserDAO.getInstance().getUserLoggedIn();
-        RealmList<DayData> tempDayData = temp.getDayData();
-        int counter = 0;
-        for(DayData dayData : tempDayData){
-            RealmList<Record> tempRecords = dayData.getRecords();
-            for(Record record : tempRecords){
-                if(record.getType().equals(goalType)){
-                    if(record.getValue() > 1) {
-                        entries.add(new BarEntry(counter, record.getValue()));
-                        counter++;
-                    }
-                }
-            }
-        }
+        updateButton = rootView.findViewById(R.id.goalInfo_Button_editgoal);
+        oneweek = rootView.findViewById(R.id.goalInfo_Button_1week);
+        onemonth = rootView.findViewById(R.id.goalInfo_Button_1month);
+        threemonths = rootView.findViewById(R.id.goalInfo_Button_3month);
+        backButton = rootView.findViewById(R.id.typeGoalInfo_ImageButton_showless);
+        backButton.setOnClickListener(this);
+        updateButton.setOnClickListener(this);
+        oneweek.setOnClickListener(this);
+        onemonth.setOnClickListener(this);
+        threemonths.setOnClickListener(this);
 
-        BarDataSet dataSet = new BarDataSet(entries,"test"); // add entries to dataset
+        setupColors(rootView);
+        setupChart();
+        updateChart(generateData(gendata.oneweekdata));
+        Date d = new Date();
+        UserDAO.getInstance().getDataSpecificDate(new Date());
+        return rootView;
+    }
+
+    private void updateChart(List<BarEntry> data) {
+        BarDataSet dataSet = new BarDataSet(data,"test"); // add entries to dataset
         BarData lineData = new BarData(dataSet);
         lineData.setDrawValues(false);
+        chart.setData(lineData);
+        chart.invalidate();
+    }
+
+    private void setupChart() {
         chart.getLegend().setEnabled(false);
         chart.getDescription().setEnabled(false);
-        chart.setData(lineData);
+        chart.getXAxis().setDrawGridLines(false); // disable grid lines for the XAxis
+        chart.getAxisLeft().setDrawGridLines(false); // disable grid lines for the left YAxis
+        chart.getAxisRight().setDrawGridLines(false); // disable grid lines for the right YAxis
+        chart.setDrawGridBackground(false);
+
+        chart.getAxisRight().setEnabled(false);
+        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+        chart.animateY(2000);
+        chart.setDrawValueAboveBar(false);
         chart.invalidate(); // refresh
-
-
-
-        return rootView;
     }
 
     private void setupColors(View rootView) {
@@ -95,8 +106,59 @@ public class GoalInfoFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if(v.equals(imageButton)){
+        if(v.equals(backButton)){
             getFragmentManager().popBackStack();
+        }else if( v.equals(oneweek)){
+            updateChart(generateData(gendata.oneweekdata));
+        }else if(v.equals(onemonth)){
+            updateChart(generateData(gendata.onemonthdata));
+        }else if(v.equals(threemonths)){
+            updateChart(generateData(gendata.threemonthsdata));
+
         }
+    }
+    enum gendata{
+        oneweekdata,onemonthdata,threemonthsdata
+    }
+    private List<BarEntry> generateData(gendata len){
+        List<BarEntry> entries = new ArrayList<>();
+        ArrayList<DayData> tempDayData = UserDAO.getInstance().getSortedDayData();
+        Collections.reverse(tempDayData);
+        int counter = 0;
+        for(DayData dayData : tempDayData){
+            RealmList<Record> tempRecords = dayData.getRecords();
+            for(Record record : tempRecords){
+                if(record.getType().equals(goalType)){
+                    switch (len){
+                        case oneweekdata:
+                            if(counter < 7){
+                                entries.add(new BarEntry(counter, record.getValue()));
+                                counter++;
+                            }else{
+                                return entries;
+                            }
+                            break;
+                        case onemonthdata:
+                            if(counter < 30){
+                                entries.add(new BarEntry(counter, record.getValue()));
+                                counter++;
+                            }else{
+                                return entries;
+                            }
+                            break;
+                        case threemonthsdata:
+                            if(counter < 90){
+                                entries.add(new BarEntry(counter, record.getValue()));
+                                counter++;
+                            }else{
+                                return entries;
+                            }
+                            break;
+                    }
+                    break;
+                }
+            }
+        }
+        return entries;
     }
 }

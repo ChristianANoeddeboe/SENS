@@ -35,11 +35,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Titel"
-                android:textColor="@android:color/black"
+                android:textColor="@color/white"
                 android:textSize="22sp" />
 
             <ImageButton
-                android:id="@+id/typeGoalInfo_ImageButton_showmore"
+                android:id="@+id/typeGoalInfo_ImageButton_showless"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
