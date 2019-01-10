@@ -1,14 +1,12 @@
 package com.example.root.sens.recyclers.viewholder;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.root.sens.dao.UserDAO;
-import com.example.root.sens.dto.DayData;
-import com.example.root.sens.dto.Goal;
-import com.example.root.sens.dto.GoalHistory;
-import com.example.root.sens.dto.Record;
 import com.example.root.sens.R;
 import com.example.root.sens.dto.User;
 import com.example.root.sens.fragments.interfaces.OverviewListItem;
@@ -18,12 +16,15 @@ import com.github.sundeepk.compactcalendarview.domain.Event;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 public class ViewHolderCalendar extends ViewHolder {
     private final CompactCalendarView calendar;
     private TextView calendarMonth;
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", Locale.US);
+    private Context ctx;
+
     public ViewHolderCalendar(View itemView) {
         super(itemView);
         calendar = itemView.findViewById(R.id.compactcalendar_view);
@@ -38,15 +39,14 @@ public class ViewHolderCalendar extends ViewHolder {
         calendarMonth = itemView.findViewById(R.id.calendarMonth);
         calendarMonth.setText(dateFormatForMonth.format(calendar.getFirstDayOfCurrentMonth()));
 
-
-
+        ctx = itemView.getContext();
     }
 
     public void bindType(OverviewListItem item) {
         calendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-
+                fullScreenOverlayFragment(dateClicked);
             }
 
             @Override
@@ -63,7 +63,15 @@ public class ViewHolderCalendar extends ViewHolder {
                 calendar.addEvent(new Event(Color.rgb(244,57,54), date.getTime(), "test"));
             }
         }
-       // calendar.addEvent(new Event(Color.GREEN,1542530497*1000L,"Tesaasdt")); // This should be done dynamically
+    }
+
+    private void fullScreenOverlayFragment(Date dateClicked){
+        UserDAO userDAO = UserDAO.getInstance();
+        User currentUser = userDAO.getUserLoggedIn();
+
+        List<Event> events = calendar.getEvents(dateClicked);
+        Toast.makeText(ctx, "Day was clicked: " + dateClicked + " with events " + events, Toast.LENGTH_LONG).show();
+
 
     }
 

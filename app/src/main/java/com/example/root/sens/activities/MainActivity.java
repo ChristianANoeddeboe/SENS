@@ -33,15 +33,20 @@ import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dao.interfaces.SensObserver;
 import com.example.root.sens.dao.interfaces.Subject;
 import com.example.root.sens.dto.User;
+import com.example.root.sens.dto.sensresponse.DayGoalDTO;
 import com.example.root.sens.fragments.AboutFragment;
+import com.example.root.sens.fragments.DayDataFragment;
 import com.example.root.sens.fragments.HistoryFragment;
 import com.example.root.sens.fragments.OverviewFragment;
 import com.example.root.sens.notification.NotificationsManager;
 import com.example.root.sens.notification.TimeReceiver;
+import com.example.root.sens.observers.MainFullScreenFragment;
+
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, SensObserver {
+        implements NavigationView.OnNavigationItemSelectedListener, SensObserver, MainFullScreenFragment {
     private ViewPager viewPager;
     private Subject s;
     private static String[] viewNames = {"Overview", "Historik"};
@@ -183,6 +188,14 @@ public class MainActivity extends AppCompatActivity
     public void onDataReceived() {
         snackbar.dismiss();
         viewpagerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showFragment(List<DayGoalDTO> dataList) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_overlay_layout_main, new DayDataFragment())
+                .addToBackStack(null)
+                .commit();
     }
 
     /**
