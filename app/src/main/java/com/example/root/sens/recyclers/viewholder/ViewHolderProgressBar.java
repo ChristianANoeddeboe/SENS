@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -36,6 +35,7 @@ public class ViewHolderProgressBar extends ViewHolder {
     private LinearLayout goalbox, header;
     private ImageButton expandButton;
     private int type;
+    private String goalType;
     public ViewHolderProgressBar(View itemView, int i, Context viewGroup) {
         super(itemView);
         progressCircle = itemView.findViewById(R.id.dynamicArcView);
@@ -54,7 +54,7 @@ public class ViewHolderProgressBar extends ViewHolder {
                     args.putString("title",title.getText().toString());
                     args.putString("progress",progressTextView.getText().toString());
                     args.putString("unit",unitTextview.getText().toString());
-                    args.putInt("type",type);
+                    args.putString("goalType",goalType);
 
                     Fragment f = new GoalInfoFragment();
                     f.setArguments(args);
@@ -79,6 +79,7 @@ public class ViewHolderProgressBar extends ViewHolder {
                 .setLineWidth(BACKGROUNDSERIESWIDTH)
                 .build());*/
         Goal currGoal = goals.get(type);
+        goalType = currGoal.getType().toString();
         RealmList<Record> temp = d.getRecords();
         int current = 0;
         for(Record record : temp){
@@ -104,7 +105,17 @@ public class ViewHolderProgressBar extends ViewHolder {
             color = ContextCompat.getColor(itemView.getContext(), color);
             header.getBackground().mutate().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
 
-            generateIcons(currGoal, current);
+            progressTextView.setText(Integer.toString(current)+"/"+Integer.toString(currGoal.getValue()));
+            unitTextview.setText("minutes");
+
+            title.setText(currGoal.getType().toString());
+            int tempColor = ContextCompat.getColor(itemView.getContext(), R.color.white);
+            progressTextView.setTextColor(tempColor);
+            unitTextview.setTextColor(tempColor);
+            title.setTextColor(tempColor);
+
+            imageView.setImageResource(generateIcons(currGoal.getType()));
+
             progressCircle.addSeries(new SeriesItem.Builder(Color.argb(255, 255, 255, 255))
                     .setRange(0, max, current)
                     .setLineWidth(20)
@@ -153,31 +164,20 @@ public class ViewHolderProgressBar extends ViewHolder {
     }
 
 
-    private void generateIcons(Goal curr, int currentGoalValue) {
-        progressTextView.setText(Integer.toString(currentGoalValue)+"/"+Integer.toString(curr.getValue()));
-        unitTextview.setText("meter");
-        title.setText(curr.getType().toString());
-        int color = ContextCompat.getColor(itemView.getContext(), R.color.white);
-        progressTextView.setTextColor(color);
-        unitTextview.setTextColor(color);
-        title.setTextColor(color);
-        switch (curr.getType()) {
+    public static int generateIcons(ActivityCategories curr) {
+        switch (curr) {
             case Resting:
-                imageView.setImageResource(R.mipmap.icon_resting_inverted);
-                break;
+                return R.mipmap.icon_resting_inverted;
             case Standing:
-                imageView.setImageResource(R.mipmap.icon_standing_inverted);
-                break;
+                return R.mipmap.icon_standing_inverted;
             case Walking:
-                imageView.setImageResource(R.mipmap.icon_walking_inverted);
-                break;
+                return R.mipmap.icon_walking_inverted;
             case Cycling:
-                imageView.setImageResource(R.mipmap.icon_cycling_inverted);
-                break;
+                return R.mipmap.icon_cycling_inverted;
             case Exercise:
-                imageView.setImageResource(R.mipmap.icon_exercise_inverted);
-                break;
+                return R.mipmap.icon_exercise_inverted;
         }
+        return R.mipmap.award;
     }
 
     private DayData getNewestData() {
