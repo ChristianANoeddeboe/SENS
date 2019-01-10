@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -17,7 +18,7 @@ import com.example.root.sens.recyclers.adapter.SetGoalAdapter;
 import java.util.ArrayList;
 
 
-public class ManageGoalActivity extends AppCompatActivity {
+public class ManageGoalActivity extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView recyclerView;
     private final String TAG = this.getClass().getSimpleName();
     private ArrayList<String> data;
@@ -93,6 +94,11 @@ public class ManageGoalActivity extends AppCompatActivity {
     @Override
     public void onClick(View v) {
 
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+        
     }
 
     class ListElementViewHolder extends RecyclerView.ViewHolder {
