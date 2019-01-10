@@ -116,14 +116,14 @@ public class MainActivity extends AppCompatActivity
         CoordinatorLayout coordinatorLayout = findViewById(R.id.main_a_coordinator_layout);
         s = SensDAO.getInstance();
         s.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
-        SensDAO.getInstance().getData("xt9w2r");
+        SensDAO.getInstance().getData("xt9w2r",14);
         fetchDataProgressBar(coordinatorLayout);
 
         new Handler().postDelayed(() -> asyncTask = new AsyncTask() {
             @Override
             protected Object doInBackground(Object[] objects) {
                 snackbar.show();
-                SensDAO.getInstance().getData("xt9w2r");
+                SensDAO.getInstance().getData("xt9w2r",14);
                 return null;
             }
         }.execute(), 1800000); // Fetch data every 30 min

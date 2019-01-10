@@ -106,4 +106,6 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
             result = ""+hours+" timer & "+minuttes+" minutter";
             return result;
         }
+
+
 }

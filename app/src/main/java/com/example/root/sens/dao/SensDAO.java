@@ -130,11 +130,11 @@ public class SensDAO implements Callback<Response>, Subject {
         for(Datum d : responseData){
             boolean found = false;
             RealmList<Record> tempRecords = new RealmList<>();
-            tempRecords.add(new Record(d.values.activityRestingTime,ActivityCategories.Resting.toString()));
-            tempRecords.add(new Record(d.values.activityStandingTime,ActivityCategories.Standing.toString()));
-            tempRecords.add(new Record(d.values.activityWalkingTime,ActivityCategories.Walking.toString()));
-            tempRecords.add(new Record(d.values.activityExerciseTime,ActivityCategories.Exercise.toString()));
-            tempRecords.add(new Record(d.values.activityCyclingTime,ActivityCategories.Cycling.toString()));
+            tempRecords.add(new Record(d.values.activityRestingTime,ActivityCategories.Søvn.toString()));
+            tempRecords.add(new Record(d.values.activityStandingTime,ActivityCategories.Stå.toString()));
+            tempRecords.add(new Record(d.values.activityWalkingTime,ActivityCategories.Gang.toString()));
+            tempRecords.add(new Record(d.values.activityExerciseTime,ActivityCategories.Træning.toString()));
+            tempRecords.add(new Record(d.values.activityCyclingTime,ActivityCategories.Cykling.toString()));
             DayData temp = null;
             try {
                 temp = new DayData(sensDf.parse(d.startTime), sensDf.parse(d.endTime),tempRecords);
