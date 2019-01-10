@@ -73,20 +73,13 @@ public class UserDAO implements IUserDao {
     @Override
     public GoalHistory getNewestGoal() {
         RealmList<GoalHistory> goals = getUserLoggedIn().getGoals();
-        ArrayList<Date> dates = new ArrayList<>();
-
+        ArrayList<GoalHistory> tempGoalHis = new ArrayList<>();
         for(GoalHistory curr : goals) {
-            dates.add(curr.getDate());
+            tempGoalHis.add(curr);
         }
-        Collections.sort(dates);
+        Collections.sort(tempGoalHis);
 
-        for(GoalHistory curr : goals) {
-            if(curr.getDate().equals(dates.get(0))) {
-                return curr;
-            }
-        }
-        //TODO: Cast en execption her.
-        return goals.get(0);
+        return tempGoalHis.get(0);
     }
 
     @Override
@@ -197,10 +190,15 @@ public class UserDAO implements IUserDao {
         }
         if(!found){
             RealmList<Goal> tempGoals = new RealmList<>();
-            for
-            tempGoals.add(new Goal())
-            u.getGoals().add(new GoalHistory(,new Date()))
+            for(String s : newgoals.keySet()){
+                tempGoals.add(new Goal(s,newgoals.get(s)));
+            }
+            GoalHistory goalHistory = new GoalHistory();
+            goalHistory.setDate(new Date());
+            goalHistory.setGoals(tempGoals);
+            u.getGoals().add(goalHistory);
         }
+        realm.copyToRealmOrUpdate(u);
         realm.commitTransaction();
     }
 

@@ -17,9 +17,15 @@ import com.example.root.sens.R;
 import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dto.ActivityCategories;
 import com.example.root.sens.dto.Goal;
+import com.example.root.sens.dto.GoalHistory;
+import com.example.root.sens.dto.User;
 import com.example.root.sens.recyclers.adapter.SetGoalAdapter;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -29,7 +35,7 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
     private RecyclerView recyclerView;
     private final String TAG = this.getClass().getSimpleName();
     private ArrayList<String> data;
-
+    private boolean changed = false;
     private ImageButton cancelbtn, donebtn;
 
     @Override
@@ -86,6 +92,7 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                     listElementViewHolder.total.setText(SetGoalAdapter.generateProgressText(progress));
+                    changed = true;
                 }
 
                 @Override
@@ -109,12 +116,30 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         if(v.equals(donebtn)){
-            String str = "";
-            for(int i = 0; i < recyclerView.getChildCount(); i++){
-                ListElementViewHolder temp = (ListElementViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
-                str += temp.header.getText() + ":"+temp.seekBar.getProgress();
+            if(changed){
+                HashMap<String, Integer> temp = new HashMap<>();
+                RealmList<Goal> s = UserDAO.getInstance().getNewestGoal().getGoals();
+                for(Goal goal : s){
+                    for(int i = 0; i < recyclerView.getChildCount(); i++){
+                        ListElementViewHolder listElementViewHolder = (ListElementViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
+                        if(listElementViewHolder.header.getText().toString().equals(goal.getType().toString())){
+                            temp.put(listElementViewHolder.header.getText().toString(),listElementViewHolder.seekBar.getProgress());
+                            break;
+                        }
+                    }
+                }
+                if(temp.size() > 0){
+                       UserDAO.getInstance().updateOrMergeGoals(temp);
+                       User a = UserDAO.getInstance().getUserLoggedIn();
+                       GoalHistory t = UserDAO.getInstance().getNewestGoal();
+                       finish();
+                }else{
+                    // No goals were added to the new goal set
+                }
+            }else{
+                //Goals were not changed but user pressed save button
             }
-            Log.d("test1234",str);
+
         }else if(v.equals(cancelbtn)){
             finish();
         }
