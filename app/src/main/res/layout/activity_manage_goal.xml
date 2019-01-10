@@ -2,8 +2,33 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/managegoal_FrameLayout_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.ManageGoalActivity">
+    tools:context=".activities.ManageGoalActivity"
+    android:background="@color/sensBlue">
+    <FrameLayout
+        android:id="@+id/managegoal_FrameLayout_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </FrameLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_times_circle_regular" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_done" />
+    </LinearLayout>
 </FrameLayout>
