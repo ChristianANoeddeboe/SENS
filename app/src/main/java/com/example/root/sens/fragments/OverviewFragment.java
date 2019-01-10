@@ -20,6 +20,8 @@ import java.util.ArrayList;
 
 public class OverviewFragment extends Fragment {
     private OverviewAdapter overviewAdapter;
+    RecyclerView recyclerView;
+
     public OverviewFragment() {
         // Required empty public constructor
     }
@@ -33,7 +35,7 @@ public class OverviewFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
     }
-    RecyclerView recyclerView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class OverviewFragment extends Fragment {
 
         return v;
     }
+
     public static ArrayList<OverviewListItem> generateData(){
         ArrayList<OverviewListItem> temp = new ArrayList<>();
         temp.add(new TypeCalendar());
