@@ -5,7 +5,6 @@ import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
 import com.example.root.sens.dto.Record;
-import com.example.root.sens.dto.Sensor;
 import com.example.root.sens.dto.Settings;
 import com.example.root.sens.dto.User;
 
@@ -90,6 +89,18 @@ public class UserDAO implements IUserDao {
         return goals.get(0);
     }
 
+    @Override
+    public ArrayList<DayData> getSortedDayData() {
+        RealmList<DayData> dayData = getUserLoggedIn().getDayData();
+        ArrayList<DayData> result = new ArrayList<>();
+        for (DayData d : dayData){
+            result.add(d);
+        }
+        Collections.sort(result);
+        return result;
+
+    }
+
 
     public HashMap<Date,Boolean> userFulfilledGoals() {
         HashMap<Date,Boolean> result = new HashMap<>();
@@ -134,6 +145,33 @@ public class UserDAO implements IUserDao {
 
         }
         return result;
+    }
+
+    @Override
+    public DayData getDataSpecificDate(Date d) {
+        RealmList<DayData> dayData = UserDAO.getInstance().getUserLoggedIn().getDayData();
+        for(DayData day : dayData){
+            if(Math.abs(day.getEnd_time().getTime() - d.getTime()) < 86400000 ){
+                return day;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public GoalHistory getGoalSpecificDate(Date d) {
+        RealmList<GoalHistory> goalHistories = UserDAO.getInstance().getUserLoggedIn().getGoals();
+        GoalHistory mostRecent = null;
+        for(GoalHistory g : goalHistories){
+            if(mostRecent == null){
+                mostRecent = g;
+            }else{
+                if((Math.abs(mostRecent.getDate().getTime()-d.getTime())) > (Math.abs(g.getDate().getTime()-d.getTime()))){
+                    mostRecent = g;
+                }
+            }
+        }
+        return mostRecent;
     }
 
 

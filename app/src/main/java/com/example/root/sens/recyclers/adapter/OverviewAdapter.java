@@ -46,7 +46,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
                 view = LayoutInflater
                         .from(viewGroup.getContext())
                         .inflate(R.layout.typegoal, viewGroup, false);
-                viewHolderType = new ViewHolderProgressBar(view,i);
+                viewHolderType = new ViewHolderProgressBar(view,i,mContext);
                 i++;
                 break;
         }

@@ -13,8 +13,13 @@
     <color name="sensRed">#ed1c24</color>
     <color name="sensRedDarkerBright">#d41118</color>
     <color name="sensRedDarker">#a50d12</color>
+<<<<<<< HEAD
     <color name="iconColor">#99000000</color>
     <color name="white">#FFFFFF</color>
+=======
+    <color name="iconColor">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+>>>>>>> 7108c19186aa91de3026b97dd3c2664546b6a9ff
     <color name="whiteHint">#99FFFFFF</color>
     <color name="grey">#e1e1e1</color>
 

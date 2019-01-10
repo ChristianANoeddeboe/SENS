@@ -1,21 +1,27 @@
 package com.example.root.sens.recyclers.viewholder;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
-import android.support.constraint.ConstraintLayout;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.root.sens.R;
 import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dto.ActivityCategories;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
-import com.example.root.sens.R;
 import com.example.root.sens.dto.Record;
+import com.example.root.sens.fragments.GoalInfoFragment;
 import com.example.root.sens.fragments.interfaces.OverviewListItem;
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
@@ -27,8 +33,10 @@ public class ViewHolderProgressBar extends ViewHolder {
     private TextView progressTextView, title, unitTextview;
     private ImageView imageView;
     private LinearLayout goalbox, header;
+    private ImageButton expandButton;
     private int type;
-    public ViewHolderProgressBar(View itemView, int i) {
+    private String goalType;
+    public ViewHolderProgressBar(View itemView, int i, Context viewGroup) {
         super(itemView);
         progressCircle = itemView.findViewById(R.id.dynamicArcView);
         progressTextView = itemView.findViewById(R.id.goalstatusTextView);
@@ -37,6 +45,24 @@ public class ViewHolderProgressBar extends ViewHolder {
         header = itemView.findViewById(R.id.typegoal_LinearLayout_header);
         unitTextview = itemView.findViewById(R.id.goalbox_Textview_unit);
         title = itemView.findViewById(R.id.goalbox_TextView_title);
+        expandButton = itemView.findViewById(R.id.typegoal_ImageButton_showmore);
+        expandButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(v.equals(expandButton)) {
+                    Bundle args = new Bundle();
+                    args.putString("title",title.getText().toString());
+                    args.putString("progress",progressTextView.getText().toString());
+                    args.putString("unit",unitTextview.getText().toString());
+                    args.putString("goalType",goalType);
+
+                    Fragment f = new GoalInfoFragment();
+                    f.setArguments(args);
+                    FragmentManager manager = ((AppCompatActivity) viewGroup).getSupportFragmentManager();
+                    manager.beginTransaction().replace(R.id.goalsContentContainer, f).addToBackStack(null).commit();
+                }
+            }
+        });
         type = i;
     }
 
@@ -53,6 +79,7 @@ public class ViewHolderProgressBar extends ViewHolder {
                 .setLineWidth(BACKGROUNDSERIESWIDTH)
                 .build());*/
         Goal currGoal = goals.get(type);
+        goalType = currGoal.getType().toString();
         RealmList<Record> temp = d.getRecords();
         int current = 0;
         for(Record record : temp){
@@ -70,13 +97,25 @@ public class ViewHolderProgressBar extends ViewHolder {
             }
             int color = getGoalColor(currGoal.getType());
 
-            goalbox.getBackground().mutate().setColorFilter(itemView.getResources().getColor(color), PorterDuff.Mode.MULTIPLY);
+            color = ContextCompat.getColor(itemView.getContext(), color);
+            goalbox.getBackground().mutate().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
 
             color = getGoalHeaderColor(currGoal.getType());
 
-            header.getBackground().mutate().setColorFilter(itemView.getResources().getColor(color), PorterDuff.Mode.MULTIPLY);
+            color = ContextCompat.getColor(itemView.getContext(), color);
+            header.getBackground().mutate().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
 
-            generateIcons(currGoal, current);
+            progressTextView.setText(Integer.toString(current)+"/"+Integer.toString(currGoal.getValue()));
+            unitTextview.setText("minutes");
+
+            title.setText(currGoal.getType().toString());
+            int tempColor = ContextCompat.getColor(itemView.getContext(), R.color.white);
+            progressTextView.setTextColor(tempColor);
+            unitTextview.setTextColor(tempColor);
+            title.setTextColor(tempColor);
+
+            imageView.setImageResource(generateIcons(currGoal.getType()));
+
             progressCircle.addSeries(new SeriesItem.Builder(Color.argb(255, 255, 255, 255))
                     .setRange(0, max, current)
                     .setLineWidth(20)
@@ -84,8 +123,8 @@ public class ViewHolderProgressBar extends ViewHolder {
                     .build());
         }
     }
-
-    private int getGoalHeaderColor(ActivityCategories curr) {
+    //TODO: Move the two methods below in some utility class
+    public static int getGoalHeaderColor(ActivityCategories curr) {
         switch (curr) {
             case Resting:
                 return R.color.restingHeaderColor;
@@ -102,7 +141,7 @@ public class ViewHolderProgressBar extends ViewHolder {
         }
     }
 
-    private int getGoalColor(ActivityCategories curr) {
+    public static int getGoalColor(ActivityCategories curr) {
         switch (curr) {
             case Resting:
                 //return Color.argb(255, 0, 150, 136);
@@ -125,31 +164,20 @@ public class ViewHolderProgressBar extends ViewHolder {
     }
 
 
-    private void generateIcons(Goal curr, int currentGoalValue) {
-        progressTextView.setText(Integer.toString(currentGoalValue)+"/"+Integer.toString(curr.getValue()));
-        unitTextview.setText("meter");
-        title.setText(curr.getType().toString());
-        int color = ContextCompat.getColor(itemView.getContext(), R.color.white);
-        progressTextView.setTextColor(color);
-        unitTextview.setTextColor(color);
-        title.setTextColor(color);
-        switch (curr.getType()) {
+    public static int generateIcons(ActivityCategories curr) {
+        switch (curr) {
             case Resting:
-                imageView.setImageResource(R.mipmap.icon_resting_inverted);
-                break;
+                return R.mipmap.icon_resting_inverted;
             case Standing:
-                imageView.setImageResource(R.mipmap.icon_standing_inverted);
-                break;
+                return R.mipmap.icon_standing_inverted;
             case Walking:
-                imageView.setImageResource(R.mipmap.icon_walking_inverted);
-                break;
+                return R.mipmap.icon_walking_inverted;
             case Cycling:
-                imageView.setImageResource(R.mipmap.icon_cycling_inverted);
-                break;
+                return R.mipmap.icon_cycling_inverted;
             case Exercise:
-                imageView.setImageResource(R.mipmap.icon_exercise_inverted);
-                break;
+                return R.mipmap.icon_exercise_inverted;
         }
+        return R.mipmap.award;
     }
 
     private DayData getNewestData() {
