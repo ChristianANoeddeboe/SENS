@@ -227,4 +227,6 @@ public class SensDAO implements Callback<Response>, Subject {
             Log.d(TAG,"Error while validating date, format not as expected " + Arrays.deepToString(temp));
         }
     }
+
+
 }

@@ -5,7 +5,7 @@ import java.util.Date;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
-public class DayData extends RealmObject {
+public class DayData extends RealmObject implements Comparable {
     private Date start_time, end_time;
     private RealmList<Record> records;
     public DayData(){}
@@ -38,5 +38,10 @@ public class DayData extends RealmObject {
 
     public void setRecords(RealmList<Record> records) {
         this.records = records;
+    }
+    @Override
+    public int compareTo(Object o) {
+        DayData curr = (DayData) o;
+        return end_time.compareTo(curr.getEnd_time());
     }
 }
