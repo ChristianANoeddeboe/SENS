@@ -55,69 +55,51 @@
         </LinearLayout>
 
 
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/goalInfoChart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+        </com.github.mikephil.charting.charts.BarChart>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="10dp">
 
-            <LinearLayout
+            <Button
+                android:id="@+id/goalInfo_Button_1week"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:text="1 uge"
+                android:textColor="@color/white"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingStart="10dp"
-                    android:paddingTop="25dp"
-                    android:paddingEnd="20dp">
+            <Button
+                android:id="@+id/goalInfo_Button_1month"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="1 måned"
+                android:textColor="@color/white"/>
 
-                    <TextView
-                        android:id="@+id/goalInfostatusTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Text/Text"
-                        android:textColor="@android:color/black"
-                        android:textSize="26sp" />
+            <Button
+                android:id="@+id/goalInfo_Button_3month"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="3 måned"
+                android:textColor="@color/white" />
 
-                    <TextView
-                        android:id="@+id/goalInfoBox_Textview_unit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:paddingStart="10dp"
-                        android:text="@string/unit"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/goalInfoBox_ConstraintLayout_grahpbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-
-                <ImageView
-                    android:id="@+id/goalInfoIconImageView"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@mipmap/icon_cycling_inverted" />
-
-            </android.support.constraint.ConstraintLayout>
+            <ImageButton
+                android:id="@+id/goalInfo_Button_editgoal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/ic_edit" />
         </LinearLayout>
-
-        <com.github.mikephil.charting.charts.BarChart
-            android:id="@+id/goalInfoChart"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
     </LinearLayout>
 
