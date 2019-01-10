@@ -19,7 +19,7 @@ public class ManageGoalActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.managegoal_FrameLayout_container, goalInfoFragment)
-                .addToBackStack(null)
+                .addToBackStack(TAG)
                 .commit();
 
 
