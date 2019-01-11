@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private boolean isFullScreenFragmentOpen = false;
-    private LottieDrawable animateCameraIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
