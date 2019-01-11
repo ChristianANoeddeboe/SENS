@@ -39,7 +39,7 @@ public class SettingsActivity extends AppCompatActivity implements ItemClickList
     private List<ItemModel> createItem(){
         ArrayList<ItemModel> items = new ArrayList<>();
         items.add(new ItemModel("Ryd data",
-                "Dette vil fjerne alt dine data!", R.drawable.ic_trash_alt_solid));
+                "Dette vil fjerne alt dine data!", R.drawable.ic_trash_alt));
         items.add(new ItemModel("Entry "+ 1, R.mipmap.ic_launcher));
         items.add(new ItemModel("Entry "+ 2, R.mipmap.ic_launcher));
         items.add(new ItemModel("Entry "+ 3, R.mipmap.ic_launcher));

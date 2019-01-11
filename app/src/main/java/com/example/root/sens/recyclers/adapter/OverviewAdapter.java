@@ -45,7 +45,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
             case OverviewListItem.TYPE_PROGRESS:
                 view = LayoutInflater
                         .from(viewGroup.getContext())
-                        .inflate(R.layout.typegoal, viewGroup, false);
+                        .inflate(R.layout.activity_main_cardview, viewGroup, false);
                 viewHolderType = new ViewHolderProgressBar(view,i,mContext);
                 i++;
                 break;

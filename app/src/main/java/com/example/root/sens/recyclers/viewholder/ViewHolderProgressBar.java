@@ -9,7 +9,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,6 +26,8 @@ import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.Record;
 import com.example.root.sens.fragments.GoalInfoFragment;
 import com.example.root.sens.fragments.interfaces.OverviewListItem;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.Chart;
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
 
@@ -32,10 +37,12 @@ public class ViewHolderProgressBar extends ViewHolder {
     private final DecoView progressCircle;
     private TextView progressTextView, title, unitTextview;
     private ImageView imageView;
-    private LinearLayout goalbox, header;
-    private ImageButton expandButton;
+    private LinearLayout header;
+    private CardView goalbox;
     private int type;
+    private BarChart chart;
     private String goalType;
+
     public ViewHolderProgressBar(View itemView, int i, Context viewGroup) {
         super(itemView);
         progressCircle = itemView.findViewById(R.id.dynamicArcView);
@@ -45,39 +52,28 @@ public class ViewHolderProgressBar extends ViewHolder {
         header = itemView.findViewById(R.id.typegoal_LinearLayout_header);
         unitTextview = itemView.findViewById(R.id.goalbox_Textview_unit);
         title = itemView.findViewById(R.id.goalbox_TextView_title);
-        expandButton = itemView.findViewById(R.id.typegoal_ImageButton_showmore);
-        expandButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(v.equals(expandButton)) {
-                    Bundle args = new Bundle();
-                    args.putString("title",title.getText().toString());
-                    args.putString("progress",progressTextView.getText().toString());
-                    args.putString("unit",unitTextview.getText().toString());
-                    args.putString("goalType",goalType);
+        chart = itemView.findViewById(R.id.cardviewGoalInfoChart);
 
-                    Fragment f = new GoalInfoFragment();
-                    f.setArguments(args);
-                    FragmentManager manager = ((AppCompatActivity) viewGroup).getSupportFragmentManager();
-                    manager.beginTransaction().replace(R.id.goalsContentContainer, f).addToBackStack(null).commit();
-                }
+        goalbox.setOnClickListener((View v)->{
+            Animation animationUp = AnimationUtils.loadAnimation(viewGroup, R.anim.slide_up);
+            Animation animationDown = AnimationUtils.loadAnimation(viewGroup, R.anim.slide_down);
+
+            if(chart.isShown()){
+                chart.setVisibility(View.GONE);
+                chart.startAnimation(animationUp);
             }
+            else{
+                chart.setVisibility(View.VISIBLE);
+                chart.startAnimation(animationDown);
+            }
+
         });
         type = i;
     }
 
     public void bindType(OverviewListItem item) {
-        final int BACKGROUNDSERIESWIDTH = 10;
         DayData d = getNewestData();
         RealmList<Goal> goals = UserDAO.getInstance().getNewestGoal().getGoals();
-
-
-
-        //https://github.com/bmarrdev/android-DecoView-charting
-        /*progressCircle.addSeries(new SeriesItem.Builder(Color.argb(180, 218, 218, 218))
-                .setRange(0, 100, 100)
-                .setLineWidth(BACKGROUNDSERIESWIDTH)
-                .build());*/
         Goal currGoal = goals.get(type);
         goalType = currGoal.getType().toString();
         RealmList<Record> temp = d.getRecords();
@@ -100,19 +96,10 @@ public class ViewHolderProgressBar extends ViewHolder {
             color = ContextCompat.getColor(itemView.getContext(), color);
             goalbox.getBackground().mutate().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
 
-            color = getGoalHeaderColor(currGoal.getType());
-
-            color = ContextCompat.getColor(itemView.getContext(), color);
-            header.getBackground().mutate().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
-
             progressTextView.setText(Integer.toString(current)+"/"+Integer.toString(currGoal.getValue()));
             unitTextview.setText("minutes");
 
             title.setText(currGoal.getType().toString());
-            int tempColor = ContextCompat.getColor(itemView.getContext(), R.color.white);
-            progressTextView.setTextColor(tempColor);
-            unitTextview.setTextColor(tempColor);
-            title.setTextColor(tempColor);
 
             imageView.setImageResource(generateIcons(currGoal.getType()));
 

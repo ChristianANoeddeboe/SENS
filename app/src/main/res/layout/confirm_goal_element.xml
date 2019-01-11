@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/sens_edit_text"
             android:text="TextView"
-            android:textSize="10sp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
 </LinearLayout>

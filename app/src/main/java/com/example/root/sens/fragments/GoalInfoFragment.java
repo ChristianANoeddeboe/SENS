@@ -87,11 +87,15 @@ public class GoalInfoFragment extends Fragment implements View.OnClickListener {
         chart.getAxisLeft().setDrawGridLines(false); // disable grid lines for the left YAxis
         chart.getAxisRight().setDrawGridLines(false); // disable grid lines for the right YAxis
         chart.setDrawGridBackground(false);
-
         chart.getAxisRight().setEnabled(false);
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
         chart.animateY(2000);
         chart.setDrawValueAboveBar(false);
+
+
+
+        chart.setTouchEnabled(false);
+
         chart.invalidate(); // refresh
     }
 
@@ -124,11 +128,11 @@ public class GoalInfoFragment extends Fragment implements View.OnClickListener {
         List<BarEntry> entries = new ArrayList<>();
         ArrayList<DayData> tempDayData = UserDAO.getInstance().getSortedDayData();
         Collections.reverse(tempDayData);
-        int counter = 0;
+        int counter = 1;
         for(DayData dayData : tempDayData){
             RealmList<Record> tempRecords = dayData.getRecords();
             for(Record record : tempRecords){
-                if(record.getType().equals(goalType)){
+                if(record.getType().equals(goalType) && record.getValue() > 1){
                     switch (len){
                         case oneweekdata:
                             if(counter < 7){
