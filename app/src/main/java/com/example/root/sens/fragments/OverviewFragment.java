@@ -9,7 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.root.sens.R;
+import com.example.root.sens.dao.UserDAO;
+import com.example.root.sens.fragments.interfaces.OverviewListItem;
+import com.example.root.sens.fragments.interfaces.TypeCalendar;
+import com.example.root.sens.fragments.interfaces.TypeProgress;
 import com.example.root.sens.recyclers.adapter.OverviewAdapter;
+
+import java.util.ArrayList;
 import java.util.Date;
 
 

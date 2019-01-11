@@ -28,8 +28,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.airbnb.lottie.LottieAnimationView;
-import com.airbnb.lottie.LottieDrawable;
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.root.sens.R;
 import com.example.root.sens.dao.SensDAO;
@@ -138,7 +136,7 @@ public class MainActivity extends AppCompatActivity
         d = UserDAO.getInstance();
         d.registerObserver(this);
         SensDAO.getInstance().getData("xt9w2r",14);
-        fetchDataProgressBar(coordinatorLayout);
+        fetchDataProgressBar();
 
         new Handler().postDelayed(() -> asyncTask = new AsyncTask() {
             @Override
@@ -225,10 +223,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showFragment(Date date) {
-        if(isFullScreenFragmentOpen){
+        if (isFullScreenFragmentOpen) {
             return;
         }
-        if(date == null){
+        if (date == null) {
             Snackbar.make(findViewById(R.id.fragment_overlay_layout_main),
                     "Der er ikke data for den givne dato.",
                     Snackbar.LENGTH_LONG).show();
@@ -247,7 +245,9 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.main_a_coordinator_layout, dayDataFragment)
                 .addToBackStack(null)
                 .commit();
-    public void onDataChanged() {
+    }
+
+    public void onDataChanged(){
         viewpagerAdapter.notifyDataSetChanged();
     }
 
@@ -314,3 +314,4 @@ public class MainActivity extends AppCompatActivity
                 AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
     }
 }
+
