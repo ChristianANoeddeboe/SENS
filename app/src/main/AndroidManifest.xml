@@ -53,6 +53,9 @@
             android:name=".activities.ManageGoalActivity"
             android:label="Rediger mål"
             android:theme="@style/Theme.AppCompat.Light">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
         </activity>
     </application>
 

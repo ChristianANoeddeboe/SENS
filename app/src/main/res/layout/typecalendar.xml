@@ -35,6 +35,7 @@
         android:layout_marginTop="30dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        app:compactCalendarTextColor="@color/TextColorFragmentHeader"
         app:compactCalendarDisplayOtherMonthDays="true"
         app:compactCalendarEventIndicatorStyle="fill_large_indicator"
         app:compactCalendarMultiEventIndicatorColor="@color/sensBlue"
