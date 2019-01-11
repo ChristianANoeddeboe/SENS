@@ -8,11 +8,13 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -30,8 +32,10 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.example.root.sens.R;
 import com.example.root.sens.dao.SensDAO;
 import com.example.root.sens.dao.UserDAO;
+import com.example.root.sens.dao.interfaces.DatabaseObserver;
+import com.example.root.sens.dao.interfaces.DatabaseSubject;
 import com.example.root.sens.dao.interfaces.SensObserver;
-import com.example.root.sens.dao.interfaces.Subject;
+import com.example.root.sens.dao.interfaces.SensSubject;
 import com.example.root.sens.dto.User;
 import com.example.root.sens.fragments.AboutFragment;
 import com.example.root.sens.fragments.HistoryFragment;
@@ -41,9 +45,10 @@ import com.example.root.sens.notification.TimeReceiver;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, SensObserver {
+        implements NavigationView.OnNavigationItemSelectedListener, SensObserver, DatabaseObserver {
     private ViewPager viewPager;
-    private Subject s;
+    private SensSubject s;
+    private DatabaseSubject d;
     private static String[] viewNames = {"Overview", "Historik"};
     private SharedPreferences sharedPreferences;
     private ViewpagerAdapter viewpagerAdapter;
@@ -116,6 +121,8 @@ public class MainActivity extends AppCompatActivity
         CoordinatorLayout coordinatorLayout = findViewById(R.id.main_a_coordinator_layout);
         s = SensDAO.getInstance();
         s.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
+        d = UserDAO.getInstance();
+        d.registerObserver(this);
         SensDAO.getInstance().getData("xt9w2r",14);
         fetchDataProgressBar(coordinatorLayout);
 
@@ -188,6 +195,11 @@ public class MainActivity extends AppCompatActivity
         viewpagerAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onDataChanged() {
+        viewpagerAdapter.notifyDataSetChanged();
+    }
+
     /**
      * The view pager is handled here
      */
@@ -217,6 +229,11 @@ public class MainActivity extends AppCompatActivity
         public int getCount() {
             return 2;
         }
+
+        @Override
+        public int getItemPosition(Object object){
+            return PagerAdapter.POSITION_NONE;
+        }
     }
 
     /**
@@ -226,6 +243,7 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         s.removeObserver(this);
+        d.removeObserver(this);
         if(asyncTask != null){
             asyncTask.cancel(true);
         }

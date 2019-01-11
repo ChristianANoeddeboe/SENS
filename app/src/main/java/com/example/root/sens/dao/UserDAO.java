@@ -1,6 +1,12 @@
 package com.example.root.sens.dao;
 
+import android.util.Log;
+
+import com.example.root.sens.dao.interfaces.DatabaseObserver;
+import com.example.root.sens.dao.interfaces.DatabaseSubject;
 import com.example.root.sens.dao.interfaces.IUserDao;
+import com.example.root.sens.dao.interfaces.SensObserver;
+import com.example.root.sens.dao.interfaces.UserObserver;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
@@ -14,14 +20,26 @@ import java.util.Date;
 import java.util.HashMap;
 
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmList;
 
-public class UserDAO implements IUserDao {
+public class UserDAO implements IUserDao, DatabaseSubject {
     private static UserDAO instance;
+    private ArrayList<DatabaseObserver> mObservers;
+    private Realm realm;
+    private RealmChangeListener realmListener;
     private UserDAO(){}
     public static UserDAO getInstance(){
         if(instance==null){
             instance = new UserDAO();
+            instance.mObservers = new ArrayList<>();
+            instance.realm = Realm.getDefaultInstance();
+            instance.realmListener = new RealmChangeListener() {
+                @Override
+                public void onChange(Object o) {
+                    instance.notifyObservers();
+                }};
+            instance.realm.addChangeListener(instance.realmListener);
         }
         return instance;
     }
@@ -203,4 +221,27 @@ public class UserDAO implements IUserDao {
     }
 
 
+    @Override
+    public void registerObserver(DatabaseObserver databaseObserver) {
+        if(!mObservers.contains(databaseObserver)) {
+            mObservers.add(databaseObserver);
+
+        }
+    }
+
+    @Override
+    public void removeObserver(DatabaseObserver databaseObserver) {
+        if(mObservers.contains(databaseObserver)) {
+            mObservers.remove(databaseObserver);
+        }
+    }
+
+    @Override
+    public void notifyObservers() {
+        if(mObservers.size() != 0){
+            for (DatabaseObserver observer: mObservers) {
+                observer.onDataChanged();
+            }
+        }
+    }
 }

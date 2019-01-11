@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.example.root.sens.dao.interfaces.ISensAPI;
 import com.example.root.sens.dao.interfaces.SensObserver;
-import com.example.root.sens.dao.interfaces.Subject;
+import com.example.root.sens.dao.interfaces.SensSubject;
 import com.example.root.sens.dto.ActivityCategories;
 import com.example.root.sens.dto.Record;
 import com.example.root.sens.dto.sensresponse.Datum;
@@ -31,7 +31,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Used to download data from SENS
  */
-public class SensDAO implements Callback<Response>, Subject {
+public class SensDAO implements Callback<Response>, SensSubject {
     private static final String TAG = "test1234";
     private Retrofit retrofitInstance;
     private ISensAPI service;
