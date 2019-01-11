@@ -40,10 +40,10 @@ public class DayDataFragment extends Fragment{
         buttonBack.setOnClickListener((View v) -> getActivity().onBackPressed());
 
         // Recycler stuff
-        View myLayout = rootView.findViewById( R.id.frameLayout );
-        recyclerView = myLayout.findViewById( R.id.goalsRecycler );
+        View dataDataFragmentLayout = rootView.findViewById( R.id.frameLayout_DataDataFragment);
+        recyclerView = dataDataFragmentLayout.findViewById( R.id.goalsRecycler );
         recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
-        overviewAdapter = new OverviewAdapter(this.getContext(), date);
+        overviewAdapter = new OverviewAdapter(this.getContext(), date, false);
         recyclerView.setAdapter(overviewAdapter);
 
         return rootView;
