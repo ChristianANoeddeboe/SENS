@@ -41,7 +41,10 @@ import com.example.root.sens.notification.NotificationsManager;
 import com.example.root.sens.notification.TimeReceiver;
 import com.example.root.sens.observers.MainFullScreenFragmentObserver;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity
@@ -49,12 +52,14 @@ public class MainActivity extends AppCompatActivity
     private ViewPager viewPager;
     private Subject s;
     private static String[] viewNames = {"Overview", "Historik"};
+    private static String standardToolbarTitle = "SENS";
     private SharedPreferences sharedPreferences;
     private ViewpagerAdapter viewpagerAdapter;
     private ProgressBar progressBar;
     private Snackbar snackbar;
     private AsyncTask asyncTask;
     private CoordinatorLayout coordinatorLayout;
+    private Toolbar toolbar;
 
 
     @Override
@@ -66,7 +71,7 @@ public class MainActivity extends AppCompatActivity
          */
         setContentView(R.layout.mainactivity_a_burgermenu);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -134,6 +139,14 @@ public class MainActivity extends AppCompatActivity
         }.execute(), 1800000); // Fetch data every 30 min
     }
 
+    private void changeToolbar(String tilteText, int image){
+        toolbar.setTitle(tilteText);
+        toolbar.setNavigationIcon(image);
+        toolbar.setNavigationOnClickListener((View v) -> {
+            onBackPressed();
+        });
+    }
+
     private void fetchDataProgressBar() {
         snackbar = Snackbar.make(coordinatorLayout, "Henter data", Snackbar.LENGTH_INDEFINITE);
         ViewGroup contentLay = (ViewGroup) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text).getParent();
@@ -146,6 +159,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
+        changeToolbar(standardToolbarTitle, R.drawable.ic_bell_regular);
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -198,6 +214,7 @@ public class MainActivity extends AppCompatActivity
                     Snackbar.LENGTH_LONG).show();
             return;
         }
+        changeToolbar(new SimpleDateFormat("EEEE 'den' d'. ' MMMM YYYY", new Locale("da")).format(date), R.drawable.ic_times_circle_regular);
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("date", date);
@@ -206,7 +223,7 @@ public class MainActivity extends AppCompatActivity
         dayDataFragment.setArguments(bundle);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_activity_root, dayDataFragment)
+                .replace(R.id.main_a_coordinator_layout, dayDataFragment)
                 .addToBackStack(null)
                 .commit();
     }
