@@ -64,9 +64,12 @@ public class ViewHolderProgressBar extends ViewHolder {
             args.putString("goalType",goalType);
 
             Fragment f = new GoalInfoFragment();
-            ((GoalInfoFragment) f).setArguments(args);
+            f.setArguments(args);
             FragmentManager fm = ((AppCompatActivity) viewGroup).getSupportFragmentManager();
-            fm.beginTransaction().replace(R.id.goalsContentContainer, f).addToBackStack(null).commit();
+            fm.beginTransaction()
+                    .replace(R.id.goalsContentContainer, f)
+                    .addToBackStack(null)
+                    .commit();
 
         });
         type = i;
