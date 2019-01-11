@@ -18,23 +18,19 @@
         android:layout_height="match_parent"
         >
 
-        <LinearLayout
-            android:id="@+id/goalInfoBox_LinearLayout_container"
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardview_goalchart_header"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:padding="8dp">
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            >
 
             <LinearLayout
                 android:id="@+id/typeGoalInfo_LinearLayout_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="8dp">
 
                 <TextView
                     android:id="@+id/goalInfoBox_TextView_title"
@@ -55,6 +51,19 @@
                     android:src="@drawable/ic_showless"
                     android:textSize="24dp" />
             </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:id="@+id/goalInfoBox_LinearLayout_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:padding="8dp">
 
 
             <com.github.mikephil.charting.charts.BarChart
