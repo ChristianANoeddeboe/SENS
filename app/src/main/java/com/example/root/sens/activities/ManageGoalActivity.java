@@ -38,7 +38,7 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
     private ArrayList<String> data;
     private boolean changed = false;
     private ImageButton cancelbtn, donebtn;
-    private int tempColor;
+    private int counter;
     private int[] oldValues;
 
     @Override
@@ -66,6 +66,11 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
         data.add("Stå");
         data.add("Søvn");
 
+        RealmList<Goal> temp = UserDAO.getInstance().getNewestGoal().getGoals();
+        for(Goal g: temp){
+            counter+= g.getValue();
+        }
+
     }
 
 
@@ -88,7 +93,8 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
             //listElementViewHolder.total.setTextColor(tempColor);
             listElementViewHolder.header.setPadding(0, 30, 0, 0);
             listElementViewHolder.header.setText(data.get(i));
-            listElementViewHolder.seekBar.setMax(24*60);
+            listElementViewHolder.seekBar.setMax((24*60)-counter);
+            Log.d("test1234",SetGoalAdapter.generateProgressText(counter)+":"+SetGoalAdapter.generateProgressText(listElementViewHolder.seekBar.getMax()));
             RealmList<Goal> temp = UserDAO.getInstance().getNewestGoal().getGoals();
             for(Goal g : temp){
                 if(g.getType().toString().equals(data.get(i))){
@@ -103,6 +109,17 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                     listElementViewHolder.total.setText(SetGoalAdapter.generateProgressText(progress));
+                    int countTemp = 0;
+                    for(int j = 0; j < recyclerView.getChildCount(); j++){
+                        ListElementViewHolder test1234 = (ListElementViewHolder) recyclerView.findViewHolderForAdapterPosition(j);
+                        countTemp += test1234.seekBar.getProgress();
+                    }
+                    Log.d("test1234","New spent: " + SetGoalAdapter.generateProgressText(countTemp)+": Total elements: " + recyclerView.getChildCount() + ": Max: " + SetGoalAdapter.generateProgressText((24*60)-countTemp));
+                    for(int j = 0; j < recyclerView.getChildCount(); j++){
+                        ListElementViewHolder test11 = (ListElementViewHolder) recyclerView.findViewHolderForAdapterPosition(j);
+                        test11.seekBar.setMax(((24*60)-countTemp)+test11.seekBar.getProgress());
+                    }
+
                     changed = true;
                 }
 
@@ -113,6 +130,7 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
 
                 @Override
                 public void onStopTrackingTouch(SeekBar seekBar) {
+
                 }
             });
 
