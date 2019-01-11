@@ -25,8 +25,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieDrawable;
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.root.sens.R;
 import com.example.root.sens.dao.SensDAO;
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private boolean isFullScreenFragmentOpen = false;
-
+    private LottieDrawable animateCameraIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_burger_menu_icon);
+
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
@@ -214,6 +216,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showFragment(Date date) {
+        if(isFullScreenFragmentOpen){
+            return;
+        }
         if(date == null){
             Snackbar.make(findViewById(R.id.fragment_overlay_layout_main),
                     "Der er ikke data for den givne dato.",
