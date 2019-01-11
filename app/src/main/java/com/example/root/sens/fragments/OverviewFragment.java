@@ -35,4 +35,15 @@ public class OverviewFragment extends Fragment {
 
         return v;
     }
+
+    public static ArrayList<OverviewListItem> generateData(){
+        ArrayList<OverviewListItem> temp = new ArrayList<>();
+        temp.add(new TypeCalendar());
+
+        int amount = UserDAO.getInstance().getNewestGoal().getGoals().size()-1;
+        for(int i = 0; i <= amount; i++) {
+            temp.add(new TypeProgress());
+        }
+        return temp;
+    }
 }

@@ -52,6 +52,6 @@ public class GoalHistory extends RealmObject implements Comparable {
     @Override
     public int compareTo(Object o) {
         GoalHistory curr = (GoalHistory) o;
-        return date.compareTo(curr.getDate());
+        return curr.getDate().compareTo(date);
     }
 }
