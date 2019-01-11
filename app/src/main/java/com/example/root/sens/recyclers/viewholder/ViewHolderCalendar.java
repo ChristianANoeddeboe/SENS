@@ -64,7 +64,7 @@ public class ViewHolderCalendar extends ViewHolder {
     }
 
     private void fullScreenOverlayFragment(Date dateClicked) {
-        // TODO: Lav metode i UserDAO der kan fortælle om der er data for en dato
+        // TODO: Lav metodeTS i UserDAO der kan fortælle om der er data for en dato
         UserDAO userDAO = UserDAO.getInstance();
         DayData dayData = userDAO.getDataSpecificDate(dateClicked);
 

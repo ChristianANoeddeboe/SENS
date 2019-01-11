@@ -26,12 +26,15 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
     private int i = 0;
     private Date wantedDate;
 
-    public OverviewAdapter(Context ctx, Date wantedDate) {
+    public OverviewAdapter(Context ctx, Date wantedDate, boolean calendarVisible) {
         this.mContext = ctx;
         this.wantedDate = wantedDate;
 
         mItems = new ArrayList<>();
-        mItems.add(new TypeCalendar());
+
+        if(calendarVisible){
+            mItems.add(new TypeCalendar());
+        }
 
         int amount = UserDAO.getInstance().getNewestGoal().getGoals().size()-1;
         for(int i = 0; i < amount; i++) {

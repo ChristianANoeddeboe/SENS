@@ -30,7 +30,7 @@ public class OverviewFragment extends Fragment {
         // Vi laver en arrayliste så vi kan fjerne/indsætte elementer
         recyclerView = v.findViewById(R.id.goalsRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
-        overviewAdapter = new OverviewAdapter(this.getContext(), new Date());
+        overviewAdapter = new OverviewAdapter(this.getContext(), new Date(), true);
         recyclerView.setAdapter(overviewAdapter);
 
         return v;
