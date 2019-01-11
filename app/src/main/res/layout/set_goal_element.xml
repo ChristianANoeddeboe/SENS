@@ -17,6 +17,7 @@
             android:id="@+id/textView_set_goal_element_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="10dp"
             android:text="@string/title_activity_main"
             android:textColor="@color/white"
             android:textSize="20sp" />
@@ -27,8 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="end"
-            android:paddingEnd="20dp"
             android:paddingStart="20dp"
+            android:paddingEnd="10dp"
             android:text="0 minutter &amp; 0 timer"
             android:textColor="@color/white"
             android:textSize="14sp" />

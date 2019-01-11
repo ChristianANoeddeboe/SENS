@@ -2,6 +2,7 @@ package com.example.root.sens.activities;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,6 +38,8 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
     private ArrayList<String> data;
     private boolean changed = false;
     private ImageButton cancelbtn, donebtn;
+    private int tempColor;
+    private int[] oldValues;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,10 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
 
         cancelbtn.setOnClickListener(this);
         donebtn.setOnClickListener(this);
+
+        oldValues = new int[5];
+
+        //tempColor = ContextCompat.getColor(this, R.color.TextColorBodyFragment);
 
         data = new ArrayList<>();
         data.add("Cykling");
@@ -77,11 +84,15 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
 
         @Override
         public void onBindViewHolder(@NonNull ListElementViewHolder listElementViewHolder, int i) {
+            //listElementViewHolder.header.setTextColor(tempColor);
+            //listElementViewHolder.total.setTextColor(tempColor);
+            listElementViewHolder.header.setPadding(0, 30, 0, 0);
             listElementViewHolder.header.setText(data.get(i));
             listElementViewHolder.seekBar.setMax(24*60);
             RealmList<Goal> temp = UserDAO.getInstance().getNewestGoal().getGoals();
             for(Goal g : temp){
                 if(g.getType().toString().equals(data.get(i))){
+                    oldValues[i] = g.getValue();
                     listElementViewHolder.seekBar.setProgress(g.getValue());
                     listElementViewHolder.total.setText(SetGoalAdapter.generateProgressText(g.getValue()));
                     break;
@@ -115,10 +126,10 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
+        RealmList<Goal> s = UserDAO.getInstance().getNewestGoal().getGoals();
         if(v.equals(donebtn)){
             if(changed){
                 HashMap<String, Integer> temp = new HashMap<>();
-                RealmList<Goal> s = UserDAO.getInstance().getNewestGoal().getGoals();
                 for(Goal goal : s){
                     for(int i = 0; i < recyclerView.getChildCount(); i++){
                         ListElementViewHolder listElementViewHolder = (ListElementViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
@@ -140,8 +151,12 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
                 //Goals were not changed but user pressed save button
             }
 
-        }else if(v.equals(cancelbtn)){
-            finish();
+        }else if(v.equals(cancelbtn) && changed){
+            for(int i = 0; i < recyclerView.getChildCount(); i++){
+                ListElementViewHolder listElementViewHolder = (ListElementViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
+                listElementViewHolder.seekBar.setProgress(oldValues[i]);
+                listElementViewHolder.total.setText(SetGoalAdapter.generateProgressText(oldValues[i]));
+            }
         }
     }
 
