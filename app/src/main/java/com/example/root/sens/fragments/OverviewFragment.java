@@ -1,6 +1,7 @@
 package com.example.root.sens.fragments;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,8 +15,12 @@ import com.example.root.sens.recyclers.adapter.OverviewAdapter;
 import com.example.root.sens.fragments.interfaces.OverviewListItem;
 import com.example.root.sens.fragments.interfaces.TypeCalendar;
 import com.example.root.sens.fragments.interfaces.TypeProgress;
+import com.github.sundeepk.compactcalendarview.CompactCalendarView;
+import com.github.sundeepk.compactcalendarview.domain.Event;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 public class OverviewFragment extends Fragment {
@@ -45,6 +50,8 @@ public class OverviewFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
         overviewAdapter = new OverviewAdapter(this.getContext(),generateData());
         recyclerView.setAdapter(overviewAdapter);
+
+
 
         return v;
     }

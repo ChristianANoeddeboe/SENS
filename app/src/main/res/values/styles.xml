@@ -69,4 +69,10 @@
         <item name="android:backgroundTint">@color/sensBlueDarker</item>
         <item name="android:textColor">@color/sensBlue</item>
     </style>
+
+    <style name="FullScreenDialogStyle" parent="android:Theme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
 </resources>

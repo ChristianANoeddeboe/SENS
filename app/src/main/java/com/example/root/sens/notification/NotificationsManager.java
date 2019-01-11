@@ -9,6 +9,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
 import com.example.root.sens.R;
+import com.example.root.sens.auxiliary.DayDataGoalMapper;
 import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dto.ActivityCategories;
 import com.example.root.sens.dto.DayData;
@@ -55,8 +56,12 @@ public class NotificationsManager {
     public void displayNotification(){
         UserDAO userDAO = UserDAO.getInstance();
         User currentUser = userDAO.getUserLoggedIn();
-        loadData(currentUser);
-        currentUser.getFirstName();
+
+        DayDataGoalMapper dayDataGoalMapper = new DayDataGoalMapper(userDAO);
+        goalMap = dayDataGoalMapper.getGoalMap();
+        dataMap = dayDataGoalMapper.getDataMap();
+
+
 
         Notification summaryNotification =
                 new NotificationCompat.Builder(ctx, channelId)
@@ -129,18 +134,4 @@ public class NotificationsManager {
         notificationManager.notify(4, notificationResting);
         notificationManager.notify(5, summaryNotification);
     }
-
-    private void loadData(User user){
-        GoalHistory goals = user.getGoals().get(0);
-        DayData dayData = user.getDayData().get(0);
-
-        for(Goal goal : goals.getGoals()){
-            goalMap.put(String.valueOf(goal.getType()), goal.getValue());
-        }
-
-        for(Record record : dayData.getRecords()){
-            dataMap.put(String.valueOf(record.getType()), record.getValue());
-        }
-    }
-
 }
