@@ -3,7 +3,9 @@ package com.example.root.sens.fragments;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,10 +60,20 @@ public class GoalInfoFragment extends Fragment implements View.OnClickListener {
         onemonth = rootView.findViewById(R.id.goalInfo_Button_1month);
         threemonths = rootView.findViewById(R.id.goalInfo_Button_3month);
         backButton = rootView.findViewById(R.id.typeGoalInfo_ImageButton_showless);
-        backButton.setOnClickListener(this);
+
+        goalbox.setOnClickListener((View v) ->{
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            fm.beginTransaction()
+                    .remove(this)
+                    .commit();
+        });
+
         updateButton.setOnClickListener(this);
+
         oneweek.setOnClickListener(this);
+
         onemonth.setOnClickListener(this);
+
         threemonths.setOnClickListener(this);
 
         setupColors(rootView);
