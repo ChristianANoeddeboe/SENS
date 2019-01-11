@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.root.sens.R;
@@ -41,7 +42,6 @@ import com.example.root.sens.notification.NotificationsManager;
 import com.example.root.sens.notification.TimeReceiver;
 import com.example.root.sens.observers.MainFullScreenFragmentObserver;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity
     private AsyncTask asyncTask;
     private CoordinatorLayout coordinatorLayout;
     private Toolbar toolbar;
+    private DrawerLayout drawer;
+    private boolean isFullScreenFragmentOpen = false;
 
 
     @Override
@@ -72,9 +74,10 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.mainactivity_a_burgermenu);
 
         toolbar = findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_burger_menu_icon);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -139,12 +142,15 @@ public class MainActivity extends AppCompatActivity
         }.execute(), 1800000); // Fetch data every 30 min
     }
 
-    private void changeToolbar(String tilteText, int image){
-        toolbar.setTitle(tilteText);
+    private void changeToolbar(String tileText, int image){
+        toolbar.setTitle(tileText);
         toolbar.setNavigationIcon(image);
-        toolbar.setNavigationOnClickListener((View v) -> {
-            onBackPressed();
-        });
+
+        if(isFullScreenFragmentOpen){
+            toolbar.setNavigationOnClickListener((View v) -> onBackPressed());
+        }else {
+            toolbar.setNavigationOnClickListener((View v) -> drawer.openDrawer(GravityCompat.START));
+        }
     }
 
     private void fetchDataProgressBar() {
@@ -158,9 +164,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-
-        changeToolbar(standardToolbarTitle, R.drawable.ic_bell_regular);
+        // TODO: Change to burger icon instead
+        isFullScreenFragmentOpen = false;
+        changeToolbar(standardToolbarTitle, R.drawable.ic_burger_menu_icon);
 
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -214,7 +220,8 @@ public class MainActivity extends AppCompatActivity
                     Snackbar.LENGTH_LONG).show();
             return;
         }
-        changeToolbar(new SimpleDateFormat("EEEE 'den' d'. ' MMMM YYYY", new Locale("da")).format(date), R.drawable.ic_times_circle_regular);
+        isFullScreenFragmentOpen = true;
+        changeToolbar(new SimpleDateFormat("EEEE 'den' d'. ' MMMM YYYY", new Locale("da")).format(date), R.drawable.ic_baseline_clear);
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("date", date);
