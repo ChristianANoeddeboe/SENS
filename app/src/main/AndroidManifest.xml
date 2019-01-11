@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+
     <application
         android:name=".Singleton"
         android:allowBackup="true"
@@ -44,11 +45,7 @@
             android:name=".notification.TimeReceiver"
             android:enabled="true"
             android:exported="false"></receiver>
-
-        <service
-            android:name=".notification.TimeService"
-            android:exported="false"></service>
-
+        
         <activity
             android:name=".activities.ManageGoalActivity"
             android:label="Rediger mål"
@@ -57,6 +54,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="dfff888f04d47370e31e43c9f79af415517e3b4e"
+            />
     </application>
 
 </manifest>
