@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             protected Object doInBackground(Object[] objects) {
                 snackbar.show();
-                SensDAO.getInstance().getData("xt9w2r");
+                SensDAO.getInstance().getData("xt9w2r", 14);
                 return null;
             }
         }.execute(), 1800000); // Fetch data every 30 min
