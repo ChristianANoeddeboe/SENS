@@ -3,6 +3,7 @@ package com.example.root.sens.fragments;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
@@ -11,16 +12,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.root.sens.R;
-import com.example.root.sens.dao.SensDAO;
 import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dto.ActivityCategories;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Record;
-import com.example.root.sens.dto.User;
 import com.example.root.sens.recyclers.viewholder.ViewHolderProgressBar;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -38,7 +36,7 @@ import io.realm.RealmList;
 public class GoalInfoFragment extends Fragment implements View.OnClickListener {
     TextView title;
     ImageButton updateButton, backButton;
-    CardView goalbox;
+    CardView goalbox, header;
     ActivityCategories goalType;
     ImageView icon;
     BarChart chart;
@@ -47,7 +45,7 @@ public class GoalInfoFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         boolean debug = true;
-        View rootView = inflater.inflate(R.layout.fragment_goal_info, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_graph_card, container, false);
         goalType = ActivityCategories.valueOf(getArguments().getString("goalType"));
         goalbox = rootView.findViewById(R.id.goalchart_cardview);
         title = rootView.findViewById(R.id.goalInfoBox_TextView_title);
@@ -58,13 +56,25 @@ public class GoalInfoFragment extends Fragment implements View.OnClickListener {
         onemonth = rootView.findViewById(R.id.goalInfo_Button_1month);
         threemonths = rootView.findViewById(R.id.goalInfo_Button_3month);
         backButton = rootView.findViewById(R.id.typeGoalInfo_ImageButton_showless);
-        backButton.setOnClickListener(this);
+        header = rootView.findViewById(R.id.cardview_goalchart_header);
+
+        goalbox.setOnClickListener((View v) ->{
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            fm.beginTransaction()
+                    .remove(this)
+                    .commit();
+        });
+
         updateButton.setOnClickListener(this);
+
         oneweek.setOnClickListener(this);
+
         onemonth.setOnClickListener(this);
+
         threemonths.setOnClickListener(this);
 
-        setupColors(rootView);
+        header.setBackgroundTintList(getActivity().getResources().getColorStateList(getGoalColor(goalType)));
+
         setupChart();
         updateChart(generateData(gendata.oneweekdata));
         Date d = new Date();
@@ -97,12 +107,6 @@ public class GoalInfoFragment extends Fragment implements View.OnClickListener {
         chart.setTouchEnabled(false);
 
         chart.invalidate(); // refresh
-    }
-
-    private void setupColors(View rootView) {
-        int color = ViewHolderProgressBar.getGoalColor(goalType);
-        color = ContextCompat.getColor(rootView.getContext(), color);
-        goalbox.getBackground().mutate().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
     }
 
     @Override
@@ -161,5 +165,27 @@ public class GoalInfoFragment extends Fragment implements View.OnClickListener {
             }
         }
         return entries;
+    }
+
+    private int getGoalColor(ActivityCategories curr) {
+        switch (curr) {
+            case Resting:
+                //return Color.argb(255, 0, 150, 136);
+                return R.color.restingColor;
+            case Standing:
+                //return Color.argb(255, 63, 81, 181);
+                return R.color.standingColor;
+            case Walking:
+                //return Color.argb(255, 76, 175, 80);
+                return R.color.walkingColor;
+            case Cycling:
+                //return Color.argb(255, 255, 152, 0);
+                return R.color.cyclingColor;
+            case Exercise:
+                //return Color.argb(244, 244, 67, 54);
+                return R.color.exerciseColor;
+            default:
+                return R.color.white;
+        }
     }
 }
