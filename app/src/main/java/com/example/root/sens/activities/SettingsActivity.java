@@ -18,7 +18,6 @@ import java.util.List;
 import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Record;
-import com.example.root.sens.fragments.ConfirmDeleteDataAlertDialog;
 import com.example.root.sens.recyclers.adapter.ItemClickListener;
 import com.example.root.sens.recyclers.adapter.SettingsAdapter;
 import com.example.root.sens.recyclers.itemmodels.ItemModel;

@@ -1,5 +1,6 @@
 package com.example.root.sens.recyclers.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,20 +18,20 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
         private static final String TAG = "SettingsAdapter";
         private List<SetGoalItemModel> mDataSet;
         private final static int MIN_PER_DAY = 24*60;
-
+        private RecyclerView recyclerViewAdapter;
         /**
          * Provide a reference to the type of views that you are using (custom ViewHolder)
          */
         public class ViewHolder extends RecyclerView.ViewHolder {
             private final TextView textViewPrimary;
             private final TextView textViewSecondary;
-
+            private SeekBar seekBar;
             public ViewHolder(View v) {
                 super(v);
                 textViewPrimary = v.findViewById(R.id.textView_set_goal_element_header);
                 textViewSecondary = v.findViewById(R.id.textView_set_goal_total);
 
-                SeekBar seekBar = v.findViewById(R.id.seekBar_set_goal);
+                seekBar = v.findViewById(R.id.seekBar_set_goal);
                 seekBar.setMax(MIN_PER_DAY);
                 seekBar.setOnSeekBarChangeListener(seekBarChangeListener);
 
@@ -41,6 +42,16 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                     // updated continuously as the user slides the thumb
                     textViewSecondary.setText(generateProgressText(progress));
+
+                    int countTemp = 0;
+                    for(int j = 0; j < recyclerViewAdapter.getChildCount(); j++){
+                        ViewHolder temp = (ViewHolder) recyclerViewAdapter.findViewHolderForAdapterPosition(j);
+                        countTemp += temp.seekBar.getProgress();
+                    }
+                    for(int j = 0; j < recyclerViewAdapter.getChildCount(); j++){
+                        ViewHolder temp = (ViewHolder) recyclerViewAdapter.findViewHolderForAdapterPosition(j);
+                        temp.seekBar.setMax(((24*60)-countTemp)+temp.seekBar.getProgress());
+                    }
                 }
 
                 @Override
@@ -74,7 +85,6 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
             // Create a new view.
             View v = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.set_goal_element, viewGroup, false);
-
             return new ViewHolder(v);
         }
 
@@ -108,4 +118,9 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
         }
 
 
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        recyclerViewAdapter = recyclerView;
+    }
 }

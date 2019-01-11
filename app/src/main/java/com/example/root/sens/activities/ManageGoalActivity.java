@@ -94,7 +94,7 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
             listElementViewHolder.header.setPadding(0, 30, 0, 0);
             listElementViewHolder.header.setText(data.get(i));
             listElementViewHolder.seekBar.setMax((24*60)-counter);
-            Log.d("test1234",SetGoalAdapter.generateProgressText(counter)+":"+SetGoalAdapter.generateProgressText(listElementViewHolder.seekBar.getMax()));
+
             RealmList<Goal> temp = UserDAO.getInstance().getNewestGoal().getGoals();
             for(Goal g : temp){
                 if(g.getType().toString().equals(data.get(i))){
@@ -111,13 +111,12 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
                     listElementViewHolder.total.setText(SetGoalAdapter.generateProgressText(progress));
                     int countTemp = 0;
                     for(int j = 0; j < recyclerView.getChildCount(); j++){
-                        ListElementViewHolder test1234 = (ListElementViewHolder) recyclerView.findViewHolderForAdapterPosition(j);
-                        countTemp += test1234.seekBar.getProgress();
+                        ListElementViewHolder temp = (ListElementViewHolder) recyclerView.findViewHolderForAdapterPosition(j);
+                        countTemp += temp.seekBar.getProgress();
                     }
-                    Log.d("test1234","New spent: " + SetGoalAdapter.generateProgressText(countTemp)+": Total elements: " + recyclerView.getChildCount() + ": Max: " + SetGoalAdapter.generateProgressText((24*60)-countTemp));
                     for(int j = 0; j < recyclerView.getChildCount(); j++){
-                        ListElementViewHolder test11 = (ListElementViewHolder) recyclerView.findViewHolderForAdapterPosition(j);
-                        test11.seekBar.setMax(((24*60)-countTemp)+test11.seekBar.getProgress());
+                        ListElementViewHolder temp = (ListElementViewHolder) recyclerView.findViewHolderForAdapterPosition(j);
+                        temp.seekBar.setMax(((24*60)-countTemp)+temp.seekBar.getProgress());
                     }
 
                     changed = true;
