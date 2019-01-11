@@ -33,10 +33,12 @@
         android:layout_width="fill_parent"
         android:layout_height="200dp"
         android:layout_marginTop="30dp"
+
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         app:compactCalendarTextColor="@color/TextColorFragmentHeader"
         app:compactCalendarDisplayOtherMonthDays="true"
+        app:compactCalendarShouldSelectFirstDayOfMonthOnScroll="false"
         app:compactCalendarEventIndicatorStyle="fill_large_indicator"
         app:compactCalendarMultiEventIndicatorColor="@color/sensBlue"
         app:compactCalendarOtherMonthDaysTextColor="@color/grey"

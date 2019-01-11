@@ -9,8 +9,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.view.View;
-import android.widget.ImageButton;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,61 +28,60 @@ import com.example.root.sens.fragments.interfaces.OverviewListItem;
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
 
+import java.util.Date;
+
 import io.realm.RealmList;
 
 public class ViewHolderProgressBar extends ViewHolder {
     private final DecoView progressCircle;
     private TextView progressTextView, title, unitTextview;
     private ImageView imageView;
-    private LinearLayout goalbox, header;
-    private ImageButton expandButton;
+    private LinearLayout header;
+    private CardView goalbox;
     private int type;
     private String goalType;
-    public ViewHolderProgressBar(View itemView, int i, Context viewGroup) {
+    private Date wantedDate;
+
+    public ViewHolderProgressBar(View itemView, int i, Context viewGroup, Date wantedDate) {
         super(itemView);
         progressCircle = itemView.findViewById(R.id.dynamicArcView);
         progressTextView = itemView.findViewById(R.id.goalstatusTextView);
         imageView = itemView.findViewById(R.id.goalIconImageView);
-        goalbox = itemView.findViewById(R.id.goalbox_LinearLayout_container);
+        goalbox = itemView.findViewById(R.id.goalchart_cardview);
         header = itemView.findViewById(R.id.typegoal_LinearLayout_header);
         unitTextview = itemView.findViewById(R.id.goalbox_Textview_unit);
         title = itemView.findViewById(R.id.goalbox_TextView_title);
-        expandButton = itemView.findViewById(R.id.typegoal_ImageButton_showmore);
-        expandButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(v.equals(expandButton)) {
-                    Bundle args = new Bundle();
-                    args.putString("title",title.getText().toString());
-                    args.putString("progress",progressTextView.getText().toString());
-                    args.putString("unit",unitTextview.getText().toString());
-                    args.putString("goalType",goalType);
+        this.wantedDate = wantedDate;
 
-                    Fragment f = new GoalInfoFragment();
-                    f.setArguments(args);
-                    FragmentManager manager = ((AppCompatActivity) viewGroup).getSupportFragmentManager();
-                    manager.beginTransaction().replace(R.id.goalsContentContainer, f).addToBackStack(null).commit();
-                }
-            }
+        goalbox.setOnClickListener((View v)->{
+            Animation animationUp = AnimationUtils.loadAnimation(viewGroup, R.anim.slide_up);
+            Animation animationDown = AnimationUtils.loadAnimation(viewGroup, R.anim.slide_down);
+
+            Bundle args = new Bundle();
+            args.putString("title",title.getText().toString());
+            args.putString("progress",progressTextView.getText().toString());
+            args.putString("unit",unitTextview.getText().toString());
+            args.putString("goalType",goalType);
+
+            Fragment f = new GoalInfoFragment();
+            f.setArguments(args);
+            FragmentManager fm = ((AppCompatActivity) viewGroup).getSupportFragmentManager();
+            fm.beginTransaction()
+                    .replace(R.id.goalsContentContainer, f)
+                    .addToBackStack(null)
+                    .commit();
+
         });
         type = i;
     }
 
     public void bindType(OverviewListItem item) {
-        final int BACKGROUNDSERIESWIDTH = 10;
-        DayData d = getNewestData();
+        UserDAO userDAO = UserDAO.getInstance();
+        DayData dayData = userDAO.getDataSpecificDate(wantedDate);
         RealmList<Goal> goals = UserDAO.getInstance().getNewestGoal().getGoals();
-
-
-
-        //https://github.com/bmarrdev/android-DecoView-charting
-        /*progressCircle.addSeries(new SeriesItem.Builder(Color.argb(180, 218, 218, 218))
-                .setRange(0, 100, 100)
-                .setLineWidth(BACKGROUNDSERIESWIDTH)
-                .build());*/
         Goal currGoal = goals.get(type);
         goalType = currGoal.getType().toString();
-        RealmList<Record> temp = d.getRecords();
+        RealmList<Record> temp = dayData.getRecords();
         int current = 0;
         for(Record record : temp){
             if(record.getType().equals(currGoal.getType())){
@@ -100,19 +101,10 @@ public class ViewHolderProgressBar extends ViewHolder {
             color = ContextCompat.getColor(itemView.getContext(), color);
             goalbox.getBackground().mutate().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
 
-            color = getGoalHeaderColor(currGoal.getType());
-
-            color = ContextCompat.getColor(itemView.getContext(), color);
-            header.getBackground().mutate().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
-
             progressTextView.setText(Integer.toString(current)+"/"+Integer.toString(currGoal.getValue()));
             unitTextview.setText("minutes");
 
             title.setText(currGoal.getType().toString());
-            int tempColor = ContextCompat.getColor(itemView.getContext(), R.color.white);
-            progressTextView.setTextColor(tempColor);
-            unitTextview.setTextColor(tempColor);
-            title.setTextColor(tempColor);
 
             imageView.setImageResource(generateIcons(currGoal.getType()));
 
@@ -179,19 +171,4 @@ public class ViewHolderProgressBar extends ViewHolder {
         }
         return R.mipmap.award;
     }
-
-    private DayData getNewestData() {
-
-        RealmList<DayData> daydata = UserDAO.getInstance().getUserLoggedIn().getDayData();
-        DayData data = daydata.get(0);
-        DayData temp;
-        for(int i = 0 ; i < daydata.size()-1 ; i++) {
-            temp = daydata.get(i);
-            if(temp.getEnd_time().getTime() > data.getEnd_time().getTime()) {
-                data = temp;
-            }
-        }
-        return data;
-    }
-
 }

@@ -9,31 +9,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.root.sens.R;
-import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.recyclers.adapter.OverviewAdapter;
-import com.example.root.sens.fragments.interfaces.OverviewListItem;
-import com.example.root.sens.fragments.interfaces.TypeCalendar;
-import com.example.root.sens.fragments.interfaces.TypeProgress;
-
-import java.util.ArrayList;
+import java.util.Date;
 
 
 public class OverviewFragment extends Fragment {
     private OverviewAdapter overviewAdapter;
-    public OverviewFragment() {
-        // Required empty public constructor
-    }
-
-    public OverviewAdapter getOverviewAdapter() {
-        return overviewAdapter;
-    }
+    RecyclerView recyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
     }
-    RecyclerView recyclerView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -41,11 +30,12 @@ public class OverviewFragment extends Fragment {
         // Vi laver en arrayliste så vi kan fjerne/indsætte elementer
         recyclerView = v.findViewById(R.id.goalsRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
-        overviewAdapter = new OverviewAdapter(this.getContext(),generateData());
+        overviewAdapter = new OverviewAdapter(this.getContext(), new Date(), true);
         recyclerView.setAdapter(overviewAdapter);
 
         return v;
     }
+
     public static ArrayList<OverviewListItem> generateData(){
         ArrayList<OverviewListItem> temp = new ArrayList<>();
         temp.add(new TypeCalendar());
@@ -56,7 +46,4 @@ public class OverviewFragment extends Fragment {
         }
         return temp;
     }
-
-
-
 }

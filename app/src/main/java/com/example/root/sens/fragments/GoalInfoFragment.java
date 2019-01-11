@@ -4,6 +4,7 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,7 @@ import io.realm.RealmList;
 public class GoalInfoFragment extends Fragment implements View.OnClickListener {
     TextView title;
     ImageButton updateButton, backButton;
-    LinearLayout header,goalbox;
+    CardView goalbox;
     ActivityCategories goalType;
     ImageView icon;
     BarChart chart;
@@ -48,9 +49,8 @@ public class GoalInfoFragment extends Fragment implements View.OnClickListener {
         boolean debug = true;
         View rootView = inflater.inflate(R.layout.fragment_goal_info, container, false);
         goalType = ActivityCategories.valueOf(getArguments().getString("goalType"));
-        goalbox = rootView.findViewById(R.id.goalInfoBox_LinearLayout_container);
+        goalbox = rootView.findViewById(R.id.goalchart_cardview);
         title = rootView.findViewById(R.id.goalInfoBox_TextView_title);
-        header = rootView.findViewById(R.id.typeGoalInfo_LinearLayout_header);
         chart = rootView.findViewById(R.id.goalInfoChart);
         title.setText(goalType.toString());
         updateButton = rootView.findViewById(R.id.goalInfo_Button_editgoal);
@@ -103,9 +103,6 @@ public class GoalInfoFragment extends Fragment implements View.OnClickListener {
         int color = ViewHolderProgressBar.getGoalColor(goalType);
         color = ContextCompat.getColor(rootView.getContext(), color);
         goalbox.getBackground().mutate().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
-        color = ViewHolderProgressBar.getGoalHeaderColor(goalType);
-        color = ContextCompat.getColor(rootView.getContext(), color);
-        header.getBackground().mutate().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
     }
 
     @Override
