@@ -1,7 +1,6 @@
 package com.example.root.sens.fragments;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,30 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.root.sens.R;
-import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.recyclers.adapter.OverviewAdapter;
-import com.example.root.sens.fragments.interfaces.OverviewListItem;
-import com.example.root.sens.fragments.interfaces.TypeCalendar;
-import com.example.root.sens.fragments.interfaces.TypeProgress;
-import com.github.sundeepk.compactcalendarview.CompactCalendarView;
-import com.github.sundeepk.compactcalendarview.domain.Event;
-
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 
 public class OverviewFragment extends Fragment {
     private OverviewAdapter overviewAdapter;
     RecyclerView recyclerView;
-
-    public OverviewFragment() {
-        // Required empty public constructor
-    }
-
-    public OverviewAdapter getOverviewAdapter() {
-        return overviewAdapter;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,25 +30,9 @@ public class OverviewFragment extends Fragment {
         // Vi laver en arrayliste så vi kan fjerne/indsætte elementer
         recyclerView = v.findViewById(R.id.goalsRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
-        overviewAdapter = new OverviewAdapter(this.getContext(),generateData());
+        overviewAdapter = new OverviewAdapter(this.getContext(), new Date());
         recyclerView.setAdapter(overviewAdapter);
-
-
 
         return v;
     }
-
-    public static ArrayList<OverviewListItem> generateData(){
-        ArrayList<OverviewListItem> temp = new ArrayList<>();
-        temp.add(new TypeCalendar());
-
-        int amount = UserDAO.getInstance().getNewestGoal().getGoals().size()-1;
-        for(int i = 0; i < amount; i++) {
-            temp.add(new TypeProgress());
-        }
-        return temp;
-    }
-
-
-
 }
