@@ -1,13 +1,16 @@
 package com.example.root.sens.recyclers.viewholder;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.View;
@@ -36,11 +39,11 @@ public class ViewHolderProgressBar extends ViewHolder {
     private final DecoView progressCircle;
     private TextView progressTextView, title, unitTextview;
     private ImageView imageView;
-    private LinearLayout header;
-    private CardView goalbox;
+    private CardView goalbox, header;
     private int type;
     private String goalType;
     private Date wantedDate;
+    private Context ctx;
 
     public ViewHolderProgressBar(View itemView, int i, Context viewGroup, Date wantedDate) {
         super(itemView);
@@ -48,11 +51,11 @@ public class ViewHolderProgressBar extends ViewHolder {
         progressTextView = itemView.findViewById(R.id.goalstatusTextView);
         imageView = itemView.findViewById(R.id.goalIconImageView);
         goalbox = itemView.findViewById(R.id.goalchart_cardview);
-        header = itemView.findViewById(R.id.typegoal_LinearLayout_header);
+        header = itemView.findViewById(R.id.cardview_header);
         unitTextview = itemView.findViewById(R.id.goalbox_Textview_unit);
         title = itemView.findViewById(R.id.goalbox_TextView_title);
         this.wantedDate = wantedDate;
-
+        ctx = viewGroup;
         goalbox.setOnClickListener((View v)->{
             Animation animationUp = AnimationUtils.loadAnimation(viewGroup, R.anim.slide_up);
             Animation animationDown = AnimationUtils.loadAnimation(viewGroup, R.anim.slide_down);
@@ -72,6 +75,7 @@ public class ViewHolderProgressBar extends ViewHolder {
                     .commit();
 
         });
+
         type = i;
     }
 
@@ -112,13 +116,18 @@ public class ViewHolderProgressBar extends ViewHolder {
 
         title.setText(currGoal.getType().toString());
 
-        imageView.setImageResource(generateIcons(currGoal.getType()));
 
-        progressCircle.addSeries(new SeriesItem.Builder(Color.argb(255, 255, 255, 255))
-                .setRange(0, max, current)
-                .setLineWidth(20)
-                .setInset(new PointF(0, 2))
-                .build());
+
+            imageView.setImageDrawable(generateIcons(currGoal.getType()));
+
+            header.setBackgroundTintList(ctx.getResources().getColorStateList(getGoalColor(currGoal.getType())));
+
+            progressCircle.addSeries(new SeriesItem.Builder(Color.argb(255, 237, 28, 38))
+                    .setRange(0, max, current)
+                    .setLineWidth(20)
+                    .setInset(new PointF(0, 2))
+                    .build());
+        }
     }
     //TODO: Move the two methods below in some utility class
     public static int getGoalHeaderColor(ActivityCategories curr) {
@@ -161,19 +170,25 @@ public class ViewHolderProgressBar extends ViewHolder {
     }
 
 
-    public static int generateIcons(ActivityCategories curr) {
+    private Drawable generateIcons(ActivityCategories curr) {
+        Drawable icon;
         switch (curr) {
             case Søvn:
-                return R.mipmap.icon_resting_inverted;
+                icon = ctx.getDrawable(R.mipmap.icon_resting);
+                return icon;
             case Stå:
-                return R.mipmap.icon_standing_inverted;
+                icon = ctx.getDrawable(R.mipmap.icon_standing);
+                return icon;
             case Gang:
-                return R.mipmap.icon_walking_inverted;
+                icon = ctx.getDrawable(R.mipmap.icon_walking);
+                return icon;
             case Cykling:
-                return R.mipmap.icon_cycling_inverted;
+                icon = ctx.getDrawable(R.mipmap.icon_cycling);
+                return icon;
             case Træning:
-                return R.mipmap.icon_exercise_inverted;
+                icon = ctx.getDrawable(R.mipmap.icon_exercise);
+                return icon;
         }
-        return R.mipmap.award;
+        return ctx.getDrawable(R.mipmap.award);
     }
 }
