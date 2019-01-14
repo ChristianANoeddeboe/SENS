@@ -83,9 +83,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setupDataFetcher() {
-        /*
-         * Fetch data from SENS.
-         */
         sensSubject = SensDAO.getInstance();
         sensSubject.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
         databaseSubject = UserDAO.getInstance();
@@ -104,9 +101,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setupViewPager() {
-        /*
-         * Initializing the view pager
-         */
         sharedPreferences = getApplication().getSharedPreferences(
                 getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
@@ -117,9 +111,6 @@ public class MainActivity extends AppCompatActivity
                 ,0));
         sharedPreferences.edit().remove(getString(R.string.pagerWindowNumber)).apply();
 
-        /*
-         * Declare the view pager sliding tab
-         */
         PagerSlidingTabStrip pagerSlidingTabStrip = findViewById(R.id.pagerTitleStrip);
         pagerSlidingTabStrip.setShouldExpand(true);
         pagerSlidingTabStrip.setIndicatorColorResource(R.color.sensBlue);
@@ -178,16 +169,17 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        // TODO: Change to burger icon instead
+        if (isFullScreenFragmentOpen){
+            overridePendingTransition(0, R.anim.slide_down);
+        }
         isFullScreenFragmentOpen = false;
         changeToolbar(standardToolbarTitle, R.drawable.ic_burger_menu_icon);
 
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else if (isFullScreenFragmentOpen){
-            overridePendingTransition(R.anim.slide_down, R.anim.slide_up);
         } else {
             super.onBackPressed();
+            overridePendingTransition(R.anim.slide_out_r, R.anim.slide_in_r);
         }
     }
 

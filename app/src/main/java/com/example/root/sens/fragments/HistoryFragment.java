@@ -13,12 +13,15 @@ import android.widget.TextView;
 
 import com.example.root.sens.R;
 import com.example.root.sens.dao.UserDAO;
+import com.example.root.sens.recyclers.adapters.HistoryAdapter;
+import com.example.root.sens.recyclers.itemmodels.HistoryItemModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -34,14 +37,19 @@ public class HistoryFragment extends Fragment {
 
         RecyclerView recyclerView = v.findViewById(R.id.historyRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+        HistoryAdapter adapter = new HistoryAdapter(getContext(), generateData());
         recyclerView.setAdapter(adapter);
 
+        //TODO: Alt data generering til recyclerviewet skal ud i sin egen klasse!
         HashMap<Date, Boolean> userHistory = UserDAO.getInstance().userFulfilledGoals();
         ArrayList<Date> tempDates = new ArrayList<>();
 
         for(Date date : userHistory.keySet()){
             boolean res = userHistory.get(date).booleanValue();
-            if(!res){ //TODO: CHANGE THIS!!! TODO: MAKE NEW COMMENT
+            /*
+            * Remove the ! to get the actually intended code, the ! is there for testing purposes.
+            * */
+            if(!res){
                 tempDates.add(date);
             }
         }
@@ -75,49 +83,35 @@ public class HistoryFragment extends Fragment {
         }
     }
 
-    // TODO: Move this out
-    // TODO: Extract resource with parameters
-    private RecyclerView.Adapter adapter = new RecyclerView.Adapter<ListElementViewHolder>() {
-        @NonNull
-        @Override
-        public ListElementViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View view = getLayoutInflater().inflate(R.layout.history_f_listelement,viewGroup,false);
-            ListElementViewHolder vh = new ListElementViewHolder(view);
-            vh.award = view.findViewById(R.id.history_ImageView_award);
-            vh.date = view.findViewById(R.id.history_TextView_date);
-            vh.info = view.findViewById(R.id.history_TextView_info);
-            vh.title = view.findViewById(R.id.history_TextView_title);
-            return vh;
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull ListElementViewHolder listElementViewHolder, int i) {
-            String[] arr = result.get(i).split(",");
-            int count = Integer.parseInt(arr[1]);
-            listElementViewHolder.date.setText( arr[0]);
-            listElementViewHolder.title.setText(arr[1]+" dage!");
-            listElementViewHolder.info.setText("Du har opnået alle dine mål " + arr[1] + " dage i træk!");
-            if(count < 5){
-                listElementViewHolder.award.setImageResource(R.drawable.ic_bronze_medal);
-            }else if(count < 15){
-                listElementViewHolder.award.setImageResource(R.drawable.ic_silver_medal);
-            }else{
-                listElementViewHolder.award.setImageResource(R.drawable.ic_gold_medal);
+    private List<HistoryItemModel> generateData(){
+        List<HistoryItemModel> data = new ArrayList<>();
+        String[] arr = null;
+        if(result != null){
+            for(String str : result){
+                arr = str.split(",");
+                data.add(new HistoryItemModel(arr[1]+" dage!",
+                        arr[0], "Du har opnået alle dine mål " + arr[1] + " dage i træk!",
+                        getGraphicsId(Integer.parseInt(arr[1]))
+                ));
             }
         }
-
-        @Override
-        public int getItemCount() {
-            return result.size();
+        //DUMMY DATA!
+        else{
+            data.add(new HistoryItemModel(50+" dage!",
+                    "Dato her!", "Du har opnået alle dine mål " +50 + " dage i træk!",
+                    getGraphicsId(Integer.parseInt("50"))
+            ));
         }
-    };
+        return data;
+    }
 
-    // TODO: Move out
-    class ListElementViewHolder extends RecyclerView.ViewHolder {
-        TextView title,date,info;
-        ImageView award;
-        public ListElementViewHolder(View itemView) {
-            super(itemView);
+    private int getGraphicsId(int count){
+        if(count < 5){
+            return R.drawable.ic_bronze_medal;
+        }else if(count < 15){
+            return R.drawable.ic_silver_medal;
+        }else{
+            return R.drawable.ic_gold_medal;
         }
     }
 }

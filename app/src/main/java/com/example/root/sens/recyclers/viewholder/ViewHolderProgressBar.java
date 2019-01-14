@@ -83,7 +83,6 @@ public class ViewHolderProgressBar extends ViewHolder {
             e.printStackTrace();
         }
 
-
         if(dayData != null){
             RealmList<Record> temp = dayData.getRecords();
             for(Record record : temp){
@@ -101,7 +100,6 @@ public class ViewHolderProgressBar extends ViewHolder {
             } else {
                 current = max;
             }
-
         }
 
         int color = new ResourceManagement().getGoalColor(currentGoal.getType());
