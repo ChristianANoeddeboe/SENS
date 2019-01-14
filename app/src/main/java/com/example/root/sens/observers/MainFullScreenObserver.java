@@ -2,6 +2,6 @@ package com.example.root.sens.observers;
 
 import java.util.Date;
 
-public interface MainFullScreenFragmentObserver {
+public interface MainFullScreenObserver {
     void showFragment(Date date);
 }

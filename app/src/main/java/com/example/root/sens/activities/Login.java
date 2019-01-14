@@ -22,28 +22,31 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_login);
 
         EditText sensorField = findViewById(R.id.key_text);
-
         sensorField.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+        sensorField.setText(R.string.StaticSensorID); // Sættes da appen bruges til fremvisning
+
         Button login = findViewById(R.id.login_btn);
         Button help = findViewById(R.id.help_btn);
 
-        sensorField.setText("17-3B.BA"); // Sættes da appen bruges til fremvisning
 
         login.setOnClickListener((View v) -> {
             String sensorID = String.valueOf(sensorField.getText());
-
             if (sensorID.length() == 0) {
                 Snackbar.make(findViewById(R.id.login_coordinator_layout),
-                        "Du skal angive et sensor id for at fortsætte",
+                        R.string.LoginGiveSensorID,
                         Snackbar.LENGTH_LONG).show();
                 return;
             }
 
-            if (checkForUser(sensorID)) {
+            /*  Checks whether there is an existing user with the
+                given sensor ID.
+                Flags are added because it should not be possible
+                to enter back into this "flow". (Back stack management)
+             */
+            if (loginController.isUser(sensorID)) {
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
@@ -58,15 +61,10 @@ public class Login extends AppCompatActivity {
             getWindow().setEnterTransition(new Slide());
         });
 
-        help.setOnClickListener((View v) -> {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_overlay_layout_login, new LoginHelpFragment())
-                    .addToBackStack(null)
-                    .commit();
-        });
-    }
-
-    private boolean checkForUser(String sensorID) {
-        return loginController.isUser(sensorID);
+        help.setOnClickListener((View v) ->
+                getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_overlay_layout_login, new LoginHelpFragment())
+                .addToBackStack(null)
+                .commit());
     }
 }

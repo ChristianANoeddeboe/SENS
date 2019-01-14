@@ -18,5 +18,7 @@
     <string name="unit">minutter</string>
     <string name="ja">ja</string>
     <string name="nej">nej</string>
+    <string name="StaticSensorID">17-3B.BA</string>
+    <string name="LoginGiveSensorID">Du skal angive et sensor id for at fortsætte</string>
 
 </resources>
