@@ -40,6 +40,7 @@ public class HistoryFragment extends Fragment {
         HistoryAdapter adapter = new HistoryAdapter(getContext(), generateData());
         recyclerView.setAdapter(adapter);
 
+        //TODO: Alt data generering til recyclerviewet skal ud i sin egen klasse!
         HashMap<Date, Boolean> userHistory = UserDAO.getInstance().userFulfilledGoals();
         ArrayList<Date> tempDates = new ArrayList<>();
 
