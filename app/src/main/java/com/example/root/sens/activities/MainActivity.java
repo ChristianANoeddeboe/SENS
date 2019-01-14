@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -44,7 +43,7 @@ import com.example.root.sens.fragments.HistoryFragment;
 import com.example.root.sens.fragments.OverviewFragment;
 import com.example.root.sens.notification.NotificationsManager;
 import com.example.root.sens.notification.TimeReceiver;
-import com.example.root.sens.observers.MainFullScreenFragmentObserver;
+import com.example.root.sens.observers.MainFullScreenObserver;
 
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
@@ -55,12 +54,12 @@ import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, SensObserver, DatabaseObserver,MainFullScreenFragmentObserver {
+        implements NavigationView.OnNavigationItemSelectedListener, SensObserver, DatabaseObserver,MainFullScreenObserver {
+    private static String[] viewNames = {"Overview", "Historik"};
+    private static String standardToolbarTitle = "SENS";
     private ViewPager viewPager;
     private SensSubject s;
     private DatabaseSubject d;
-    private static String[] viewNames = {"Overview", "Historik"};
-    private static String standardToolbarTitle = "SENS";
     private SharedPreferences sharedPreferences;
     private ViewpagerAdapter viewpagerAdapter;
     private ProgressBar progressBar;

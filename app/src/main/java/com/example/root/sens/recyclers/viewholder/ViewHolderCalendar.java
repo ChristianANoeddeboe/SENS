@@ -9,7 +9,7 @@ import com.example.root.sens.R;
 import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.fragments.interfaces.OverviewListItem;
-import com.example.root.sens.observers.MainFullScreenFragmentObserver;
+import com.example.root.sens.observers.MainFullScreenObserver;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
@@ -68,7 +68,7 @@ public class ViewHolderCalendar extends ViewHolder {
         UserDAO userDAO = UserDAO.getInstance();
         DayData dayData = userDAO.getDataSpecificDate(dateClicked);
 
-        MainFullScreenFragmentObserver observer = (MainFullScreenFragmentObserver) ctx;
+        MainFullScreenObserver observer = (MainFullScreenObserver) ctx;
 
         if (dayData == null) {
             observer.showFragment(null);
