@@ -1,6 +1,7 @@
 package com.example.root.sens.dao.interfaces;
 
 import com.example.root.sens.dto.DayData;
+import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
 import com.example.root.sens.dto.User;
 
@@ -20,4 +21,5 @@ public interface IUserDao {
     HashMap<Date,Boolean> userFulfilledGoals();
     DayData getDataSpecificDate(Date d);
     GoalHistory getGoalSpecificDate(Date d);
+    void updateOrMergeGoals(HashMap<String,Integer> temp);
 }

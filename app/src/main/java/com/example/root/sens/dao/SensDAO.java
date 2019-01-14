@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.example.root.sens.dao.interfaces.ISensAPI;
 import com.example.root.sens.dao.interfaces.SensObserver;
-import com.example.root.sens.dao.interfaces.Subject;
+import com.example.root.sens.dao.interfaces.SensSubject;
 import com.example.root.sens.dto.ActivityCategories;
 import com.example.root.sens.dto.Record;
 import com.example.root.sens.dto.sensresponse.Datum;
@@ -28,10 +28,10 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
+/*
  * Used to download data from SENS
  */
-public class SensDAO implements Callback<Response>, Subject {
+public class SensDAO implements Callback<Response>, SensSubject {
     private static final String TAG = "test1234";
     private Retrofit retrofitInstance;
     private ISensAPI service;
@@ -47,7 +47,7 @@ public class SensDAO implements Callback<Response>, Subject {
         return sensDAOInstance;
     }
 
-    /**
+    /*
      * Empty constructor needed for retrofit
      */
     private SensDAO() {
@@ -78,7 +78,7 @@ public class SensDAO implements Callback<Response>, Subject {
     @Override
     public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
         Log.d(TAG,"Error, not supposed to end here [ONRESPONSE]");
-        /**
+        /*
          * Note this method is not used, instead we use the one in getDataFromSens
          */
     }
@@ -87,7 +87,7 @@ public class SensDAO implements Callback<Response>, Subject {
     public void onFailure(Call<Response> call, Throwable t) {
         Log.d(TAG,"Error, not supposed to end here [ONFAILURE]");
         t.printStackTrace();
-        /**
+        /*
          * Note this method is not used, instead we use the one in getDataFromSens
          */
     }
@@ -115,7 +115,7 @@ public class SensDAO implements Callback<Response>, Subject {
         }
     }
 
-    /**
+    /*
      * We merge and save the data
      * @param r
      */
@@ -130,11 +130,11 @@ public class SensDAO implements Callback<Response>, Subject {
         for(Datum d : responseData){
             boolean found = false;
             RealmList<Record> tempRecords = new RealmList<>();
-            tempRecords.add(new Record(d.values.activityRestingTime,ActivityCategories.Resting.toString()));
-            tempRecords.add(new Record(d.values.activityStandingTime,ActivityCategories.Standing.toString()));
-            tempRecords.add(new Record(d.values.activityWalkingTime,ActivityCategories.Walking.toString()));
-            tempRecords.add(new Record(d.values.activityExerciseTime,ActivityCategories.Exercise.toString()));
-            tempRecords.add(new Record(d.values.activityCyclingTime,ActivityCategories.Cycling.toString()));
+            tempRecords.add(new Record(d.values.activityRestingTime,ActivityCategories.Søvn.toString()));
+            tempRecords.add(new Record(d.values.activityStandingTime,ActivityCategories.Stå.toString()));
+            tempRecords.add(new Record(d.values.activityWalkingTime,ActivityCategories.Gang.toString()));
+            tempRecords.add(new Record(d.values.activityExerciseTime,ActivityCategories.Træning.toString()));
+            tempRecords.add(new Record(d.values.activityCyclingTime,ActivityCategories.Cykling.toString()));
             DayData temp = null;
             try {
                 temp = new DayData(sensDf.parse(d.startTime), sensDf.parse(d.endTime),tempRecords);
@@ -167,7 +167,7 @@ public class SensDAO implements Callback<Response>, Subject {
         UserDAO.getInstance().saveUser(tempUser);
     }
 
-    /**
+    /*
      * Fetch data from SENS
      * @param patientKey The sensor key
      */

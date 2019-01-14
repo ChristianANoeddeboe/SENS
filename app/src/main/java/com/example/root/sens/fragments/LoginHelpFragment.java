@@ -23,7 +23,6 @@ public class LoginHelpFragment extends Fragment{
         Button exitButton = rootView.findViewById(R.id.button_login_helper_exit);
         exitButton.setOnClickListener((View v) -> getActivity().onBackPressed());
 
-
         return rootView;
     }
 }
