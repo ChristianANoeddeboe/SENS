@@ -77,6 +77,9 @@ public class MainActivity extends AppCompatActivity
         setupViewPager();
 
         setupDataFetcher();
+
+        User temp = UserDAO.getInstance().getUserLoggedIn();
+        int i = 0;
     }
 
     private void setupDataFetcher() {

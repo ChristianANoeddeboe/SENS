@@ -72,7 +72,7 @@ public class ViewHolderProgressBar extends ViewHolder {
     public void bindType(OverviewListItem item) {
         UserDAO userDAO = UserDAO.getInstance();
         DayData dayData = userDAO.getDataSpecificDate(wantedDate);
-        RealmList<Goal> goals = UserDAO.getInstance().getNewestGoal().getGoals();
+        RealmList<Goal> goals = UserDAO.getInstance().getGoalSpecificDate(wantedDate).getGoals();
         Goal currentGoal = goals.get(type);
         int current = 0;
         int max = 1;

@@ -1,5 +1,7 @@
 package com.example.root.sens.dao;
 
+import android.util.Log;
+
 import com.example.root.sens.dao.interfaces.DatabaseObserver;
 import com.example.root.sens.dao.interfaces.DatabaseSubject;
 import com.example.root.sens.dao.interfaces.IUserDao;
@@ -113,13 +115,17 @@ public class UserDAO implements IUserDao, DatabaseSubject {
             GoalHistory temp = null;
             /*
              * Find the smallest difference which is positive
+             * We try to match the goal which is closest.
              */
             for(GoalHistory g : activeUser.getGoals()){
                 long temp2 = d.getStart_time().getTime() - g.getDate().getTime();
-                if((temp2 < timeDelta && temp2 >= 0)||timeDelta == -1) {
-                    timeDelta = temp2;
-                    temp = g;
+                if(d.getStart_time().after(g.getDate())){
+                    if(temp2 < timeDelta || timeDelta == -1){
+                        timeDelta = temp2;
+                        temp = g;
+                    }
                 }
+
             }
             //If temp is null then we did not find a valid match
             if(temp != null){
@@ -154,7 +160,8 @@ public class UserDAO implements IUserDao, DatabaseSubject {
     public DayData getDataSpecificDate(Date d) {
         RealmList<DayData> dayData = UserDAO.getInstance().getUserLoggedIn().getDayData();
         for(DayData day : dayData){
-            if(Math.abs(day.getEnd_time().getTime() - d.getTime()) < 86400000 ){
+            long delta = day.getEnd_time().getTime()-d.getTime();
+            if(delta > 0 && delta <86400000){
                 return day;
             }
         }
@@ -166,11 +173,15 @@ public class UserDAO implements IUserDao, DatabaseSubject {
         RealmList<GoalHistory> goalHistories = UserDAO.getInstance().getUserLoggedIn().getGoals();
         GoalHistory mostRecent = null;
         for(GoalHistory g : goalHistories){
-            if(mostRecent == null){
+            if(mostRecent == null && d.after(g.getDate())){
                 mostRecent = g;
             }else{
-                if((Math.abs(mostRecent.getDate().getTime()-d.getTime())) > (Math.abs(g.getDate().getTime()-d.getTime()))){
-                    mostRecent = g;
+                if(d.after(g.getDate())){
+                    long bestTimeDelta = d.getTime()-mostRecent.getDate().getTime();
+                    long currentTimeDelta = d.getTime()-g.getDate().getTime();
+                    if(bestTimeDelta > currentTimeDelta){
+                        mostRecent = g;
+                    }
                 }
             }
         }
