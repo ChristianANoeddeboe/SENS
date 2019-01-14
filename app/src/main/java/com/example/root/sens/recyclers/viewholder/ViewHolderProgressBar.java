@@ -121,15 +121,15 @@ public class ViewHolderProgressBar extends ViewHolder {
     //TODO: Move the two methods below in some utility class
     public static int getGoalHeaderColor(ActivityCategories curr) {
         switch (curr) {
-            case Resting:
+            case Søvn:
                 return R.color.restingHeaderColor;
-            case Standing:
+            case Stå:
                 return R.color.standingHeaderColor;
-            case Walking:
+            case Gang:
                 return R.color.walkingHeaderColor;
-            case Cycling:
+            case Cykling:
                 return R.color.cyclingHeaderColor;
-            case Exercise:
+            case Træning:
                 return R.color.exerciseHeaderColor;
             default:
                 return R.color.white;
@@ -138,19 +138,19 @@ public class ViewHolderProgressBar extends ViewHolder {
 
     public static int getGoalColor(ActivityCategories curr) {
         switch (curr) {
-            case Resting:
+            case Søvn:
                 //return Color.argb(255, 0, 150, 136);
                 return R.color.restingColor;
-            case Standing:
+            case Stå:
                 //return Color.argb(255, 63, 81, 181);
                 return R.color.standingColor;
-            case Walking:
+            case Gang:
                 //return Color.argb(255, 76, 175, 80);
                 return R.color.walkingColor;
-            case Cycling:
+            case Cykling:
                 //return Color.argb(255, 255, 152, 0);
                 return R.color.cyclingColor;
-            case Exercise:
+            case Træning:
                 //return Color.argb(244, 244, 67, 54);
                 return R.color.exerciseColor;
             default:
@@ -162,19 +162,19 @@ public class ViewHolderProgressBar extends ViewHolder {
     private Drawable generateIcons(ActivityCategories curr) {
         Drawable icon;
         switch (curr) {
-            case Resting:
+            case Søvn:
                 icon = ctx.getDrawable(R.mipmap.icon_resting);
                 return icon;
-            case Standing:
+            case Stå:
                 icon = ctx.getDrawable(R.mipmap.icon_standing);
                 return icon;
-            case Walking:
+            case Gang:
                 icon = ctx.getDrawable(R.mipmap.icon_walking);
                 return icon;
-            case Cycling:
+            case Cykling:
                 icon = ctx.getDrawable(R.mipmap.icon_cycling);
                 return icon;
-            case Exercise:
+            case Træning:
                 icon = ctx.getDrawable(R.mipmap.icon_exercise);
                 return icon;
         }

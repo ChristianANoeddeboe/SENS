@@ -41,19 +41,19 @@ public class UserManager {
         for(SetGoalItemModel goal : goals){
             switch(goal.getPrimaryTxt()){
                 case "Cykling":
-                    list.add(new Goal(ActivityCategories.Cycling.toString(),goal.getValue()));
+                    list.add(new Goal(ActivityCategories.Cykling.toString(),goal.getValue()));
                     break;
                 case "Gang":
-                    list.add(new Goal(ActivityCategories.Walking.toString(),goal.getValue()));
+                    list.add(new Goal(ActivityCategories.Gang.toString(),goal.getValue()));
                     break;
                 case "Træning":
-                    list.add(new Goal(ActivityCategories.Exercise.toString(),goal.getValue()));
+                    list.add(new Goal(ActivityCategories.Træning.toString(),goal.getValue()));
                     break;
                 case "Stå":
-                    list.add(new Goal(ActivityCategories.Standing.toString(),goal.getValue()));
+                    list.add(new Goal(ActivityCategories.Stå.toString(),goal.getValue()));
                     break;
                 case "Søvn":
-                    list.add(new Goal(ActivityCategories.Resting.toString(),goal.getValue()));
+                    list.add(new Goal(ActivityCategories.Søvn.toString(),goal.getValue()));
                     break;
                 default:
                     //TODO: Throw error
