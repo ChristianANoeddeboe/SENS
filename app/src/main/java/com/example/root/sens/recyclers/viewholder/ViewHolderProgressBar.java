@@ -118,17 +118,17 @@ public class ViewHolderProgressBar extends ViewHolder {
 
 
 
-            imageView.setImageDrawable(generateIcons(currGoal.getType()));
+        imageView.setImageDrawable(generateIcons(currGoal.getType()));
 
-            header.setBackgroundTintList(ctx.getResources().getColorStateList(getGoalColor(currGoal.getType())));
+        header.setBackgroundTintList(ctx.getResources().getColorStateList(getGoalColor(currGoal.getType())));
 
-            progressCircle.addSeries(new SeriesItem.Builder(Color.argb(255, 237, 28, 38))
-                    .setRange(0, max, current)
-                    .setLineWidth(20)
-                    .setInset(new PointF(0, 2))
-                    .build());
-        }
+        progressCircle.addSeries(new SeriesItem.Builder(Color.argb(255, 237, 28, 38))
+                .setRange(0, max, current)
+                .setLineWidth(20)
+                .setInset(new PointF(0, 2))
+                .build());
     }
+
     //TODO: Move the two methods below in some utility class
     public static int getGoalHeaderColor(ActivityCategories curr) {
         switch (curr) {
