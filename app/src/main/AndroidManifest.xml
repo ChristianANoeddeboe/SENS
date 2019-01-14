@@ -45,7 +45,7 @@
             android:name=".notification.TimeReceiver"
             android:enabled="true"
             android:exported="false"></receiver>
-        
+
         <activity
             android:name=".activities.ManageGoalActivity"
             android:label="Rediger mål"
