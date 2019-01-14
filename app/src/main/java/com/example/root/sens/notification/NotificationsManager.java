@@ -26,9 +26,6 @@ public class NotificationsManager {
     private final static String GROUP_KEY_PROGRESS = "sens.goalprogress";
     private String channelId;
     private Context ctx;
-    private NotificationManager notificationManager;
-    private Map<String, Integer> goalMap = new HashMap();
-    private Map<String, Float> dataMap = new HashMap();
 
 
     public NotificationsManager(String channelId, Context ctx){
@@ -48,7 +45,7 @@ public class NotificationsManager {
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
-            notificationManager = ctx.getSystemService(NotificationManager.class);
+            NotificationManager notificationManager = ctx.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
     }
@@ -58,10 +55,8 @@ public class NotificationsManager {
         User currentUser = userDAO.getUserLoggedIn();
 
         DayDataGoalMapper dayDataGoalMapper = new DayDataGoalMapper(userDAO);
-        goalMap = dayDataGoalMapper.getGoalMap();
-        dataMap = dayDataGoalMapper.getDataMap();
-
-
+        Map<String, Integer> goalMap = dayDataGoalMapper.getGoalMap();
+        Map<String, Float> dataMap = dayDataGoalMapper.getDataMap();
 
         Notification summaryNotification =
                 new NotificationCompat.Builder(ctx, channelId)

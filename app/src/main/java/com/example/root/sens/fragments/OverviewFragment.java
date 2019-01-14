@@ -1,6 +1,7 @@
 package com.example.root.sens.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,47 +10,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.root.sens.R;
-import com.example.root.sens.dao.UserDAO;
-import com.example.root.sens.fragments.interfaces.OverviewListItem;
-import com.example.root.sens.fragments.interfaces.TypeCalendar;
-import com.example.root.sens.fragments.interfaces.TypeProgress;
-import com.example.root.sens.recyclers.adapter.OverviewAdapter;
+import com.example.root.sens.recyclers.adapters.OverviewAdapter;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 
 public class OverviewFragment extends Fragment {
-    private OverviewAdapter overviewAdapter;
-    RecyclerView recyclerView;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.goals_f_content, container, false);
-        // Vi laver en arrayliste så vi kan fjerne/indsætte elementer
-        recyclerView = v.findViewById(R.id.goalsRecycler);
+
+        RecyclerView recyclerView = v.findViewById(R.id.goalsRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
-        overviewAdapter = new OverviewAdapter(this.getContext(), new Date(), true);
+
+        OverviewAdapter overviewAdapter = new OverviewAdapter(this.getContext(), new Date(), true);
         recyclerView.setAdapter(overviewAdapter);
 
         return v;
-    }
-
-    public static ArrayList<OverviewListItem> generateData(){
-        ArrayList<OverviewListItem> temp = new ArrayList<>();
-        temp.add(new TypeCalendar());
-
-        int amount = UserDAO.getInstance().getNewestGoal().getGoals().size()-1;
-        for(int i = 0; i <= amount; i++) {
-            temp.add(new TypeProgress());
-        }
-        return temp;
     }
 }

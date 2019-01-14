@@ -2,6 +2,7 @@ package com.example.root.sens.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,20 +14,19 @@ import android.view.ViewGroup;
 import com.example.root.sens.dao.interfaces.UserObserver;
 import com.example.root.sens.recyclers.itemmodels.ConfirmGoalItemModel;
 import com.example.root.sens.R;
-import com.example.root.sens.recyclers.adapter.ConfirmGoalAdapter;
+import com.example.root.sens.recyclers.adapters.ConfirmGoalAdapter;
 import com.example.root.sens.dto.User;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
-public class UserConfigConfirmInfoFragment extends Fragment implements UserObserver {
-    private final static String TAG = UserConfigConfirmInfoFragment.class.getSimpleName();
+public class UserConfigConfirmFragment extends Fragment implements UserObserver {
+    private final static String TAG = UserConfigConfirmFragment.class.getSimpleName();
 
-    private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private List<ConfirmGoalItemModel> recyclerItems = new ArrayList<>();
 
     @Override
@@ -35,19 +35,19 @@ public class UserConfigConfirmInfoFragment extends Fragment implements UserObser
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.user_config_f_viewpager_confirm_info, container, false);
 
-        mRecyclerView = rootView.findViewById(R.id.recyclerView_confirm_goal);
+        RecyclerView mRecyclerView = rootView.findViewById(R.id.recyclerView_confirm_goal);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
          mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(getContext());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
@@ -100,7 +100,7 @@ public class UserConfigConfirmInfoFragment extends Fragment implements UserObser
     }
 
     private String dateFormat(Date date){
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", new Locale("da"));
         return (date == null) ?  "" :  df.format(date);
     }
 }

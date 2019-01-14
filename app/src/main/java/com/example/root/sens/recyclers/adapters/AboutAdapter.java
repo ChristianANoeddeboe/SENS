@@ -1,6 +1,7 @@
-package com.example.root.sens.recyclers.adapter;
+package com.example.root.sens.recyclers.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +12,6 @@ import android.widget.TextView;
 
 import com.example.root.sens.R;
 import com.example.root.sens.recyclers.itemmodels.AboutItemModel;
-import com.example.root.sens.recyclers.itemmodels.ConfirmGoalItemModel;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class AboutAdapter extends RecyclerView.Adapter<AboutAdapter.ViewHolder> 
     private List<AboutItemModel> mDataSet;
     private LayoutInflater mInflater;
 
-    /**
+    /*
      * Provide a reference to the type of views that you are using (custom ViewHolder)
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -50,7 +50,7 @@ public class AboutAdapter extends RecyclerView.Adapter<AboutAdapter.ViewHolder> 
 
     }
 
-    /**
+    /*
      * Initialize the dataset of the Adapter.
      *
      * @param dataSet String[] containing the data to populate views to be used by RecyclerView.
@@ -61,15 +61,16 @@ public class AboutAdapter extends RecyclerView.Adapter<AboutAdapter.ViewHolder> 
     }
 
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         // Create a new view.
         View v = mInflater.inflate(R.layout.about_element, viewGroup, false);
         return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         Log.d(TAG, "Element " + position + " set.");
 
         viewHolder.getTextViewName().setText(mDataSet.get(position).getName());

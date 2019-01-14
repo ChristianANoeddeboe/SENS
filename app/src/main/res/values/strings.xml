@@ -13,12 +13,24 @@
     <string name="helloach">Hello ach fragment</string>
     <string name="preference_file_key">mainActivity</string>
     <string name="pagerWindowNumber">pagerWindow</string>
-    <string name="channel_name">Nemt</string>
-    <string name="channel_description">Dette er nemt</string>
+    <string name="channel_name">Sens Status</string>
+    <string name="channel_description">Udsender status besked angående mål.</string>
     <string name="unit">minutter</string>
     <string name="ja">ja</string>
     <string name="nej">nej</string>
     <string name="StaticSensorID">17-3B.BA</string>
     <string name="LoginGiveSensorID">Du skal angive et sensor id for at fortsætte</string>
+    <string name="SensPatientKey">xt9w2r</string>
+    <string name="MainNoDataForGivenDate">Der er ikke data for den givne dato.</string>
+    <string name="DownloadingData">Henter data</string>
+    <string name="SettingConfirmDelete">Er du sikker på at du vil slette al data?</string>
+    <string name="SettingDelete">Slet al data</string>
+    <string name="SettingsDataDeleted">Dataen er nu slettet.</string>
+    <string name="NotYetImplemented">Endnu ikke implementeret!</string>
+    <string name="Continue">Videre</string>
+    <string name="Cancel">Annullér</string>
+    <string name="Confirm">Bekræft</string>
+    <string name="NoData">Ingen data</string>
+    <string name="Minutes">minutter</string>
 
 </resources>

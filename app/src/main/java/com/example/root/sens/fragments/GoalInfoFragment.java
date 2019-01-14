@@ -1,25 +1,22 @@
 package com.example.root.sens.fragments;
 
-import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.root.sens.R;
+import com.example.root.sens.auxiliary.ResourceManagement;
 import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dto.ActivityCategories;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Record;
-import com.example.root.sens.recyclers.viewholder.ViewHolderProgressBar;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -38,13 +35,11 @@ public class GoalInfoFragment extends Fragment implements View.OnClickListener {
     ImageButton updateButton, backButton;
     CardView goalbox, header;
     ActivityCategories goalType;
-    ImageView icon;
     BarChart chart;
-    Button oneweek, onemonth, threemonths;
+    Button oneWeek, oneMonth, threeMonths;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        boolean debug = true;
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_graph_card, container, false);
         goalType = ActivityCategories.valueOf(getArguments().getString("goalType"));
         goalbox = rootView.findViewById(R.id.goalchart_cardview);
@@ -52,32 +47,28 @@ public class GoalInfoFragment extends Fragment implements View.OnClickListener {
         chart = rootView.findViewById(R.id.goalInfoChart);
         title.setText(goalType.toString());
         updateButton = rootView.findViewById(R.id.goalInfo_Button_editgoal);
-        oneweek = rootView.findViewById(R.id.goalInfo_Button_1week);
-        onemonth = rootView.findViewById(R.id.goalInfo_Button_1month);
-        threemonths = rootView.findViewById(R.id.goalInfo_Button_3month);
+        oneWeek = rootView.findViewById(R.id.goalInfo_Button_1week);
+        oneMonth = rootView.findViewById(R.id.goalInfo_Button_1month);
+        threeMonths = rootView.findViewById(R.id.goalInfo_Button_3month);
         backButton = rootView.findViewById(R.id.typeGoalInfo_ImageButton_showless);
         header = rootView.findViewById(R.id.cardview_goalchart_header);
 
-        goalbox.setOnClickListener((View v) ->{
-            FragmentManager fm = getActivity().getSupportFragmentManager();
-            fm.beginTransaction()
-                    .remove(this)
-                    .commit();
-        });
+        goalbox.setOnClickListener((View v) -> getActivity().onBackPressed());
 
+        // TODO: FIX THIS click madness
         updateButton.setOnClickListener(this);
 
-        oneweek.setOnClickListener(this);
+        oneWeek.setOnClickListener(this);
 
-        onemonth.setOnClickListener(this);
+        oneMonth.setOnClickListener(this);
 
-        threemonths.setOnClickListener(this);
+        threeMonths.setOnClickListener(this);
 
-        header.setBackgroundTintList(getActivity().getResources().getColorStateList(getGoalColor(goalType)));
+        // TODO: This is also deprecated
+        header.setBackgroundTintList(getActivity().getResources().getColorStateList(new ResourceManagement().getGoalColor(goalType)));
 
         setupChart();
-        updateChart(generateData(gendata.oneweekdata));
-        Date d = new Date();
+        updateChart(generateData(generateData.oneWeekData));
         UserDAO.getInstance().getDataSpecificDate(new Date());
         return rootView;
     }
@@ -103,7 +94,6 @@ public class GoalInfoFragment extends Fragment implements View.OnClickListener {
         chart.setDrawValueAboveBar(false);
 
 
-
         chart.setTouchEnabled(false);
 
         chart.invalidate(); // refresh
@@ -113,19 +103,19 @@ public class GoalInfoFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         if(v.equals(backButton)){
             getFragmentManager().popBackStack();
-        }else if( v.equals(oneweek)){
-            updateChart(generateData(gendata.oneweekdata));
-        }else if(v.equals(onemonth)){
-            updateChart(generateData(gendata.onemonthdata));
-        }else if(v.equals(threemonths)){
-            updateChart(generateData(gendata.threemonthsdata));
+        }else if( v.equals(oneWeek)){
+            updateChart(generateData(generateData.oneWeekData));
+        }else if(v.equals(oneMonth)){
+            updateChart(generateData(generateData.oneMonthData));
+        }else if(v.equals(threeMonths)){
+            updateChart(generateData(generateData.threeMonthsData));
 
         }
     }
-    enum gendata{
-        oneweekdata,onemonthdata,threemonthsdata
+    enum generateData {
+        oneWeekData, oneMonthData, threeMonthsData
     }
-    private List<BarEntry> generateData(gendata len){
+    private List<BarEntry> generateData(generateData len){
         List<BarEntry> entries = new ArrayList<>();
         ArrayList<DayData> tempDayData = UserDAO.getInstance().getSortedDayData();
         Collections.reverse(tempDayData);
@@ -135,7 +125,7 @@ public class GoalInfoFragment extends Fragment implements View.OnClickListener {
             for(Record record : tempRecords){
                 if(record.getType().equals(goalType) && record.getValue() > 1){
                     switch (len){
-                        case oneweekdata:
+                        case oneWeekData:
                             if(counter < 7){
                                 entries.add(new BarEntry(counter, record.getValue()));
                                 counter++;
@@ -143,7 +133,7 @@ public class GoalInfoFragment extends Fragment implements View.OnClickListener {
                                 return entries;
                             }
                             break;
-                        case onemonthdata:
+                        case oneMonthData:
                             if(counter < 30){
                                 entries.add(new BarEntry(counter, record.getValue()));
                                 counter++;
@@ -151,7 +141,7 @@ public class GoalInfoFragment extends Fragment implements View.OnClickListener {
                                 return entries;
                             }
                             break;
-                        case threemonthsdata:
+                        case threeMonthsData:
                             if(counter < 90){
                                 entries.add(new BarEntry(counter, record.getValue()));
                                 counter++;
@@ -165,27 +155,5 @@ public class GoalInfoFragment extends Fragment implements View.OnClickListener {
             }
         }
         return entries;
-    }
-
-    private int getGoalColor(ActivityCategories curr) {
-        switch (curr) {
-            case Søvn:
-                //return Color.argb(255, 0, 150, 136);
-                return R.color.restingColor;
-            case Stå:
-                //return Color.argb(255, 63, 81, 181);
-                return R.color.standingColor;
-            case Gang:
-                //return Color.argb(255, 76, 175, 80);
-                return R.color.walkingColor;
-            case Cykling:
-                //return Color.argb(255, 255, 152, 0);
-                return R.color.cyclingColor;
-            case Træning:
-                //return Color.argb(244, 244, 67, 54);
-                return R.color.exerciseColor;
-            default:
-                return R.color.white;
-        }
     }
 }

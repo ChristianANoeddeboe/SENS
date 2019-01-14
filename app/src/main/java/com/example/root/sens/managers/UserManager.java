@@ -18,13 +18,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import io.realm.RealmList;
 
 public class UserManager {
-    IUserDao userDao;
+    private IUserDao userDao;
     private User user = null;
-    private static final String TAG = "USERMANAGER";
+    private static final String TAG = UserManager.class.getSimpleName();
     public UserManager(IUserDao userDao){
         this.userDao = userDao;
     }
@@ -63,7 +64,7 @@ public class UserManager {
 
         GoalHistory goalHistory = new GoalHistory();
         goalHistory.setGoals(list);
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy", new Locale("da"));
         String MM = Integer.toString(Calendar.getInstance().get(Calendar.MONTH)+1);
         String dd = Integer.toString(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         String yyyy = Integer.toString(Calendar.getInstance().get(Calendar.YEAR));

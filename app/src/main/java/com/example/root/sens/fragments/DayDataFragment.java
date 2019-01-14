@@ -12,7 +12,7 @@ import android.widget.Button;
 import com.example.root.sens.R;
 import com.example.root.sens.auxiliary.DayDataGoalMapper;
 import com.example.root.sens.dao.UserDAO;
-import com.example.root.sens.recyclers.adapter.OverviewAdapter;
+import com.example.root.sens.recyclers.adapters.OverviewAdapter;
 
 import java.util.Date;
 import java.util.Map;

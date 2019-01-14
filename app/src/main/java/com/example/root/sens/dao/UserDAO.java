@@ -1,12 +1,8 @@
 package com.example.root.sens.dao;
 
-import android.util.Log;
-
 import com.example.root.sens.dao.interfaces.DatabaseObserver;
 import com.example.root.sens.dao.interfaces.DatabaseSubject;
 import com.example.root.sens.dao.interfaces.IUserDao;
-import com.example.root.sens.dao.interfaces.SensObserver;
-import com.example.root.sens.dao.interfaces.UserObserver;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
@@ -34,11 +30,7 @@ public class UserDAO implements IUserDao, DatabaseSubject {
             instance = new UserDAO();
             instance.mObservers = new ArrayList<>();
             instance.realm = Realm.getDefaultInstance();
-            instance.realmListener = new RealmChangeListener() {
-                @Override
-                public void onChange(Object o) {
-                    instance.notifyObservers();
-                }};
+            instance.realmListener = o -> instance.notifyObservers();
             instance.realm.addChangeListener(instance.realmListener);
         }
         return instance;
@@ -119,7 +111,7 @@ public class UserDAO implements IUserDao, DatabaseSubject {
         for(DayData d : activeUser.getDayData()){
             long timeDelta = -1;
             GoalHistory temp = null;
-            /**
+            /*
              * Find the smallest difference which is positive
              */
             for(GoalHistory g : activeUser.getGoals()){

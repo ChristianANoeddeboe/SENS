@@ -1,6 +1,7 @@
 package com.example.root.sens.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,40 +11,37 @@ import android.view.ViewGroup;
 
 import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
 import com.example.root.sens.R;
-import com.example.root.sens.recyclers.adapter.SetGoalAdapter;
+import com.example.root.sens.recyclers.adapters.SetGoalAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserConfigGoalInfoFragment extends Fragment {
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView.Adapter adapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.user_config_f_viewpager_goal_info, container, false);
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView_set_goal);
+        RecyclerView recyclerView = rootView.findViewById(R.id.recyclerView_set_goal);
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        // mRecyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
 
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(getContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        adapter = new SetGoalAdapter(createItem());
+        recyclerView.setAdapter(adapter);
 
-        // specify an adapter (see also next example)
-        mAdapter = new SetGoalAdapter(createItem());
-        mRecyclerView.setAdapter(mAdapter);
         return rootView;
     }
 
+    public RecyclerView.Adapter getAdapter() {
+        return adapter;
+    }
+
     private List<SetGoalItemModel> createItem() {
-        ArrayList<SetGoalItemModel> items = new ArrayList<SetGoalItemModel>();
+        ArrayList<SetGoalItemModel> items = new ArrayList<>();
 
         items.add(new SetGoalItemModel("Cykling"));
         items.add(new SetGoalItemModel("Gang"));
@@ -52,9 +50,4 @@ public class UserConfigGoalInfoFragment extends Fragment {
         items.add(new SetGoalItemModel("Søvn"));
         return items;
     }
-
-    public RecyclerView.Adapter getmAdapter() {
-        return mAdapter;
-    }
-
 }

@@ -1,6 +1,7 @@
-package com.example.root.sens.recyclers.adapter;
+package com.example.root.sens.recyclers.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,9 +48,10 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
         return mItems.get(position).getListItemType();
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int type) {
-        View view = null;
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int type) {
+        View view;
         ViewHolder viewHolderType = null;
         switch (type) {
             case OverviewListItem.TYPE_CALENDAR:
@@ -70,7 +72,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int pos) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int pos) {
         OverviewListItem item = mItems.get(pos);
         viewHolder.bindType(item);
     }

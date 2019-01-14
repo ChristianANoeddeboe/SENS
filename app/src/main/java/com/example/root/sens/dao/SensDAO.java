@@ -28,7 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
+/*
  * Used to download data from SENS
  */
 public class SensDAO implements Callback<Response>, SensSubject {
@@ -47,7 +47,7 @@ public class SensDAO implements Callback<Response>, SensSubject {
         return sensDAOInstance;
     }
 
-    /**
+    /*
      * Empty constructor needed for retrofit
      */
     private SensDAO() {
@@ -78,7 +78,7 @@ public class SensDAO implements Callback<Response>, SensSubject {
     @Override
     public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
         Log.d(TAG,"Error, not supposed to end here [ONRESPONSE]");
-        /**
+        /*
          * Note this method is not used, instead we use the one in getDataFromSens
          */
     }
@@ -87,7 +87,7 @@ public class SensDAO implements Callback<Response>, SensSubject {
     public void onFailure(Call<Response> call, Throwable t) {
         Log.d(TAG,"Error, not supposed to end here [ONFAILURE]");
         t.printStackTrace();
-        /**
+        /*
          * Note this method is not used, instead we use the one in getDataFromSens
          */
     }
@@ -115,7 +115,7 @@ public class SensDAO implements Callback<Response>, SensSubject {
         }
     }
 
-    /**
+    /*
      * We merge and save the data
      * @param r
      */
@@ -167,7 +167,7 @@ public class SensDAO implements Callback<Response>, SensSubject {
         UserDAO.getInstance().saveUser(tempUser);
     }
 
-    /**
+    /*
      * Fetch data from SENS
      * @param patientKey The sensor key
      */

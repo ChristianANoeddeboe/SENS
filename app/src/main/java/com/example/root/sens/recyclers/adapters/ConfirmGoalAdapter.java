@@ -1,6 +1,7 @@
-package com.example.root.sens.recyclers.adapter;
+package com.example.root.sens.recyclers.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +13,6 @@ import com.example.root.sens.recyclers.itemmodels.ConfirmGoalItemModel;
 import com.example.root.sens.R;
 
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ConfirmGoalAdapter extends RecyclerView.Adapter<ConfirmGoalAdapter.ViewHolder> {
@@ -20,7 +20,7 @@ public class ConfirmGoalAdapter extends RecyclerView.Adapter<ConfirmGoalAdapter.
     private List<ConfirmGoalItemModel> mDataSet;
     private LayoutInflater mInflater;
 
-    /**
+    /*
      * Provide a reference to the type of views that you are using (custom ViewHolder)
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -44,7 +44,7 @@ public class ConfirmGoalAdapter extends RecyclerView.Adapter<ConfirmGoalAdapter.
 
     }
 
-    /**
+    /*
      * Initialize the dataset of the Adapter.
      *
      * @param dataSet String[] containing the data to populate views to be used by RecyclerView.
@@ -55,15 +55,15 @@ public class ConfirmGoalAdapter extends RecyclerView.Adapter<ConfirmGoalAdapter.
     }
 
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        // Create a new view.
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View v = mInflater.inflate(R.layout.confirm_goal_element, viewGroup, false);
         return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         Log.d(TAG, "Element " + position + " set.");
 
         viewHolder.getTextViewDescription().setText(mDataSet.get(position).getDescription());
@@ -80,6 +80,7 @@ public class ConfirmGoalAdapter extends RecyclerView.Adapter<ConfirmGoalAdapter.
         return mDataSet;
     }
 
+    // TODO: Extract resource with para
     private String generateProgressText(String text){
         String result = null;
         if(Pattern.matches("[0-9]+", text)){

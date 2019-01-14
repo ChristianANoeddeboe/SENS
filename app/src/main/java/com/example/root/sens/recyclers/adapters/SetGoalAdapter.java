@@ -1,4 +1,4 @@
-package com.example.root.sens.recyclers.adapter;
+package com.example.root.sens.recyclers.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -15,13 +15,18 @@ import com.example.root.sens.R;
 import java.util.List;
 
 public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHolder> {
-        private static final String TAG = "SettingsAdapter";
-        private List<SetGoalItemModel> mDataSet;
-        private final static int MIN_PER_DAY = 24*60;
+        private static final String TAG = SetGoalAdapter.class.getSimpleName();
+        private List<SetGoalItemModel> dataSet;
+        private final static int MIN_PER_DAY = 24*60; // TODO change to standard
         private RecyclerView recyclerViewAdapter;
-        /**
+        /*
          * Provide a reference to the type of views that you are using (custom ViewHolder)
          */
+
+        public SetGoalAdapter(List<SetGoalItemModel> dataSet){
+            this.dataSet = dataSet;
+        }
+
         public class ViewHolder extends RecyclerView.ViewHolder {
             private final TextView textViewPrimary;
             private final TextView textViewSecondary;
@@ -61,7 +66,7 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
 
                 @Override
                 public void onStopTrackingTouch(SeekBar seekBar) {
-                    mDataSet.get(getAdapterPosition()).setValue(seekBar.getProgress());
+                    dataSet.get(getAdapterPosition()).setValue(seekBar.getProgress());
                 }
             };
 
@@ -70,50 +75,36 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
             }
         }
 
-        /**
-         * Initialize the dataset of the Adapter.
-         *
-         * @param dataSet String[] containing the data to populate views to be used by RecyclerView.
-         */
-        public SetGoalAdapter(List<SetGoalItemModel> dataSet) {
-            mDataSet = dataSet;
-        }
-
-
+        @NonNull
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-            // Create a new view.
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
             View v = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.set_goal_element, viewGroup, false);
             return new ViewHolder(v);
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+        public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
             Log.d(TAG, "Element " + position + " set.");
 
-            viewHolder.getTextViewPrimary().setText(mDataSet.get(position).getPrimaryTxt());
+            viewHolder.getTextViewPrimary().setText(dataSet.get(position).getPrimaryTxt());
         }
 
 
         @Override
         public int getItemCount() {
-            return mDataSet.size();
+            return dataSet.size();
         }
 
-        public SetGoalItemModel getDataItem(int position){
-            return mDataSet.get(position);
-        }
-
-        public List<SetGoalItemModel> getmDataSet(){
-            return mDataSet;
+        public List<SetGoalItemModel> getDataSet(){
+            return dataSet;
         }
 
         public static String generateProgressText(int progress){
-            String result = null;
+            String result;
             int hours = progress/60;
-            int minuttes = progress%60;
-            result = ""+hours+" timer & "+minuttes+" minutter";
+            int minutes = progress%60;
+            result = ""+hours+" timer & "+minutes+" minutter";
             return result;
         }
 

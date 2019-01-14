@@ -30,7 +30,7 @@ public class ViewHolderCalendar extends ViewHolder {
         calendar.setCurrentDayBackgroundColor(Color.rgb(240, 240, 240));
         calendar.setCurrentSelectedDayBackgroundColor(Color.rgb(218, 218, 218));
         calendar.setCurrentSelectedDayIndicatorStyle(1);
-        String[] temp = new String[]{
+        final String[] temp = new String[]{
                 "M", "T", "O", "T", "F", "L", "S"
         };
         calendar.setDayColumnNames(temp);
@@ -56,9 +56,9 @@ public class ViewHolderCalendar extends ViewHolder {
         for (Date date : result.keySet()) {
             boolean tempRes = result.get(date).booleanValue();
             if (tempRes) {
-                calendar.addEvent(new Event(Color.rgb(76, 175, 80), date.getTime(), "test1234"));
+                calendar.addEvent(new Event(Color.rgb(76, 175, 80), date.getTime(), R.string.NoData));
             } else {
-                calendar.addEvent(new Event(Color.rgb(244, 57, 54), date.getTime(), "test"));
+                calendar.addEvent(new Event(Color.rgb(244, 57, 54), date.getTime(), R.string.NoData));
             }
         }
     }

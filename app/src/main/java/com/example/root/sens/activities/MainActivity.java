@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
@@ -45,9 +44,6 @@ import com.example.root.sens.notification.NotificationsManager;
 import com.example.root.sens.notification.TimeReceiver;
 import com.example.root.sens.observers.MainFullScreenObserver;
 
-import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -58,8 +54,8 @@ public class MainActivity extends AppCompatActivity
     private static String[] viewNames = {"Overview", "Historik"};
     private static String standardToolbarTitle = "SENS";
     private ViewPager viewPager;
-    private SensSubject s;
-    private DatabaseSubject d;
+    private SensSubject sensSubject;
+    private DatabaseSubject databaseSubject;
     private SharedPreferences sharedPreferences;
     private ViewpagerAdapter viewpagerAdapter;
     private ProgressBar progressBar;
@@ -73,18 +69,62 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        boolean EMULATOR = Build.PRODUCT.contains("sdk") || Build.MODEL.contains("Emulator");
-        if (!EMULATOR) {
-            Fabric.with(this, new Crashlytics());
-        }
-
-
-        /**
-         * Navigation Drawer
-         */
         setContentView(R.layout.mainactivity_a_burgermenu);
+        coordinatorLayout = findViewById(R.id.main_a_coordinator_layout);
 
+        setupNavigationDrawer();
+
+        setupViewPager();
+
+        setupDataFetcher();
+    }
+
+    private void setupDataFetcher() {
+        /*
+         * Fetch data from SENS.
+         */
+        sensSubject = SensDAO.getInstance();
+        sensSubject.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
+        databaseSubject = UserDAO.getInstance();
+        databaseSubject.registerObserver(this);
+        SensDAO.getInstance().getData(getString(R.string.SensPatientKey),14);
+        fetchDataProgressBar();
+
+        new Handler().postDelayed(() -> asyncTask = new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                snackbar.show();
+                SensDAO.getInstance().getData(getString(R.string.SensPatientKey), 14);
+                return null;
+            }
+        }.execute(), 1800000); // Fetch data every 30 min
+    }
+
+    private void setupViewPager() {
+        /*
+         * Initializing the view pager
+         */
+        sharedPreferences = getApplication().getSharedPreferences(
+                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
+        viewPager = findViewById(R.id.viewPager);
+        viewpagerAdapter = new ViewpagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(viewpagerAdapter);
+        viewPager.setCurrentItem(sharedPreferences.getInt(getString(R.string.pagerWindowNumber)
+                ,0));
+        sharedPreferences.edit().remove(getString(R.string.pagerWindowNumber)).apply();
+
+        /*
+         * Declare the view pager sliding tab
+         */
+        PagerSlidingTabStrip pagerSlidingTabStrip = findViewById(R.id.pagerTitleStrip);
+        pagerSlidingTabStrip.setShouldExpand(true);
+        pagerSlidingTabStrip.setIndicatorColorResource(R.color.sensBlue);
+        pagerSlidingTabStrip.setViewPager(viewPager);
+    }
+
+    private void setupNavigationDrawer() {
+        // TODO: Thyge fikser
         toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_burger_menu_icon);
 
@@ -99,7 +139,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        /**
+        /*
          * Set text in Navigation drawer
          */
         View navigationHeader = navigationView.getHeaderView(0);
@@ -108,53 +148,9 @@ public class MainActivity extends AppCompatActivity
         TextView navigationDrawerSensorId = navigationHeader.findViewById(R.id.textViewNavDrawerSensorID);
 
         User currentUser = UserDAO.getInstance().getUserLoggedIn();
-        System.out.println(currentUser.getFirstName());
-        System.out.println(currentUser.getLastName());
 
         navigationDrawerName.setText(currentUser.getFirstName() + " " + currentUser.getLastName());
         navigationDrawerSensorId.setText(currentUser.getSensors().get(0).getId());
-
-
-        /**
-         * Initializing the view pager
-         */
-        sharedPreferences = getApplication().getSharedPreferences(
-                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-
-        viewPager = findViewById(R.id.viewPager);
-        viewpagerAdapter = new ViewpagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(viewpagerAdapter);
-        viewPager.setCurrentItem(sharedPreferences.getInt(getString(R.string.pagerWindowNumber)
-                ,0));
-        sharedPreferences.edit().remove(getString(R.string.pagerWindowNumber)).apply();
-
-        /**
-         * Declare the view pager sliding tab
-         */
-        PagerSlidingTabStrip pagerSlidingTabStrip = findViewById(R.id.pagerTitleStrip);
-        pagerSlidingTabStrip.setShouldExpand(true);
-        pagerSlidingTabStrip.setIndicatorColorResource(R.color.sensBlue);
-        pagerSlidingTabStrip.setViewPager(viewPager);
-
-        /**
-         * Fetch data from SENS.
-         */
-        coordinatorLayout = findViewById(R.id.main_a_coordinator_layout);
-        s = SensDAO.getInstance();
-        s.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
-        d = UserDAO.getInstance();
-        d.registerObserver(this);
-        SensDAO.getInstance().getData("xt9w2r",14);
-        fetchDataProgressBar();
-
-        new Handler().postDelayed(() -> asyncTask = new AsyncTask() {
-            @Override
-            protected Object doInBackground(Object[] objects) {
-                snackbar.show();
-                SensDAO.getInstance().getData("xt9w2r", 14);
-                return null;
-            }
-        }.execute(), 1800000); // Fetch data every 30 min
     }
 
     private void changeToolbar(String tileText, int image){
@@ -169,7 +165,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void fetchDataProgressBar() {
-        snackbar = Snackbar.make(coordinatorLayout, "Henter data", Snackbar.LENGTH_INDEFINITE);
+        snackbar = Snackbar.make(coordinatorLayout, R.string.DownloadingData, Snackbar.LENGTH_INDEFINITE);
         ViewGroup contentLay = (ViewGroup) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text).getParent();
         progressBar = new ProgressBar(coordinatorLayout.getContext());
         contentLay.addView(progressBar,0);
@@ -223,7 +219,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    /**
+    /*
      * When daydata is fetched from sens successfully, this is called, telling the view to be refreshed.
      */
     @Override
@@ -239,12 +235,12 @@ public class MainActivity extends AppCompatActivity
         }
         if (date == null) {
             Snackbar.make(findViewById(R.id.fragment_overlay_layout_main),
-                    "Der er ikke data for den givne dato.",
+                    R.string.MainNoDataForGivenDate,
                     Snackbar.LENGTH_LONG).show();
             return;
         }
         isFullScreenFragmentOpen = true;
-        changeToolbar(new SimpleDateFormat("EEEE 'den' d'. ' MMMM YYYY", new Locale("da")).format(date), R.drawable.ic_baseline_clear);
+        changeToolbar(new SimpleDateFormat("EEEE 'den' DD'. ' MMMM YYYY", new Locale("da")).format(date), R.drawable.ic_baseline_clear);
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("date", date);
@@ -258,12 +254,44 @@ public class MainActivity extends AppCompatActivity
                 .commit();
     }
 
+    /*
+        Database observer
+     */
+    @Override
     public void onDataChanged(){
         viewpagerAdapter.notifyDataSetChanged();
     }
 
-    /**
+    /*
+     * When view is removed, we remove our self from the observer list
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        sensSubject.removeObserver(this);
+        databaseSubject.removeObserver(this);
+        if(asyncTask != null){
+            asyncTask.cancel(true);
+        }
+    }
+
+    /*
+     * Setting an alarm to trigger an event every 15 minute.
+     * The event to trigger is sending a notification.
+     */
+    private void startNotification(){
+        Intent notifyIntent = new Intent(this,TimeReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast
+                (this, 42, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis(),
+                AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+    }
+
+    /*
      * The view pager is handled here
+     * TODO: Move out
      */
     private class ViewpagerAdapter extends FragmentPagerAdapter {
         public ViewpagerAdapter(FragmentManager fm) {
@@ -296,33 +324,6 @@ public class MainActivity extends AppCompatActivity
         public int getItemPosition(Object object){
             return PagerAdapter.POSITION_NONE;
         }
-    }
-
-    /**
-     * When view is removed, we remove ourself from the observer list
-     */
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        s.removeObserver(this);
-        d.removeObserver(this);
-        if(asyncTask != null){
-            asyncTask.cancel(true);
-        }
-    }
-
-    /**
-     * Setting an alarm to trigger an event every 15 minute.
-     * The event to trigger is sending a notification.
-     */
-    private void startNotification(){
-        Intent notifyIntent = new Intent(this,TimeReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast
-                (this, 42, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis(),
-                AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
     }
 }
 

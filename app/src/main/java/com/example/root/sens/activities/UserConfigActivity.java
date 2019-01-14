@@ -18,30 +18,33 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.root.sens.R;
-import com.example.root.sens.recyclers.adapter.SetGoalAdapter;
+import com.example.root.sens.recyclers.adapters.SetGoalAdapter;
 import com.example.root.sens.controllers.interfaces.ILoginController;
 import com.example.root.sens.controllers.LoginController;
-import com.example.root.sens.fragments.UserConfigConfirmInfoFragment;
+import com.example.root.sens.fragments.UserConfigConfirmFragment;
 import com.example.root.sens.fragments.UserConfigGoalInfoFragment;
 import com.example.root.sens.fragments.UserConfigNameInfoFragment;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class UserConfigActivity extends AppCompatActivity {
     private final static String TAG = UserConfigActivity.class.getSimpleName();
-    UserConfigNameInfoFragment nameInfoFragment = new UserConfigNameInfoFragment();
-    UserConfigGoalInfoFragment goalInfoFragment = new UserConfigGoalInfoFragment();
-    UserConfigConfirmInfoFragment confirmInfoFragment = new UserConfigConfirmInfoFragment();
-    ILoginController loginController = new LoginController();
-
     public static final int NUM_PAGES = 3;
+
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
 
     private Button slide;
     private Button back;
+
+    private UserConfigNameInfoFragment nameInfoFragment = new UserConfigNameInfoFragment();
+    private UserConfigGoalInfoFragment goalInfoFragment = new UserConfigGoalInfoFragment();
+    private UserConfigConfirmFragment confirmInfoFragment = new UserConfigConfirmFragment();
+    private ILoginController loginController = new LoginController();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +81,7 @@ public class UserConfigActivity extends AppCompatActivity {
                     switchPage(v, 1);
                     break;
                 case 1:
-                    loginController.save2(((SetGoalAdapter) goalInfoFragment.getmAdapter()).getmDataSet());
+                    loginController.save2(((SetGoalAdapter) goalInfoFragment.getAdapter()).getDataSet());
                     switchPage(v, 2);
                     break;
                 case 2:
@@ -109,23 +112,25 @@ public class UserConfigActivity extends AppCompatActivity {
     private void switchPage(View v, int nextPage) {
         mPager.setCurrentItem(nextPage, true);
         InputMethodManager imm = (InputMethodManager) getSystemService(getApplication().INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
     }
 
     private void setSliderButtonText() {
         int counter = mPager.getCurrentItem();
         switch (counter) {
             case 0:
-                slide.setText("Videre");
-                back.setText("Annullér");
+                slide.setText(R.string.Continue);
+                back.setText(R.string.Cancel);
                 break;
             case 1:
-                slide.setText("Videre");
-                back.setText("Annullér");
+                slide.setText(R.string.Continue);
+                back.setText(R.string.Cancel);
                 break;
             case 2:
-                slide.setText("Bekræft");
-                back.setText("Annullér");
+                slide.setText(R.string.Confirm);
+                back.setText(R.string.Cancel);
                 break;
         }
     }
@@ -170,7 +175,7 @@ public class UserConfigActivity extends AppCompatActivity {
 
     private Date parseDate(String date) {
         try {
-            return new SimpleDateFormat("dd/MM/yyyy").parse(date);
+            return new SimpleDateFormat("dd/MM/yyyy", new Locale("da")).parse(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }

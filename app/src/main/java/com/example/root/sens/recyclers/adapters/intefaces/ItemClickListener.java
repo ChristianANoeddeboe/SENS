@@ -1,4 +1,4 @@
-package com.example.root.sens.recyclers.adapter;
+package com.example.root.sens.recyclers.adapters.intefaces;
 
 import android.view.View;
 

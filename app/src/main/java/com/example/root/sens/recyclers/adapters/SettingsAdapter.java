@@ -1,5 +1,6 @@
-package com.example.root.sens.recyclers.adapter;
+package com.example.root.sens.recyclers.adapters;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,10 +13,11 @@ import com.example.root.sens.R;
 
 import java.util.List;
 
+import com.example.root.sens.recyclers.adapters.intefaces.ItemClickListener;
 import com.example.root.sens.recyclers.itemmodels.ItemModel;
 
 public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHolder> {
-    private static final String TAG = "SettingsAdapter";
+    private static final String TAG = SettingsAdapter.class.getSimpleName();
     private List<ItemModel> mDataSet;
     private ItemClickListener clickListener;
 
@@ -28,15 +30,16 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHo
         this.clickListener = itemClickListener;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.settings_element, viewGroup, false);
         return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         Log.d(TAG, "Element " + position + " set.");
 
         viewHolder.getTextViewPrimary().setText(mDataSet.get(position).getPrimaryText());

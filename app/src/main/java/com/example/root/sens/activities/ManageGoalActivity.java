@@ -2,42 +2,34 @@ package com.example.root.sens.activities;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.root.sens.R;
 import com.example.root.sens.dao.UserDAO;
-import com.example.root.sens.dto.ActivityCategories;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
 import com.example.root.sens.dto.User;
-import com.example.root.sens.recyclers.adapter.SetGoalAdapter;
+import com.example.root.sens.recyclers.adapters.SetGoalAdapter;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import io.realm.Realm;
 import io.realm.RealmList;
 
 
 public class ManageGoalActivity extends AppCompatActivity implements View.OnClickListener {
-    private RecyclerView recyclerView;
     private final String TAG = this.getClass().getSimpleName();
+    private RecyclerView recyclerView;
     private ArrayList<String> data;
     private boolean changed = false;
-    private ImageButton cancelbtn, donebtn;
+    private ImageButton cancelBtn, doneBtn;
     private int counter;
     private int[] oldValues;
 
@@ -45,19 +37,19 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_goal);
+
         recyclerView = findViewById(R.id.recyclerView_manage_goal);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        cancelbtn = findViewById(R.id.managegoal_cancelbtn);
-        donebtn = findViewById(R.id.managegoal_donebtn);
+        cancelBtn = findViewById(R.id.managegoal_cancelbtn);
+        doneBtn = findViewById(R.id.managegoal_donebtn);
 
-        cancelbtn.setOnClickListener(this);
-        donebtn.setOnClickListener(this);
+        // TODO: Create lambda ...
+        cancelBtn.setOnClickListener(this);
+        doneBtn.setOnClickListener(this);
 
         oldValues = new int[5];
-
-        //tempColor = ContextCompat.getColor(this, R.color.TextColorBodyFragment);
 
         data = new ArrayList<>();
         data.add("Cykling");
@@ -70,35 +62,35 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
         for(Goal g: temp){
             counter+= g.getValue();
         }
-
     }
 
-
+    // TODO: Move to a class
     private RecyclerView.Adapter adapter = new RecyclerView.Adapter<ListElementViewHolder>() {
+        private static final int SEEKBAR_MAX = 24 * 60;
 
         @NonNull
         @Override
-        public ListElementViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        public ListElementViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
             View view = getLayoutInflater().inflate(R.layout.set_goal_element,viewGroup,false);
             ListElementViewHolder vh = new ListElementViewHolder(view);
+
             vh.seekBar = view.findViewById(R.id.seekBar_set_goal);
             vh.total = view.findViewById(R.id.textView_set_goal_total);
             vh.header = view.findViewById(R.id.textView_set_goal_element_header);
+
             return vh;
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ListElementViewHolder listElementViewHolder, int i) {
-            //listElementViewHolder.header.setTextColor(tempColor);
-            //listElementViewHolder.total.setTextColor(tempColor);
+        public void onBindViewHolder(@NonNull ListElementViewHolder listElementViewHolder, int position) {
             listElementViewHolder.header.setPadding(0, 30, 0, 0);
-            listElementViewHolder.header.setText(data.get(i));
-            listElementViewHolder.seekBar.setMax((24*60)-counter);
+            listElementViewHolder.header.setText(data.get(position));
+            listElementViewHolder.seekBar.setMax(SEEKBAR_MAX -counter);
 
             RealmList<Goal> temp = UserDAO.getInstance().getNewestGoal().getGoals();
             for(Goal g : temp){
-                if(g.getType().toString().equals(data.get(i))){
-                    oldValues[i] = g.getValue();
+                if(g.getType().toString().equals(data.get(position))){
+                    oldValues[position] = g.getValue();
                     listElementViewHolder.seekBar.setProgress(g.getValue());
                     listElementViewHolder.total.setText(SetGoalAdapter.generateProgressText(g.getValue()));
                     break;
@@ -116,7 +108,7 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
                     }
                     for(int j = 0; j < recyclerView.getChildCount(); j++){
                         ListElementViewHolder temp = (ListElementViewHolder) recyclerView.findViewHolderForAdapterPosition(j);
-                        temp.seekBar.setMax(((24*60)-countTemp)+temp.seekBar.getProgress());
+                        temp.seekBar.setMax((SEEKBAR_MAX-countTemp)+temp.seekBar.getProgress());
                     }
 
                     changed = true;
@@ -144,7 +136,7 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         RealmList<Goal> s = UserDAO.getInstance().getNewestGoal().getGoals();
-        if(v.equals(donebtn)){
+        if(v.equals(doneBtn)){
             if(changed){
                 HashMap<String, Integer> temp = new HashMap<>();
                 for(Goal goal : s){
@@ -168,7 +160,7 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
                 //Goals were not changed but user pressed save button
             }
 
-        }else if(v.equals(cancelbtn) && changed){
+        }else if(v.equals(cancelBtn) && changed){
             for(int i = 0; i < recyclerView.getChildCount(); i++){
                 ListElementViewHolder listElementViewHolder = (ListElementViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
                 listElementViewHolder.seekBar.setProgress(oldValues[i]);
@@ -177,9 +169,8 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-
-
-    class ListElementViewHolder extends RecyclerView.ViewHolder {
+    // TODO: See user config and axosoft for details
+    private class ListElementViewHolder extends RecyclerView.ViewHolder {
         TextView header,total;
         SeekBar seekBar;
         public ListElementViewHolder(View itemView) {
