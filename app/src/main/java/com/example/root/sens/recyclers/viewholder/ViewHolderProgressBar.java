@@ -1,13 +1,16 @@
 package com.example.root.sens.recyclers.viewholder;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.View;
@@ -36,11 +39,11 @@ public class ViewHolderProgressBar extends ViewHolder {
     private final DecoView progressCircle;
     private TextView progressTextView, title, unitTextview;
     private ImageView imageView;
-    private LinearLayout header;
-    private CardView goalbox;
+    private CardView goalbox, header;
     private int type;
     private String goalType;
     private Date wantedDate;
+    private Context ctx;
 
     public ViewHolderProgressBar(View itemView, int i, Context viewGroup, Date wantedDate) {
         super(itemView);
@@ -48,11 +51,11 @@ public class ViewHolderProgressBar extends ViewHolder {
         progressTextView = itemView.findViewById(R.id.goalstatusTextView);
         imageView = itemView.findViewById(R.id.goalIconImageView);
         goalbox = itemView.findViewById(R.id.goalchart_cardview);
-        header = itemView.findViewById(R.id.typegoal_LinearLayout_header);
+        header = itemView.findViewById(R.id.cardview_header);
         unitTextview = itemView.findViewById(R.id.goalbox_Textview_unit);
         title = itemView.findViewById(R.id.goalbox_TextView_title);
         this.wantedDate = wantedDate;
-
+        ctx = viewGroup;
         goalbox.setOnClickListener((View v)->{
             Animation animationUp = AnimationUtils.loadAnimation(viewGroup, R.anim.slide_up);
             Animation animationDown = AnimationUtils.loadAnimation(viewGroup, R.anim.slide_down);
@@ -72,6 +75,7 @@ public class ViewHolderProgressBar extends ViewHolder {
                     .commit();
 
         });
+
         type = i;
     }
 
@@ -80,53 +84,63 @@ public class ViewHolderProgressBar extends ViewHolder {
         DayData dayData = userDAO.getDataSpecificDate(wantedDate);
         RealmList<Goal> goals = UserDAO.getInstance().getNewestGoal().getGoals();
         Goal currGoal = goals.get(type);
-        goalType = currGoal.getType().toString();
-        RealmList<Record> temp = dayData.getRecords();
         int current = 0;
-        for(Record record : temp){
-            if(record.getType().equals(currGoal.getType())){
-                current = (int) record.getValue();
-                break;
+        int max = 1;
+        goalType = currGoal.getType().toString();
+        if(dayData != null){
+            RealmList<Record> temp = dayData.getRecords();
+            for(Record record : temp){
+                if(record.getType().equals(currGoal.getType())){
+                    current = (int) record.getValue();
+                    break;
+                }
             }
+
+            max = currGoal.getValue();
+            if(max > 0 ) {
+
+                if(current > max){
+                    current = max;
+                }
+
+            }
+
         }
 
-        int max = currGoal.getValue();
-        if(max > 0 ) {
+        int color = getGoalColor(currGoal.getType());
+        color = ContextCompat.getColor(itemView.getContext(), color);
+        goalbox.getBackground().mutate().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
 
-            if(current > max){
-                current = max;
-            }
-            int color = getGoalColor(currGoal.getType());
+        progressTextView.setText(Integer.toString(current)+"/"+Integer.toString(currGoal.getValue()));
+        unitTextview.setText("minutes");
 
-            color = ContextCompat.getColor(itemView.getContext(), color);
-            goalbox.getBackground().mutate().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+        title.setText(currGoal.getType().toString());
 
-            progressTextView.setText(Integer.toString(current)+"/"+Integer.toString(currGoal.getValue()));
-            unitTextview.setText("minutes");
 
-            title.setText(currGoal.getType().toString());
 
-            imageView.setImageResource(generateIcons(currGoal.getType()));
+        imageView.setImageDrawable(generateIcons(currGoal.getType()));
 
-            progressCircle.addSeries(new SeriesItem.Builder(Color.argb(255, 255, 255, 255))
-                    .setRange(0, max, current)
-                    .setLineWidth(20)
-                    .setInset(new PointF(0, 2))
-                    .build());
-        }
+        header.setBackgroundTintList(ctx.getResources().getColorStateList(getGoalColor(currGoal.getType())));
+
+        progressCircle.addSeries(new SeriesItem.Builder(Color.argb(255, 237, 28, 38))
+                .setRange(0, max, current)
+                .setLineWidth(20)
+                .setInset(new PointF(0, 2))
+                .build());
     }
+
     //TODO: Move the two methods below in some utility class
     public static int getGoalHeaderColor(ActivityCategories curr) {
         switch (curr) {
-            case Resting:
+            case Søvn:
                 return R.color.restingHeaderColor;
-            case Standing:
+            case Stå:
                 return R.color.standingHeaderColor;
-            case Walking:
+            case Gang:
                 return R.color.walkingHeaderColor;
-            case Cycling:
+            case Cykling:
                 return R.color.cyclingHeaderColor;
-            case Exercise:
+            case Træning:
                 return R.color.exerciseHeaderColor;
             default:
                 return R.color.white;
@@ -135,19 +149,19 @@ public class ViewHolderProgressBar extends ViewHolder {
 
     public static int getGoalColor(ActivityCategories curr) {
         switch (curr) {
-            case Resting:
+            case Søvn:
                 //return Color.argb(255, 0, 150, 136);
                 return R.color.restingColor;
-            case Standing:
+            case Stå:
                 //return Color.argb(255, 63, 81, 181);
                 return R.color.standingColor;
-            case Walking:
+            case Gang:
                 //return Color.argb(255, 76, 175, 80);
                 return R.color.walkingColor;
-            case Cycling:
+            case Cykling:
                 //return Color.argb(255, 255, 152, 0);
                 return R.color.cyclingColor;
-            case Exercise:
+            case Træning:
                 //return Color.argb(244, 244, 67, 54);
                 return R.color.exerciseColor;
             default:
@@ -156,19 +170,25 @@ public class ViewHolderProgressBar extends ViewHolder {
     }
 
 
-    public static int generateIcons(ActivityCategories curr) {
+    private Drawable generateIcons(ActivityCategories curr) {
+        Drawable icon;
         switch (curr) {
-            case Resting:
-                return R.mipmap.icon_resting_inverted;
-            case Standing:
-                return R.mipmap.icon_standing_inverted;
-            case Walking:
-                return R.mipmap.icon_walking_inverted;
-            case Cycling:
-                return R.mipmap.icon_cycling_inverted;
-            case Exercise:
-                return R.mipmap.icon_exercise_inverted;
+            case Søvn:
+                icon = ctx.getDrawable(R.mipmap.icon_resting);
+                return icon;
+            case Stå:
+                icon = ctx.getDrawable(R.mipmap.icon_standing);
+                return icon;
+            case Gang:
+                icon = ctx.getDrawable(R.mipmap.icon_walking);
+                return icon;
+            case Cykling:
+                icon = ctx.getDrawable(R.mipmap.icon_cycling);
+                return icon;
+            case Træning:
+                icon = ctx.getDrawable(R.mipmap.icon_exercise);
+                return icon;
         }
-        return R.mipmap.award;
+        return ctx.getDrawable(R.mipmap.award);
     }
 }

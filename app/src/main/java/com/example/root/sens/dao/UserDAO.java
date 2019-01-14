@@ -1,6 +1,12 @@
 package com.example.root.sens.dao;
 
+import android.util.Log;
+
+import com.example.root.sens.dao.interfaces.DatabaseObserver;
+import com.example.root.sens.dao.interfaces.DatabaseSubject;
 import com.example.root.sens.dao.interfaces.IUserDao;
+import com.example.root.sens.dao.interfaces.SensObserver;
+import com.example.root.sens.dao.interfaces.UserObserver;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
@@ -14,14 +20,26 @@ import java.util.Date;
 import java.util.HashMap;
 
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmList;
 
-public class UserDAO implements IUserDao {
+public class UserDAO implements IUserDao, DatabaseSubject {
     private static UserDAO instance;
+    private ArrayList<DatabaseObserver> mObservers;
+    private Realm realm;
+    private RealmChangeListener realmListener;
     private UserDAO(){}
     public static UserDAO getInstance(){
         if(instance==null){
             instance = new UserDAO();
+            instance.mObservers = new ArrayList<>();
+            instance.realm = Realm.getDefaultInstance();
+            instance.realmListener = new RealmChangeListener() {
+                @Override
+                public void onChange(Object o) {
+                    instance.notifyObservers();
+                }};
+            instance.realm.addChangeListener(instance.realmListener);
         }
         return instance;
     }
@@ -73,20 +91,13 @@ public class UserDAO implements IUserDao {
     @Override
     public GoalHistory getNewestGoal() {
         RealmList<GoalHistory> goals = getUserLoggedIn().getGoals();
-        ArrayList<Date> dates = new ArrayList<>();
-
+        ArrayList<GoalHistory> tempGoalHis = new ArrayList<>();
         for(GoalHistory curr : goals) {
-            dates.add(curr.getDate());
+            tempGoalHis.add(curr);
         }
-        Collections.sort(dates);
+        Collections.sort(tempGoalHis);
 
-        for(GoalHistory curr : goals) {
-            if(curr.getDate().equals(dates.get(0))) {
-                return curr;
-            }
-        }
-        //TODO: Cast en execption her.
-        return goals.get(0);
+        return tempGoalHis.get(0);
     }
 
     @Override
@@ -174,5 +185,63 @@ public class UserDAO implements IUserDao {
         return mostRecent;
     }
 
+    @Override
+    public void updateOrMergeGoals(HashMap<String, Integer> newgoals) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        User u = UserDAO.getInstance().getUserLoggedIn();
+        RealmList<GoalHistory> temp = u.getGoals();
+        boolean found = false;
+        for(GoalHistory goalHistory : temp){
+            if(Math.abs(goalHistory.getDate().getTime()-new Date().getTime()) < 86400000){
+                RealmList<Goal> tempGoals = goalHistory.getGoals();
+                for(Goal goal : tempGoals){
+                    if(newgoals.containsKey(goal.getType().toString())){
+                        int i = newgoals.get(goal.getType().toString());
+                        goal.setValue(i);
 
+                    }
+                }
+                found = true;
+                break;
+            }
+        }
+        if(!found){
+            RealmList<Goal> tempGoals = new RealmList<>();
+            for(String s : newgoals.keySet()){
+                tempGoals.add(new Goal(s,newgoals.get(s)));
+            }
+            GoalHistory goalHistory = new GoalHistory();
+            goalHistory.setDate(new Date());
+            goalHistory.setGoals(tempGoals);
+            u.getGoals().add(goalHistory);
+        }
+        realm.copyToRealmOrUpdate(u);
+        realm.commitTransaction();
+    }
+
+
+    @Override
+    public void registerObserver(DatabaseObserver databaseObserver) {
+        if(!mObservers.contains(databaseObserver)) {
+            mObservers.add(databaseObserver);
+
+        }
+    }
+
+    @Override
+    public void removeObserver(DatabaseObserver databaseObserver) {
+        if(mObservers.contains(databaseObserver)) {
+            mObservers.remove(databaseObserver);
+        }
+    }
+
+    @Override
+    public void notifyObservers() {
+        if(mObservers.size() != 0){
+            for (DatabaseObserver observer: mObservers) {
+                observer.onDataChanged();
+            }
+        }
+    }
 }

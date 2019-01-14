@@ -6,13 +6,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -30,8 +33,10 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.example.root.sens.R;
 import com.example.root.sens.dao.SensDAO;
 import com.example.root.sens.dao.UserDAO;
+import com.example.root.sens.dao.interfaces.DatabaseObserver;
+import com.example.root.sens.dao.interfaces.DatabaseSubject;
 import com.example.root.sens.dao.interfaces.SensObserver;
-import com.example.root.sens.dao.interfaces.Subject;
+import com.example.root.sens.dao.interfaces.SensSubject;
 import com.example.root.sens.dto.User;
 import com.example.root.sens.fragments.AboutFragment;
 import com.example.root.sens.fragments.DayDataFragment;
@@ -41,15 +46,19 @@ import com.example.root.sens.notification.NotificationsManager;
 import com.example.root.sens.notification.TimeReceiver;
 import com.example.root.sens.observers.MainFullScreenFragmentObserver;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, SensObserver, MainFullScreenFragmentObserver {
+        implements NavigationView.OnNavigationItemSelectedListener, SensObserver, DatabaseObserver,MainFullScreenFragmentObserver {
     private ViewPager viewPager;
-    private Subject s;
+    private SensSubject s;
+    private DatabaseSubject d;
     private static String[] viewNames = {"Overview", "Historik"};
     private static String standardToolbarTitle = "SENS";
     private SharedPreferences sharedPreferences;
@@ -65,6 +74,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        boolean EMULATOR = Build.PRODUCT.contains("sdk") || Build.MODEL.contains("Emulator");
+        if (!EMULATOR) {
+            Fabric.with(this, new Crashlytics());
+        }
+
 
         /**
          * Navigation Drawer
@@ -128,7 +143,9 @@ public class MainActivity extends AppCompatActivity
         coordinatorLayout = findViewById(R.id.main_a_coordinator_layout);
         s = SensDAO.getInstance();
         s.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
-        SensDAO.getInstance().getData("xt9w2r");
+        d = UserDAO.getInstance();
+        d.registerObserver(this);
+        SensDAO.getInstance().getData("xt9w2r",14);
         fetchDataProgressBar();
 
         new Handler().postDelayed(() -> asyncTask = new AsyncTask() {
@@ -190,6 +207,9 @@ public class MainActivity extends AppCompatActivity
         else if(id == R.id.nav_send_notification){
             NotificationsManager notificationsManager = new NotificationsManager("String", this);
             notificationsManager.displayNotification();
+        } else if(id == R.id.nav_manageGoals) {
+            Intent i = new Intent(getApplicationContext(), ManageGoalActivity.class);
+            startActivity(i);
         }
         else if (id == R.id.nav_about) {
             getSupportFragmentManager().beginTransaction()
@@ -215,10 +235,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showFragment(Date date) {
-        if(isFullScreenFragmentOpen){
+        if (isFullScreenFragmentOpen) {
             return;
         }
-        if(date == null){
+        if (date == null) {
             Snackbar.make(findViewById(R.id.fragment_overlay_layout_main),
                     "Der er ikke data for den givne dato.",
                     Snackbar.LENGTH_LONG).show();
@@ -237,6 +257,10 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.main_a_coordinator_layout, dayDataFragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    public void onDataChanged(){
+        viewpagerAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -268,6 +292,11 @@ public class MainActivity extends AppCompatActivity
         public int getCount() {
             return 2;
         }
+
+        @Override
+        public int getItemPosition(Object object){
+            return PagerAdapter.POSITION_NONE;
+        }
     }
 
     /**
@@ -277,6 +306,7 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         s.removeObserver(this);
+        d.removeObserver(this);
         if(asyncTask != null){
             asyncTask.cancel(true);
         }
@@ -296,3 +326,4 @@ public class MainActivity extends AppCompatActivity
                 AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
     }
 }
+

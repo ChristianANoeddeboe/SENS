@@ -55,7 +55,7 @@ public class HistoryFragment extends Fragment {
         ArrayList<Date> tempDates = new ArrayList<>();
         for(Date date : userHistory.keySet()){
             boolean res = userHistory.get(date).booleanValue();
-            if(!res){
+            if(!res){ //TODO: CHANGE THIS!!!
                 tempDates.add(date);
             }
         }
