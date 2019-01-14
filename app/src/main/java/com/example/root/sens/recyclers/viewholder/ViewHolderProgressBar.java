@@ -84,28 +84,39 @@ public class ViewHolderProgressBar extends ViewHolder {
         DayData dayData = userDAO.getDataSpecificDate(wantedDate);
         RealmList<Goal> goals = UserDAO.getInstance().getNewestGoal().getGoals();
         Goal currGoal = goals.get(type);
-        goalType = currGoal.getType().toString();
-        RealmList<Record> temp = dayData.getRecords();
         int current = 0;
-        for(Record record : temp){
-            if(record.getType().equals(currGoal.getType())){
-                current = (int) record.getValue();
-                break;
+        int max = 1;
+        goalType = currGoal.getType().toString();
+        if(dayData != null){
+            RealmList<Record> temp = dayData.getRecords();
+            for(Record record : temp){
+                if(record.getType().equals(currGoal.getType())){
+                    current = (int) record.getValue();
+                    break;
+                }
             }
+
+            max = currGoal.getValue();
+            if(max > 0 ) {
+
+                if(current > max){
+                    current = max;
+                }
+
+            }
+
         }
 
-        int max = currGoal.getValue();
-        if(max > 0 ) {
+        int color = getGoalColor(currGoal.getType());
+        color = ContextCompat.getColor(itemView.getContext(), color);
+        goalbox.getBackground().mutate().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
 
-            if(current > max){
-                current = max;
-            }
-            int color = getGoalColor(currGoal.getType());
+        progressTextView.setText(Integer.toString(current)+"/"+Integer.toString(currGoal.getValue()));
+        unitTextview.setText("minutes");
 
-            progressTextView.setText(Integer.toString(current)+"/"+Integer.toString(currGoal.getValue()));
-            unitTextview.setText("minutes");
+        title.setText(currGoal.getType().toString());
 
-            title.setText(currGoal.getType().toString());
+
 
             imageView.setImageDrawable(generateIcons(currGoal.getType()));
 
