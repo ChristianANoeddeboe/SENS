@@ -13,7 +13,10 @@ public class Goal extends RealmObject {
     }
 
 
-    public ActivityCategories getType() {
+    public ActivityCategories getType() throws NullPointerException {
+        if(type == null){
+            throw new NullPointerException("GoalType was null!");
+        }
         return ActivityCategories.valueOf(type);
     }
 
