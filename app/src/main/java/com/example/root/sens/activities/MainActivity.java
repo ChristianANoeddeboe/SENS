@@ -26,8 +26,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.airbnb.lottie.LottieAnimationView;
-import com.airbnb.lottie.LottieDrawable;
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.root.sens.R;
 import com.example.root.sens.dao.SensDAO;
@@ -171,6 +169,8 @@ public class MainActivity extends AppCompatActivity
 
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (isFullScreenFragmentOpen){
+            overridePendingTransition(R.anim.slide_down, R.anim.slide_up);
         } else {
             super.onBackPressed();
         }
