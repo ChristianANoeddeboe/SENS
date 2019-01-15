@@ -100,15 +100,6 @@
                                 android:text="Text/Text"
                                 android:textColor="@android:color/black"
                                 android:textSize="16dp" />
-
-                            <TextView
-                                android:id="@+id/goalbox_Textview_unit"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="8dp"
-                                android:text="@string/unit"
-                                android:textColor="@android:color/black"
-                                android:textSize="16dp" />
                         </LinearLayout>
 
                     </LinearLayout>
