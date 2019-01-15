@@ -24,6 +24,7 @@ import io.realm.RealmList;
 public class UserDAO implements IUserDao, DatabaseSubject {
     private static UserDAO instance;
     private ArrayList<DatabaseObserver> mObservers;
+    private final String TAG = UserDAO.class.getSimpleName();
     private Realm realm;
     private RealmChangeListener realmListener;
     private UserDAO(){}

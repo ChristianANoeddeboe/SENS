@@ -116,8 +116,8 @@ public class ViewHolderProgressBar extends ViewHolder {
 
         progressCircle.addSeries(new SeriesItem.Builder(Color.argb(255, 237, 28, 38))
                 .setRange(0, max, current)
-                .setLineWidth(20)
-                .setInset(new PointF(0, 2))
+                .setLineWidth(18)
+                .setInset(new PointF(0, 0))
                 .build());
     }
 }

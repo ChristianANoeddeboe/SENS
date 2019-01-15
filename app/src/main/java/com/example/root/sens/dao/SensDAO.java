@@ -32,7 +32,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Used to download data from SENS
  */
 public class SensDAO implements Callback<Response>, SensSubject {
-    private static final String TAG = "test1234";
+    private static final String TAG = SensDAO.class.getSimpleName();
     private Retrofit retrofitInstance;
     private ISensAPI service;
     private static SensDAO sensDAOInstance;
