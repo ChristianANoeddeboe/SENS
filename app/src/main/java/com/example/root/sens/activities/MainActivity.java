@@ -26,7 +26,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.root.sens.R;
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mainactivity_a_burgermenu);
+        setContentView(R.layout.nav_content);
         coordinatorLayout = findViewById(R.id.main_a_coordinator_layout);
 
         setupNavigationDrawer();
@@ -77,6 +76,7 @@ public class MainActivity extends AppCompatActivity
         setupViewPager();
 
         setupDataFetcher();
+        toolbar.setNavigationOnClickListener((View v) -> onBackPressed());
     }
 
     private void setupDataFetcher() {
@@ -154,16 +154,11 @@ public class MainActivity extends AppCompatActivity
     private void changeToolbar(String tileText, int image) {
         toolbar.setTitle(tileText);
         toolbar.setNavigationIcon(image);
-
-        if (isFullScreenFragmentOpen()) {
-            toolbar.setNavigationOnClickListener((View v) -> onBackPressed());
-        } else {
-            toolbar.setNavigationOnClickListener((View v) -> drawer.openDrawer(GravityCompat.START));
-        }
     }
 
     private boolean isFullScreenFragmentOpen() {
-        return getSupportFragmentManager().getBackStackEntryCount() == 0;
+        int windows = getSupportFragmentManager().getBackStackEntryCount();
+        return windows != 0;
     }
 
     private void fetchDataProgressBar() {
@@ -177,14 +172,17 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
+        if (!drawer.isDrawerOpen(GravityCompat.START) && isFullScreenFragmentOpen()) {
+            if(getSupportFragmentManager().getBackStackEntryCount() == 1){
+                changeToolbar(standardToolbarTitle, R.drawable.ic_burger_menu_icon);
+            }
             super.onBackPressed();
-        }
-
-        if(isFullScreenFragmentOpen()){
-            changeToolbar(standardToolbarTitle, R.drawable.ic_burger_menu_icon);
+        } else if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (isFullScreenFragmentOpen()) {
+            super.onBackPressed();
+        } else if (!drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.openDrawer(GravityCompat.START);
         }
     }
 
@@ -228,7 +226,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showFragment(Date date) {
-        if (!isFullScreenFragmentOpen()) {
+        if (isFullScreenFragmentOpen()) {
             return;
         }
         if (date == null) {

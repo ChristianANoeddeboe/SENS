@@ -53,9 +53,9 @@ public class SettingsActivity extends AppCompatActivity implements ItemClickList
     private List<ItemModel> createItem() {
         ArrayList<ItemModel> items = new ArrayList<>();
         items.add(new ItemModel("Ryd data",
-                "Dette vil fjerne alt dine data!", R.drawable.ic_trash_alt));
-        items.add(new ItemModel("Hent data", "Henter ny data fra sensoren.", R.drawable.ic_reset_black));
-        items.add(new ItemModel("Entry " + 2, R.mipmap.ic_launcher));
+                "Dette vil fjerne alt dine data!", R.drawable.ic_baseline_delete_forever_24px));
+        items.add(new ItemModel("Hent data", "Henter ny data fra sensoren.", R.drawable.ic_baseline_cloud_download_24px));
+        items.add(new ItemModel("Tilgængelighed", R.drawable.ic_baseline_accessibility_24px));
         items.add(new ItemModel("Entry " + 3, R.mipmap.ic_launcher));
         items.add(new ItemModel("Entry " + 4, R.mipmap.ic_launcher));
         items.add(new ItemModel("Entry " + 5, R.mipmap.ic_launcher));
@@ -90,7 +90,7 @@ public class SettingsActivity extends AppCompatActivity implements ItemClickList
                 .setNegativeButton(R.string.nej, (dialog, which) -> {
                     // Closes dialog if nothing else is entered
                 })
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setIcon(R.drawable.ic_baseline_warning_24px)
                 .setCancelable(false);
 
         return builder.create();
@@ -128,12 +128,6 @@ public class SettingsActivity extends AppCompatActivity implements ItemClickList
     @Override
     public void onDataReceived() {
         snackbar.dismiss();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        sensSubject.removeObserver(this);
     }
 
     @Override
