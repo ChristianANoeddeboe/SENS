@@ -14,10 +14,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:screenOrientation="portrait"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".activities.Login"
             android:theme="@style/AppTheme.NoActionBar.FullScreen"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,6 +30,7 @@
         <activity
             android:name=".activities.SettingsActivity"
             android:label="Indstillinger"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -36,9 +39,11 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="SENS"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity
             android:name=".activities.UserConfigActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver
@@ -49,6 +54,7 @@
         <activity
             android:name=".activities.ManageGoalActivity"
             android:label="Rediger mål"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
