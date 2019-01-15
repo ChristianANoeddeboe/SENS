@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:backgroundTint="@color/transparent"
-                    app:srcCompat="@drawable/ic_reset" />
+                    app:srcCompat="@drawable/ic_reset_white" />
 
                 <ImageButton
                     android:id="@+id/managegoal_donebtn"
