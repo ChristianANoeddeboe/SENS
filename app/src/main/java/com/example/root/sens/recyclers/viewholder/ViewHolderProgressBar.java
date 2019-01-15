@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.root.sens.R;
 import com.example.root.sens.auxiliary.ResourceManagement;
@@ -32,6 +33,15 @@ public class ViewHolderProgressBar extends ViewHolder {
     private final DecoView progressCircle;
     private TextView progressTextView, title, unitTextView;
     private ImageView imageView;
+
+    public CardView getGoalbox() {
+        return goalbox;
+    }
+
+    public void setGoalbox(CardView goalbox) {
+        this.goalbox = goalbox;
+    }
+
     private CardView goalbox;
     private LinearLayout header;
     private int type;
@@ -58,11 +68,12 @@ public class ViewHolderProgressBar extends ViewHolder {
             args.putString("unit", unitTextView.getText().toString());
             args.putString("goalType",goalType);
 
-            Fragment f = new GoalInfoFragment();
-            f.setArguments(args);
-            FragmentManager fm = ((AppCompatActivity) viewGroup).getSupportFragmentManager();
-            fm.beginTransaction()
-                    .replace(R.id.goalsContentContainer, f)
+            Fragment goalInfoFragment = new GoalInfoFragment();
+            goalInfoFragment.setArguments(args);
+            
+            FragmentManager fragmentManager = ((AppCompatActivity) viewGroup).getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_overlay_layout_main, goalInfoFragment)
                     .addToBackStack(null)
                     .commit();
         });

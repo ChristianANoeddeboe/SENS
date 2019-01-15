@@ -227,7 +227,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showFragment(Date date) {
-        Toast.makeText(this, "Åben mø", Toast.LENGTH_SHORT).show();
         if (isFullScreenFragmentOpen) {
             return;
         }
