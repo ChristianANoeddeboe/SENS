@@ -58,7 +58,7 @@ public class ViewHolderProgressBar extends ViewHolder {
         imageView = itemView.findViewById(R.id.goalIconImageView);
         goalbox = itemView.findViewById(R.id.goalchart_cardview);
         header = itemView.findViewById(R.id.typegoal_LinearLayout_header);
-        unitTextView = itemView.findViewById(R.id.goalbox_Textview_unit);
+        //unitTextView = itemView.findViewById(R.id.goalbox_Textview_unit);
         title = itemView.findViewById(R.id.goalbox_TextView_title);
         ctx = viewGroup;
 
@@ -66,7 +66,7 @@ public class ViewHolderProgressBar extends ViewHolder {
             Bundle args = new Bundle();
             args.putString("title",title.getText().toString());
             args.putString("progress",progressTextView.getText().toString());
-            args.putString("unit", unitTextView.getText().toString());
+            //args.putString("unit", unitTextView.getText().toString());
             args.putString("goalType",goalType);
 
             Fragment goalInfoFragment = new GoalInfoFragment();
@@ -118,8 +118,8 @@ public class ViewHolderProgressBar extends ViewHolder {
 
         int color = new ResourceManagement().getGoalColor(currentGoal.getType());
 
-        progressTextView.setText(Integer.toString(current)+"/"+Integer.toString(currentGoal.getValue()));
-        unitTextView.setText(R.string.Minutes);
+        progressTextView.setText(createProgressText(current, currentGoal.getValue()));
+        //unitTextView.setText(R.string.Minutes);
 
         title.setText(currentGoal.getType().toString());
 
@@ -133,5 +133,36 @@ public class ViewHolderProgressBar extends ViewHolder {
                 .setLineWidth(18)
                 .setInset(new PointF(0, 0))
                 .build());
+    }
+
+    private String createProgressText(int current, int goal) {
+        String currentTime, goalTime;
+
+        currentTime = formatProgressText(current);
+        goalTime = formatProgressText(goal);
+
+        return currentTime+" / "+goalTime;
+    }
+
+    private String formatProgressText(int time) {
+        int hour, minutes;
+        String result = "";
+
+        hour = (int) Math.floor(time/60);
+        minutes = time - (hour * 60);
+
+        if(hour >= 1) {
+            result += hour+" timer";
+            if(minutes >= 1) {
+                result += " & ";
+            }
+        }
+        if(minutes >= 1) {
+            result += minutes+" min.";
+        }
+        if(result.equals("")) {
+            result = "0 min.";
+        }
+        return result;
     }
 }
