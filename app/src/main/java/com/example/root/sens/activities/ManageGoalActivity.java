@@ -16,10 +16,13 @@ import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
 import com.example.root.sens.dto.User;
+import com.example.root.sens.recyclers.adapters.ManageGoalAdapter;
 import com.example.root.sens.recyclers.adapters.SetGoalAdapter;
+import com.example.root.sens.recyclers.itemmodels.ManageGoalModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import io.realm.RealmList;
 
@@ -40,16 +43,8 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
 
         recyclerView = findViewById(R.id.recyclerView_manage_goal);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
-
         cancelBtn = findViewById(R.id.managegoal_cancelbtn);
         doneBtn = findViewById(R.id.managegoal_donebtn);
-
-        // TODO: Create lambda ...
-        cancelBtn.setOnClickListener(this);
-        doneBtn.setOnClickListener(this);
-
-        oldValues = new int[5];
 
         data = new ArrayList<>();
         data.add("Cykling");
@@ -57,81 +52,33 @@ public class ManageGoalActivity extends AppCompatActivity implements View.OnClic
         data.add("Træning");
         data.add("Stå");
         data.add("Søvn");
-
+        oldValues = new int[5];
         RealmList<Goal> temp = UserDAO.getInstance().getNewestGoal().getGoals();
-        for(Goal g: temp){
-            counter+= g.getValue();
+        for(int i = 0; i < temp.size(); i++){
+            counter+= temp.get(i).getValue();
+            oldValues[i] = temp.get(i).getValue();
         }
+
+
+
+
+        List<ManageGoalModel> tempList = new ArrayList<>();
+        for(int i = 0; i < 5; i++){
+            tempList.add(new ManageGoalModel(data.get(i),"",counter,oldValues,false,oldValues[i]));
+        }
+
+        recyclerView.setAdapter(new ManageGoalAdapter(getApplicationContext(),tempList));
+
+
+        // TODO: Create lambda ...
+        cancelBtn.setOnClickListener(this);
+        doneBtn.setOnClickListener(this);
+
+
+
     }
 
-    // TODO: Move to a class
-    private RecyclerView.Adapter adapter = new RecyclerView.Adapter<ListElementViewHolder>() {
-        private static final int SEEKBAR_MAX = 24 * 60;
 
-        @NonNull
-        @Override
-        public ListElementViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
-            View view = getLayoutInflater().inflate(R.layout.set_goal_element,viewGroup,false);
-            ListElementViewHolder vh = new ListElementViewHolder(view);
-
-            vh.seekBar = view.findViewById(R.id.seekBar_set_goal);
-            vh.total = view.findViewById(R.id.textView_set_goal_total);
-            vh.header = view.findViewById(R.id.textView_set_goal_element_header);
-
-            return vh;
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull ListElementViewHolder listElementViewHolder, int position) {
-            listElementViewHolder.header.setPadding(0, 30, 0, 0);
-            listElementViewHolder.header.setText(data.get(position));
-            listElementViewHolder.seekBar.setMax(SEEKBAR_MAX -counter);
-
-            RealmList<Goal> temp = UserDAO.getInstance().getNewestGoal().getGoals();
-            for(Goal g : temp){
-                if(g.getType().toString().equals(data.get(position))){
-                    oldValues[position] = g.getValue();
-                    listElementViewHolder.seekBar.setProgress(g.getValue());
-                    listElementViewHolder.total.setText(SetGoalAdapter.generateProgressText(g.getValue()));
-                    break;
-                }
-            }
-
-            listElementViewHolder.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    listElementViewHolder.total.setText(SetGoalAdapter.generateProgressText(progress));
-                    int countTemp = 0;
-                    for(int j = 0; j < recyclerView.getChildCount(); j++){
-                        ListElementViewHolder temp = (ListElementViewHolder) recyclerView.findViewHolderForAdapterPosition(j);
-                        countTemp += temp.seekBar.getProgress();
-                    }
-                    for(int j = 0; j < recyclerView.getChildCount(); j++){
-                        ListElementViewHolder temp = (ListElementViewHolder) recyclerView.findViewHolderForAdapterPosition(j);
-                        temp.seekBar.setMax((SEEKBAR_MAX-countTemp)+temp.seekBar.getProgress());
-                    }
-
-                    changed = true;
-                }
-
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-
-                }
-
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-
-                }
-            });
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return data.size();
-        }
-    };
 
     @Override
     public void onClick(View v) {
