@@ -1,10 +1,12 @@
 package com.example.root.sens.recyclers.adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.service.autofill.UserData;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,14 +43,14 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         mItems = new ArrayList<>();
 
-        if(calendarVisible){
+        if (calendarVisible) {
             mItems.add(new TypeCalendar());
         }
         GoalHistory goals = UserDAO.getInstance().getGoalSpecificDate(wantedDate);
         typeList = new ArrayList<>();
         int counter = 0;
-        for(Goal goal : goals.getGoals()){
-            if(goal.getValue() != 0){
+        for (Goal goal : goals.getGoals()) {
+            if (goal.getValue() != 0) {
                 mItems.add(new TypeProgress(goal.getType()));
                 typeList.add(counter);
             }
@@ -79,7 +81,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
                 view = LayoutInflater
                         .from(viewGroup.getContext())
                         .inflate(R.layout.activity_main_cardview, viewGroup, false);
-                viewHolderType = new ViewHolderProgressBar(view,typeList.get(i),mContext, wantedDate);
+                viewHolderType = new ViewHolderProgressBar(view, typeList.get(i), mContext, wantedDate);
                 i++;
                 break;
         }
@@ -88,6 +90,23 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int pos) {
+        if (pos == 0 && viewHolder instanceof ViewHolderProgressBar) {
+            View view = ((ViewHolderProgressBar) viewHolder).getGoalbox().getRootView();
+
+            // This converts an integer to dp, depending on device
+            Resources r = mContext.getResources();
+            int eightDP = (int) TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    8,
+                    r.getDisplayMetrics()
+            );
+
+            // Retrieving all the declarative set params and adding one
+            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+            marginLayoutParams.topMargin = eightDP;
+            view.setLayoutParams(marginLayoutParams);
+        }
+
         OverviewListItem item = mItems.get(pos);
         viewHolder.bindType(item);
     }
