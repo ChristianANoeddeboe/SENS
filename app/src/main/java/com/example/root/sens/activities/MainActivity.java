@@ -181,6 +181,8 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else if (isFullScreenFragmentOpen()) {
             super.onBackPressed();
+//        } else if (!drawer.isDrawerOpen(GravityCompat.START) && !isFullScreenFragmentOpen()) {
+//            super.onBackPressed();
         } else if (!drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.openDrawer(GravityCompat.START);
         }
