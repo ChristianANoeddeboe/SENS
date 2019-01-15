@@ -95,8 +95,6 @@ public class ManageGoalAdapter extends RecyclerView.Adapter<ManageGoalAdapter.Vi
                 }
                 for(int j = 0; j < dataSet.size(); j++){
                     dataSet.get(j).setMax((dataSet.get(j).getSEEKBAR_MAXCONST()-countTemp)-dataSet.get(j).getProgess());
-                    notifyItemChanged(j);
-                    //notifyDataSetChanged();
                 }
 
                 dataSet.get(i).setChanged(true);
@@ -112,12 +110,11 @@ public class ManageGoalAdapter extends RecyclerView.Adapter<ManageGoalAdapter.Vi
 
             }
         });
+
     }
 
     @Override
     public int getItemCount() {
         return dataSet.size();
     }
-
-
 }
