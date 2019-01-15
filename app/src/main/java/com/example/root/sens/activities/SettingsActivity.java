@@ -128,7 +128,6 @@ public class SettingsActivity extends AppCompatActivity implements ItemClickList
 
     @Override
     public void onDataReceived() {
-        snackbar.dismiss();
     }
 
     @Override
