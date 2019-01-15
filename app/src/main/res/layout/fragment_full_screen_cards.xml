@@ -3,22 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:layout_editor_absoluteY="25dp">
+    android:layout_height="match_parent">
 
 
-    <Button
-        android:id="@+id/button_close_full_screen_cards"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="Luk"
-        app:layout_constraintBottom_toTopOf="@+id/frameLayout_DataDataFragment"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <FrameLayout
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/frameLayout_DataDataFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -26,13 +14,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_close_full_screen_cards">
+        app:layout_constraintTop_toTopOf="parent">
 
         <include
             android:id="@+id/include"
             layout="@layout/goals_f_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_close_full_screen_cards"
             tools:layout_editor_absoluteX="0dp" />
     </FrameLayout>
 
