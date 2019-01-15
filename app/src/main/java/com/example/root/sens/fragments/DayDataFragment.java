@@ -36,8 +36,8 @@ public class DayDataFragment extends Fragment{
         goalMap = dayDataGoalMapper.getGoalMap();
 
         // Adding button
-        Button buttonBack = rootView.findViewById(R.id.button_close_full_screen_cards);
-        buttonBack.setOnClickListener((View v) -> getActivity().onBackPressed());
+//        Button buttonBack = rootView.findViewById(R.id.button_close_full_screen_cards);
+//        buttonBack.setOnClickListener((View v) -> getActivity().onBackPressed());
 
         // Recycler stuff
         View dataDataFragmentLayout = rootView.findViewById( R.id.frameLayout_DataDataFragment);
