@@ -45,4 +45,10 @@
         android:splitTrack="false"
         android:thumb="@drawable/seekbar_user_config_thumb" />
 
+    <Button
+        android:id="@+id/button_set_goal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
 </LinearLayout>
