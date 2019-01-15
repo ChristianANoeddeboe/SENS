@@ -39,8 +39,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Titel"
-                    android:textColor="@color/TextColorFragmentHeader"
-                    android:textSize="24dp" />
+                    android:textColor="@color/white"
+                    android:textSize="24sp" />
 
                 <ImageButton
                     android:id="@+id/typeGoalInfo_ImageButton_showless"

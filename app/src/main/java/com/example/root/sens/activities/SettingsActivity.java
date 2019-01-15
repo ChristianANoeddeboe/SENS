@@ -47,6 +47,9 @@ public class SettingsActivity extends AppCompatActivity implements ItemClickList
         adapter = new SettingsAdapter(createItem());
         ((SettingsAdapter) adapter).setClickListener(this);
         recyclerView.setAdapter(adapter);
+
+        sensSubject = SensDAO.getInstance();
+        sensSubject.registerObserver(this);
     }
 
     // TODO: Add fake settings for prettiness
@@ -106,8 +109,6 @@ public class SettingsActivity extends AppCompatActivity implements ItemClickList
 
                 break;
             case 1:
-                sensSubject = SensDAO.getInstance();
-                sensSubject.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
                 SensDAO.getInstance().getData(getString(R.string.SensPatientKey), 14);
                 snackbar = Snackbar.make(recyclerView, R.string.DownloadingData, Snackbar.LENGTH_INDEFINITE);
                 ViewGroup contentLay = (ViewGroup) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text).getParent();

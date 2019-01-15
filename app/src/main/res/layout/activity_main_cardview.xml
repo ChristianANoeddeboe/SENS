@@ -25,13 +25,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/goalbox_TextView_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Titel"
-                android:textColor="@android:color/black"
-                android:textSize="20dp" />
+                <TextView
+                    android:id="@+id/goalbox_TextView_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Titel"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
 
             <ImageButton
                 android:id="@+id/typegoal_ImageButton_showmore"

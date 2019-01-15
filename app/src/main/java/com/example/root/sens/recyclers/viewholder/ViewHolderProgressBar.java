@@ -6,6 +6,7 @@ import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.View;
@@ -127,7 +128,7 @@ public class ViewHolderProgressBar extends ViewHolder {
         // TODO: Change deprecated method
         header.setBackgroundResource(color);
 
-        progressCircle.addSeries(new SeriesItem.Builder(Color.argb(255, 237, 28, 38))
+        progressCircle.addSeries(new SeriesItem.Builder(ContextCompat.getColor(ctx, color))
                 .setRange(0, max, current)
                 .setLineWidth(18)
                 .setInset(new PointF(0, 0))
