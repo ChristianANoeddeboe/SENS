@@ -3,9 +3,11 @@ package com.example.root.sens.dto;
 import com.example.root.sens.dto.ActivityCategories;
 
 import io.realm.RealmObject;
+import io.realm.annotations.Required;
 
 public class Record extends RealmObject {
     private float value;
+    @Required
     private String type;
     public Record(){}
     public Record(float value, String type) {

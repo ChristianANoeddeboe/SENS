@@ -4,9 +4,11 @@ import java.util.Date;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.Required;
 
 public class GoalHistory extends RealmObject implements Comparable {
     private int goalHistoryId;
+    @Required
     private Date date;
     private RealmList<Goal> goals;
     public GoalHistory(){}

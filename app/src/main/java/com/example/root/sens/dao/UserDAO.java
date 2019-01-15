@@ -107,7 +107,7 @@ public class UserDAO implements IUserDao, DatabaseSubject {
 
     }
 
-
+    @Override
     public HashMap<Date,Boolean> userFulfilledGoals() {
         HashMap<Date,Boolean> result = new HashMap<>();
         User activeUser = UserDAO.getInstance().getUserLoggedIn();
@@ -192,36 +192,39 @@ public class UserDAO implements IUserDao, DatabaseSubject {
     @Override
     public void updateOrMergeGoals(HashMap<String, Integer> newgoals) {
         Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        User u = UserDAO.getInstance().getUserLoggedIn();
-        RealmList<GoalHistory> temp = u.getGoals();
-        boolean found = false;
-        for(GoalHistory goalHistory : temp){
-            if(Math.abs(goalHistory.getDate().getTime()-new Date().getTime()) < 86400000){
-                RealmList<Goal> tempGoals = goalHistory.getGoals();
-                for(Goal goal : tempGoals){
-                    if(newgoals.containsKey(goal.getType().toString())){
-                        int i = newgoals.get(goal.getType().toString());
-                        goal.setValue(i);
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                User u = UserDAO.getInstance().getUserLoggedIn();
+                RealmList<GoalHistory> temp = u.getGoals();
+                boolean found = false;
+                for(GoalHistory goalHistory : temp){
+                    if(Math.abs(goalHistory.getDate().getTime()-new Date().getTime()) < 86400000){
+                        RealmList<Goal> tempGoals = goalHistory.getGoals();
+                        for(Goal goal : tempGoals){
+                            if(newgoals.containsKey(goal.getType().toString())){
+                                int i = newgoals.get(goal.getType().toString());
+                                goal.setValue(i);
 
+                            }
+                        }
+                        found = true;
+                        break;
                     }
                 }
-                found = true;
-                break;
+                if(!found){
+                    RealmList<Goal> tempGoals = new RealmList<>();
+                    for(String s : newgoals.keySet()){
+                        tempGoals.add(new Goal(s,newgoals.get(s)));
+                    }
+                    GoalHistory goalHistory = new GoalHistory();
+                    goalHistory.setDate(new Date());
+                    goalHistory.setGoals(tempGoals);
+                    u.getGoals().add(goalHistory);
+                }
+                realm.copyToRealmOrUpdate(u);
             }
-        }
-        if(!found){
-            RealmList<Goal> tempGoals = new RealmList<>();
-            for(String s : newgoals.keySet()){
-                tempGoals.add(new Goal(s,newgoals.get(s)));
-            }
-            GoalHistory goalHistory = new GoalHistory();
-            goalHistory.setDate(new Date());
-            goalHistory.setGoals(tempGoals);
-            u.getGoals().add(goalHistory);
-        }
-        realm.copyToRealmOrUpdate(u);
-        realm.commitTransaction();
+        });
     }
 
 
