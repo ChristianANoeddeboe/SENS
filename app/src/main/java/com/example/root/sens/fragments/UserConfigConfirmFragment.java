@@ -65,7 +65,7 @@ public class UserConfigConfirmFragment extends Fragment implements UserObserver 
         recyclerItems.add(new ConfirmGoalItemModel("Gang", ""));
         recyclerItems.add(new ConfirmGoalItemModel("Træning", ""));
         recyclerItems.add(new ConfirmGoalItemModel("Stå", ""));
-        recyclerItems.add(new ConfirmGoalItemModel("Anden bevægelse", ""));
+        recyclerItems.add(new ConfirmGoalItemModel("Søvn", ""));
 
         return recyclerItems;
     }
@@ -83,7 +83,7 @@ public class UserConfigConfirmFragment extends Fragment implements UserObserver 
                 updateRecycler(4, "Gang", String.valueOf(user.getGoals().get(0).getGoals().get(1).getValue()));
                 updateRecycler(5, "Træning", String.valueOf(user.getGoals().get(0).getGoals().get(2).getValue()));
                 updateRecycler(6, "Stå", String.valueOf(user.getGoals().get(0).getGoals().get(3).getValue()));
-                updateRecycler(7, "Anden bevægelse", String.valueOf(user.getGoals().get(0).getGoals().get(4).getValue()));
+                updateRecycler(7, "Søvn", String.valueOf(user.getGoals().get(0).getGoals().get(4).getValue()));
                 break;
             default:
         }
