@@ -34,10 +34,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
         public ViewHolder(View v) {
             super(v);
-            textViewTitle = v.findViewById(R.id.history_TextView_title);
-            textViewDate = v.findViewById(R.id.history_TextView_date);
-            textViewDescription = v.findViewById(R.id.history_TextView_info);
-            imageViewAward = v.findViewById(R.id.history_ImageView_award);
+            textViewTitle = v.findViewById(R.id.history_textview_title);
+            textViewDate = v.findViewById(R.id.history_textview_date);
+            textViewDescription = v.findViewById(R.id.history_textview_info);
+            imageViewAward = v.findViewById(R.id.history_imageview_award);
         }
 
         public TextView getTextViewTitle() {
