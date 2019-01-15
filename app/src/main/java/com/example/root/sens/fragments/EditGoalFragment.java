@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.example.root.sens.R;
 import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dto.Goal;
+import com.example.root.sens.recyclers.adapters.EditGoalAdapter;
 import com.example.root.sens.recyclers.adapters.SetGoalAdapter;
 import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
 
@@ -23,20 +24,20 @@ import java.util.List;
 
 import io.realm.RealmList;
 
-public class GoalManagementFragment extends Fragment implements SetGoalAdapter.SetGoalAdapterOnItemClickListener{
-    private SetGoalAdapter adapter;
+public class EditGoalFragment extends Fragment implements EditGoalAdapter.OnItemClickListener {
+    private EditGoalAdapter adapter;
 
     @Override
     public View onCreateView (@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.fragment_manage_goal, container, false);
+                R.layout.fragment_edit_goal, container, false);
 
-        RecyclerView recyclerView = rootView.findViewById(R.id.recyclerView_set_goal);
+        RecyclerView recyclerView = rootView.findViewById(R.id.recyclerView_manage_goal);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new SetGoalAdapter(this, createItem());
+        adapter = new EditGoalAdapter(this, createItem());
         recyclerView.setAdapter(adapter);
 
         return rootView;

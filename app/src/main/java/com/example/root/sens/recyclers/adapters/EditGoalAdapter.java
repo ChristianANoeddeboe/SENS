@@ -1,45 +1,39 @@
 package com.example.root.sens.recyclers.adapters;
 
-import android.app.DialogFragment;
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.example.root.sens.fragments.TimePickerFragment;
-import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
 import com.example.root.sens.R;
+import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
 
 import java.util.List;
 
-public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHolder> {
+public class EditGoalAdapter extends RecyclerView.Adapter<EditGoalAdapter.ViewHolder>{
     private static final String TAG = SetGoalAdapter.class.getSimpleName();
-    private SetGoalAdapterOnItemClickListener listener;
+    private OnItemClickListener listener;
     private List<SetGoalItemModel> dataSet;
 
-    public interface SetGoalAdapterOnItemClickListener {
+    public interface OnItemClickListener {
         void onItemClick(View item, int position);
     }
 
     /*
      * Provide a reference to the type of views that you are using (custom ViewHolder)
      */
-
-    public SetGoalAdapter(SetGoalAdapterOnItemClickListener listener, List<SetGoalItemModel> dataSet){
+    public EditGoalAdapter(OnItemClickListener listener, List<SetGoalItemModel> dataSet){
         this.dataSet = dataSet;
         this.listener = listener;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textViewPrimary;
-        private final TextView textView;
+        private final EditText textView;
 
         public ViewHolder(View v) {
             super(v);
@@ -52,7 +46,7 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
             return textViewPrimary;
         }
 
-        public TextView getTextView() {
+        public EditText getTextView() {
             return textView;
         }
     }
@@ -61,7 +55,7 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.set_goal_element, viewGroup, false);
+                .inflate(R.layout.edit_goal_element, viewGroup, false);
         return new ViewHolder(v);
     }
 
@@ -70,9 +64,9 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
         Log.d(TAG, "Element " + position + " set.");
         viewHolder.getTextViewPrimary().setText(dataSet.get(position).getPrimaryTxt());
         viewHolder.getTextView().setText(generateProgressText(dataSet.get(position).getValue()));
-        viewHolder.getTextView().setOnClickListener((View v) -> {
-            listener.onItemClick(viewHolder.getTextView(), position);
-        });
+        viewHolder.getTextView().setOnClickListener((View v) ->
+            listener.onItemClick(viewHolder.getTextView(), position)
+        );
     }
 
 
