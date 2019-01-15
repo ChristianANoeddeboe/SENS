@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity
     private CoordinatorLayout coordinatorLayout;
     private Toolbar toolbar;
     private DrawerLayout drawer;
-    private boolean isFullScreenFragmentOpen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,11 +155,15 @@ public class MainActivity extends AppCompatActivity
         toolbar.setTitle(tileText);
         toolbar.setNavigationIcon(image);
 
-        if (isFullScreenFragmentOpen) {
+        if (isFullScreenFragmentOpen()) {
             toolbar.setNavigationOnClickListener((View v) -> onBackPressed());
         } else {
             toolbar.setNavigationOnClickListener((View v) -> drawer.openDrawer(GravityCompat.START));
         }
+    }
+
+    private boolean isFullScreenFragmentOpen() {
+        return getSupportFragmentManager().getBackStackEntryCount() == 0;
     }
 
     private void fetchDataProgressBar() {
@@ -174,16 +177,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        if (isFullScreenFragmentOpen) {
-            overridePendingTransition(0, R.anim.slide_down);
-        }
-        isFullScreenFragmentOpen = false;
-        changeToolbar(standardToolbarTitle, R.drawable.ic_burger_menu_icon);
-
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+
+        if(isFullScreenFragmentOpen()){
+            changeToolbar(standardToolbarTitle, R.drawable.ic_burger_menu_icon);
         }
     }
 
@@ -227,7 +228,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showFragment(Date date) {
-        if (isFullScreenFragmentOpen) {
+        if (!isFullScreenFragmentOpen()) {
             return;
         }
         if (date == null) {
@@ -236,7 +237,6 @@ public class MainActivity extends AppCompatActivity
                     Snackbar.LENGTH_LONG).show();
             return;
         }
-        isFullScreenFragmentOpen = true;
         changeToolbar(new SimpleDateFormat("EEEE 'den' DD'. ' MMMM YYYY", new Locale("da")).format(date), R.drawable.ic_baseline_clear);
 
         Bundle bundle = new Bundle();
