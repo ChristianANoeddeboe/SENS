@@ -15,47 +15,43 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
-        <android.support.v7.widget.CardView
-            android:id="@+id/cardview_header"
+
+        <LinearLayout
+            android:id="@+id/typegoal_LinearLayout_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:clickable="false"
-            android:focusable="false"
-            >
+            android:orientation="horizontal"
+            android:padding="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-                android:id="@+id/typegoal_LinearLayout_header"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/goalbox_TextView_title"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:padding="8dp">
+                android:text="Titel"
+                android:textColor="@android:color/black"
+                android:textSize="20dp" />
 
-                <TextView
-                    android:id="@+id/goalbox_TextView_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Titel"
-                    android:textColor="@android:color/black"
-                    android:textSize="20dp"
-                     />
+            <ImageButton
+                android:id="@+id/typegoal_ImageButton_showmore"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:clickable="false"
+                android:contentDescription="Show More"
+                android:focusable="false"
+                android:scaleType="fitEnd"
+                android:src="@drawable/ic_showmore"
+                android:textSize="30sp" />
+        </LinearLayout>
 
-                <ImageButton
-                    android:id="@+id/typegoal_ImageButton_showmore"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@color/transparent"
-                    android:contentDescription="Show More"
-                    android:scaleType="fitEnd"
-                    android:src="@drawable/ic_showmore"
-                    android:textSize="30sp" />
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/cardview_constraint"

@@ -1,14 +1,19 @@
 package com.example.root.sens.recyclers.adapters;
 
 import android.content.Context;
+import android.service.autofill.UserData;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.root.sens.R;
 import com.example.root.sens.dao.UserDAO;
+import com.example.root.sens.dto.Goal;
+import com.example.root.sens.dto.GoalHistory;
+import com.example.root.sens.dto.User;
 import com.example.root.sens.fragments.interfaces.OverviewListItem;
 import com.example.root.sens.fragments.interfaces.TypeCalendar;
 import com.example.root.sens.fragments.interfaces.TypeProgress;
@@ -19,6 +24,8 @@ import com.example.root.sens.recyclers.viewholder.ViewHolderProgressBar;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
+
+import io.realm.RealmList;
 
 
 public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
@@ -36,11 +43,13 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
         if(calendarVisible){
             mItems.add(new TypeCalendar());
         }
-
-        int amount = UserDAO.getInstance().getNewestGoal().getGoals().size()-1;
-        for(int i = 0; i < amount; i++) {
-            mItems.add(new TypeProgress());
+        GoalHistory goals = UserDAO.getInstance().getGoalSpecificDate(wantedDate);
+        for(Goal goal : goals.getGoals()){
+            if(goal.getValue() != 0){
+                mItems.add(new TypeProgress());
+            }
         }
+
     }
 
     @Override
