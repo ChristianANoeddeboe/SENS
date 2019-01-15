@@ -4,8 +4,10 @@ import java.util.Date;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.Required;
 
 public class DayData extends RealmObject implements Comparable {
+    @Required
     private Date start_time, end_time;
     private RealmList<Record> records;
     public DayData(){}

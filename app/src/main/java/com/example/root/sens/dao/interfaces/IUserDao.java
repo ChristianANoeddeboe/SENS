@@ -11,7 +11,6 @@ import java.util.HashMap;
 
 public interface IUserDao {
     void setUserLoggedIn(User user);
-
     void removeUserLoggedIn(User user);
     void saveUser(User user);
     User getUserLoggedIn();

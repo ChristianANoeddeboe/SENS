@@ -1,8 +1,10 @@
 package com.example.root.sens.dto;
 
 import io.realm.RealmObject;
+import io.realm.annotations.Required;
 
 public class Goal extends RealmObject {
+    @Required
     private String type;
     private int value;
 
