@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.TimePicker;
 
+import com.example.root.sens.R;
+
 public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
     @Override
@@ -17,7 +19,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         int minute = 0;
 
         // Create a new instance of TimePickerDialog and return it
-        return new TimePickerDialog(getActivity(), this, hour, minute,
+        return new TimePickerDialog(getActivity(), R.style.MyTimePickerDialogStyle, this, hour, minute,
                 true);
     }
 

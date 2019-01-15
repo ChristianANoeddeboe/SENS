@@ -39,8 +39,6 @@ public class ManageGoalAdapter extends RecyclerView.Adapter<ManageGoalAdapter.Vi
 
         public ViewHolder(View v) {
             super(v);
-            seekBar = v.findViewById(R.id.seekBar_set_goal);
-            total = v.findViewById(R.id.textView_set_goal_total);
             header = v.findViewById(R.id.textView_set_goal_element_header);
 
         }

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -40,63 +41,21 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textViewPrimary;
-        private final TextView textViewSecondary;
-        private final SeekBar seekBar;
-        private final Button button;
+        private final TextView textView;
 
         public ViewHolder(View v) {
             super(v);
             textViewPrimary = v.findViewById(R.id.textView_set_goal_element_header);
-            textViewSecondary = v.findViewById(R.id.textView_set_goal_total);
-
-            seekBar = v.findViewById(R.id.seekBar_set_goal);
-            seekBar.setMax(MIN_PER_DAY);
-            seekBar.setOnSeekBarChangeListener(seekBarChangeListener);
-
-            button = v.findViewById(R.id.button_set_goal);
+            textView = v.findViewById(R.id.button_set_goal);
 
         }
-
-        SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                // updated continuously as the user slides the thumb
-                textViewSecondary.setText(generateProgressText(progress));
-
-                int countTemp = 0;
-                for(int j = 0; j < recyclerViewAdapter.getChildCount(); j++){
-                    ViewHolder temp = (ViewHolder) recyclerViewAdapter.findViewHolderForAdapterPosition(j);
-                    countTemp += temp.seekBar.getProgress();
-                }
-                for(int j = 0; j < recyclerViewAdapter.getChildCount(); j++){
-                    ViewHolder temp = (ViewHolder) recyclerViewAdapter.findViewHolderForAdapterPosition(j);
-                    temp.seekBar.setMax(((24*60)-countTemp)+temp.seekBar.getProgress());
-                }
-            }
-
-
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                // called when the user first touches the SeekBar
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                dataSet.get(getAdapterPosition()).setValue(seekBar.getProgress());
-            }
-        };
 
         public TextView getTextViewPrimary() {
             return textViewPrimary;
         }
 
-        public TextView getTextViewSecondary() {
-            return textViewSecondary;
-        }
-
-        public Button getButton() {
-            return button;
+        public TextView getTextView() {
+            return textView;
         }
     }
 
@@ -112,14 +71,13 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         Log.d(TAG, "Element " + position + " set.");
         viewHolder.getTextViewPrimary().setText(dataSet.get(position).getPrimaryTxt());
-        viewHolder.getTextViewSecondary().setText(generateProgressText(dataSet.get(position).getValue()));
-
-        viewHolder.getButton().setOnClickListener((View v) -> {
-            listener.onItemClick(viewHolder.getButton(), position);
+        viewHolder.getTextView().setText(generateProgressText(dataSet.get(position).getValue()));
+        viewHolder.getTextView().setOnClickListener((View v) -> {
+            listener.onItemClick(viewHolder.getTextView(), position);
         });
     }
 
-g
+
     @Override
     public int getItemCount() {
         return dataSet.size();

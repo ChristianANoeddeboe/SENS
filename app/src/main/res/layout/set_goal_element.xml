@@ -22,30 +22,10 @@
             android:textColor="@color/white"
             android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/textView_set_goal_total"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="end"
-            android:paddingStart="20dp"
-            android:paddingEnd="10dp"
-            android:text="0 minutter &amp; 0 timer"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
-
     </LinearLayout>
 
-    <SeekBar
-        android:id="@+id/seekBar_set_goal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:progressDrawable="@drawable/seekbar_user_config_style"
-        android:splitTrack="false"
-        android:thumb="@drawable/seekbar_user_config_thumb" />
-
-    <Button
+    <TextView
+        android:background="@drawable/sens_edit_text"
         android:id="@+id/button_set_goal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
