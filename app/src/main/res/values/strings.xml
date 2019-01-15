@@ -24,8 +24,8 @@
     <string name="MainNoDataForGivenDate">Der er ikke data for den givne dato.</string>
     <string name="DownloadingData">Henter data</string>
     <string name="DataFetched">Dataet er hentet</string>
-    <string name="SettingConfirmDelete">Er du sikker på at du vil slette al data?</string>
-    <string name="SettingDelete">Slet al data</string>
+    <string name="SettingConfirmDelete">Er du sikker på at du vil slette alt data?</string>
+    <string name="SettingDelete">Slet alt data!</string>
     <string name="SettingsDataDeleted">Dataet er nu slettet.</string>
     <string name="NotYetImplemented">Endnu ikke implementeret!</string>
     <string name="Continue">Videre</string>

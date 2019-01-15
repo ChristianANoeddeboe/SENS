@@ -5,7 +5,8 @@
     android:id="@+id/settings_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.SettingsActivity">
+    tools:context=".activities.SettingsActivity"
+    android:backgroundTint="@color/white">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"

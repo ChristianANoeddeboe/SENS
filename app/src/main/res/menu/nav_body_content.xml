@@ -6,21 +6,21 @@
     <group android:checkableBehavior="none">
         <item
             android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_baseline_settings_20px"
             android:title="Indstillinger" />
         <item
             android:id="@+id/nav_send_notification"
-            android:icon="@drawable/ic_bell_regular"
+            android:icon="@drawable/ic_baseline_notifications_active_24px"
             android:title="Send notifikation"
             />
         <item
             android:id="@+id/nav_manageGoals"
-            android:icon="@drawable/ic_edit"
+            android:icon="@drawable/ic_baseline_edit_24px"
             android:title="Rediger mål"
             />
         <item
             android:id="@+id/nav_about"
-            android:icon="@drawable/ic_info_circle_solid"
+            android:icon="@drawable/ic_baseline_info_24px"
             android:title="Om"
             />
     </group>
