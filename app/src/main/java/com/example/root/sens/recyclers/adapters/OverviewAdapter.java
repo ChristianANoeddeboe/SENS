@@ -32,6 +32,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
     private final Context mContext;
     private final List<OverviewListItem> mItems;
     private int i = 0;
+    private List<Integer> typeList;
     private Date wantedDate;
 
     public OverviewAdapter(Context ctx, Date wantedDate, boolean calendarVisible) {
@@ -44,11 +45,16 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
             mItems.add(new TypeCalendar());
         }
         GoalHistory goals = UserDAO.getInstance().getGoalSpecificDate(wantedDate);
+        typeList = new ArrayList<>();
+        int counter = 0;
         for(Goal goal : goals.getGoals()){
             if(goal.getValue() != 0){
-                mItems.add(new TypeProgress());
+                mItems.add(new TypeProgress(goal.getType()));
+                typeList.add(counter);
             }
+            counter++;
         }
+
 
     }
 
@@ -73,7 +79,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
                 view = LayoutInflater
                         .from(viewGroup.getContext())
                         .inflate(R.layout.activity_main_cardview, viewGroup, false);
-                viewHolderType = new ViewHolderProgressBar(view,i,mContext, wantedDate);
+                viewHolderType = new ViewHolderProgressBar(view,typeList.get(i),mContext, wantedDate);
                 i++;
                 break;
         }
