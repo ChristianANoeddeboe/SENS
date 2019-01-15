@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.root.sens.R;
@@ -31,7 +32,8 @@ public class ViewHolderProgressBar extends ViewHolder {
     private final DecoView progressCircle;
     private TextView progressTextView, title, unitTextView;
     private ImageView imageView;
-    private CardView goalbox, header;
+    private CardView goalbox;
+    private LinearLayout header;
     private int type;
     private String goalType;
     private Date wantedDate;
@@ -44,7 +46,7 @@ public class ViewHolderProgressBar extends ViewHolder {
         progressTextView = itemView.findViewById(R.id.goalstatusTextView);
         imageView = itemView.findViewById(R.id.goalIconImageView);
         goalbox = itemView.findViewById(R.id.goalchart_cardview);
-        header = itemView.findViewById(R.id.cardview_header);
+        header = itemView.findViewById(R.id.typegoal_LinearLayout_header);
         unitTextView = itemView.findViewById(R.id.goalbox_Textview_unit);
         title = itemView.findViewById(R.id.goalbox_TextView_title);
         ctx = viewGroup;
@@ -112,7 +114,7 @@ public class ViewHolderProgressBar extends ViewHolder {
         imageView.setImageResource(new ResourceManagement().generateIcons(currentGoal.getType()));
 
         // TODO: Change deprecated method
-        header.setBackgroundTintList(ctx.getResources().getColorStateList(color));
+        header.setBackgroundResource(color);
 
         progressCircle.addSeries(new SeriesItem.Builder(Color.argb(255, 237, 28, 38))
                 .setRange(0, max, current)
