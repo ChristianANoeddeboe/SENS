@@ -9,14 +9,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.root.sens.R;
@@ -50,8 +51,8 @@ import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, SensObserver, DatabaseObserver,MainFullScreenObserver {
-    private static String[] viewNames = {"Overview", "Historik"};
+        implements NavigationView.OnNavigationItemSelectedListener, SensObserver, DatabaseObserver, MainFullScreenObserver {
+    private static String[] viewNames = {"Overblik", "Historik"};
     private static String standardToolbarTitle = "SENS";
     private ViewPager viewPager;
     private SensSubject sensSubject;
@@ -77,9 +78,6 @@ public class MainActivity extends AppCompatActivity
         setupViewPager();
 
         setupDataFetcher();
-
-        User temp = UserDAO.getInstance().getUserLoggedIn();
-        int i = 0;
     }
 
     private void setupDataFetcher() {
@@ -87,7 +85,7 @@ public class MainActivity extends AppCompatActivity
         sensSubject.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
         databaseSubject = UserDAO.getInstance();
         databaseSubject.registerObserver(this);
-        SensDAO.getInstance().getData(getString(R.string.SensPatientKey),14);
+        SensDAO.getInstance().getData(getString(R.string.SensPatientKey), 14);
         fetchDataProgressBar();
 
         new Handler().postDelayed(() -> asyncTask = new AsyncTask() {
@@ -108,7 +106,7 @@ public class MainActivity extends AppCompatActivity
         viewpagerAdapter = new ViewpagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewpagerAdapter);
         viewPager.setCurrentItem(sharedPreferences.getInt(getString(R.string.pagerWindowNumber)
-                ,0));
+                , 0));
         sharedPreferences.edit().remove(getString(R.string.pagerWindowNumber)).apply();
 
         PagerSlidingTabStrip pagerSlidingTabStrip = findViewById(R.id.pagerTitleStrip);
@@ -118,10 +116,17 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setupNavigationDrawer() {
-        // TODO: Thyge fikser
-        toolbar = findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_burger_menu_icon);
+        /*
+            Why are we setting the Toolbar programmatically?
 
+            Simply because AppCompat theme uses an Actionbar.
+            An Actionbar does not have as many features as a
+            Toolbar, therefor we set the Toolbar programmatically.
+
+            See this post:
+            https://developer.android.com/training/appbar/setting-up
+         */
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
@@ -147,13 +152,13 @@ public class MainActivity extends AppCompatActivity
         navigationDrawerSensorId.setText(currentUser.getSensors().get(0).getId());
     }
 
-    private void changeToolbar(String tileText, int image){
+    private void changeToolbar(String tileText, int image) {
         toolbar.setTitle(tileText);
         toolbar.setNavigationIcon(image);
 
-        if(isFullScreenFragmentOpen){
+        if (isFullScreenFragmentOpen) {
             toolbar.setNavigationOnClickListener((View v) -> onBackPressed());
-        }else {
+        } else {
             toolbar.setNavigationOnClickListener((View v) -> drawer.openDrawer(GravityCompat.START));
         }
     }
@@ -162,14 +167,14 @@ public class MainActivity extends AppCompatActivity
         snackbar = Snackbar.make(coordinatorLayout, R.string.DownloadingData, Snackbar.LENGTH_INDEFINITE);
         ViewGroup contentLay = (ViewGroup) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text).getParent();
         progressBar = new ProgressBar(coordinatorLayout.getContext());
-        contentLay.addView(progressBar,0);
+        contentLay.addView(progressBar, 0);
         snackbar.show();
         startNotification();
     }
 
     @Override
     public void onBackPressed() {
-        if (isFullScreenFragmentOpen){
+        if (isFullScreenFragmentOpen) {
             overridePendingTransition(0, R.anim.slide_down);
         }
         isFullScreenFragmentOpen = false;
@@ -179,7 +184,6 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-            overridePendingTransition(R.anim.slide_out_r, R.anim.slide_in_r);
         }
     }
 
@@ -193,15 +197,13 @@ public class MainActivity extends AppCompatActivity
             sharedPreferences.edit().putInt(getString(R.string.pagerWindowNumber), viewPager.getCurrentItem()).apply();
             Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(i);
-        }
-        else if(id == R.id.nav_send_notification){
+        } else if (id == R.id.nav_send_notification) {
             NotificationsManager notificationsManager = new NotificationsManager("String", this);
             notificationsManager.displayNotification();
-        } else if(id == R.id.nav_manageGoals) {
+        } else if (id == R.id.nav_manageGoals) {
             Intent i = new Intent(getApplicationContext(), ManageGoalActivity.class);
             startActivity(i);
-        }
-        else if (id == R.id.nav_about) {
+        } else if (id == R.id.nav_about) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_overlay_layout_main, new AboutFragment())
                     .addToBackStack(null)
@@ -225,6 +227,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showFragment(Date date) {
+        Toast.makeText(this, "Åben mø", Toast.LENGTH_SHORT).show();
         if (isFullScreenFragmentOpen) {
             return;
         }
@@ -244,16 +247,14 @@ public class MainActivity extends AppCompatActivity
         dayDataFragment.setArguments(bundle);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_a_coordinator_layout, dayDataFragment)
+                .replace(R.id.fragment_overlay_layout_main, dayDataFragment)
                 .addToBackStack(null)
                 .commit();
     }
 
-    /*
-        Database observer
-     */
+    // Database observer
     @Override
-    public void onDataChanged(){
+    public void onDataChanged() {
         viewpagerAdapter.notifyDataSetChanged();
     }
 
@@ -265,7 +266,7 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();
         sensSubject.removeObserver(this);
         databaseSubject.removeObserver(this);
-        if(asyncTask != null){
+        if (asyncTask != null) {
             asyncTask.cancel(true);
         }
     }
@@ -274,13 +275,13 @@ public class MainActivity extends AppCompatActivity
      * Setting an alarm to trigger an event every 15 minute.
      * The event to trigger is sending a notification.
      */
-    private void startNotification(){
-        Intent notifyIntent = new Intent(this,TimeReceiver.class);
+    private void startNotification() {
+        Intent notifyIntent = new Intent(this, TimeReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast
                 (this, 42, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis(),
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
                 AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
     }
 
@@ -316,7 +317,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         @Override
-        public int getItemPosition(Object object){
+        public int getItemPosition(Object object) {
             return PagerAdapter.POSITION_NONE;
         }
     }

@@ -15,7 +15,7 @@ public class ApplicationSingleton extends Application {
 
         boolean EMULATOR = Build.PRODUCT.contains("sdk") || Build.MODEL.contains("Emulator");
         if (!EMULATOR) {
-            Fabric.with(this, new Crashlytics());
+            //Fabric.with(this, new Crashlytics());
         }
         Realm.init(this);
     }
