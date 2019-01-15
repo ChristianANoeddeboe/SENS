@@ -71,21 +71,21 @@ public class NotificationsManager {
                         .setGroupSummary(true)
                         .build();
 
-        int process_max = goalMap.get(String.valueOf(ActivityCategories.Gang));
-        int progress_current = dataMap.get(String.valueOf(ActivityCategories.Gang)).intValue();
-        Notification notificationWalking = new NotificationCompat.Builder(ctx, channelId)
+        int process_max = goalMap.get(String.valueOf(ActivityCategories.Cykling));
+        int progress_current = dataMap.get(String.valueOf(ActivityCategories.Cykling)).intValue();
+        Notification notificationCycling = new NotificationCompat.Builder(ctx, channelId)
                 .setSmallIcon(R.mipmap.ic_notification_round)
-                .setContentTitle("Gang")
+                .setContentTitle("Cykling")
                 .setContentText(""+progress_current+"/"+process_max)
                 .setGroup(GROUP_KEY_PROGRESS)
                 .setProgress(process_max, progress_current, false)
                 .build();
 
-        process_max = goalMap.get(String.valueOf(ActivityCategories.Cykling));
-        progress_current = dataMap.get(String.valueOf(ActivityCategories.Cykling)).intValue();
-        Notification notificationCycling= new NotificationCompat.Builder(ctx, channelId)
+        process_max = goalMap.get(String.valueOf(ActivityCategories.Gang));
+        progress_current = dataMap.get(String.valueOf(ActivityCategories.Gang)).intValue();
+        Notification notificationWalking= new NotificationCompat.Builder(ctx, channelId)
                 .setSmallIcon(R.mipmap.ic_notification_round)
-                .setContentTitle("Cykling")
+                .setContentTitle("Gang")
                 .setContentText(""+progress_current+"/"+process_max)
                 .setGroup(GROUP_KEY_PROGRESS)
                 .setProgress(process_max, progress_current, false)
@@ -122,10 +122,10 @@ public class NotificationsManager {
                 .build();
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(ctx);
-        notificationManager.notify(0, notificationStanding);
+        notificationManager.notify(0, notificationCycling);
         notificationManager.notify(1, notificationWalking);
         notificationManager.notify(2, notificationExercise);
-        notificationManager.notify(3, notificationCycling);
+        notificationManager.notify(3, notificationStanding);
         notificationManager.notify(4, notificationResting);
         notificationManager.notify(5, summaryNotification);
     }

@@ -11,7 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.root.sens.R;
 import com.example.root.sens.auxiliary.ResourceManagement;
@@ -32,7 +34,17 @@ public class ViewHolderProgressBar extends ViewHolder {
     private final DecoView progressCircle;
     private TextView progressTextView, title, unitTextView;
     private ImageView imageView;
-    private CardView goalbox, header;
+
+    public CardView getGoalbox() {
+        return goalbox;
+    }
+
+    public void setGoalbox(CardView goalbox) {
+        this.goalbox = goalbox;
+    }
+
+    private CardView goalbox;
+    private LinearLayout header;
     private int type;
     private String goalType;
     private Date wantedDate;
@@ -45,7 +57,7 @@ public class ViewHolderProgressBar extends ViewHolder {
         progressTextView = itemView.findViewById(R.id.goalstatusTextView);
         imageView = itemView.findViewById(R.id.goalIconImageView);
         goalbox = itemView.findViewById(R.id.goalchart_cardview);
-        header = itemView.findViewById(R.id.cardview_header);
+        header = itemView.findViewById(R.id.typegoal_LinearLayout_header);
         unitTextView = itemView.findViewById(R.id.goalbox_Textview_unit);
         title = itemView.findViewById(R.id.goalbox_TextView_title);
         ctx = viewGroup;
@@ -57,11 +69,12 @@ public class ViewHolderProgressBar extends ViewHolder {
             args.putString("unit", unitTextView.getText().toString());
             args.putString("goalType",goalType);
 
-            Fragment f = new GoalInfoFragment();
-            f.setArguments(args);
-            FragmentManager fm = ((AppCompatActivity) viewGroup).getSupportFragmentManager();
-            fm.beginTransaction()
-                    .replace(R.id.goalsContentContainer, f)
+            Fragment goalInfoFragment = new GoalInfoFragment();
+            goalInfoFragment.setArguments(args);
+            
+            FragmentManager fragmentManager = ((AppCompatActivity) viewGroup).getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_overlay_layout_main, goalInfoFragment)
                     .addToBackStack(null)
                     .commit();
         });
@@ -73,7 +86,7 @@ public class ViewHolderProgressBar extends ViewHolder {
     public void bindType(OverviewListItem item) {
         UserDAO userDAO = UserDAO.getInstance();
         DayData dayData = userDAO.getDataSpecificDate(wantedDate);
-        RealmList<Goal> goals = UserDAO.getInstance().getNewestGoal().getGoals();
+        RealmList<Goal> goals = UserDAO.getInstance().getGoalSpecificDate(wantedDate).getGoals();
         Goal currentGoal = goals.get(type);
         int current = 0;
         int max = 1;
@@ -83,7 +96,6 @@ public class ViewHolderProgressBar extends ViewHolder {
         } catch (NullPointerException e){
             e.printStackTrace();
         }
-
 
         if(dayData != null){
             RealmList<Record> temp = dayData.getRecords();
@@ -102,7 +114,6 @@ public class ViewHolderProgressBar extends ViewHolder {
             } else {
                 current = max;
             }
-
         }
 
         int color = new ResourceManagement().getGoalColor(currentGoal.getType());
@@ -115,12 +126,12 @@ public class ViewHolderProgressBar extends ViewHolder {
         imageView.setImageResource(new ResourceManagement().generateIcons(currentGoal.getType()));
 
         // TODO: Change deprecated method
-        header.setBackgroundTintList(ctx.getResources().getColorStateList(color));
+        header.setBackgroundResource(color);
 
         progressCircle.addSeries(new SeriesItem.Builder(ContextCompat.getColor(ctx, color))
                 .setRange(0, max, current)
-                .setLineWidth(20)
-                .setInset(new PointF(0, 2))
+                .setLineWidth(18)
+                .setInset(new PointF(0, 0))
                 .build());
     }
 }

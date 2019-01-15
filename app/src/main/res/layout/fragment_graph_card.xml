@@ -23,6 +23,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
+            android:clickable="false"
+            android:focusable="false"
             >
 
             <LinearLayout
@@ -49,7 +51,9 @@
                     android:contentDescription="Show Less"
                     android:scaleType="fitEnd"
                     android:src="@drawable/ic_showless"
-                    android:textSize="24dp" />
+                    android:textSize="24dp"
+                    android:clickable="false"
+                    android:focusable="false"/>
             </LinearLayout>
         </android.support.v7.widget.CardView>
 

@@ -36,13 +36,14 @@
 
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        app:compactCalendarTextColor="@color/TextColorFragmentHeader"
         app:compactCalendarDisplayOtherMonthDays="true"
-        app:compactCalendarShouldSelectFirstDayOfMonthOnScroll="false"
         app:compactCalendarEventIndicatorStyle="fill_large_indicator"
         app:compactCalendarMultiEventIndicatorColor="@color/sensBlue"
         app:compactCalendarOtherMonthDaysTextColor="@color/fragment_see_through_grey"
+        app:compactCalendarShouldSelectFirstDayOfMonthOnScroll="false"
+        app:compactCalendarBackgroundColor="@color/transparent"
         app:compactCalendarTargetHeight="200dp"
+        app:compactCalendarTextColor="@color/TextColorFragmentHeader"
         app:compactCalendarTextSize="14sp"></com.github.sundeepk.compactcalendarview.CompactCalendarView>
 
 </FrameLayout>

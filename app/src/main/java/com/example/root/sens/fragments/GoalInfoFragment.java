@@ -32,7 +32,6 @@ import io.realm.RealmList;
 
 public class GoalInfoFragment extends Fragment {
     TextView title;
-    ImageButton backButton;
     CardView goalbox, header;
     ActivityCategories goalType;
     BarChart chart;
@@ -41,31 +40,31 @@ public class GoalInfoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_graph_card, container, false);
+
         goalType = ActivityCategories.valueOf(getArguments().getString("goalType"));
         goalbox = rootView.findViewById(R.id.goalchart_cardview);
         title = rootView.findViewById(R.id.goalInfoBox_TextView_title);
         chart = rootView.findViewById(R.id.goalInfoChart);
-        title.setText(goalType.toString());
         oneWeek = rootView.findViewById(R.id.goalInfo_Button_1week);
         oneMonth = rootView.findViewById(R.id.goalInfo_Button_1month);
         threeMonths = rootView.findViewById(R.id.goalInfo_Button_3month);
-        backButton = rootView.findViewById(R.id.typeGoalInfo_ImageButton_showless);
         header = rootView.findViewById(R.id.cardview_goalchart_header);
+
+        title.setText(goalType.toString());
 
         goalbox.setOnClickListener((View v) -> getActivity().onBackPressed());
 
-        // TODO: FIX THIS click madness
-        backButton.setOnClickListener((View v) -> {
-            if (getFragmentManager() != null) {
-                getFragmentManager().popBackStack();
-            }
+        oneWeek.setOnClickListener((View v) ->{
+            updateChart(generateData(generateData.oneWeekData));
         });
 
-        oneWeek.setOnClickListener((View v) -> updateChart(generateData(generateData.oneWeekData)));
+        oneMonth.setOnClickListener((View v) ->{
+            updateChart(generateData(generateData.oneMonthData));
+        });
 
-        oneMonth.setOnClickListener((View v) -> updateChart(generateData(generateData.oneMonthData)));
-
-        threeMonths.setOnClickListener((View v) -> updateChart(generateData(generateData.threeMonthsData)));
+        threeMonths.setOnClickListener((View v) ->{
+            updateChart(generateData(generateData.threeMonthsData));
+        });
 
         // TODO: This is also deprecated
         header.setBackgroundTintList(getActivity().getResources().getColorStateList(new ResourceManagement().getGoalColor(goalType)));
