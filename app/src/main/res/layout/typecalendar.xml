@@ -41,7 +41,7 @@
         app:compactCalendarShouldSelectFirstDayOfMonthOnScroll="false"
         app:compactCalendarEventIndicatorStyle="fill_large_indicator"
         app:compactCalendarMultiEventIndicatorColor="@color/sensBlue"
-        app:compactCalendarOtherMonthDaysTextColor="@color/grey"
+        app:compactCalendarOtherMonthDaysTextColor="@color/fragment_see_through_grey"
         app:compactCalendarTargetHeight="200dp"
         app:compactCalendarTextSize="14sp"></com.github.sundeepk.compactcalendarview.CompactCalendarView>
 

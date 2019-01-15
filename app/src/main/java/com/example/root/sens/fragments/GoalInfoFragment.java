@@ -30,9 +30,9 @@ import java.util.List;
 
 import io.realm.RealmList;
 
-public class GoalInfoFragment extends Fragment implements View.OnClickListener {
+public class GoalInfoFragment extends Fragment {
     TextView title;
-    ImageButton updateButton, backButton;
+    ImageButton backButton;
     CardView goalbox, header;
     ActivityCategories goalType;
     BarChart chart;
@@ -46,7 +46,6 @@ public class GoalInfoFragment extends Fragment implements View.OnClickListener {
         title = rootView.findViewById(R.id.goalInfoBox_TextView_title);
         chart = rootView.findViewById(R.id.goalInfoChart);
         title.setText(goalType.toString());
-        updateButton = rootView.findViewById(R.id.goalInfo_Button_editgoal);
         oneWeek = rootView.findViewById(R.id.goalInfo_Button_1week);
         oneMonth = rootView.findViewById(R.id.goalInfo_Button_1month);
         threeMonths = rootView.findViewById(R.id.goalInfo_Button_3month);
@@ -56,13 +55,17 @@ public class GoalInfoFragment extends Fragment implements View.OnClickListener {
         goalbox.setOnClickListener((View v) -> getActivity().onBackPressed());
 
         // TODO: FIX THIS click madness
-        updateButton.setOnClickListener(this);
+        backButton.setOnClickListener((View v) -> {
+            if (getFragmentManager() != null) {
+                getFragmentManager().popBackStack();
+            }
+        });
 
-        oneWeek.setOnClickListener(this);
+        oneWeek.setOnClickListener((View v) -> updateChart(generateData(generateData.oneWeekData)));
 
-        oneMonth.setOnClickListener(this);
+        oneMonth.setOnClickListener((View v) -> updateChart(generateData(generateData.oneMonthData)));
 
-        threeMonths.setOnClickListener(this);
+        threeMonths.setOnClickListener((View v) -> updateChart(generateData(generateData.threeMonthsData)));
 
         // TODO: This is also deprecated
         header.setBackgroundTintList(getActivity().getResources().getColorStateList(new ResourceManagement().getGoalColor(goalType)));
@@ -99,19 +102,6 @@ public class GoalInfoFragment extends Fragment implements View.OnClickListener {
         chart.invalidate(); // refresh
     }
 
-    @Override
-    public void onClick(View v) {
-        if(v.equals(backButton)){
-            getFragmentManager().popBackStack();
-        }else if( v.equals(oneWeek)){
-            updateChart(generateData(generateData.oneWeekData));
-        }else if(v.equals(oneMonth)){
-            updateChart(generateData(generateData.oneMonthData));
-        }else if(v.equals(threeMonths)){
-            updateChart(generateData(generateData.threeMonthsData));
-
-        }
-    }
     enum generateData {
         oneWeekData, oneMonthData, threeMonthsData
     }

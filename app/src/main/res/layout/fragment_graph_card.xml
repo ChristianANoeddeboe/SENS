@@ -37,8 +37,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Titel"
-                    android:textColor="@color/TextColorFragmentHeader"
-                    android:textSize="24dp" />
+                    android:textColor="@color/white"
+                    android:textSize="24sp" />
 
                 <ImageButton
                     android:id="@+id/typeGoalInfo_ImageButton_showless"
@@ -107,13 +107,6 @@
                     android:text="3 måned"
                     />
 
-                <ImageButton
-                    style="@style/BlueButton"
-                    android:id="@+id/goalInfo_Button_editgoal"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_edit" />
             </LinearLayout>
 
         </LinearLayout>
