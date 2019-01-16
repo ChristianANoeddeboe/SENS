@@ -70,7 +70,6 @@ public class GoalInfoFragment extends Fragment {
 
         setupChart();
         updateChart(generateData(generateData.oneWeekData));
-        UserDAO.getInstance().getDataSpecificDate(new Date());
         return rootView;
     }
 
