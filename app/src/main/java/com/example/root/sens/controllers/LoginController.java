@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 public class LoginController implements ILoginController {
-    IUserManager userManager = new UserManager(UserDAO.getInstance());
+    IUserManager userManager = new UserManager();
 
     @Override
     public boolean login(String sensorID) {

@@ -10,6 +10,7 @@ import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
+import com.example.root.sens.dto.Record;
 import com.example.root.sens.dto.Sensor;
 import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
 import com.example.root.sens.dto.User;
@@ -19,6 +20,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -114,12 +116,30 @@ public class UserManager implements IUserManager{
 
     @Override
     public Map<ActivityCategories, Integer> getGoals(Date date) {
-        return null;
+        Map<ActivityCategories, Integer> result = new HashMap<>();
+        UserDAO dao = UserDAO.getInstance();
+        GoalHistory goalHistory = dao.getGoalSpecificDate(date);
+        RealmList<Goal> goals = goalHistory.getGoals();
+
+        for(Goal goal : goals){
+            result.put(goal.getType(), goal.getValue());
+        }
+
+        return result;
     }
 
     @Override
     public Map<ActivityCategories, Float> getDayData(Date date) {
-        return null;
+        Map<ActivityCategories, Float> result = new HashMap<>();
+        UserDAO dao = UserDAO.getInstance();
+        DayData data = dao.getDataSpecificDate(date);
+        RealmList<Record> records = data.getRecords();
+
+        for(Record rec : records){
+            result.put(rec.getType(), rec.getValue());
+        }
+
+        return result;
     }
 
     @Override
