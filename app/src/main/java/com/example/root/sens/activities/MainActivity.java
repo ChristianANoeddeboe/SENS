@@ -40,6 +40,8 @@ import com.example.root.sens.fragments.AboutFragment;
 import com.example.root.sens.fragments.DayDataFragment;
 import com.example.root.sens.fragments.HistoryFragment;
 import com.example.root.sens.fragments.OverviewFragment;
+import com.example.root.sens.managers.IUserManager;
+import com.example.root.sens.managers.UserManager;
 import com.example.root.sens.notification.NotificationsManager;
 import com.example.root.sens.notification.TimeReceiver;
 import com.example.root.sens.observers.MainFullScreenObserver;
@@ -113,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements
         TextView navigationDrawerName = navigationHeader.findViewById(R.id.textViewNavDrawerName);
         TextView navigationDrawerSensorId = navigationHeader.findViewById(R.id.textViewNavDrawerSensorID);
 
-        User currentUser = UserDAO.getInstance().getUserLoggedIn();
+        User currentUser = new UserManager(UserDAO.getInstance()).getUserLoggedIn();
 
         navigationDrawerName.setText(currentUser.getFirstName() + " " + currentUser.getLastName());
         navigationDrawerSensorId.setText(currentUser.getSensors().get(0).getId());
@@ -151,6 +153,8 @@ public class MainActivity extends AppCompatActivity implements
         pagerSlidingTabStrip.setViewPager(viewPager);
     }
 
+
+    // TODO: Update to use UserManager instead!
     private void setupDataFetcher() {
         sensSubject = SensDAO.getInstance();
         sensSubject.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
