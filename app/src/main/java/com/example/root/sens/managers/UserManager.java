@@ -28,12 +28,10 @@ import java.util.Map;
 import io.realm.RealmList;
 
 public class UserManager implements IUserManager{
-    private IUserDao userDao;
-    private User user = null;
     private static final String TAG = UserManager.class.getSimpleName();
+    private User user = null;
 
     public UserManager(){
-        this.userDao = UserDAO.getInstance();
     }
 
     public void createUser(User user, String sensorID, UserObserver userObserver){
@@ -91,13 +89,14 @@ public class UserManager implements IUserManager{
     }
 
     public void saveUser(){
+        UserDAO userDao = UserDAO.getInstance();
         userDao.saveUser(user);
         userDao.setUserLoggedIn(userDao.getUser(user.getSensors().get(0).getId()));
         data.initializeData();
     }
 
     public User getUser(String sensorID){
-        return userDao.getUser(sensorID);
+        return UserDAO.getInstance().getUser(sensorID);
     }
 
     @Override
@@ -111,21 +110,19 @@ public class UserManager implements IUserManager{
 
     @Override
     public void updateGoal(ActivityCategories activityCategory, int newValue) {
+        Map<ActivityCategories, Integer> result = new HashMap<>();
+        UserDAO dao = UserDAO.getInstance();
+        result = generateGoalMap(dao.getNewestGoal());
+
+        result.replace(activityCategory, newValue);
+        dao.updateOrMergeGoals(result);
 
     }
 
     @Override
     public Map<ActivityCategories, Integer> getGoals(Date date) {
-        Map<ActivityCategories, Integer> result = new HashMap<>();
         UserDAO dao = UserDAO.getInstance();
-        GoalHistory goalHistory = dao.getGoalSpecificDate(date);
-        RealmList<Goal> goals = goalHistory.getGoals();
-
-        for(Goal goal : goals){
-            result.put(goal.getType(), goal.getValue());
-        }
-
-        return result;
+        return generateGoalMap(dao.getGoalSpecificDate(date));
     }
 
     @Override
@@ -144,12 +141,28 @@ public class UserManager implements IUserManager{
 
     @Override
     public void getGoal(ActivityCategories activityCategory) {
-
+        //TODO implemented
     }
 
     @Override
     public boolean fulfilledAllGoals(Date date) {
-        return false;
+        UserDAO dao = UserDAO.getInstance();
+        GoalHistory goalHistory = dao.getGoalSpecificDate(date);
+        RealmList<Goal> goals = goalHistory.getGoals();
+        DayData dayData  = dao.getDataSpecificDate(date);
+        RealmList<Record> records = dayData.getRecords();
+        Record currentRecord = null;
+
+        for(Goal goal : goals){
+            for(Record rec : records) {
+                if (goal.getType() == rec.getType()) {
+                    currentRecord = rec;
+                    break;
+                }
+            }
+            if(currentRecord.getValue() < goal.getValue()) return false;
+        }
+        return true;
     }
 
     @Override
@@ -159,6 +172,17 @@ public class UserManager implements IUserManager{
 
     @Override
     public User getUserLoggedIn() {
-        return null;
+        return UserDAO.getInstance().getUserLoggedIn();
+    }
+
+    private Map<ActivityCategories, Integer> generateGoalMap(GoalHistory goalHistory){
+        Map<ActivityCategories, Integer> result = new HashMap<>();
+        RealmList<Goal> goals = goalHistory.getGoals();
+
+        for(Goal goal : goals){
+            result.put(goal.getType(), goal.getValue());
+        }
+
+        return result;
     }
 }
