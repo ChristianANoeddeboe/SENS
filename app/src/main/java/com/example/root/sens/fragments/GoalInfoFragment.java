@@ -1,5 +1,6 @@
 package com.example.root.sens.fragments;
 
+import android.icu.util.LocaleData;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,8 @@ import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Record;
+import com.example.root.sens.managers.IUserManager;
+import com.example.root.sens.managers.UserManager;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -23,9 +26,11 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import io.realm.RealmList;
 
@@ -53,19 +58,12 @@ public class GoalInfoFragment extends Fragment {
 
         goalbox.setOnClickListener((View v) -> getActivity().onBackPressed());
 
-        oneWeek.setOnClickListener((View v) ->{
-            updateChart(generateData(generateData.oneWeekData));
-        });
+        oneWeek.setOnClickListener((View v) -> updateChart(generateData(generateData.oneWeekData)));
 
-        oneMonth.setOnClickListener((View v) ->{
-            updateChart(generateData(generateData.oneMonthData));
-        });
+        oneMonth.setOnClickListener((View v) -> updateChart(generateData(generateData.oneMonthData)));
 
-        threeMonths.setOnClickListener((View v) ->{
-            updateChart(generateData(generateData.threeMonthsData));
-        });
+        threeMonths.setOnClickListener((View v) -> updateChart(generateData(generateData.threeMonthsData)));
 
-        // TODO: This is also deprecated
         header.setBackgroundTintList(getActivity().getResources().getColorStateList(new ResourceManagement().getGoalColor(goalType)));
 
         setupChart();
@@ -99,47 +97,35 @@ public class GoalInfoFragment extends Fragment {
         chart.invalidate(); // refresh
     }
 
-    enum generateData {
-        oneWeekData, oneMonthData, threeMonthsData
+    enum generateData{
+        oneWeekData(7),
+        oneMonthData(30),
+        threeMonthsData(90);
+
+        private int dates;
+
+        public int getValue(){ return this.dates; }
+
+        generateData(int dates){ this.dates = dates; }
     }
+
     private List<BarEntry> generateData(generateData len){
+        // Using Java Calender to manage time, since
+        // it's easier manipulated.
+        Calendar cal = Calendar.getInstance();
+        cal.setTime ( new Date() );
+
+        IUserManager userManager = new UserManager();
+
         List<BarEntry> entries = new ArrayList<>();
-        ArrayList<DayData> tempDayData = UserDAO.getInstance().getSortedDayData();
-        Collections.reverse(tempDayData);
-        int counter = 1;
-        for(DayData dayData : tempDayData){
-            RealmList<Record> tempRecords = dayData.getRecords();
-            for(Record record : tempRecords){
-                if(record.getType().equals(goalType) && record.getValue() > 1){
-                    switch (len){
-                        case oneWeekData:
-                            if(counter < 7){
-                                entries.add(new BarEntry(counter, record.getValue()));
-                                counter++;
-                            }else{
-                                return entries;
-                            }
-                            break;
-                        case oneMonthData:
-                            if(counter < 30){
-                                entries.add(new BarEntry(counter, record.getValue()));
-                                counter++;
-                            }else{
-                                return entries;
-                            }
-                            break;
-                        case threeMonthsData:
-                            if(counter < 90){
-                                entries.add(new BarEntry(counter, record.getValue()));
-                                counter++;
-                            }else{
-                                return entries;
-                            }
-                            break;
-                    }
-                    break;
-                }
-            }
+
+        for(int i = 0; i < len.getValue(); i++){
+            // i+1, before the "index/counter" started at one, not zero.
+            Map<ActivityCategories, Float> tempDayData = userManager.getDayData(cal.getTime());
+            entries.add(new BarEntry(i+1, tempDayData.get(goalType)));
+
+            // subtracting one day from the calender.
+            cal.add(Calendar.DATE, -1);
         }
         return entries;
     }
