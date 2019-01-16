@@ -11,15 +11,9 @@ import android.support.v4.app.NotificationManagerCompat;
 import com.example.root.sens.R;
 import com.example.root.sens.auxiliary.DayDataGoalMapper;
 import com.example.root.sens.dao.UserDAO;
-import com.example.root.sens.dto.ActivityCategories;
-import com.example.root.sens.dto.DayData;
-import com.example.root.sens.dto.Goal;
-import com.example.root.sens.dto.GoalHistory;
-import com.example.root.sens.dto.Record;
 import com.example.root.sens.dto.User;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 

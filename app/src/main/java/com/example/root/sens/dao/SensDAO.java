@@ -7,7 +7,7 @@ import android.util.Log;
 import com.example.root.sens.dao.interfaces.ISensAPI;
 import com.example.root.sens.dao.interfaces.SensObserver;
 import com.example.root.sens.dao.interfaces.SensSubject;
-import com.example.root.sens.dto.ActivityCategories;
+import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.dto.Record;
 import com.example.root.sens.dto.sensresponse.Datum;
 import com.example.root.sens.dto.DayData;

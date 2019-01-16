@@ -8,13 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.root.sens.R;
 import com.example.root.sens.auxiliary.ResourceManagement;
 import com.example.root.sens.dao.UserDAO;
-import com.example.root.sens.dto.ActivityCategories;
+import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Record;
 import com.github.mikephil.charting.charts.BarChart;

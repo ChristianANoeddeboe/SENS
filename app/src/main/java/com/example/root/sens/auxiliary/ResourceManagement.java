@@ -2,7 +2,7 @@ package com.example.root.sens.auxiliary;
 
 
 import com.example.root.sens.R;
-import com.example.root.sens.dto.ActivityCategories;
+import com.example.root.sens.ActivityCategories;
 
 public class ResourceManagement {
 
