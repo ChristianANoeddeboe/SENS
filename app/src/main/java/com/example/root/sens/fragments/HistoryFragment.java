@@ -103,6 +103,10 @@ public class HistoryFragment extends Fragment {
                     "Dato her!", "Du har opnået alle dine mål " +50 + " dage i træk!",
                     getGraphicsId(Integer.parseInt("50"))
             ));
+            data.add(new HistoryItemModel(12 + " dage!",
+                    "I dag", "En kort tekst",
+                    getGraphicsId(Integer.parseInt("50"))
+            ));
         }
         return data;
     }
