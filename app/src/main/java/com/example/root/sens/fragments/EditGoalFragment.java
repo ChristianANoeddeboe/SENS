@@ -3,7 +3,6 @@ package com.example.root.sens.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.UserManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +15,7 @@ import android.view.ViewGroup;
 import com.example.root.sens.R;
 import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dto.Goal;
+import com.example.root.sens.managers.UserManager;
 import com.example.root.sens.recyclers.adapters.EditGoalAdapter;
 import com.example.root.sens.recyclers.adapters.SetGoalAdapter;
 import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
@@ -86,7 +86,7 @@ public class EditGoalFragment extends Fragment implements EditGoalAdapter.OnItem
         data.add("Træning");
         data.add("Stå");
         data.add("Søvn");
-        
+
         RealmList<Goal> temp = new UserManager().getNewestGoal().getGoals();
         for(int i = 0; i < temp.size(); i++){
             oldValues[i] = temp.get(i).getValue();
