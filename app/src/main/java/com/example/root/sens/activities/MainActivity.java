@@ -49,8 +49,10 @@ import java.util.Date;
 import java.util.Locale;
 
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, SensObserver, DatabaseObserver, MainFullScreenObserver {
+public class MainActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener, SensObserver,
+        DatabaseObserver, MainFullScreenObserver {
+
     private static String[] viewNames = {"Overblik", "Historik"};
     private static String standardToolbarTitle = "SENS";
     private ViewPager viewPager;
@@ -76,42 +78,6 @@ public class MainActivity extends AppCompatActivity
         setupViewPager();
 
         setupDataFetcher();
-        toolbar.setNavigationOnClickListener((View v) -> onBackPressed());
-    }
-
-    private void setupDataFetcher() {
-        sensSubject = SensDAO.getInstance();
-        sensSubject.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
-        databaseSubject = UserDAO.getInstance();
-        databaseSubject.registerObserver(this);
-        SensDAO.getInstance().getData(getString(R.string.SensPatientKey), 14);
-        fetchDataProgressBar();
-
-        new Handler().postDelayed(() -> asyncTask = new AsyncTask() {
-            @Override
-            protected Object doInBackground(Object[] objects) {
-                snackbar.show();
-                SensDAO.getInstance().getData(getString(R.string.SensPatientKey), 14);
-                return null;
-            }
-        }.execute(), 1800000); // Fetch data every 30 min
-    }
-
-    private void setupViewPager() {
-        sharedPreferences = getApplication().getSharedPreferences(
-                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-
-        viewPager = findViewById(R.id.viewPager);
-        viewpagerAdapter = new ViewpagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(viewpagerAdapter);
-        viewPager.setCurrentItem(sharedPreferences.getInt(getString(R.string.pagerWindowNumber)
-                , 0));
-        sharedPreferences.edit().remove(getString(R.string.pagerWindowNumber)).apply();
-
-        PagerSlidingTabStrip pagerSlidingTabStrip = findViewById(R.id.pagerTitleStrip);
-        pagerSlidingTabStrip.setShouldExpand(true);
-        pagerSlidingTabStrip.setIndicatorColorResource(R.color.sensBlue);
-        pagerSlidingTabStrip.setViewPager(viewPager);
     }
 
     private void setupNavigationDrawer() {
@@ -134,6 +100,8 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        toolbar.setNavigationOnClickListener((View v) -> burgerMenuOnClickMethod());
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -151,14 +119,54 @@ public class MainActivity extends AppCompatActivity
         navigationDrawerSensorId.setText(currentUser.getSensors().get(0).getId());
     }
 
-    private void changeToolbar(String tileText, int image) {
-        toolbar.setTitle(tileText);
-        toolbar.setNavigationIcon(image);
+    private void burgerMenuOnClickMethod() {
+        if (!drawer.isDrawerOpen(GravityCompat.START) && isFullScreenFragmentOpen()) {
+            if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+                changeToolbarTextImage(standardToolbarTitle, R.drawable.ic_burger_menu_icon);
+            }
+            super.onBackPressed();
+        } else if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (isFullScreenFragmentOpen()) {
+            super.onBackPressed();
+        } else if (!drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.openDrawer(GravityCompat.START);
+        }
     }
 
-    private boolean isFullScreenFragmentOpen() {
-        int windows = getSupportFragmentManager().getBackStackEntryCount();
-        return windows != 0;
+    private void setupViewPager() {
+        sharedPreferences = getApplication().getSharedPreferences(
+                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
+        viewPager = findViewById(R.id.viewPager);
+        viewpagerAdapter = new ViewpagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(viewpagerAdapter);
+        viewPager.setCurrentItem(sharedPreferences.getInt(getString(R.string.pagerWindowNumber)
+                , 0));
+        sharedPreferences.edit().remove(getString(R.string.pagerWindowNumber)).apply();
+
+        PagerSlidingTabStrip pagerSlidingTabStrip = findViewById(R.id.pagerTitleStrip);
+        pagerSlidingTabStrip.setShouldExpand(true);
+        pagerSlidingTabStrip.setIndicatorColorResource(R.color.sensBlue);
+        pagerSlidingTabStrip.setViewPager(viewPager);
+    }
+
+    private void setupDataFetcher() {
+        sensSubject = SensDAO.getInstance();
+        sensSubject.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
+        databaseSubject = UserDAO.getInstance();
+        databaseSubject.registerObserver(this);
+        SensDAO.getInstance().getData(getString(R.string.SensPatientKey), 14);
+        fetchDataProgressBar();
+
+        new Handler().postDelayed(() -> asyncTask = new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                snackbar.show();
+                SensDAO.getInstance().getData(getString(R.string.SensPatientKey), 14);
+                return null;
+            }
+        }.execute(), 1800000); // Fetch data every 30 min
     }
 
     private void fetchDataProgressBar() {
@@ -172,22 +180,25 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        if (!drawer.isDrawerOpen(GravityCompat.START) && isFullScreenFragmentOpen()) {
-            if(getSupportFragmentManager().getBackStackEntryCount() == 1){
-                changeToolbar(standardToolbarTitle, R.drawable.ic_burger_menu_icon);
-            }
-            super.onBackPressed();
-        } else if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else if (isFullScreenFragmentOpen()) {
+        } else {
             super.onBackPressed();
-//        } else if (!drawer.isDrawerOpen(GravityCompat.START) && !isFullScreenFragmentOpen()) {
-//            super.onBackPressed();
-        } else if (!drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.openDrawer(GravityCompat.START);
+            if (!isFullScreenFragmentOpen()) {
+                changeToolbarTextImage(standardToolbarTitle, R.drawable.ic_burger_menu_icon);
+            }
         }
     }
 
+    private void changeToolbarTextImage(String tileText, int image) {
+        toolbar.setTitle(tileText);
+        toolbar.setNavigationIcon(image);
+    }
+
+    private boolean isFullScreenFragmentOpen() {
+        int windows = getSupportFragmentManager().getBackStackEntryCount();
+        return windows != 0;
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -199,7 +210,8 @@ public class MainActivity extends AppCompatActivity
             Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_send_notification) {
-            NotificationsManager notificationsManager = new NotificationsManager("String", this);
+            NotificationsManager notificationsManager =
+                    new NotificationsManager("String", this);
             notificationsManager.displayNotification();
         } else if (id == R.id.nav_manageGoals) {
             Intent i = new Intent(getApplicationContext(), ManageGoalActivity.class);
@@ -218,7 +230,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     /*
-     * When daydata is fetched from sens successfully, this is called, telling the view to be refreshed.
+     * When daydata is fetched from sens successfully,
+     * this is called, telling the view to be refreshed.
      */
     @Override
     public void onDataReceived() {
@@ -237,7 +250,8 @@ public class MainActivity extends AppCompatActivity
                     Snackbar.LENGTH_LONG).show();
             return;
         }
-        changeToolbar(new SimpleDateFormat("EEEE 'den' DD'. ' MMMM YYYY", new Locale("da")).format(date), R.drawable.ic_baseline_clear);
+        changeToolbarTextImage(new SimpleDateFormat("EEEE 'den' DD'. ' MMMM YYYY",
+                new Locale("da")).format(date), R.drawable.ic_baseline_clear);
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("date", date);
@@ -307,12 +321,11 @@ public class MainActivity extends AppCompatActivity
                 f = new HistoryFragment();
             }
             return f;
-
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return viewNames.length;
         }
 
         @Override
