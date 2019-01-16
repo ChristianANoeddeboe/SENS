@@ -19,6 +19,7 @@ public interface IUserManager {
     boolean fulfilledAllGoals(Date date);
     boolean fulfilledGoal(ActivityCategories activityCategory, Date date);
 
+    User getUserLoggedIn();
     void createUser(User user, String sensorID, UserObserver userObserver);
     void createGoals(List<SetGoalItemModel> goals);
     void saveUser();
