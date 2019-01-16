@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
@@ -25,6 +26,7 @@ public class UserDAO implements IUserDao, DatabaseSubject {
     private static UserDAO instance;
     private ArrayList<DatabaseObserver> mObservers;
     private final String TAG = UserDAO.class.getSimpleName();
+    private final int DAY_MILLISECONDS = (int) TimeUnit.DAYS.toMillis(1);
     private Realm realm;
     private RealmChangeListener realmListener;
     private UserDAO(){}
@@ -162,7 +164,7 @@ public class UserDAO implements IUserDao, DatabaseSubject {
         RealmList<DayData> dayData = UserDAO.getInstance().getUserLoggedIn().getDayData();
         for(DayData day : dayData){
             long delta = day.getEnd_time().getTime()-d.getTime();
-            if(delta > 0 && delta <86400000){
+            if(delta > 0 && delta <DAY_MILLISECONDS){
                 return day;
             }
         }
@@ -199,7 +201,7 @@ public class UserDAO implements IUserDao, DatabaseSubject {
                 RealmList<GoalHistory> temp = u.getGoals();
                 boolean found = false;
                 for(GoalHistory goalHistory : temp){
-                    if(Math.abs(goalHistory.getDate().getTime()-new Date().getTime()) < 86400000){
+                    if(Math.abs(goalHistory.getDate().getTime()-new Date().getTime()) < DAY_MILLISECONDS){
                         RealmList<Goal> tempGoals = goalHistory.getGoals();
                         for(Goal goal : tempGoals){
                             if(newgoals.containsKey(goal.getType().toString())){

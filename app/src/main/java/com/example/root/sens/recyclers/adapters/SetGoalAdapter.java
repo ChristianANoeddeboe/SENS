@@ -13,11 +13,12 @@ import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
 import com.example.root.sens.R;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHolder> {
         private static final String TAG = SetGoalAdapter.class.getSimpleName();
         private List<SetGoalItemModel> dataSet;
-        private final static int MIN_PER_DAY = 24*60; // TODO change to standard
+        private final static int MIN_PER_DAY = (int) TimeUnit.DAYS.toMinutes(1);
         private RecyclerView recyclerViewAdapter;
         /*
          * Provide a reference to the type of views that you are using (custom ViewHolder)
@@ -35,7 +36,6 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
                 super(v);
                 textViewPrimary = v.findViewById(R.id.textView_set_goal_element_header);
                 textViewSecondary = v.findViewById(R.id.textView_set_goal_total);
-
                 seekBar = v.findViewById(R.id.seekBar_set_goal);
                 seekBar.setMax(MIN_PER_DAY);
                 seekBar.setOnSeekBarChangeListener(seekBarChangeListener);
@@ -55,7 +55,7 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
                     }
                     for(int j = 0; j < recyclerViewAdapter.getChildCount(); j++){
                         ViewHolder temp = (ViewHolder) recyclerViewAdapter.findViewHolderForAdapterPosition(j);
-                        temp.seekBar.setMax(((24*60)-countTemp)+temp.seekBar.getProgress());
+                        temp.seekBar.setMax(((MIN_PER_DAY)-countTemp)+temp.seekBar.getProgress());
                     }
                 }
 
