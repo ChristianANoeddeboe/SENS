@@ -111,21 +111,19 @@ public class UserManager implements IUserManager{
 
     @Override
     public void updateGoal(ActivityCategories activityCategory, int newValue) {
+        Map<ActivityCategories, Integer> result = new HashMap<>();
+        UserDAO dao = UserDAO.getInstance();
+        result = generateGoalMap(dao.getNewestGoal());
+
+        result.replace(activityCategory, newValue);
+        dao.updateOrMergeGoals(result);
 
     }
 
     @Override
     public Map<ActivityCategories, Integer> getGoals(Date date) {
-        Map<ActivityCategories, Integer> result = new HashMap<>();
         UserDAO dao = UserDAO.getInstance();
-        GoalHistory goalHistory = dao.getGoalSpecificDate(date);
-        RealmList<Goal> goals = goalHistory.getGoals();
-
-        for(Goal goal : goals){
-            result.put(goal.getType(), goal.getValue());
-        }
-
-        return result;
+        return generateGoalMap(dao.getGoalSpecificDate(date));
     }
 
     @Override
@@ -144,7 +142,7 @@ public class UserManager implements IUserManager{
 
     @Override
     public void getGoal(ActivityCategories activityCategory) {
-
+        //TODO implemented
     }
 
     @Override
@@ -159,6 +157,17 @@ public class UserManager implements IUserManager{
 
     @Override
     public User getUserLoggedIn() {
-        return null;
+        return UserDAO.getInstance().getUserLoggedIn();
+    }
+
+    private Map<ActivityCategories, Integer> generateGoalMap(GoalHistory goalHistory){
+        Map<ActivityCategories, Integer> result = new HashMap<>();
+        RealmList<Goal> goals = goalHistory.getGoals();
+
+        for(Goal goal : goals){
+            result.put(goal.getType(), goal.getValue());
+        }
+
+        return result;
     }
 }

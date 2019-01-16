@@ -2,6 +2,7 @@ package com.example.root.sens.dao;
 
 import android.util.Log;
 
+import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.dao.interfaces.DatabaseObserver;
 import com.example.root.sens.dao.interfaces.DatabaseSubject;
 import com.example.root.sens.dao.interfaces.IUserDao;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.realm.Realm;
@@ -192,20 +194,23 @@ public class UserDAO implements IUserDao, DatabaseSubject {
     }
 
     @Override
-    public void updateOrMergeGoals(HashMap<String, Integer> newgoals) {
+    public void updateOrMergeGoals(Map<ActivityCategories, Integer> newgoals) {
         Realm realm = Realm.getDefaultInstance();
+
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 User u = UserDAO.getInstance().getUserLoggedIn();
                 RealmList<GoalHistory> temp = u.getGoals();
                 boolean found = false;
+
                 for(GoalHistory goalHistory : temp){
                     if(Math.abs(goalHistory.getDate().getTime()-new Date().getTime()) < DAY_MILLISECONDS){
                         RealmList<Goal> tempGoals = goalHistory.getGoals();
+
                         for(Goal goal : tempGoals){
-                            if(newgoals.containsKey(goal.getType().toString())){
-                                int i = newgoals.get(goal.getType().toString());
+                            if(newgoals.containsKey(goal.getType())){
+                                int i = newgoals.get(goal.getType());
                                 goal.setValue(i);
 
                             }
@@ -216,9 +221,11 @@ public class UserDAO implements IUserDao, DatabaseSubject {
                 }
                 if(!found){
                     RealmList<Goal> tempGoals = new RealmList<>();
-                    for(String s : newgoals.keySet()){
-                        tempGoals.add(new Goal(s,newgoals.get(s)));
+
+                    for(ActivityCategories activityCategory : newgoals.keySet()){
+                        tempGoals.add(new Goal(String.valueOf(activityCategory),newgoals.get(activityCategory)));
                     }
+
                     GoalHistory goalHistory = new GoalHistory();
                     goalHistory.setDate(new Date());
                     goalHistory.setGoals(tempGoals);
