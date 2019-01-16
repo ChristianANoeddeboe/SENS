@@ -85,6 +85,7 @@ public class EditGoalFragment extends Fragment implements EditGoalAdapter.OnItem
         data.add("Træning");
         data.add("Stå");
         data.add("Søvn");
+        data.add("Skridt");
 
         RealmList<Goal> temp = UserDAO.getInstance().getNewestGoal().getGoals();
         for(int i = 0; i < temp.size(); i++){
