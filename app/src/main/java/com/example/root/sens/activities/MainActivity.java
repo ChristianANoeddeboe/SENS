@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements
         TextView navigationDrawerName = navigationHeader.findViewById(R.id.textViewNavDrawerName);
         TextView navigationDrawerSensorId = navigationHeader.findViewById(R.id.textViewNavDrawerSensorID);
 
-        User currentUser = new UserManager(UserDAO.getInstance()).getUserLoggedIn();
+        User currentUser = new UserManager().getUserLoggedIn();
 
         navigationDrawerName.setText(currentUser.getFirstName() + " " + currentUser.getLastName());
         navigationDrawerSensorId.setText(currentUser.getSensors().get(0).getId());

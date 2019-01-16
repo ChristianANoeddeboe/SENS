@@ -29,8 +29,9 @@ public class UserManager implements IUserManager{
     private IUserDao userDao;
     private User user = null;
     private static final String TAG = UserManager.class.getSimpleName();
-    public UserManager(IUserDao userDao){
-        this.userDao = userDao;
+
+    public UserManager(){
+        this.userDao = UserDAO.getInstance();
     }
 
     public void createUser(User user, String sensorID, UserObserver userObserver){
