@@ -28,12 +28,10 @@ import java.util.Map;
 import io.realm.RealmList;
 
 public class UserManager implements IUserManager{
-    private IUserDao userDao;
-    private User user = null;
     private static final String TAG = UserManager.class.getSimpleName();
+    private User user = null;
 
     public UserManager(){
-        this.userDao = UserDAO.getInstance();
     }
 
     public void createUser(User user, String sensorID, UserObserver userObserver){
@@ -91,13 +89,14 @@ public class UserManager implements IUserManager{
     }
 
     public void saveUser(){
+        UserDAO userDao = UserDAO.getInstance();
         userDao.saveUser(user);
         userDao.setUserLoggedIn(userDao.getUser(user.getSensors().get(0).getId()));
         data.initializeData();
     }
 
     public User getUser(String sensorID){
-        return userDao.getUser(sensorID);
+        return UserDAO.getInstance().getUser(sensorID);
     }
 
     @Override
