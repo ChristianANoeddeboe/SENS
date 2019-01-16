@@ -1,6 +1,7 @@
 package com.example.root.sens.controllers;
 
 import com.example.root.sens.controllers.interfaces.ILoginController;
+import com.example.root.sens.managers.IUserManager;
 import com.example.root.sens.managers.UserManager;
 import com.example.root.sens.dao.interfaces.UserObserver;
 import com.example.root.sens.dao.UserDAO;
@@ -11,14 +12,11 @@ import java.util.Date;
 import java.util.List;
 
 public class LoginController implements ILoginController {
-    UserManager userManager = new UserManager(UserDAO.getInstance());
+    IUserManager userManager = new UserManager(UserDAO.getInstance());
 
     @Override
-    public boolean isUser(String sensorID) {
-        if(userManager.getUser(sensorID) != null){
-            return true;
-        }
-        return false;
+    public boolean login(String sensorID) {
+        return userManager.isUser(sensorID);
     }
 
     @Override
