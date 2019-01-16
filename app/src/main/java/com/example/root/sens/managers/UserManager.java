@@ -147,7 +147,23 @@ public class UserManager implements IUserManager{
 
     @Override
     public boolean fulfilledAllGoals(Date date) {
-        return false;
+        UserDAO dao = UserDAO.getInstance();
+        GoalHistory goalHistory = dao.getGoalSpecificDate(date);
+        RealmList<Goal> goals = goalHistory.getGoals();
+        DayData dayData  = dao.getDataSpecificDate(date);
+        RealmList<Record> records = dayData.getRecords();
+        Record currentRecord = null;
+
+        for(Goal goal : goals){
+            for(Record rec : records) {
+                if (goal.getType() == rec.getType()) {
+                    currentRecord = rec;
+                    break;
+                }
+            }
+            if(currentRecord.getValue() < goal.getValue()) return false;
+        }
+        return true;
     }
 
     @Override
