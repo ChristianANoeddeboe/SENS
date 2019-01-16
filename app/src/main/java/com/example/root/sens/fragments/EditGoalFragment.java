@@ -12,18 +12,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.R;
-import com.example.root.sens.dao.UserDAO;
-import com.example.root.sens.dto.Goal;
 import com.example.root.sens.managers.UserManager;
 import com.example.root.sens.recyclers.adapters.EditGoalAdapter;
-import com.example.root.sens.recyclers.adapters.SetGoalAdapter;
 import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import io.realm.RealmList;
+import java.util.Map;
 
 public class EditGoalFragment extends Fragment implements EditGoalAdapter.OnItemClickListener {
     private EditGoalAdapter adapter;
@@ -76,24 +74,12 @@ public class EditGoalFragment extends Fragment implements EditGoalAdapter.OnItem
     }
 
     private List<SetGoalItemModel> createItem(){
-        ArrayList<String> data;
-        int oldValues[] = new int[5];
         List<SetGoalItemModel> tempList = new ArrayList<>();
 
-        data = new ArrayList<>();
-        data.add("Cykling");
-        data.add("Gang");
-        data.add("Træning");
-        data.add("Stå");
-        data.add("Søvn");
+        Map<ActivityCategories, Integer> oldValues = new UserManager().getGoals(new Date());
 
-        RealmList<Goal> temp = new UserManager().getNewestGoal().getGoals();
-        for(int i = 0; i < temp.size(); i++){
-            oldValues[i] = temp.get(i).getValue();
-        }
-
-        for(int i = 0; i < 5; i++){
-            tempList.add(new SetGoalItemModel(data.get(i), oldValues[i]));
+        for(ActivityCategories activityCategories : ActivityCategories.values()){
+            tempList.add(new SetGoalItemModel(activityCategories.name(), oldValues.get(activityCategories)));
         }
 
         return tempList;
