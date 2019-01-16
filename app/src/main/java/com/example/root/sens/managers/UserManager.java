@@ -135,4 +135,9 @@ public class UserManager implements IUserManager{
     public boolean fulfilledGoal(ActivityCategories activityCategory, Date date) {
         return false;
     }
+
+    @Override
+    public User getUserLoggedIn() {
+        return null;
+    }
 }
