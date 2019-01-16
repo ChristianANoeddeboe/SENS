@@ -1,6 +1,5 @@
 package com.example.root.sens.fragments;
 
-import android.icu.util.LocaleData;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -11,14 +10,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.R;
 import com.example.root.sens.auxiliary.ResourceManagement;
-import com.example.root.sens.dao.UserDAO;
-import com.example.root.sens.ActivityCategories;
-import com.example.root.sens.dto.DayData;
-import com.example.root.sens.dto.Record;
 import com.example.root.sens.managers.IUserManager;
 import com.example.root.sens.managers.UserManager;
+
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -27,12 +24,9 @@ import com.github.mikephil.charting.data.BarEntry;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import io.realm.RealmList;
 
 public class GoalInfoFragment extends Fragment {
     TextView title;
@@ -88,9 +82,8 @@ public class GoalInfoFragment extends Fragment {
         chart.setDrawGridBackground(false);
         chart.getAxisRight().setEnabled(false);
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
-        chart.animateY(2000);
-        chart.setDrawValueAboveBar(false);
-
+        chart.animateY(500);
+        chart.setDrawValueAboveBar(true);
 
         chart.setTouchEnabled(false);
 
@@ -120,9 +113,8 @@ public class GoalInfoFragment extends Fragment {
         List<BarEntry> entries = new ArrayList<>();
 
         for(int i = 0; i < len.getValue(); i++){
-            // i+1, before the "index/counter" started at one, not zero.
             Map<ActivityCategories, Float> tempDayData = userManager.getDayData(cal.getTime());
-            entries.add(new BarEntry(i+1, tempDayData.get(goalType)));
+            entries.add(new BarEntry(cal.getTime().getDate(), tempDayData.get(goalType)));
 
             // subtracting one day from the calender.
             cal.add(Calendar.DATE, -1);
