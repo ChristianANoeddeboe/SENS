@@ -23,6 +23,7 @@ import java.util.List;
 public class UserConfigGoalInfoFragment extends Fragment
         implements SetGoalAdapter.SetGoalAdapterOnItemClickListener {
     private SetGoalAdapter adapter;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
