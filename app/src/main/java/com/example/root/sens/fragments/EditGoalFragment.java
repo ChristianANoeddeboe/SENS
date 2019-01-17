@@ -79,7 +79,7 @@ public class EditGoalFragment extends Fragment implements EditGoalAdapter.OnItem
         Map<ActivityCategories, Integer> oldValues = new UserManager().getGoals(new Date());
 
         for(ActivityCategories activityCategories : ActivityCategories.values()){
-            tempList.add(new SetGoalItemModel(activityCategories.name(), oldValues.get(activityCategories)));
+            tempList.add(new SetGoalItemModel(activityCategories, String.valueOf(activityCategories), oldValues.get(activityCategories)));
         }
 
         return tempList;
