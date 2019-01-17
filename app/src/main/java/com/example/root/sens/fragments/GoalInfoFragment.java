@@ -84,10 +84,10 @@ public class GoalInfoFragment extends Fragment {
     }
 
     private void initializeGraph(){
-//        graphView.getGridLabelRenderer().setLabelFormatter(
-//                new DateAsXAxisLabelFormatter(graphView.getContext(),
-//                        new SimpleDateFormat("dd'/'MM",
-//                                new Locale("da"))));
+        graphView.getGridLabelRenderer().setLabelFormatter(
+                new DateAsXAxisLabelFormatter(graphView.getContext(),
+                        new SimpleDateFormat("",
+                                new Locale("da"))));
 
         graphView.getGridLabelRenderer().setNumHorizontalLabels(7); // More than seven labels i mashed together
 
