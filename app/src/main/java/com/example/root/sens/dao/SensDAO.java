@@ -62,6 +62,7 @@ public class SensDAO implements Callback<Response>, SensSubject {
         Call<Response> temp = service.getData(patientKey, dayCount);
         getDataFromSens(patientKey,temp);
     }
+
     public void getDataSpecificDate(String patientKey, int dayCount, String date){
         validateDayCount(dayCount);
         validateDate(date);

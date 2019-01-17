@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.R;
-import com.example.root.sens.dto.DayData;
 import com.example.root.sens.fragments.interfaces.OverviewListItem;
 import com.example.root.sens.managers.IUserManager;
 import com.example.root.sens.managers.UserManager;
