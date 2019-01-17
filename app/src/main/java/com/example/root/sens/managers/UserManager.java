@@ -64,6 +64,8 @@ public class UserManager implements IUserManager{
                 case "Søvn":
                     list.add(new Goal(ActivityCategories.Søvn.toString(),goal.getValue()));
                     break;
+                case "Skridt":
+                    list.add(new Goal(ActivityCategories.Skridt.toString(),goal.getValue()));
                 default:
                     //TODO: Throw error
                     break;

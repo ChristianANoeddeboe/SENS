@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.root.sens.auxiliary.ProgressTextGenerator;
 import com.example.root.sens.recyclers.itemmodels.ConfirmGoalItemModel;
 import com.example.root.sens.R;
 
@@ -59,17 +60,22 @@ public class ConfirmGoalAdapter extends RecyclerView.Adapter<ConfirmGoalAdapter.
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View v = mInflater.inflate(R.layout.confirm_goal_element, viewGroup, false);
+        Log.d(TAG,""+viewType);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         Log.d(TAG, "Element " + position + " set.");
-
         viewHolder.getTextViewDescription().setText(mDataSet.get(position).getDescription());
-        viewHolder.getTextViewValue().setText(generateProgressText(mDataSet.get(position).getValue()));
+        if(mDataSet.get(position).getType() == 0){
+            viewHolder.getTextViewValue().setText(new ProgressTextGenerator().generateProgressText(mDataSet.get(position).getValue()));
+        }else{
+            Log.d(TAG,"Test");
+            Log.d(TAG,mDataSet.get(position).getValue()+":"+mDataSet.get(position).getDescription()+":"+mDataSet.get(position).getType());
+            viewHolder.getTextViewValue().setText(mDataSet.get(position).getValue());
+        }
     }
-
 
     @Override
     public int getItemCount() {
@@ -78,19 +84,5 @@ public class ConfirmGoalAdapter extends RecyclerView.Adapter<ConfirmGoalAdapter.
 
     public List<ConfirmGoalItemModel> getmDataSet() {
         return mDataSet;
-    }
-
-    // TODO: Extract resource with para
-    private String generateProgressText(String text){
-        String result = null;
-        if(Pattern.matches("[0-9]+", text)){
-            int progress = Integer.parseInt(text);
-            int hours = progress/60;
-            int minuttes = progress%60;
-            result = ""+hours+" timer & "+minuttes+" minutter";
-        }
-        else result = text;
-        return result;
-
     }
 }

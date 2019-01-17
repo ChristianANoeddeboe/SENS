@@ -18,6 +18,8 @@ public class ResourceManagement {
                 return R.color.cyclingColor;
             case Træning:
                 return R.color.exerciseColor;
+            case Skridt:
+                return R.color.stepsColor;
             default:
                 return R.color.white;
         }
@@ -35,6 +37,8 @@ public class ResourceManagement {
                 return R.mipmap.icon_cycling;
             case Træning:
                 return R.mipmap.icon_exercise;
+            case Skridt:
+                return R.mipmap.icon_steps;
             default:
                 return R.drawable.blue_button;
         }

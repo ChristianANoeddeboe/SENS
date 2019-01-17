@@ -96,10 +96,16 @@ public class ViewHolderProgressBar extends ViewHolder {
 
     private String createProgressText(int current, int goal) {
         String currentTime, goalTime;
-
-        currentTime = formatProgressText(current);
-        goalTime = formatProgressText(goal);
-
+        switch (activityCategory){
+            case Skridt:
+                currentTime = Integer.toString(current) + " skridt";
+                goalTime = Integer.toString(goal) + " skridt";
+                break;
+            default:
+                currentTime = formatProgressText(current);
+                goalTime = formatProgressText(goal);
+                break;
+        }
         return currentTime+" / "+goalTime;
     }
 

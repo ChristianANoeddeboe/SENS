@@ -136,6 +136,7 @@ public class SensDAO implements Callback<Response>, SensSubject {
             tempRecords.add(new Record(d.values.activityWalkingTime,ActivityCategories.Gang.toString()));
             tempRecords.add(new Record(d.values.activityExerciseTime,ActivityCategories.Træning.toString()));
             tempRecords.add(new Record(d.values.activityCyclingTime,ActivityCategories.Cykling.toString()));
+            tempRecords.add(new Record(d.values.activityStepsCount,ActivityCategories.Skridt.toString()));
             DayData temp = null;
             try {
                 temp = new DayData(sensDf.parse(d.startTime), sensDf.parse(d.endTime),tempRecords);

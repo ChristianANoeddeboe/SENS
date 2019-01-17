@@ -24,7 +24,7 @@ public class AboutFragment extends Fragment{
 
         ArrayList<AboutItemModel> aboutItemModelArrayList = new ArrayList<>();
         aboutItemModelArrayList.add(new AboutItemModel("Chrsitan Andersen Nøddeboe", "s164150", R.drawable.christian));
-        aboutItemModelArrayList.add(new AboutItemModel("Mathias", "s175192", R.drawable.mathias));
+        aboutItemModelArrayList.add(new AboutItemModel("Mathias Thejsen", "s175192", R.drawable.mathias));
         aboutItemModelArrayList.add(new AboutItemModel("Jeppe Trip Kofoed", "s175197", R.drawable.jeppe));
         aboutItemModelArrayList.add(new AboutItemModel("Thyge Skødt Steffensen", "s175176", R.drawable.thyge));
 

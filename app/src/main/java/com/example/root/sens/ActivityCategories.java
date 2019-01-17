@@ -5,5 +5,6 @@ public enum ActivityCategories {
     Stå,
     Gang,
     Træning,
-    Cykling
+    Cykling,
+    Skridt
 }

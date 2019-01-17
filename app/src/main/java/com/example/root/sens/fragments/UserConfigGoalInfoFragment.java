@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
 import com.example.root.sens.R;
 import com.example.root.sens.recyclers.adapters.SetGoalAdapter;
@@ -47,21 +48,24 @@ public class UserConfigGoalInfoFragment extends Fragment
     private List<SetGoalItemModel> createItem() {
         ArrayList<SetGoalItemModel> items = new ArrayList<>();
 
-        items.add(new SetGoalItemModel("Cykling", 0));
-        items.add(new SetGoalItemModel("Gang", 0));
-        items.add(new SetGoalItemModel("Træning", 0));
-        items.add(new SetGoalItemModel("Stå", 0));
-        items.add(new SetGoalItemModel("Søvn", 0));
+        items.add(new SetGoalItemModel(ActivityCategories.Cykling,"Cykling", 0));
+        items.add(new SetGoalItemModel(ActivityCategories.Gang,"Gang", 0));
+        items.add(new SetGoalItemModel(ActivityCategories.Træning,"Træning", 0));
+        items.add(new SetGoalItemModel(ActivityCategories.Stå,"Stå", 0));
+        items.add(new SetGoalItemModel(ActivityCategories.Søvn,"Søvn", 0));
+        items.add(new SetGoalItemModel(ActivityCategories.Skridt,"Skridt",0));
         return items;
     }
 
     @Override
-    public void onItemClick(View item, int position) {
+    public void onItemClick(View item, int position, ActivityCategories type) {
         FragmentManager fm = getActivity().getSupportFragmentManager();
-        TimePickerFragment newFragment = new TimePickerFragment();
-        newFragment.setCancelable(false);
-        newFragment.setTargetFragment(this, position);
-        newFragment.show(fm, "TAG");
+        if(type != ActivityCategories.Skridt){
+            TimePickerFragment newFragment = new TimePickerFragment();
+            newFragment.setCancelable(false);
+            newFragment.setTargetFragment(this, position);
+            newFragment.show(fm, "TAG");
+        }
     }
 
     @Override

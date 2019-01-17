@@ -28,7 +28,8 @@
         android:id="@+id/text_field_set_goal_element"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/FilledTextFieldWhite"
-        android:focusable="false"/>
+        android:inputType="number"
+        android:focusable="true"
+        style="@style/FilledTextFieldWhite" />
 
 </LinearLayout>

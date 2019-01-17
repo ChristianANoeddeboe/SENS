@@ -1,6 +1,8 @@
 package com.example.root.sens.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -85,9 +87,17 @@ public class UserConfigActivity extends AppCompatActivity {
                     switchPage(v, 2);
                     break;
                 case 2:
-                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(i);
+                    boolean b = firstTime();
+                    Log.d(TAG, "onCreate: "+Boolean.toString(b));
+                    if(b){
+                        Intent i = new Intent(getApplicationContext(), WizardActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(i);
+                    }else{
+                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(i);
+                    }
                     loginController.confirm();
                     break;
                 default:
@@ -144,7 +154,7 @@ public class UserConfigActivity extends AppCompatActivity {
         setSliderButtonText();
     }
 
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+    class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -177,5 +187,14 @@ public class UserConfigActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private boolean firstTime() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean b = prefs.getBoolean("firstTime",true);
+        if(b == false){//We are opening the app for the first time
+            prefs.edit().putBoolean("firstTime",true).apply();
+        }
+        return b;
     }
 }
