@@ -64,6 +64,11 @@
         <item name="android:elevation">0dp</item>
     </style>
 
+    <style name="TextButtonSensTransparentFrame" parent="Base.Widget.AppCompat.Button">
+        <item name="android:colorPressedHighlight">@color/sensBlueDarkerDark</item>
+        <item name="android:elevation">0dp</item>
+    </style>
+
 
     <!-- Text fields -->
     <style name="FilledTextFieldWhite" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
