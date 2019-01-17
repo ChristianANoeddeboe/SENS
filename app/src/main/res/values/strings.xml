@@ -34,5 +34,6 @@
     <string name="NoData">Ingen data</string>
     <string name="Minutes">minutter</string>
     <string name="Skip">Spring over</string>
+    <string name="wizardPage1Txt">På denne side dannes der et generalt overblik over dine data og progression.</string>
 
 </resources>
