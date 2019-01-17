@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.auxiliary.ProgressTextGenerator;
-import com.example.root.sens.dto.ActivityCategories;
 import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
 import com.example.root.sens.R;
 
@@ -73,22 +73,9 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
     }
 
     @Override
-    public int getItemViewType(int position) {
-        switch (dataSet.get(position).getType()){
-            case 0:
-                return 0;
-            case 1:
-                return 1;
-            default:
-                return -1;
-
-        }
-    }
-
-    @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         Log.d(TAG, "Element " + position + " set.");
-        if(dataSet.get(position).getType() == 0){
+        if(dataSet.get(position).getType() != ActivityCategories.Skridt){
             viewHolder.getEditText().setOnClickListener((View v) -> {
                 listener.onItemClick(viewHolder.getEditText(), position, ActivityCategories.valueOf(dataSet.get(position).getPrimaryTxt()));
             });

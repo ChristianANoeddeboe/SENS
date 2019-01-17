@@ -8,12 +8,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.root.sens.dto.ActivityCategories;
+import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
 import com.example.root.sens.R;
 import com.example.root.sens.recyclers.adapters.SetGoalAdapter;
@@ -48,12 +47,12 @@ public class UserConfigGoalInfoFragment extends Fragment
     private List<SetGoalItemModel> createItem() {
         ArrayList<SetGoalItemModel> items = new ArrayList<>();
 
-        items.add(new SetGoalItemModel(0,"Cykling", 0));
-        items.add(new SetGoalItemModel(0,"Gang", 0));
-        items.add(new SetGoalItemModel(0,"Træning", 0));
-        items.add(new SetGoalItemModel(0,"Stå", 0));
-        items.add(new SetGoalItemModel(0,"Søvn", 0));
-        items.add(new SetGoalItemModel(1,"Skridt",0));
+        items.add(new SetGoalItemModel(ActivityCategories.Cykling,"Cykling", 0));
+        items.add(new SetGoalItemModel(ActivityCategories.Gang,"Gang", 0));
+        items.add(new SetGoalItemModel(ActivityCategories.Træning,"Træning", 0));
+        items.add(new SetGoalItemModel(ActivityCategories.Stå,"Stå", 0));
+        items.add(new SetGoalItemModel(ActivityCategories.Søvn,"Søvn", 0));
+        items.add(new SetGoalItemModel(ActivityCategories.Skridt,"Skridt",0));
         return items;
     }
 
