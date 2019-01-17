@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.WizardActivity"></activity>
+        <activity android:name=".activities.WizardActivity"
+            android:theme="@style/AppTheme.NoActionBar.FullScreen"></activity>
         <activity
             android:name=".activities.Login"
             android:screenOrientation="portrait"
@@ -37,6 +38,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
+
         <activity
             android:name=".activities.MainActivity"
             android:label="SENS"

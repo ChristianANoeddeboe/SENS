@@ -10,13 +10,14 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.example.root.sens.R;
-import com.example.root.sens.fragments.LoginHelpFragment;
+import com.example.root.sens.fragments.WizardContentFragment;
 
 public class WizardActivity extends AppCompatActivity {
 
@@ -26,12 +27,15 @@ public class WizardActivity extends AppCompatActivity {
     private Button slide;
     private Button back;
 
-    private LoginHelpFragment aboutFragment1 = new LoginHelpFragment();
-    private LoginHelpFragment aboutFragment2 = new LoginHelpFragment();
-    private LoginHelpFragment aboutFragment3 = new LoginHelpFragment();
-    private LoginHelpFragment aboutFragment4 = new LoginHelpFragment();
+    private WizardContentFragment oversigtFragment = new WizardContentFragment();
+    private WizardContentFragment calenderFragment = new WizardContentFragment();
+    private WizardContentFragment maalkortFragment = new WizardContentFragment();
+    private WizardContentFragment maalkortInfoFragment = new WizardContentFragment();
+    private WizardContentFragment hoejdepunkterFragment = new WizardContentFragment();
+    private WizardContentFragment burgerMenuIkonFragment = new WizardContentFragment();
+    private WizardContentFragment burgerMenuFragment = new WizardContentFragment();
     private final String TAG = WizardActivity.class.getSimpleName();
-    private final int NUM_PAGES = 4;
+    private final int NUM_PAGES = 7;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,11 +71,20 @@ public class WizardActivity extends AppCompatActivity {
                 case 3:
                     switchPage(v,4);
                     break;
+                case 4:
+                    switchPage(v,5);
+                    break;
+                case 5:
+                    switchPage(v,6);
+                    break;
+                case 6:
+                    switchPage(v,7);
+                    finish();
+                    break;
                 default:
                     Log.e(TAG, "Page does not exist");
                     finish();
             }
-            setSliderButtonText();
         });
 
 
@@ -79,9 +92,9 @@ public class WizardActivity extends AppCompatActivity {
         back.setOnClickListener((View v) -> {
             finish();
             overridePendingTransition(R.anim.slide_out_r, R.anim.slide_in_r);
-            setSliderButtonText();
         });
     }
+
 
     private void switchPage(View v, int nextPage) {
         mPager.setCurrentItem(nextPage, true);
@@ -91,33 +104,10 @@ public class WizardActivity extends AppCompatActivity {
         }
     }
 
-    private void setSliderButtonText() {
-        int counter = mPager.getCurrentItem();
-        switch (counter) {
-            case 0:
-                slide.setText(R.string.Continue);
-                back.setText(R.string.Skip);
-                break;
-            case 1:
-                slide.setText(R.string.Continue);
-                back.setText(R.string.Skip);
-                break;
-            case 2:
-                slide.setText(R.string.Continue);
-                back.setText(R.string.Skip);
-                break;
-            case 3:
-                slide.setText(R.string.Continue);
-                back.setText(R.string.Skip);
-                break;
-        }
-    }
-
     @Override
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.slide_out_r, R.anim.slide_in_r);
-        setSliderButtonText();
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
@@ -127,7 +117,6 @@ public class WizardActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_out_r, R.anim.slide_in_r);
-        setSliderButtonText();
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
@@ -140,15 +129,30 @@ public class WizardActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
+            Bundle args = new Bundle();
+            args.putInt("PageNum",position);
             switch (position) {
                 case 0:
-                    return aboutFragment1;
+                    oversigtFragment.setArguments(args);
+                    return oversigtFragment;
                 case 1:
-                    return aboutFragment2;
+                    calenderFragment.setArguments(args);
+                    return calenderFragment;
                 case 2:
-                    return aboutFragment3;
+                    maalkortFragment.setArguments(args);
+                    return maalkortFragment;
                 case 3:
-                    return aboutFragment4;
+                    maalkortInfoFragment.setArguments(args);
+                    return maalkortInfoFragment;
+                case 4:
+                    hoejdepunkterFragment.setArguments(args);
+                    return hoejdepunkterFragment;
+                case 5:
+                    burgerMenuIkonFragment.setArguments(args);
+                    return burgerMenuIkonFragment;
+                case 6:
+                    burgerMenuFragment.setArguments(args);
+                    return burgerMenuFragment;
                 default:
                     Log.d(TAG, "Fatal pager error, position does not exist! " + position);
             }
