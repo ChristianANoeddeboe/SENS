@@ -87,6 +87,11 @@ public class GoalInfoFragment extends Fragment {
 
         chart.setTouchEnabled(false);
 
+        // Formatting X-axis to handle dates
+        AxisValueFormatter xAxisFormatter = new HourAxisValueFormatter(referenceTimestamp);
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setValueFormatter(xAxisFormatter);
+
         chart.invalidate(); // refresh
     }
 
@@ -114,7 +119,7 @@ public class GoalInfoFragment extends Fragment {
 
         for(int i = 0; i < len.getValue(); i++){
             Map<ActivityCategories, Float> tempDayData = userManager.getDayData(cal.getTime());
-            entries.add(new BarEntry(cal.getTime().getDate(), tempDayData.get(goalType)));
+            entries.add(new BarEntry(cal.getTime().getTime(), tempDayData.get(goalType)));
 
             // subtracting one day from the calender.
             cal.add(Calendar.DATE, -1);
