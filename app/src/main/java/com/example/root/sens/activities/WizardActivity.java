@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Slide;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -40,7 +41,6 @@ public class WizardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wizard);
-        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = findViewById(R.id.page_wizard);
@@ -80,10 +80,12 @@ public class WizardActivity extends AppCompatActivity {
                 case 6:
                     switchPage(v,7);
                     finish();
+                    overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
                     break;
                 default:
                     Log.e(TAG, "Page does not exist");
                     finish();
+                    overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
             }
         });
 
