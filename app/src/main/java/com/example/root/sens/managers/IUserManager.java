@@ -23,4 +23,5 @@ public interface IUserManager {
     void createUser(User user, String sensorID, UserObserver userObserver);
     void createGoals(List<SetGoalItemModel> goals);
     void saveUser();
+    List<String> getGoalStreak();
 }

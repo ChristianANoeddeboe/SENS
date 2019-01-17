@@ -18,17 +18,22 @@ import com.example.root.sens.dto.User;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import io.realm.RealmList;
 
 public class UserManager implements IUserManager{
     private static final String TAG = UserManager.class.getSimpleName();
+    private final int DAY_MILLISECONDS = (int) TimeUnit.DAYS.toMillis(1);
+    private final int COUNTER_LOWER_BOUND = 3; // This is for managing the achivements.
     private User user = null;
 
     public UserManager(){
@@ -184,5 +189,99 @@ public class UserManager implements IUserManager{
         }
 
         return result;
+    }
+
+    @Override
+    public List<String> getGoalStreak(){
+        Map<Date, Boolean> userHistory = generateFulfilleGoalsMap();
+        ArrayList<Date> tempDates = new ArrayList<>();
+        List<String> result = new ArrayList<>();
+
+        for(Date date : userHistory.keySet()){
+            boolean res = userHistory.get(date).booleanValue();
+            /*
+             * Remove the ! to get the actually intended code, the ! is there for testing purposes.
+             * */
+            if(!res){
+                tempDates.add(date);
+            }
+        }
+        Collections.sort(tempDates);
+
+        if(tempDates.size() > 1){
+            int counter = 0;
+            Date endDate = null;
+            for(int i = 0; i < tempDates.size()-1; i++){
+                if(tempDates.get(i+1).getTime()-tempDates.get(i).getTime() <= DAY_MILLISECONDS){
+                    counter++;
+                    endDate = tempDates.get(i+1);
+                }else{
+                    addResult(counter, endDate, result);
+                    counter = 0;
+                }
+                if(i == tempDates.size()-2){
+                    addResult(counter,endDate, result);
+                }
+            }
+        }
+        return result;
+    }
+
+    private Map<Date, Boolean> generateFulfilleGoalsMap(){
+        HashMap<Date,Boolean> result = new HashMap<>();
+        User activeUser = UserDAO.getInstance().getUserLoggedIn();
+        RealmList<DayData> dayData = activeUser.getDayData();
+
+        for(DayData d : dayData){
+            long timeDelta = -1;
+            GoalHistory temp = null;
+            /*
+             * Find the smallest difference which is positive
+             * We try to match the goal which is closest.
+             */
+            for(GoalHistory g : activeUser.getGoals()){
+                long temp2 = d.getStart_time().getTime() - g.getDate().getTime();
+                if(d.getStart_time().after(g.getDate())){
+                    if(temp2 < timeDelta || timeDelta == -1){
+                        timeDelta = temp2;
+                        temp = g;
+                    }
+                }
+
+            }
+            //If temp is null then we did not find a valid match
+            if(temp != null){
+                boolean completed = false;
+                for(Goal g : temp.getGoals()){
+                    completed = false;
+                    for(Record r : d.getRecords()){ // Check if the user completed all its goals
+                        if(r.getType().equals(g.getType())){
+                            if(r.getValue() >= g.getValue()){
+                                completed = true;
+                                break;
+                            }
+                        }
+                    }
+                    if(!completed){
+                        result.put(d.getEnd_time(),false);
+                        //calendar.addEvent(new Event(Color.rgb(244,57,54), d.getEnd_time().getTime(), "test"));
+                        break;
+                    }
+                }
+                if(completed){
+                    result.put(d.getEnd_time(),true);
+                    //calendar.addEvent(new Event(Color.rgb(76,175,80), d.getEnd_time().getTime(), "test1234"));
+                }
+            }
+
+        }
+        return result;
+    }
+
+    private void addResult(int counter, Date endDate, List<String> result) {
+        if(counter >= COUNTER_LOWER_BOUND){
+            SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("d. MMM YYYY", Locale.US);
+            result.add(dateFormatForMonth.format(endDate)+","+counter);
+        }
     }
 }

@@ -112,56 +112,6 @@ public class UserDAO implements IUserDao, DatabaseSubject {
     }
 
     @Override
-    public HashMap<Date,Boolean> userFulfilledGoals() {
-        HashMap<Date,Boolean> result = new HashMap<>();
-        User activeUser = UserDAO.getInstance().getUserLoggedIn();
-        for(DayData d : activeUser.getDayData()){
-            long timeDelta = -1;
-            GoalHistory temp = null;
-            /*
-             * Find the smallest difference which is positive
-             * We try to match the goal which is closest.
-             */
-            for(GoalHistory g : activeUser.getGoals()){
-                long temp2 = d.getStart_time().getTime() - g.getDate().getTime();
-                if(d.getStart_time().after(g.getDate())){
-                    if(temp2 < timeDelta || timeDelta == -1){
-                        timeDelta = temp2;
-                        temp = g;
-                    }
-                }
-
-            }
-            //If temp is null then we did not find a valid match
-            if(temp != null){
-                boolean completed = false;
-                for(Goal g : temp.getGoals()){
-                    completed = false;
-                    for(Record r : d.getRecords()){ // Check if the user completed all its goals
-                        if(r.getType().equals(g.getType())){
-                            if(r.getValue() >= g.getValue()){
-                                completed = true;
-                                break;
-                            }
-                        }
-                    }
-                    if(!completed){
-                        result.put(d.getEnd_time(),false);
-                        //calendar.addEvent(new Event(Color.rgb(244,57,54), d.getEnd_time().getTime(), "test"));
-                        break;
-                    }
-                }
-                if(completed){
-                    result.put(d.getEnd_time(),true);
-                    //calendar.addEvent(new Event(Color.rgb(76,175,80), d.getEnd_time().getTime(), "test1234"));
-                }
-            }
-
-        }
-        return result;
-    }
-
-    @Override
     public DayData getDataSpecificDate(Date d) {
         RealmList<DayData> dayData = UserDAO.getInstance().getUserLoggedIn().getDayData();
         for(DayData day : dayData){

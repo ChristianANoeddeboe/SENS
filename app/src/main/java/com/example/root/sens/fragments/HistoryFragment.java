@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.root.sens.R;
 import com.example.root.sens.dao.UserDAO;
+import com.example.root.sens.managers.UserManager;
 import com.example.root.sens.recyclers.adapters.HistoryAdapter;
 import com.example.root.sens.recyclers.itemmodels.HistoryItemModel;
 
@@ -29,8 +30,8 @@ import java.util.concurrent.TimeUnit;
 
 public class HistoryFragment extends Fragment {
     private ArrayList<String> result;
-    private final int COUNTER_LOWER_BOUND = 3; // This is for config
-    private final int DAY_MILLISECONDS = (int) TimeUnit.DAYS.toMillis(1);
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,53 +43,14 @@ public class HistoryFragment extends Fragment {
         HistoryAdapter adapter = new HistoryAdapter(getContext(), generateData());
         recyclerView.setAdapter(adapter);
 
-        //TODO: Alt data generering til recyclerviewet skal ud i sin egen klasse!
-        HashMap<Date, Boolean> userHistory = UserDAO.getInstance().userFulfilledGoals();
-        ArrayList<Date> tempDates = new ArrayList<>();
-
-        for(Date date : userHistory.keySet()){
-            boolean res = userHistory.get(date).booleanValue();
-            /*
-            * Remove the ! to get the actually intended code, the ! is there for testing purposes.
-            * */
-            if(!res){
-                tempDates.add(date);
-            }
-        }
-
-        result = new ArrayList<>();
-        Collections.sort(tempDates);
-
-        if(tempDates.size() > 1){
-            int counter = 0;
-            Date endDate = null;
-            for(int i = 0; i < tempDates.size()-1; i++){
-                if(tempDates.get(i+1).getTime()-tempDates.get(i).getTime() <= DAY_MILLISECONDS){
-                    counter++;
-                    endDate = tempDates.get(i+1);
-                }else{
-                    addResult(counter, endDate);
-                    counter = 0;
-                }
-                if(i == tempDates.size()-2){
-                    addResult(counter,endDate);
-                }
-            }
-        }
         return v;
     }
 
-    private void addResult(int counter, Date endDate) {
-        if(counter >= COUNTER_LOWER_BOUND){
-            SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("d. MMM YYYY", Locale.US);
-            result.add(dateFormatForMonth.format(endDate)+","+counter);
-        }
-    }
-
     private List<HistoryItemModel> generateData(){
+        List<String> stringValues = new UserManager().getGoalStreak();
         List<HistoryItemModel> data = new ArrayList<>();
         String[] arr = null;
-        if(result != null){
+        if(stringValues != null){
             for(String str : result){
                 arr = str.split(",");
                 data.add(new HistoryItemModel(arr[1]+" dage!",

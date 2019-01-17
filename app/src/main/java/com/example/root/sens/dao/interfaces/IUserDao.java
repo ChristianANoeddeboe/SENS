@@ -19,7 +19,6 @@ public interface IUserDao {
     User getUser(String sensorId);
     GoalHistory getNewestGoal();
     ArrayList<DayData> getSortedDayData();
-    HashMap<Date,Boolean> userFulfilledGoals();
     DayData getDataSpecificDate(Date d);
     GoalHistory getGoalSpecificDate(Date d);
     void updateOrMergeGoals(Map<ActivityCategories,Integer> temp);
