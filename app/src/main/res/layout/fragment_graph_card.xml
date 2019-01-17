@@ -70,13 +70,11 @@
             android:padding="8dp">
 
 
-            <com.github.mikephil.charting.charts.BarChart
+            <com.jjoe64.graphview.GraphView
                 android:id="@+id/goalInfoChart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
-
-            </com.github.mikephil.charting.charts.BarChart>
+                android:layout_weight="1"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

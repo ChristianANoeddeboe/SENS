@@ -121,9 +121,6 @@ public class UserConfigActivity extends AppCompatActivity {
         int counter = mPager.getCurrentItem();
         switch (counter) {
             case 0:
-                slide.setText(R.string.Continue);
-                back.setText(R.string.Cancel);
-                break;
             case 1:
                 slide.setText(R.string.Continue);
                 back.setText(R.string.Cancel);
