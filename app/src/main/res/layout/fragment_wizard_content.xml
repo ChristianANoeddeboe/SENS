@@ -9,9 +9,11 @@
         android:id="@+id/WizardDescriotionTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:gravity="center_horizontal"
-        android:text="TESTTEST" />
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
+        android:text="TESTTEST"
+        android:textColor="@color/white" />
 
     <ImageView
         android:id="@+id/WizardDescriptionImageView"

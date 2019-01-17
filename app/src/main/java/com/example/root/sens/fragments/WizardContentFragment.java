@@ -38,9 +38,7 @@ public class WizardContentFragment extends Fragment {
                 break;
             case 1:
                 descriptionImage.setImageResource(R.mipmap.oversigtcalender);
-                descriptionText.setText("Kalenderen viser dig et tilbageblik på hvordan " +
-                        "du præsterede bagud i tiden, samt hvilken dag du nu er på. " +
-                        "Farverne beskriver om du opfyldte dine mål (Grøn) den pågældende dag, " +
+                descriptionText.setText("Farverne på kalenderen beskriver om du opfyldte dine mål (Grøn) den pågældende dag, " +
                         "eller om du ikke gjorde (rød).");
                 break;
             case 2:
