@@ -51,7 +51,7 @@ public class HistoryFragment extends Fragment {
         List<HistoryItemModel> data = new ArrayList<>();
         String[] arr = null;
         if(stringValues != null){
-            for(String str : result){
+            for(String str : stringValues){
                 arr = str.split(",");
                 data.add(new HistoryItemModel(arr[1]+" dage!",
                         arr[0], "Du har opnået alle dine mål " + arr[1] + " dage i træk!",
