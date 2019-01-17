@@ -1,6 +1,6 @@
 package com.example.root.sens.fragments.interfaces;
 
-import com.example.root.sens.dto.ActivityCategories;
+import com.example.root.sens.ActivityCategories;
 
 public class TypeProgress implements OverviewListItem {
     private ActivityCategories type;

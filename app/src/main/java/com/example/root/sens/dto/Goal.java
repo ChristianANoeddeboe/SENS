@@ -1,5 +1,7 @@
 package com.example.root.sens.dto;
 
+import com.example.root.sens.ActivityCategories;
+
 import io.realm.RealmObject;
 import io.realm.annotations.Required;
 

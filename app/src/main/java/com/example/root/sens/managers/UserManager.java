@@ -2,13 +2,14 @@ package com.example.root.sens.managers;
 
 import android.util.Log;
 
+import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dao.interfaces.UserObserver;
-import com.example.root.sens.dao.interfaces.IUserDao;
 import com.example.root.sens.data;
-import com.example.root.sens.dto.ActivityCategories;
+import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
+import com.example.root.sens.dto.Record;
 import com.example.root.sens.dto.Sensor;
 import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
 import com.example.root.sens.dto.User;
@@ -16,18 +17,25 @@ import com.example.root.sens.dto.User;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import io.realm.RealmList;
 
-public class UserManager {
-    private IUserDao userDao;
-    private User user = null;
+public class UserManager implements IUserManager{
     private static final String TAG = UserManager.class.getSimpleName();
-    public UserManager(IUserDao userDao){
-        this.userDao = userDao;
+    private final int DAY_MILLISECONDS = (int) TimeUnit.DAYS.toMillis(1);
+    private final int COUNTER_LOWER_BOUND = 3; // This is for managing the achivements.
+    private User user = null;
+
+    public UserManager(){
     }
 
     public void createUser(User user, String sensorID, UserObserver userObserver){
@@ -87,12 +95,199 @@ public class UserManager {
     }
 
     public void saveUser(){
+        UserDAO userDao = UserDAO.getInstance();
         userDao.saveUser(user);
-        userDao.setUserLoggedIn(userDao.getUser(user.getSensors().get(0).getId()));
+        userDao.setUserLoggedIn(getUser(user.getSensors().get(0).getId()));
         data.initializeData();
     }
 
     public User getUser(String sensorID){
-        return userDao.getUser(sensorID);
+        return UserDAO.getInstance().getUser(sensorID);
+    }
+
+    @Override
+    public boolean isUser(String sensorID) {
+        UserDAO dao = UserDAO.getInstance();
+        if(dao.getUser(sensorID) == null){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void updateGoal(ActivityCategories activityCategory, int newValue) {
+        Map<ActivityCategories, Integer> result = new HashMap<>();
+        UserDAO dao = UserDAO.getInstance();
+        result = generateGoalMap(dao.getNewestGoal());
+
+        result.replace(activityCategory, newValue);
+        dao.updateOrMergeGoals(result);
+
+    }
+
+    @Override
+    public Map<ActivityCategories, Integer> getGoals(Date date) {
+        UserDAO dao = UserDAO.getInstance();
+        return generateGoalMap(dao.getGoalSpecificDate(date));
+    }
+
+    @Override
+    public Map<ActivityCategories, Float> getDayData(Date date) {
+        Map<ActivityCategories, Float> result = new HashMap<>();
+        UserDAO dao = UserDAO.getInstance();
+        DayData data = dao.getDataSpecificDate(date);
+
+        if(data != null){
+            RealmList<Record> records = data.getRecords();
+
+            for(Record rec : records){
+                result.put(rec.getType(), rec.getValue());
+            }
+        }
+
+        return result;
+    }
+
+
+    @Override
+    public void getGoal(ActivityCategories activityCategory) {
+        //TODO implemented
+    }
+
+    @Override
+    public boolean fulfilledAllGoals(Date date) {
+        UserDAO dao = UserDAO.getInstance();
+        GoalHistory goalHistory = dao.getGoalSpecificDate(date);
+        RealmList<Goal> goals = goalHistory.getGoals();
+        DayData dayData  = dao.getDataSpecificDate(date);
+        RealmList<Record> records = dayData.getRecords();
+        Record currentRecord = null;
+
+        for(Goal goal : goals){
+            for(Record rec : records) {
+                if (goal.getType() == rec.getType()) {
+                    currentRecord = rec;
+                    break;
+                }
+            }
+            if(currentRecord.getValue() < goal.getValue()) return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean fulfilledGoal(ActivityCategories activityCategory, Date date) {
+        return false;
+    }
+
+    @Override
+    public User getUserLoggedIn() {
+        return UserDAO.getInstance().getUserLoggedIn();
+    }
+
+    private Map<ActivityCategories, Integer> generateGoalMap(GoalHistory goalHistory){
+        Map<ActivityCategories, Integer> result = new HashMap<>();
+        RealmList<Goal> goals = goalHistory.getGoals();
+
+        for(Goal goal : goals){
+            result.put(goal.getType(), goal.getValue());
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<String> getGoalStreak(){
+        Map<Date, Boolean> userHistory = generateFulfilleGoalsMap();
+        ArrayList<Date> tempDates = new ArrayList<>();
+        List<String> result = new ArrayList<>();
+
+        for(Date date : userHistory.keySet()){
+            boolean res = userHistory.get(date).booleanValue();
+            /*
+             * Remove the ! to get the actually intended code, the ! is there for testing purposes.
+             * */
+            if(!res){
+                tempDates.add(date);
+            }
+        }
+        Collections.sort(tempDates);
+
+        if(tempDates.size() > 1){
+            int counter = 0;
+            Date endDate = null;
+            for(int i = 0; i < tempDates.size()-1; i++){
+                if(tempDates.get(i+1).getTime()-tempDates.get(i).getTime() <= DAY_MILLISECONDS){
+                    counter++;
+                    endDate = tempDates.get(i+1);
+                }else{
+                    addResult(counter, endDate, result);
+                    counter = 0;
+                }
+                if(i == tempDates.size()-2){
+                    addResult(counter,endDate, result);
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public Map<Date, Boolean> generateFulfilleGoalsMap(){
+        HashMap<Date,Boolean> result = new HashMap<>();
+        User activeUser = UserDAO.getInstance().getUserLoggedIn();
+        RealmList<DayData> dayData = activeUser.getDayData();
+
+        for(DayData d : dayData){
+            long timeDelta = -1;
+            GoalHistory temp = null;
+            /*
+             * Find the smallest difference which is positive
+             * We try to match the goal which is closest.
+             */
+            for(GoalHistory g : activeUser.getGoals()){
+                long temp2 = d.getStart_time().getTime() - g.getDate().getTime();
+                if(d.getStart_time().after(g.getDate())){
+                    if(temp2 < timeDelta || timeDelta == -1){
+                        timeDelta = temp2;
+                        temp = g;
+                    }
+                }
+
+            }
+            //If temp is null then we did not find a valid match
+            if(temp != null){
+                boolean completed = false;
+                for(Goal g : temp.getGoals()){
+                    completed = false;
+                    for(Record r : d.getRecords()){ // Check if the user completed all its goals
+                        if(r.getType().equals(g.getType())){
+                            if(r.getValue() >= g.getValue()){
+                                completed = true;
+                                break;
+                            }
+                        }
+                    }
+                    if(!completed){
+                        result.put(d.getEnd_time(),false);
+                        //calendar.addEvent(new Event(Color.rgb(244,57,54), d.getEnd_time().getTime(), "test"));
+                        break;
+                    }
+                }
+                if(completed){
+                    result.put(d.getEnd_time(),true);
+                    //calendar.addEvent(new Event(Color.rgb(76,175,80), d.getEnd_time().getTime(), "test1234"));
+                }
+            }
+
+        }
+        return result;
+    }
+
+    private void addResult(int counter, Date endDate, List<String> result) {
+        if(counter >= COUNTER_LOWER_BOUND){
+            SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("d. MMM YYYY", Locale.US);
+            result.add(dateFormatForMonth.format(endDate)+","+counter);
+        }
     }
 }

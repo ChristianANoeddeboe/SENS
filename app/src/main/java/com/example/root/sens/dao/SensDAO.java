@@ -7,7 +7,7 @@ import android.util.Log;
 import com.example.root.sens.dao.interfaces.ISensAPI;
 import com.example.root.sens.dao.interfaces.SensObserver;
 import com.example.root.sens.dao.interfaces.SensSubject;
-import com.example.root.sens.dto.ActivityCategories;
+import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.dto.Record;
 import com.example.root.sens.dto.sensresponse.Datum;
 import com.example.root.sens.dto.DayData;
@@ -62,6 +62,7 @@ public class SensDAO implements Callback<Response>, SensSubject {
         Call<Response> temp = service.getData(patientKey, dayCount);
         getDataFromSens(patientKey,temp);
     }
+
     public void getDataSpecificDate(String patientKey, int dayCount, String date){
         validateDayCount(dayCount);
         validateDate(date);

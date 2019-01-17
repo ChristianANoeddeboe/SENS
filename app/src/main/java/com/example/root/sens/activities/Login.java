@@ -46,7 +46,7 @@ public class Login extends AppCompatActivity {
                 Flags are added because it should not be possible
                 to enter back into this "flow". (Back stack management)
              */
-            if (loginController.isUser(sensorID)) {
+            if (loginController.login(sensorID)) {
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);

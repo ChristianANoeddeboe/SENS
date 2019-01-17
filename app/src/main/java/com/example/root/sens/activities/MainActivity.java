@@ -34,7 +34,6 @@ import com.example.root.sens.R;
 import com.example.root.sens.dao.SensDAO;
 import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dao.interfaces.DatabaseObserver;
-import com.example.root.sens.dao.interfaces.DatabaseSubject;
 import com.example.root.sens.dao.interfaces.SensObserver;
 import com.example.root.sens.dao.interfaces.SensSubject;
 import com.example.root.sens.dto.User;
@@ -42,6 +41,7 @@ import com.example.root.sens.fragments.AboutFragment;
 import com.example.root.sens.fragments.DayDataFragment;
 import com.example.root.sens.fragments.HistoryFragment;
 import com.example.root.sens.fragments.OverviewFragment;
+import com.example.root.sens.managers.UserManager;
 import com.example.root.sens.notification.NotificationsManager;
 import com.example.root.sens.notification.TimeReceiver;
 import com.example.root.sens.observers.MainFullScreenObserver;
@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements
     private static String standardToolbarTitle = "SENS";
     private ViewPager viewPager;
     private SensSubject sensSubject;
-    private DatabaseSubject databaseSubject;
     private SharedPreferences sharedPreferences;
     private ViewpagerAdapter viewpagerAdapter;
     private ProgressBar progressBar;
@@ -117,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements
         TextView navigationDrawerName = navigationHeader.findViewById(R.id.textViewNavDrawerName);
         TextView navigationDrawerSensorId = navigationHeader.findViewById(R.id.textViewNavDrawerSensorID);
 
-        User currentUser = UserDAO.getInstance().getUserLoggedIn();
+        User currentUser = new UserManager().getUserLoggedIn();
 
         navigationDrawerName.setText(currentUser.getFirstName() + " " + currentUser.getLastName());
         navigationDrawerSensorId.setText(currentUser.getSensors().get(0).getId());
@@ -157,11 +156,12 @@ public class MainActivity extends AppCompatActivity implements
         pagerSlidingTabStrip.setViewPager(viewPager);
     }
 
+
+    // TODO: Update to use UserManager instead!
     private void setupDataFetcher() {
         sensSubject = SensDAO.getInstance();
         sensSubject.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
-        databaseSubject = UserDAO.getInstance();
-        databaseSubject.registerObserver(this);
+        UserDAO.getInstance().registerObserver(this);
         SensDAO.getInstance().getData(getString(R.string.SensPatientKey), 14);
         fetchDataProgressBar();
 
@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onDestroy() {
         super.onDestroy();
         sensSubject.removeObserver(this);
-        databaseSubject.removeObserver(this);
+        UserDAO.getInstance().removeObserver(this);
         if (asyncTask != null) {
             asyncTask.cancel(true);
         }

@@ -12,17 +12,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.R;
-import com.example.root.sens.dao.UserDAO;
-import com.example.root.sens.dto.Goal;
+import com.example.root.sens.managers.UserManager;
 import com.example.root.sens.recyclers.adapters.EditGoalAdapter;
-import com.example.root.sens.recyclers.adapters.SetGoalAdapter;
 import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import io.realm.RealmList;
+import java.util.Map;
 
 public class EditGoalFragment extends Fragment implements EditGoalAdapter.OnItemClickListener {
     private EditGoalAdapter adapter;
@@ -48,12 +47,14 @@ public class EditGoalFragment extends Fragment implements EditGoalAdapter.OnItem
     }
 
     @Override
-    public void onItemClick (View item,int position){
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        TimePickerFragment newFragment = new TimePickerFragment();
-        newFragment.setCancelable(false);
-        newFragment.setTargetFragment(this, position);
-        newFragment.show(fm, "TAG");
+    public void onItemClick (View item, int position, ActivityCategories type){
+        if(type != ActivityCategories.Skridt){
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            TimePickerFragment newFragment = new TimePickerFragment();
+            newFragment.setCancelable(false);
+            newFragment.setTargetFragment(this, position);
+            newFragment.show(fm, "TAG");
+        }
     }
 
     @Override
@@ -75,30 +76,12 @@ public class EditGoalFragment extends Fragment implements EditGoalAdapter.OnItem
     }
 
     private List<SetGoalItemModel> createItem(){
-        ArrayList<String> data;
-        int oldValues[] = new int[6];
         List<SetGoalItemModel> tempList = new ArrayList<>();
 
-        data = new ArrayList<>();
-        data.add("Cykling");
-        data.add("Gang");
-        data.add("Træning");
-        data.add("Stå");
-        data.add("Søvn");
-        data.add("Skridt");
+        Map<ActivityCategories, Integer> oldValues = new UserManager().getGoals(new Date());
 
-        RealmList<Goal> temp = UserDAO.getInstance().getNewestGoal().getGoals();
-        for(int i = 0; i < temp.size(); i++){
-            oldValues[i] = temp.get(i).getValue();
-        }
-
-        for(int i = 0; i < data.size(); i++){
-            if(data.get(i).endsWith("Skridt")){
-                tempList.add(new SetGoalItemModel(1,data.get(i), oldValues[i]));
-            }else{
-                tempList.add(new SetGoalItemModel(0,data.get(i), oldValues[i]));
-            }
-
+        for(ActivityCategories activityCategories : ActivityCategories.values()){
+            tempList.add(new SetGoalItemModel(activityCategories, String.valueOf(activityCategories), oldValues.get(activityCategories)));
         }
 
         return tempList;

@@ -1,4 +1,4 @@
-package com.example.root.sens.dto;
+package com.example.root.sens;
 
 public enum ActivityCategories {
     Søvn,

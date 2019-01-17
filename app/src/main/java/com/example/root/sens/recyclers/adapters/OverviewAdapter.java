@@ -2,42 +2,40 @@ package com.example.root.sens.recyclers.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.service.autofill.UserData;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.R;
-import com.example.root.sens.dao.UserDAO;
-import com.example.root.sens.dto.Goal;
-import com.example.root.sens.dto.GoalHistory;
-import com.example.root.sens.dto.User;
 import com.example.root.sens.fragments.interfaces.OverviewListItem;
 import com.example.root.sens.fragments.interfaces.TypeCalendar;
 import com.example.root.sens.fragments.interfaces.TypeProgress;
+import com.example.root.sens.managers.UserManager;
 import com.example.root.sens.recyclers.viewholder.ViewHolder;
 import com.example.root.sens.recyclers.viewholder.ViewHolderCalendar;
 import com.example.root.sens.recyclers.viewholder.ViewHolderProgressBar;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
-
-import io.realm.RealmList;
+import java.util.List;
+import java.util.Map;
 
 
 public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
     private final Context mContext;
     private final List<OverviewListItem> mItems;
+    int numberOfViews = 0;
     private int i = 0;
-    private List<Integer> typeList;
+    private List<ActivityCategories> typeList;
     private Date wantedDate;
 
     public OverviewAdapter(Context ctx, Date wantedDate, boolean calendarVisible) {
+        Map<ActivityCategories, Integer> goals = new UserManager().getGoals(wantedDate);
+        typeList = new ArrayList<>();
         this.mContext = ctx;
         this.wantedDate = wantedDate;
 
@@ -46,18 +44,14 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
         if (calendarVisible) {
             mItems.add(new TypeCalendar());
         }
-        GoalHistory goals = UserDAO.getInstance().getGoalSpecificDate(wantedDate);
-        typeList = new ArrayList<>();
-        int counter = 0;
-        for (Goal goal : goals.getGoals()) {
-            if (goal.getValue() != 0) {
-                mItems.add(new TypeProgress(goal.getType()));
-                typeList.add(counter);
+
+        for (Map.Entry<ActivityCategories, Integer> entry : goals.entrySet())
+        {
+            if (entry.getValue() != 0) {
+                mItems.add(new TypeProgress(entry.getKey()));
+                typeList.add(entry.getKey());
             }
-            counter++;
         }
-
-
     }
 
     @Override
@@ -70,6 +64,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int type) {
         View view;
         ViewHolder viewHolderType = null;
+
         switch (type) {
             case OverviewListItem.TYPE_CALENDAR:
                 view = LayoutInflater
@@ -85,6 +80,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
                 i++;
                 break;
         }
+
         return viewHolderType;
     }
 
