@@ -24,4 +24,5 @@ public interface IUserManager {
     void createGoals(List<SetGoalItemModel> goals);
     void saveUser();
     List<String> getGoalStreak();
+    Map<Date, Boolean> generateFulfilleGoalsMap();
 }

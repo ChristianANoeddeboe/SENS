@@ -227,7 +227,8 @@ public class UserManager implements IUserManager{
         return result;
     }
 
-    private Map<Date, Boolean> generateFulfilleGoalsMap(){
+    @Override
+    public Map<Date, Boolean> generateFulfilleGoalsMap(){
         HashMap<Date,Boolean> result = new HashMap<>();
         User activeUser = UserDAO.getInstance().getUserLoggedIn();
         RealmList<DayData> dayData = activeUser.getDayData();

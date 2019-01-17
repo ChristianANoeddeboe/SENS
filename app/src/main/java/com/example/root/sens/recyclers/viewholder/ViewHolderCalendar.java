@@ -9,6 +9,7 @@ import com.example.root.sens.R;
 import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.fragments.interfaces.OverviewListItem;
+import com.example.root.sens.managers.UserManager;
 import com.example.root.sens.observers.MainFullScreenObserver;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -17,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class ViewHolderCalendar extends ViewHolder {
     private final CompactCalendarView calendar;
@@ -52,7 +54,7 @@ public class ViewHolderCalendar extends ViewHolder {
                 calendarMonth.setText(dateFormatForMonth.format(calendar.getFirstDayOfCurrentMonth()));
             }
         });
-        HashMap<Date, Boolean> result = UserDAO.getInstance().userFulfilledGoals();
+        Map<Date, Boolean> result = new UserManager().generateFulfilleGoalsMap();
         for (Date date : result.keySet()) {
             boolean tempRes = result.get(date).booleanValue();
             if (tempRes) {
