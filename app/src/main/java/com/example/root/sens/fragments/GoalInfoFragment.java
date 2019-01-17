@@ -66,73 +66,61 @@ public class GoalInfoFragment extends Fragment {
 
         goalbox.setOnClickListener((View v) -> getActivity().onBackPressed());
 
-        oneWeek.setOnClickListener((View v) ->  {
-            showGraph(graphView, 7);
-        });
+        oneWeek.setOnClickListener((View v) -> showGraph(7));
 
-        twoWeeks.setOnClickListener((View v) ->  {
-            showGraph(graphView, 14);
-        });
+        twoWeeks.setOnClickListener((View v) -> showGraph(14));
 
-        oneMonth.setOnClickListener((View v) ->  {
-            showGraph(graphView,30);
-        });
+        oneMonth.setOnClickListener((View v) -> showGraph(30));
 
+        header.setBackgroundColor(color);
         oneWeek.setTextColor(color);
         twoWeeks.setTextColor(color);
         oneMonth.setTextColor(color);
 
-        header.setBackgroundColor(color);
-
-        showGraph(graphView, 7);
+        initializeGraph();
+        showGraph(7);
 
         return rootView;
     }
 
-    private void showGraph(GraphView graph, int numberOfDays){
-        graph.removeAllSeries();
-
-        DataPoint[] dataPoints = generateData(numberOfDays);
-        BarGraphSeries<DataPoint> series = new BarGraphSeries<>(dataPoints);
-        series.setSpacing(12); // 25% spacing between bars
-
-        // Setting the X-label formatter to handle dates.
-        graph.getGridLabelRenderer().setLabelFormatter(
-                new DateAsXAxisLabelFormatter(graph.getContext(),
+    private void initializeGraph(){
+        graphView.getGridLabelRenderer().setLabelFormatter(
+                new DateAsXAxisLabelFormatter(graphView.getContext(),
                         new SimpleDateFormat("dd'/'MM",
                                 new Locale("da"))));
 
-        graph.getViewport().setBorderColor(0);
+        graphView.getGridLabelRenderer().setNumHorizontalLabels(7); // More than seven labels i mashed together
 
-        graph.getGridLabelRenderer().setNumHorizontalLabels(7); // More than seven labels i mashed together
-
-        // ADding labels to axies
         if(goalType == ActivityCategories.Skridt){
-            graph.getGridLabelRenderer().setVerticalAxisTitle("Skridt");
+            graphView.getGridLabelRenderer().setVerticalAxisTitle("Skridt");
         }else {
-            graph.getGridLabelRenderer().setVerticalAxisTitle("Tid i minutter");
+            graphView.getGridLabelRenderer().setVerticalAxisTitle("Tid i minutter");
         }
 
-        // as we use dates as labels, the human rounding to nice readable numbers
-        // is not nessecary
-        graph.getGridLabelRenderer().setHumanRounding(false);
+        graphView.getGridLabelRenderer().setHumanRounding(false);
+        graphView.getGridLabelRenderer().setNumHorizontalLabels(7);
+    }
 
-        // Changing subtile text
+    private void showGraph(int numberOfDays){
+        graphView.removeAllSeries();
+
+        DataPoint[] dataPoints = generateData(numberOfDays);
+        BarGraphSeries<DataPoint> series = new BarGraphSeries<>(dataPoints);
+
+        series.setSpacing(12);
+        series.setColor(color);
+
         SimpleDateFormat simpleDateFormat =
                 new SimpleDateFormat("d'.' MMMM", new Locale("da"));
         subTitle.setText("Viser data for " + numberOfDays + " dage.\n Den "
                 + simpleDateFormat.format(startDate) + " til den " + simpleDateFormat.format(endDate));
 
-        // Modifieing graph view
-        Viewport graphViewport = graph.getViewport();
+        Viewport graphViewport = graphView.getViewport();
         graphViewport.setMinX(dataPoints[0].getX() + 1);
         graphViewport.setMaxX(dataPoints[numberOfDays-1].getX());
         graphViewport.setXAxisBoundsManual(true);
 
-        series.setColor(color);
-
-        graph.getGridLabelRenderer().setNumHorizontalLabels(7);
-        graph.addSeries(series);
+        graphView.addSeries(series);
     }
 
     private DataPoint[] generateData(int numberOfDays) {
