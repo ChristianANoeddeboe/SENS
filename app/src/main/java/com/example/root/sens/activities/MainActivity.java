@@ -32,7 +32,6 @@ import com.example.root.sens.R;
 import com.example.root.sens.dao.SensDAO;
 import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dao.interfaces.DatabaseObserver;
-import com.example.root.sens.dao.interfaces.DatabaseSubject;
 import com.example.root.sens.dao.interfaces.SensObserver;
 import com.example.root.sens.dao.interfaces.SensSubject;
 import com.example.root.sens.dto.User;
@@ -58,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements
     private static String standardToolbarTitle = "SENS";
     private ViewPager viewPager;
     private SensSubject sensSubject;
-    private DatabaseSubject databaseSubject;
     private SharedPreferences sharedPreferences;
     private ViewpagerAdapter viewpagerAdapter;
     private ProgressBar progressBar;
@@ -157,8 +155,7 @@ public class MainActivity extends AppCompatActivity implements
     private void setupDataFetcher() {
         sensSubject = SensDAO.getInstance();
         sensSubject.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
-        databaseSubject = UserDAO.getInstance();
-        databaseSubject.registerObserver(this);
+        UserDAO.getInstance().registerObserver(this);
         SensDAO.getInstance().getData(getString(R.string.SensPatientKey), 14);
         fetchDataProgressBar();
 
@@ -281,7 +278,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onDestroy() {
         super.onDestroy();
         sensSubject.removeObserver(this);
-        databaseSubject.removeObserver(this);
+        UserDAO.getInstance().removeObserver(this);
         if (asyncTask != null) {
             asyncTask.cancel(true);
         }
