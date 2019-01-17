@@ -21,9 +21,9 @@ import io.realm.RealmChangeListener;
 import io.realm.RealmList;
 
 public class UserDAO implements IUserDao, DatabaseSubject {
+    private final String TAG = UserDAO.class.getSimpleName();
     private static UserDAO instance;
     private ArrayList<DatabaseObserver> mObservers;
-    private final String TAG = UserDAO.class.getSimpleName();
     private final int DAY_MILLISECONDS = (int) TimeUnit.DAYS.toMillis(1);
     private Realm realm;
     private RealmChangeListener realmListener;

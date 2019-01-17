@@ -1,7 +1,6 @@
 package com.example.root.sens.recyclers.viewholder;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,44 +12,31 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.R;
 import com.example.root.sens.auxiliary.ResourceManagement;
-import com.example.root.sens.dao.UserDAO;
-import com.example.root.sens.dto.DayData;
-import com.example.root.sens.dto.Goal;
-import com.example.root.sens.dto.Record;
 import com.example.root.sens.fragments.GoalInfoFragment;
 import com.example.root.sens.fragments.interfaces.OverviewListItem;
+import com.example.root.sens.managers.IUserManager;
+import com.example.root.sens.managers.UserManager;
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
 
 import java.util.Date;
-
-import io.realm.RealmList;
+import java.util.Map;
 
 public class ViewHolderProgressBar extends ViewHolder {
     private final DecoView progressCircle;
-    private TextView progressTextView, title, unitTextView;
+    private TextView progressTextView, title;
     private ImageView imageView;
-
-    public CardView getGoalbox() {
-        return goalbox;
-    }
-
-    public void setGoalbox(CardView goalbox) {
-        this.goalbox = goalbox;
-    }
-
     private CardView goalbox;
     private LinearLayout header;
-    private int type;
-    private String goalType;
+    private ActivityCategories activityCategory;
     private Date wantedDate;
     private Context ctx;
 
-    public ViewHolderProgressBar(View itemView, int i, Context viewGroup, Date wantedDate) {
+    public ViewHolderProgressBar(View itemView, ActivityCategories activityCategory, Context viewGroup, Date wantedDate) {
         super(itemView);
         this.wantedDate = wantedDate;
         progressCircle = itemView.findViewById(R.id.dynamicArcView);
@@ -58,7 +44,6 @@ public class ViewHolderProgressBar extends ViewHolder {
         imageView = itemView.findViewById(R.id.goalIconImageView);
         goalbox = itemView.findViewById(R.id.goalchart_cardview);
         header = itemView.findViewById(R.id.typegoal_LinearLayout_header);
-        //unitTextView = itemView.findViewById(R.id.goalbox_Textview_unit);
         title = itemView.findViewById(R.id.goalbox_TextView_title);
         ctx = viewGroup;
 
@@ -66,8 +51,7 @@ public class ViewHolderProgressBar extends ViewHolder {
             Bundle args = new Bundle();
             args.putString("title",title.getText().toString());
             args.putString("progress",progressTextView.getText().toString());
-            //args.putString("unit", unitTextView.getText().toString());
-            args.putString("goalType",goalType);
+            args.putString("goalType", String.valueOf(activityCategory));
 
             Fragment goalInfoFragment = new GoalInfoFragment();
             goalInfoFragment.setArguments(args);
@@ -79,51 +63,25 @@ public class ViewHolderProgressBar extends ViewHolder {
                     .commit();
         });
 
-        type = i;
+        this.activityCategory = activityCategory;
     }
 
     @Override
     public void bindType(OverviewListItem item) {
-        UserDAO userDAO = UserDAO.getInstance();
-        DayData dayData = userDAO.getDataSpecificDate(wantedDate);
-        RealmList<Goal> goals = UserDAO.getInstance().getGoalSpecificDate(wantedDate).getGoals();
-        Goal currentGoal = goals.get(type);
-        int current = 0;
-        int max = 1;
+        IUserManager userManager = new UserManager();
+        Map<ActivityCategories, Float> dayData = userManager.getDayData(wantedDate);
+        Map<ActivityCategories, Integer> goals = userManager.getGoals(wantedDate);
+        int max = goals.get(activityCategory);
+        int current = (dayData.get(activityCategory).intValue()> max) ? max : dayData.get(activityCategory).intValue();
 
-        try{
-            goalType = currentGoal.getType().toString();
-        } catch (NullPointerException e){
-            e.printStackTrace();
-        }
+        int color = new ResourceManagement().getGoalColor(activityCategory);
 
-        if(dayData != null){
-            RealmList<Record> temp = dayData.getRecords();
-            for(Record record : temp){
-                if(record.getType().equals(currentGoal.getType())){
-                    current = (int) record.getValue();
-                    break;
-                }
-            }
-
-            max = currentGoal.getValue();
-            if(max > 0 ) {
-                if(current > max){
-                    current = max;
-                }
-            } else {
-                current = max;
-            }
-        }
-
-        int color = new ResourceManagement().getGoalColor(currentGoal.getType());
-
-        progressTextView.setText(createProgressText(current, currentGoal.getValue()));
+        progressTextView.setText(createProgressText(current, max));
         //unitTextView.setText(R.string.Minutes);
 
-        title.setText(currentGoal.getType().toString());
+        title.setText(String.valueOf(activityCategory));
 
-        imageView.setImageResource(new ResourceManagement().generateIcons(currentGoal.getType()));
+        imageView.setImageResource(new ResourceManagement().generateIcons(activityCategory));
 
         // TODO: Change deprecated method
         header.setBackgroundResource(color);
@@ -164,5 +122,9 @@ public class ViewHolderProgressBar extends ViewHolder {
             result = "0 min.";
         }
         return result;
+    }
+
+    public CardView getGoalbox() {
+        return goalbox;
     }
 }

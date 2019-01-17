@@ -30,7 +30,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
     private final List<OverviewListItem> mItems;
     int numberOfViews = 0;
     private int i = 0;
-    private List<Integer> typeList;
+    private List<ActivityCategories> typeList;
     private Date wantedDate;
 
     public OverviewAdapter(Context ctx, Date wantedDate, boolean calendarVisible) {
@@ -49,9 +49,8 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
         {
             if (entry.getValue() != 0) {
                 mItems.add(new TypeProgress(entry.getKey()));
-                typeList.add(numberOfViews++);
+                typeList.add(entry.getKey());
             }
-            System.out.println(entry.getKey() + "/" + entry.getValue());
         }
     }
 
@@ -65,6 +64,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int type) {
         View view;
         ViewHolder viewHolderType = null;
+
         switch (type) {
             case OverviewListItem.TYPE_CALENDAR:
                 view = LayoutInflater
@@ -80,6 +80,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
                 i++;
                 break;
         }
+
         return viewHolderType;
     }
 

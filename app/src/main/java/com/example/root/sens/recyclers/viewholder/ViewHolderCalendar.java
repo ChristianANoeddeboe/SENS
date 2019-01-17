@@ -5,10 +5,11 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.R;
-import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.fragments.interfaces.OverviewListItem;
+import com.example.root.sens.managers.IUserManager;
 import com.example.root.sens.managers.UserManager;
 import com.example.root.sens.observers.MainFullScreenObserver;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
@@ -16,7 +17,6 @@ import com.github.sundeepk.compactcalendarview.domain.Event;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -66,13 +66,10 @@ public class ViewHolderCalendar extends ViewHolder {
     }
 
     private void fullScreenOverlayFragment(Date dateClicked) {
-        // TODO: Lav metodeTS i UserDAO der kan fortælle om der er data for en dato
-        UserDAO userDAO = UserDAO.getInstance();
-        DayData dayData = userDAO.getDataSpecificDate(dateClicked);
-
+        IUserManager userManager = new UserManager();
         MainFullScreenObserver observer = (MainFullScreenObserver) ctx;
-
-        if (dayData == null) {
+        Map<ActivityCategories, Float> data = userManager.getDayData(dateClicked);
+        if (data.isEmpty()) {
             observer.showFragment(null);
         }else {
             observer.showFragment(dateClicked);
