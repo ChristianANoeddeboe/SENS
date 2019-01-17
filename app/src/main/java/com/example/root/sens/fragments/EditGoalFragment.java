@@ -76,7 +76,7 @@ public class EditGoalFragment extends Fragment implements EditGoalAdapter.OnItem
 
     private List<SetGoalItemModel> createItem(){
         ArrayList<String> data;
-        int oldValues[] = new int[5];
+        int oldValues[] = new int[6];
         List<SetGoalItemModel> tempList = new ArrayList<>();
 
         data = new ArrayList<>();
