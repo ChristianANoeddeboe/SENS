@@ -10,6 +10,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -78,6 +79,7 @@ public class WizardActivity extends AppCompatActivity {
                     break;
                 case 6:
                     switchPage(v,7);
+                    finish();
                     break;
                 default:
                     Log.e(TAG, "Page does not exist");
@@ -92,6 +94,7 @@ public class WizardActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.slide_out_r, R.anim.slide_in_r);
         });
     }
+
 
     private void switchPage(View v, int nextPage) {
         mPager.setCurrentItem(nextPage, true);
@@ -126,41 +129,29 @@ public class WizardActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
+            Bundle args = new Bundle();
+            args.putInt("PageNum",position);
             switch (position) {
                 case 0:
-                    oversigtFragment.setDescriptionImage(R.mipmap.oversigt);
-                    oversigtFragment.setDescriptionText("Denne side giver dig en hurtig oversigt over" +
-                            " hvordan du ligger med dine mål.");
+                    oversigtFragment.setArguments(args);
                     return oversigtFragment;
                 case 1:
-                    calenderFragment.setDescriptionImage(R.mipmap.oversigtcalender);
-                    calenderFragment.setDescriptionText("Kalenderen viser dig et tilbageblik på hvordan " +
-                            "du præsterede bagud i tiden, samt hvilken dag du nu er på. " +
-                            "Farverne beskriver om du opfyldte dine mål (Grøn) den pågældende dag, " +
-                            "eller om du ikke gjorde (rød).");
+                    calenderFragment.setArguments(args);
                     return calenderFragment;
                 case 2:
-                    maalkortFragment.setDescriptionImage(R.mipmap.oversigtcalender);
-                    maalkortFragment.setDescriptionText("Hvis man trykker på en dato med en farve, vil " +
-                            "man se de mål man havde for den pågældende dag.");
+                    maalkortFragment.setArguments(args);
                     return maalkortFragment;
                 case 3:
-                    maalkortInfoFragment.setDescriptionImage(R.mipmap.oversigtmaalkort);
-                    maalkortInfoFragment.setDescriptionText("Kortene viser dine pågældende mål, med hensyn " +
-                            "til hvor meget tid du har brugt på et mål og hvor meget du mangler.");
+                    maalkortInfoFragment.setArguments(args);
                     return maalkortInfoFragment;
                 case 4:
-                    hoejdepunkterFragment.setDescriptionImage(R.mipmap.historik);
-                    hoejdepunkterFragment.setDescriptionText("Kortene viser dine pågældende mål, med hensyn " +
-                            "til hvor meget tid du har brugt på et mål og hvor meget du mangler.");
+                    hoejdepunkterFragment.setArguments(args);
                     return hoejdepunkterFragment;
                 case 5:
-                    burgerMenuIkonFragment.setDescriptionImage(R.mipmap.award);
-                    burgerMenuIkonFragment.setDescriptionText("Øverst finder du menuen, hvor ydeligere funktioner ligger.");
+                    burgerMenuIkonFragment.setArguments(args);
                     return burgerMenuIkonFragment;
                 case 6:
-                    burgerMenuFragment.setDescriptionImage(R.mipmap.award);
-                    burgerMenuFragment.setDescriptionText("Her har du mulighed for og redigere indstillinger, redigere dine mål og håndtere notifikationer.");
+                    burgerMenuFragment.setArguments(args);
                     return burgerMenuFragment;
                 default:
                     Log.d(TAG, "Fatal pager error, position does not exist! " + position);
