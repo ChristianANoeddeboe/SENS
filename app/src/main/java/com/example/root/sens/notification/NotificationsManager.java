@@ -8,10 +8,12 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
+import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.R;
 import com.example.root.sens.auxiliary.DayDataGoalMapper;
-import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dto.User;
+import com.example.root.sens.managers.IUserManager;
+import com.example.root.sens.managers.UserManager;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -46,12 +48,12 @@ public class NotificationsManager {
     }
 
     public void displayNotification(){
-        UserDAO userDAO = UserDAO.getInstance();
-        User currentUser = userDAO.getUserLoggedIn();
+        IUserManager userManager = new UserManager();
+        User currentUser = userManager.getUserLoggedIn();
 
-        DayDataGoalMapper dayDataGoalMapper = new DayDataGoalMapper(userDAO);
-        Map<String, Integer> goalMap = dayDataGoalMapper.getGoalMap();
-        Map<String, Float> dataMap = dayDataGoalMapper.getDataMap();
+        DayDataGoalMapper dayDataGoalMapper = new DayDataGoalMapper(userManager);
+        Map<ActivityCategories, Integer> goalMap = dayDataGoalMapper.getGoalMap();
+        Map<ActivityCategories, Float> dataMap = dayDataGoalMapper.getDataMap();
         ArrayList<Notification> notificationsList = new ArrayList<>();
         Notification summaryNotification =
                 new NotificationCompat.Builder(ctx, channelId)
@@ -65,13 +67,13 @@ public class NotificationsManager {
                         //set this notification as the summary for the group
                         .setGroupSummary(true)
                         .build();
-        for(String s : goalMap.keySet()){
+        for(ActivityCategories s : goalMap.keySet()){
             int progress_max = goalMap.get(s);
             int progress_current = dataMap.get(s).intValue();
             if(progress_max != 0){
                 notificationsList.add(new NotificationCompat.Builder(ctx, channelId)
                         .setSmallIcon(R.mipmap.ic_notification_round)
-                        .setContentTitle(s)
+                        .setContentTitle(String.valueOf(s))
                         .setContentText(""+progress_current+"/"+progress_max)
                         .setGroup(GROUP_KEY_PROGRESS)
                         .setProgress(progress_max, progress_current, false)

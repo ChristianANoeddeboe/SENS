@@ -1,7 +1,5 @@
 package com.example.root.sens.dao;
 
-import android.util.Log;
-
 import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.dao.interfaces.DatabaseObserver;
 import com.example.root.sens.dao.interfaces.DatabaseSubject;
@@ -9,14 +7,12 @@ import com.example.root.sens.dao.interfaces.IUserDao;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
-import com.example.root.sens.dto.Record;
 import com.example.root.sens.dto.Settings;
 import com.example.root.sens.dto.User;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -31,7 +27,9 @@ public class UserDAO implements IUserDao, DatabaseSubject {
     private final int DAY_MILLISECONDS = (int) TimeUnit.DAYS.toMillis(1);
     private Realm realm;
     private RealmChangeListener realmListener;
+
     private UserDAO(){}
+
     public static UserDAO getInstance(){
         if(instance==null){
             instance = new UserDAO();
@@ -42,6 +40,7 @@ public class UserDAO implements IUserDao, DatabaseSubject {
         }
         return instance;
     }
+
     @Override
     public void setUserLoggedIn(User user){
         Realm realm = Realm.getDefaultInstance();
@@ -54,6 +53,7 @@ public class UserDAO implements IUserDao, DatabaseSubject {
         realm.copyToRealmOrUpdate(settings);
         realm.commitTransaction();
     }
+
     @Override
     public void removeUserLoggedIn(User user){
         Realm realm = Realm.getDefaultInstance();

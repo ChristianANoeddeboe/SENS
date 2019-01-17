@@ -7,18 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.example.root.sens.R;
-import com.example.root.sens.auxiliary.DayDataGoalMapper;
-import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.recyclers.adapters.OverviewAdapter;
 
 import java.util.Date;
-import java.util.Map;
 
 public class DayDataFragment extends Fragment{
-    private Map<String, Integer> goalMap;
     private OverviewAdapter overviewAdapter;
     private RecyclerView recyclerView;
 
@@ -29,15 +24,6 @@ public class DayDataFragment extends Fragment{
         // Getting the selected data
         Bundle bundle = savedInstanceState != null ? savedInstanceState : getArguments();
         Date date = (Date) bundle.getSerializable("date");
-
-        // Loading data from Realm
-        UserDAO user = UserDAO.getInstance();
-        DayDataGoalMapper dayDataGoalMapper = new DayDataGoalMapper(user, date);
-        goalMap = dayDataGoalMapper.getGoalMap();
-
-        // Adding button
-//        Button buttonBack = rootView.findViewById(R.id.button_close_full_screen_cards);
-//        buttonBack.setOnClickListener((View v) -> getActivity().onBackPressed());
 
         // Recycler stuff
         View dataDataFragmentLayout = rootView.findViewById( R.id.frameLayout_DataDataFragment);
