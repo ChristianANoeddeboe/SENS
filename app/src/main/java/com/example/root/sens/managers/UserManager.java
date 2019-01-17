@@ -56,6 +56,8 @@ public class UserManager {
                 case "Søvn":
                     list.add(new Goal(ActivityCategories.Søvn.toString(),goal.getValue()));
                     break;
+                case "Skridt":
+                    list.add(new Goal(ActivityCategories.Skridt.toString(),goal.getValue()));
                 default:
                     //TODO: Throw error
                     break;

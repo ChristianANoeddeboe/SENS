@@ -58,14 +58,15 @@ public class UserConfigConfirmFragment extends Fragment implements UserObserver 
     }
 
     private List<ConfirmGoalItemModel> createItem() {
-        recyclerItems.add(new ConfirmGoalItemModel("Fornavn",  ""));
-        recyclerItems.add(new ConfirmGoalItemModel("Efternavn",  ""));
-        recyclerItems.add(new ConfirmGoalItemModel("Fødselsdag", ""));
-        recyclerItems.add(new ConfirmGoalItemModel("Cykling", ""));
-        recyclerItems.add(new ConfirmGoalItemModel("Gang", ""));
-        recyclerItems.add(new ConfirmGoalItemModel("Træning", ""));
-        recyclerItems.add(new ConfirmGoalItemModel("Stå", ""));
-        recyclerItems.add(new ConfirmGoalItemModel("Søvn", ""));
+        recyclerItems.add(new ConfirmGoalItemModel("Fornavn",  "",0));
+        recyclerItems.add(new ConfirmGoalItemModel("Efternavn",  "",0));
+        recyclerItems.add(new ConfirmGoalItemModel("Fødselsdag", "",0));
+        recyclerItems.add(new ConfirmGoalItemModel("Cykling", "",0));
+        recyclerItems.add(new ConfirmGoalItemModel("Gang", "",0));
+        recyclerItems.add(new ConfirmGoalItemModel("Træning", "",0));
+        recyclerItems.add(new ConfirmGoalItemModel("Stå", "",0));
+        recyclerItems.add(new ConfirmGoalItemModel("Søvn", "",0));
+        recyclerItems.add(new ConfirmGoalItemModel("Skridt","",1));
 
         return recyclerItems;
     }
@@ -84,6 +85,7 @@ public class UserConfigConfirmFragment extends Fragment implements UserObserver 
                 updateRecycler(5, "Træning", String.valueOf(user.getGoals().get(0).getGoals().get(2).getValue()));
                 updateRecycler(6, "Stå", String.valueOf(user.getGoals().get(0).getGoals().get(3).getValue()));
                 updateRecycler(7, "Søvn", String.valueOf(user.getGoals().get(0).getGoals().get(4).getValue()));
+                updateRecycler(8,"Skridt",String.valueOf(user.getGoals().get(0).getGoals().get(5).getValue()));
                 break;
             default:
         }
@@ -92,7 +94,9 @@ public class UserConfigConfirmFragment extends Fragment implements UserObserver 
     private void updateRecycler(int position, String description, String value){
         try {
             List<ConfirmGoalItemModel> list = ((ConfirmGoalAdapter) mAdapter).getmDataSet();
-            list.set(position, new ConfirmGoalItemModel(description, value));
+            int type = description.equals("Skridt") ? 1 : 0;
+            Log.d(TAG, "updateRecycler: "+description+":"+type);
+            list.set(position, new ConfirmGoalItemModel(description, value, type));
             mAdapter.notifyDataSetChanged();
         }catch (NullPointerException e){
             Log.e(TAG, e.getMessage() + "\n\n" + e.getStackTrace().toString());

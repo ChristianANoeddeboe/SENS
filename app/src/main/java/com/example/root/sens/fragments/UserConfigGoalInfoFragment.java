@@ -8,10 +8,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.root.sens.dto.ActivityCategories;
 import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
 import com.example.root.sens.R;
 import com.example.root.sens.recyclers.adapters.SetGoalAdapter;
@@ -22,7 +24,6 @@ import java.util.List;
 public class UserConfigGoalInfoFragment extends Fragment
         implements SetGoalAdapter.SetGoalAdapterOnItemClickListener {
     private SetGoalAdapter adapter;
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,21 +48,24 @@ public class UserConfigGoalInfoFragment extends Fragment
     private List<SetGoalItemModel> createItem() {
         ArrayList<SetGoalItemModel> items = new ArrayList<>();
 
-        items.add(new SetGoalItemModel("Cykling", 0));
-        items.add(new SetGoalItemModel("Gang", 0));
-        items.add(new SetGoalItemModel("Træning", 0));
-        items.add(new SetGoalItemModel("Stå", 0));
-        items.add(new SetGoalItemModel("Søvn", 0));
+        items.add(new SetGoalItemModel(0,"Cykling", 0));
+        items.add(new SetGoalItemModel(0,"Gang", 0));
+        items.add(new SetGoalItemModel(0,"Træning", 0));
+        items.add(new SetGoalItemModel(0,"Stå", 0));
+        items.add(new SetGoalItemModel(0,"Søvn", 0));
+        items.add(new SetGoalItemModel(1,"Skridt",0));
         return items;
     }
 
     @Override
-    public void onItemClick(View item, int position) {
+    public void onItemClick(View item, int position, ActivityCategories type) {
         FragmentManager fm = getActivity().getSupportFragmentManager();
-        TimePickerFragment newFragment = new TimePickerFragment();
-        newFragment.setCancelable(false);
-        newFragment.setTargetFragment(this, position);
-        newFragment.show(fm, "TAG");
+        if(type != ActivityCategories.Skridt){
+            TimePickerFragment newFragment = new TimePickerFragment();
+            newFragment.setCancelable(false);
+            newFragment.setTargetFragment(this, position);
+            newFragment.show(fm, "TAG");
+        }
     }
 
     @Override
