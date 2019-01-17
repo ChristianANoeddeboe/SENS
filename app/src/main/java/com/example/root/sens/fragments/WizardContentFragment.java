@@ -53,8 +53,7 @@ public class WizardContentFragment extends Fragment {
                 break;
             case 4:
                 descriptionImage.setImageResource(R.mipmap.historik);
-                descriptionText.setText("Kortene viser dine pågældende mål, med hensyn " +
-                        "til hvor meget tid du har brugt på et mål og hvor meget du mangler.");
+                descriptionText.setText("Her ses de højdepunkter du har opnået, ved at opfylde dine mål hver dag i en periode.");
                 break;
             case 5:
                 descriptionImage.setImageResource(R.mipmap.award);
