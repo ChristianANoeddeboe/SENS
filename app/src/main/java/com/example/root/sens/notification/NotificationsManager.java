@@ -16,6 +16,7 @@ import com.example.root.sens.managers.IUserManager;
 import com.example.root.sens.managers.UserManager;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 
@@ -51,9 +52,8 @@ public class NotificationsManager {
         IUserManager userManager = new UserManager();
         User currentUser = userManager.getUserLoggedIn();
 
-        DayDataGoalMapper dayDataGoalMapper = new DayDataGoalMapper(userManager);
-        Map<ActivityCategories, Integer> goalMap = dayDataGoalMapper.getGoalMap();
-        Map<ActivityCategories, Float> dataMap = dayDataGoalMapper.getDataMap();
+        Map<ActivityCategories, Integer> goalMap = userManager.getGoals(new Date());
+        Map<ActivityCategories, Float> dataMap = userManager.getDayData(new Date());
         ArrayList<Notification> notificationsList = new ArrayList<>();
         Notification summaryNotification =
                 new NotificationCompat.Builder(ctx, channelId)
@@ -68,8 +68,8 @@ public class NotificationsManager {
                         .setGroupSummary(true)
                         .build();
         for(ActivityCategories s : goalMap.keySet()){
-            int progress_max = goalMap.get(s);
-            int progress_current = dataMap.get(s).intValue();
+            int progress_max = (goalMap.get(s) == null) ? 0 : goalMap.get(s);
+            int progress_current = (dataMap.get(s) == null) ? 0 : dataMap.get(s).intValue();
             if(progress_max != 0){
                 notificationsList.add(new NotificationCompat.Builder(ctx, channelId)
                         .setSmallIcon(R.mipmap.ic_notification_round)

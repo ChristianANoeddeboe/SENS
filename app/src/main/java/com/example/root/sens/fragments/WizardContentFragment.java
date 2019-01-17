@@ -38,9 +38,7 @@ public class WizardContentFragment extends Fragment {
                 break;
             case 1:
                 descriptionImage.setImageResource(R.mipmap.oversigtcalender);
-                descriptionText.setText("Kalenderen viser dig et tilbageblik på hvordan " +
-                        "du præsterede bagud i tiden, samt hvilken dag du nu er på. " +
-                        "Farverne beskriver om du opfyldte dine mål (Grøn) den pågældende dag, " +
+                descriptionText.setText("Farverne på kalenderen beskriver om du opfyldte dine mål (Grøn) den pågældende dag, " +
                         "eller om du ikke gjorde (rød).");
                 break;
             case 2:
@@ -55,8 +53,7 @@ public class WizardContentFragment extends Fragment {
                 break;
             case 4:
                 descriptionImage.setImageResource(R.mipmap.historik);
-                descriptionText.setText("Kortene viser dine pågældende mål, med hensyn " +
-                        "til hvor meget tid du har brugt på et mål og hvor meget du mangler.");
+                descriptionText.setText("Her ses de højdepunkter du har opnået, ved at opfylde dine mål hver dag i en periode.");
                 break;
             case 5:
                 descriptionImage.setImageResource(R.mipmap.award);

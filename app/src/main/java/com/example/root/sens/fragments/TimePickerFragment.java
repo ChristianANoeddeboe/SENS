@@ -14,9 +14,18 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        int hour;
+        int minute;
+        if(getArguments() != null){
+           hour = (getArguments().get("hour") == null) ? 0 : (int) getArguments().get("hour");
+           minute = (getArguments().get("minute") == null) ? 0 : (int) getArguments().get("minute");
+        }
+        else{
+            hour = 0;
+            minute = 0;
+        }
         // Use the current time as the default values for the picker
-        int hour = 0;
-        int minute = 0;
+
 
         // Create a new instance of TimePickerDialog and return it
         return new TimePickerDialog(getActivity(), R.style.MyTimePickerDialogStyle, this, hour, minute,
