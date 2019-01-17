@@ -12,7 +12,7 @@
         android:padding="8dp">
 
         <TextView
-            android:id="@+id/textView_set_goal_element_header"
+            android:id="@+id/edit_goal_textView_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/title_activity_main"
@@ -20,7 +20,7 @@
             android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/button_set_goal"
+            android:id="@+id/edit_goal_editText"
             style="@style/FilledTextFieldBlue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

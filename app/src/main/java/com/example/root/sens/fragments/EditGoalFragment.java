@@ -47,12 +47,14 @@ public class EditGoalFragment extends Fragment implements EditGoalAdapter.OnItem
     }
 
     @Override
-    public void onItemClick (View item,int position){
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        TimePickerFragment newFragment = new TimePickerFragment();
-        newFragment.setCancelable(false);
-        newFragment.setTargetFragment(this, position);
-        newFragment.show(fm, "TAG");
+    public void onItemClick (View item, int position, ActivityCategories type){
+        if(type != ActivityCategories.Skridt){
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            TimePickerFragment newFragment = new TimePickerFragment();
+            newFragment.setCancelable(false);
+            newFragment.setTargetFragment(this, position);
+            newFragment.show(fm, "TAG");
+        }
     }
 
     @Override

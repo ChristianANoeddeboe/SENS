@@ -72,7 +72,13 @@ public class ViewHolderProgressBar extends ViewHolder {
         Map<ActivityCategories, Float> dayData = userManager.getDayData(wantedDate);
         Map<ActivityCategories, Integer> goals = userManager.getGoals(wantedDate);
         int max = goals.get(activityCategory);
-        int current = (dayData.get(activityCategory).intValue()> max) ? max : dayData.get(activityCategory).intValue();
+        int current;
+        if(dayData.isEmpty()){
+            current = 0;
+        }
+        else{
+            current = (dayData.get(activityCategory).intValue()> max) ? max : dayData.get(activityCategory).intValue();
+        }
 
         int color = new ResourceManagement().getGoalColor(activityCategory);
 
