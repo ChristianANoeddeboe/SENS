@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.root.sens.ActivityCategories;
@@ -20,10 +21,8 @@ import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -31,7 +30,8 @@ import java.util.Map;
 
 public class GoalInfoFragment extends Fragment {
     TextView title;
-    CardView goalbox, header;
+    CardView goalbox;
+    LinearLayout header;
     ActivityCategories goalType;
     GraphView graphView;
     Button oneWeek, oneMonth, threeMonths;
@@ -45,44 +45,29 @@ public class GoalInfoFragment extends Fragment {
         title = rootView.findViewById(R.id.goalInfoBox_TextView_title);
         graphView = rootView.findViewById(R.id.goalInfoChart);
         oneWeek = rootView.findViewById(R.id.goalInfo_Button_1week);
-        oneMonth = rootView.findViewById(R.id.goalInfo_Button_1month);
-        threeMonths = rootView.findViewById(R.id.goalInfo_Button_3month);
-        header = rootView.findViewById(R.id.cardview_goalchart_header);
+        oneMonth = rootView.findViewById(R.id.goalInfo_Button_2weeks);
+        threeMonths = rootView.findViewById(R.id.goalInfo_Button_1month);
+        header = rootView.findViewById(R.id.typeGoalInfo_LinearLayout_header);
 
         title.setText(goalType.toString());
 
         goalbox.setOnClickListener((View v) -> getActivity().onBackPressed());
 
-        oneWeek.setOnClickListener((View v) ->  initGraph(graphView, generateData.oneWeekData.getValue()));
+        oneWeek.setOnClickListener((View v) ->  initGraph(graphView, 7));
 
-        oneMonth.setOnClickListener((View v) ->  initGraph(graphView, generateData.oneMonthData.getValue()));
+        oneMonth.setOnClickListener((View v) ->  initGraph(graphView, 14));
 
-        threeMonths.setOnClickListener((View v) ->  initGraph(graphView, generateData.threeMonthsData.getValue()));
+        threeMonths.setOnClickListener((View v) ->  initGraph(graphView,30));
 
-        header.setBackgroundTintList(getActivity().getResources().getColorStateList(new ResourceManagement().getGoalColor(goalType)));
+        header.setBackgroundResource(new ResourceManagement().getGoalColor(goalType));
 
-        initGraph(graphView, generateData.oneWeekData.getValue());
+        initGraph(graphView, 7);
 
         return rootView;
     }
 
-    enum generateData {
-        oneWeekData(7),
-        oneMonthData(30),
-        threeMonthsData(90);
-
-        private int dates;
-
-        public int getValue() {
-            return this.dates;
-        }
-
-        generateData(int dates) {
-            this.dates = dates;
-        }
-    }
-
     public void initGraph(GraphView graph, int numberOfDays) {
+
         DataPoint[] dataPoints = generateData(numberOfDays);
         BarGraphSeries<DataPoint> series = new BarGraphSeries<>(dataPoints);
         graph.addSeries(series);
@@ -93,7 +78,7 @@ public class GoalInfoFragment extends Fragment {
                         new SimpleDateFormat("dd'/'MM",
                                 new Locale("da"))));
 
-        graph.getGridLabelRenderer().setNumHorizontalLabels(numberOfDays);
+        graph.getGridLabelRenderer().setNumHorizontalLabels(7); // More than seven labels i mashed together
 
         // Modifieing graph view
         Viewport graphViewport = graph.getViewport();
@@ -106,6 +91,10 @@ public class GoalInfoFragment extends Fragment {
         graph.getGridLabelRenderer().setHumanRounding(false);
 
         series.setSpacing(25); // 25% spacing between bars
+    }
+
+    public void updateGraph(GraphView graph, int numberOfDays){
+
     }
 
     private DataPoint[] generateData(int numberOfDays) {
@@ -124,7 +113,7 @@ public class GoalInfoFragment extends Fragment {
 
             Map<ActivityCategories, Float> tempDayData = userManager.getDayData(date);
 
-            dataPoints[i] = new DataPoint(date, tempDayData.get(goalType));
+            dataPoints[i] = new DataPoint(date, tempDayData.get(goalType) == null ? 0 : tempDayData.get(goalType));
 
             // subtracting one day from the calender.
             cal.add(Calendar.DATE, 1);
