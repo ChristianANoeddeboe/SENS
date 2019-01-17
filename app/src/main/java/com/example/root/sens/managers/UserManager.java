@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dao.interfaces.UserObserver;
-import com.example.root.sens.dao.interfaces.IUserDao;
 import com.example.root.sens.data;
 import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.dto.DayData;
@@ -96,7 +95,7 @@ public class UserManager implements IUserManager{
     public void saveUser(){
         UserDAO userDao = UserDAO.getInstance();
         userDao.saveUser(user);
-        userDao.setUserLoggedIn(userDao.getUser(user.getSensors().get(0).getId()));
+        userDao.setUserLoggedIn(getUser(user.getSensors().get(0).getId()));
         data.initializeData();
     }
 
@@ -135,14 +134,18 @@ public class UserManager implements IUserManager{
         Map<ActivityCategories, Float> result = new HashMap<>();
         UserDAO dao = UserDAO.getInstance();
         DayData data = dao.getDataSpecificDate(date);
-        RealmList<Record> records = data.getRecords();
 
-        for(Record rec : records){
-            result.put(rec.getType(), rec.getValue());
+        if(data != null){
+            RealmList<Record> records = data.getRecords();
+
+            for(Record rec : records){
+                result.put(rec.getType(), rec.getValue());
+            }
         }
 
         return result;
     }
+
 
     @Override
     public void getGoal(ActivityCategories activityCategory) {
