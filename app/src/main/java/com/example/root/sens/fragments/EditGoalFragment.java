@@ -92,8 +92,13 @@ public class EditGoalFragment extends Fragment implements EditGoalAdapter.OnItem
             oldValues[i] = temp.get(i).getValue();
         }
 
-        for(int i = 0; i < 5; i++){
-            tempList.add(new SetGoalItemModel(data.get(i), oldValues[i]));
+        for(int i = 0; i < data.size(); i++){
+            if(data.get(i).endsWith("Skridt")){
+                tempList.add(new SetGoalItemModel(1,data.get(i), oldValues[i]));
+            }else{
+                tempList.add(new SetGoalItemModel(0,data.get(i), oldValues[i]));
+            }
+
         }
 
         return tempList;

@@ -1,23 +1,23 @@
 package com.example.root.sens.recyclers.adapters;
 
-import android.app.DialogFragment;
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.example.root.sens.fragments.TimePickerFragment;
+import com.example.root.sens.auxiliary.ProgressTextGenerator;
+import com.example.root.sens.dto.ActivityCategories;
 import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
 import com.example.root.sens.R;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHolder> {
     private static final String TAG = SetGoalAdapter.class.getSimpleName();
@@ -25,7 +25,7 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
     private List<SetGoalItemModel> dataSet;
 
     public interface SetGoalAdapterOnItemClickListener {
-        void onItemClick(View item, int position);
+        void onItemClick(View item, int position, ActivityCategories type);
     }
 
     /*
@@ -39,12 +39,12 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textViewPrimary;
-        private final TextView textView;
+        private final EditText editText;
 
         public ViewHolder(View v) {
             super(v);
             textViewPrimary = v.findViewById(R.id.textView_set_goal_element_header);
-            textView = v.findViewById(R.id.button_set_goal);
+            editText = v.findViewById(R.id.text_field_set_goal_element);
 
         }
 
@@ -52,27 +52,66 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
             return textViewPrimary;
         }
 
-        public TextView getTextView() {
-            return textView;
+        public EditText getEditText() {
+            return editText;
         }
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.set_goal_element, viewGroup, false);
+        View v;
+        if(viewType == 0) {
+            v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.set_goal_element, viewGroup, false);
+        }else if(viewType == 1){
+            v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.set_goal_element_steps,viewGroup,false);
+
+        }else{
+            v = null;
+        }
         return new ViewHolder(v);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        switch (dataSet.get(position).getType()){
+            case 0:
+                return 0;
+            case 1:
+                return 1;
+            default:
+                return -1;
+
+        }
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         Log.d(TAG, "Element " + position + " set.");
+        if(dataSet.get(position).getType() == 0){
+            viewHolder.getEditText().setOnClickListener((View v) -> {
+                listener.onItemClick(viewHolder.getEditText(), position, ActivityCategories.valueOf(dataSet.get(position).getPrimaryTxt()));
+            });
+            viewHolder.getEditText().setText(new ProgressTextGenerator().generateProgressText(Integer.toString(dataSet.get(position).getValue())));
+
+        }else{
+            viewHolder.getEditText().setHint("0 Skridt");
+            viewHolder.getEditText().setText("");
+            viewHolder.getEditText().addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {}
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if(Pattern.matches("[0-9]+", s.toString())){
+                        dataSet.get(position).setValue(Integer.parseInt(s.toString()));
+                    }
+                }
+            });
+
+        }
         viewHolder.getTextViewPrimary().setText(dataSet.get(position).getPrimaryTxt());
-        viewHolder.getTextView().setText(generateProgressText(dataSet.get(position).getValue()));
-        viewHolder.getTextView().setOnClickListener((View v) -> {
-            listener.onItemClick(viewHolder.getTextView(), position);
-        });
     }
 
 
@@ -85,11 +124,4 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
         return dataSet;
     }
 
-    public static String generateProgressText(int progress){
-        String result;
-        int hours = progress/60;
-        int minutes = progress%60;
-        result = ""+hours+" timer & "+minutes+" minutter";
-        return result;
-    }
 }

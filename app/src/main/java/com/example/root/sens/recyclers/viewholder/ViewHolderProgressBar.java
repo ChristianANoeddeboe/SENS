@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.root.sens.R;
 import com.example.root.sens.auxiliary.ResourceManagement;
 import com.example.root.sens.dao.UserDAO;
+import com.example.root.sens.dto.ActivityCategories;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.Record;
@@ -29,6 +30,8 @@ import com.hookedonplay.decoviewlib.charts.SeriesItem;
 import java.util.Date;
 
 import io.realm.RealmList;
+
+import static com.example.root.sens.dto.ActivityCategories.Skridt;
 
 public class ViewHolderProgressBar extends ViewHolder {
     private final DecoView progressCircle;
@@ -118,7 +121,7 @@ public class ViewHolderProgressBar extends ViewHolder {
 
         int color = new ResourceManagement().getGoalColor(currentGoal.getType());
 
-        progressTextView.setText(createProgressText(current, currentGoal.getValue()));
+        progressTextView.setText(createProgressText(current, currentGoal.getValue(), currentGoal.getType()));
         //unitTextView.setText(R.string.Minutes);
 
         title.setText(currentGoal.getType().toString());
@@ -135,12 +138,18 @@ public class ViewHolderProgressBar extends ViewHolder {
                 .build());
     }
 
-    private String createProgressText(int current, int goal) {
+    private String createProgressText(int current, int goal, ActivityCategories type) {
         String currentTime, goalTime;
-
-        currentTime = formatProgressText(current);
-        goalTime = formatProgressText(goal);
-
+        switch (type){
+            case Skridt:
+                currentTime = Integer.toString(current) + " skridt";
+                goalTime = Integer.toString(goal) + " skridt";
+                break;
+            default:
+                currentTime = formatProgressText(current);
+                goalTime = formatProgressText(goal);
+                break;
+        }
         return currentTime+" / "+goalTime;
     }
 

@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.root.sens.R;
+import com.example.root.sens.auxiliary.ProgressTextGenerator;
 import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
 
 import java.util.List;
@@ -63,7 +64,7 @@ public class EditGoalAdapter extends RecyclerView.Adapter<EditGoalAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         Log.d(TAG, "Element " + position + " set.");
         viewHolder.getTextViewPrimary().setText(dataSet.get(position).getPrimaryTxt());
-        viewHolder.getTextView().setText(generateProgressText(dataSet.get(position).getValue()));
+        viewHolder.getTextView().setText(new ProgressTextGenerator().generateProgressText(Integer.toString(dataSet.get(position).getValue())));
         viewHolder.getTextView().setOnClickListener((View v) ->
             listener.onItemClick(viewHolder.getTextView(), position)
         );
@@ -79,11 +80,5 @@ public class EditGoalAdapter extends RecyclerView.Adapter<EditGoalAdapter.ViewHo
         return dataSet;
     }
 
-    public static String generateProgressText(int progress){
-        String result;
-        int hours = progress/60;
-        int minutes = progress%60;
-        result = ""+hours+" timer & "+minutes+" minutter";
-        return result;
-    }
+
 }
