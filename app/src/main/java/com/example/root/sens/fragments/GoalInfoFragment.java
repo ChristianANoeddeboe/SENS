@@ -107,7 +107,7 @@ public class GoalInfoFragment extends Fragment {
         graph.getGridLabelRenderer().setNumHorizontalLabels(7); // More than seven labels i mashed together
 
         // ADding labels to axies
-        if(goalType == ActivityCategories.Cykling){
+        if(goalType == ActivityCategories.Skridt){
             graph.getGridLabelRenderer().setVerticalAxisTitle("Skridt");
         }else {
             graph.getGridLabelRenderer().setVerticalAxisTitle("Tid i minutter");
