@@ -80,12 +80,10 @@ public class WizardActivity extends AppCompatActivity {
                 case 6:
                     switchPage(v,7);
                     finish();
-                    overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
                     break;
                 default:
                     Log.e(TAG, "Page does not exist");
                     finish();
-                    overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
             }
         });
 
