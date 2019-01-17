@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -21,6 +22,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +54,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener, SensObserver,
         DatabaseObserver, MainFullScreenObserver {
-
+    private final String TAG = MainActivity.class.getSimpleName();
     private static String[] viewNames = {"Overblik", "Historik"};
     private static String standardToolbarTitle = "SENS";
     private ViewPager viewPager;
@@ -72,15 +74,17 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nav_content);
         coordinatorLayout = findViewById(R.id.main_a_coordinator_layout);
-
         setupNavigationDrawer();
-
         setupViewPager();
-
         setupDataFetcher();
+
     }
 
     private void setupNavigationDrawer() {
+
+
+
+
         /*
             Why are we setting the Toolbar programmatically?
 
@@ -118,6 +122,8 @@ public class MainActivity extends AppCompatActivity implements
         navigationDrawerName.setText(currentUser.getFirstName() + " " + currentUser.getLastName());
         navigationDrawerSensorId.setText(currentUser.getSensors().get(0).getId());
     }
+
+
 
     private void burgerMenuOnClickMethod() {
         if (!drawer.isDrawerOpen(GravityCompat.START) && isFullScreenFragmentOpen()) {

@@ -24,6 +24,7 @@
     <color name="walkingColor">#4CAF50</color>
     <color name="cyclingColor">#FF9800</color>
     <color name="exerciseColor">#F44336</color>
+    <color name="stepsColor">#7b1fa2</color>
 
     <color name="restingHeaderColor">#01655b</color>
     <color name="standingHeaderColor">#242f6d</color>
