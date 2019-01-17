@@ -33,7 +33,6 @@ public class ViewHolderProgressBar extends ViewHolder {
     private CardView goalbox;
     private LinearLayout header;
     private ActivityCategories activityCategory;
-    private String goalType;
     private Date wantedDate;
     private Context ctx;
 
@@ -52,7 +51,7 @@ public class ViewHolderProgressBar extends ViewHolder {
             Bundle args = new Bundle();
             args.putString("title",title.getText().toString());
             args.putString("progress",progressTextView.getText().toString());
-            args.putString("goalType",goalType);
+            args.putString("goalType", String.valueOf(activityCategory));
 
             Fragment goalInfoFragment = new GoalInfoFragment();
             goalInfoFragment.setArguments(args);
