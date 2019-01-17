@@ -94,11 +94,12 @@ public class UserConfigActivity extends AppCompatActivity {
                         Intent i = new Intent(getApplicationContext(), WizardActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(i);
-                        getWindow().setEnterTransition(new Slide());
+                        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
                     }else{
                         Intent i = new Intent(getApplicationContext(), MainActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(i);
+                        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
                     }
                     loginController.confirm();
                     break;
