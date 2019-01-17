@@ -2,6 +2,7 @@
 <FrameLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp"
@@ -61,58 +62,67 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:id="@+id/goalInfoBox_LinearLayout_container"
+                <TextView
+                    android:id="@+id/textViewGraphView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:padding="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:text="TextView"
+                    android:textAlignment="center"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:layout_editor_absoluteX="0dp" />
+
+                <com.jjoe64.graphview.GraphView
+                    android:id="@+id/goalInfoChart"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1"
+                    app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@+id/textViewGraphView" />
 
+                <LinearLayout
+                    android:id="@+id/linearLayout4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:layout_editor_absoluteX="16dp">
 
-                    <com.jjoe64.graphview.GraphView
-                        android:id="@+id/goalInfoChart"
-                        android:layout_width="match_parent"
+                    <Button
+                        android:id="@+id/goalInfo_Button_1week"
+                        style="@style/TextButtonSensTransparentFrame"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:text="1 uge" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
+                    <Button
+                        android:id="@+id/goalInfo_Button_2weeks"
+                        style="@style/TextButtonSensTransparentFrame"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="2 uger" />
 
-                        <Button
-                            android:id="@+id/goalInfo_Button_1week"
-                            style="@style/BlueButton"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="1 uge" />
-
-                        <Button
-                            android:id="@+id/goalInfo_Button_2weeks"
-                            style="@style/BlueButton"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="2 uger" />
-
-                        <Button
-                            android:id="@+id/goalInfo_Button_1month"
-                            style="@style/BlueButton"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="1 måned" />
-
-                    </LinearLayout>
+                    <Button
+                        android:id="@+id/goalInfo_Button_1month"
+                        style="@style/TextButtonSensTransparentFrame"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="1 måned" />
 
                 </LinearLayout>
+
             </android.support.constraint.ConstraintLayout>
 
         </LinearLayout>

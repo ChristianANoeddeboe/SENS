@@ -52,6 +52,7 @@ public class ViewHolderProgressBar extends ViewHolder {
             args.putString("title",title.getText().toString());
             args.putString("progress",progressTextView.getText().toString());
             args.putString("goalType", String.valueOf(activityCategory));
+            args.putSerializable("date", wantedDate);
 
             Fragment goalInfoFragment = new GoalInfoFragment();
             goalInfoFragment.setArguments(args);
