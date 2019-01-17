@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener, SensObserver,
         DatabaseObserver, MainFullScreenObserver {
     private final String TAG = MainActivity.class.getSimpleName();
-    private static String[] viewNames = {"Overblik", "Historik"};
+    private static String[] viewNames = {"Overblik", "Højdepunkter"};
     private static String standardToolbarTitle = "SENS";
     private ViewPager viewPager;
     private SensSubject sensSubject;

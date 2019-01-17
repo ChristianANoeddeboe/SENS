@@ -91,7 +91,6 @@ public class WizardActivity extends AppCompatActivity {
         back = findViewById(R.id.btn_user_config_a_back_button_wizard);
         back.setOnClickListener((View v) -> {
             finish();
-            overridePendingTransition(R.anim.slide_out_r, R.anim.slide_in_r);
         });
     }
 
@@ -107,7 +106,6 @@ public class WizardActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.slide_out_r, R.anim.slide_in_r);
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
@@ -116,7 +114,6 @@ public class WizardActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        overridePendingTransition(R.anim.slide_out_r, R.anim.slide_in_r);
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
