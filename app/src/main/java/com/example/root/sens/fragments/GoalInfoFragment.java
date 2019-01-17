@@ -34,6 +34,7 @@ public class GoalInfoFragment extends Fragment {
     ActivityCategories goalType;
     BarChart chart;
     Button oneWeek, oneMonth, threeMonths;
+    DateAxisFormatter dateAxisFormatter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,6 +75,10 @@ public class GoalInfoFragment extends Fragment {
     }
 
     private void setupChart() {
+        // Formatting X-axis to handle dates
+        dateAxisFormatter = new DateAxisFormatter();
+        chart.getXAxis().setValueFormatter(dateAxisFormatter);
+
         chart.getLegend().setEnabled(false);
         chart.getDescription().setEnabled(false);
         chart.getXAxis().setDrawGridLines(false); // disable grid lines for the XAxis
@@ -83,14 +88,9 @@ public class GoalInfoFragment extends Fragment {
         chart.getAxisRight().setEnabled(false);
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
         chart.animateY(500);
-        chart.setDrawValueAboveBar(true);
+        chart.setDrawValueAboveBar(false);
 
         chart.setTouchEnabled(false);
-
-        // Formatting X-axis to handle dates
-        AxisValueFormatter xAxisFormatter = new HourAxisValueFormatter(referenceTimestamp);
-        XAxis xAxis = chart.getXAxis();
-        xAxis.setValueFormatter(xAxisFormatter);
 
         chart.invalidate(); // refresh
     }
@@ -109,7 +109,7 @@ public class GoalInfoFragment extends Fragment {
 
     private List<BarEntry> generateData(generateData len){
         // Using Java Calender to manage time, since
-        // it's easier manipulated.
+        // it's easier manipulated than Date.
         Calendar cal = Calendar.getInstance();
         cal.setTime ( new Date() );
 
@@ -119,7 +119,9 @@ public class GoalInfoFragment extends Fragment {
 
         for(int i = 0; i < len.getValue(); i++){
             Map<ActivityCategories, Float> tempDayData = userManager.getDayData(cal.getTime());
-            entries.add(new BarEntry(cal.getTime().getTime(), tempDayData.get(goalType)));
+            dateAxisFormatter.setDateInMilis(cal.getTimeInMillis());
+            entries.add(new BarEntry(i+30, tempDayData.get(goalType)));
+//            entries.add(new BarEntry(cal.getTime().getDate(), tempDayData.get(goalType)));
 
             // subtracting one day from the calender.
             cal.add(Calendar.DATE, -1);

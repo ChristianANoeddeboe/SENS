@@ -11,19 +11,20 @@ import java.util.Locale;
 public class DateAxisFormatter implements IAxisValueFormatter {
 
     private SimpleDateFormat mFormat;
+    private long dateInMilis;
 
     public DateAxisFormatter() {
-        // format values to 1 decimal digit
-        mFormat = new SimpleDateFormat("E 'den' DD'.", new Locale("da"));
+        mFormat = new SimpleDateFormat("d. MMM", new Locale("da"));
     }
 
     @Override
-    public String getFormattedValue(Date value, AxisBase axis) {
-        // "value" represents the position of the label on the axis (x or y)
-        return mFormat.format(value);
+    public String getFormattedValue(float value, AxisBase axis) {
+        Date date = new Date(Float.valueOf(dateInMilis).longValue());
+        return mFormat.format(date);
     }
 
-    /** this is only needed if numbers are returned, else return 0 */
-    @Override
-    public int getDecimalDigits() { return 1; }
+    public void setDateInMilis(long dateInMilis){
+        this.dateInMilis = dateInMilis;
+    }
+
 }
