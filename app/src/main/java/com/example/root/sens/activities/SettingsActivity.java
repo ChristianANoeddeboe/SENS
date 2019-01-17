@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.root.sens.R;
 import com.example.root.sens.dao.SensDAO;
@@ -59,11 +60,8 @@ public class SettingsActivity extends AppCompatActivity implements ItemClickList
                 "Dette vil fjerne alt dine data!", R.drawable.ic_baseline_delete_forever_24px));
         items.add(new ItemModel("Hent data", "Henter ny data fra sensoren.", R.drawable.ic_baseline_cloud_download_24px));
         items.add(new ItemModel("Tilgængelighed", R.drawable.ic_baseline_accessibility_24px));
-        items.add(new ItemModel("Entry " + 3, R.mipmap.ic_launcher));
-        items.add(new ItemModel("Entry " + 4, R.mipmap.ic_launcher));
-        items.add(new ItemModel("Entry " + 5, R.mipmap.ic_launcher));
-        items.add(new ItemModel("Entry " + 6, R.mipmap.ic_launcher));
-        items.add(new ItemModel("Entry " + 7, R.mipmap.ic_launcher));
+        items.add(new ItemModel("Ændre skrifttype", R.drawable.ic_baseline_font_download_24px));
+        items.add(new ItemModel("Farveblind indstillinger", R.drawable.ic_baseline_invert_colors_24px));
 
         return items;
     }
@@ -116,7 +114,6 @@ public class SettingsActivity extends AppCompatActivity implements ItemClickList
                 contentLay.addView(progressBar,0);
                 snackbar.show();
                 break;
-
             default:
                 Snackbar.make(findViewById(R.id.settings_layout),
                         R.string.NotYetImplemented,
