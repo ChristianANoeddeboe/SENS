@@ -59,6 +59,9 @@ public class GoalInfoFragment extends Fragment {
         rootView.findViewById(R.id.goalchart_cardview).setOnClickListener((View v) ->
                 getActivity().onBackPressed());
 
+        rootView.findViewById(R.id.constraintLayoutGraphCard).setOnClickListener((View v) ->
+                getActivity().onBackPressed());
+
         // Configuration of buttons
         Button oneWeek = rootView.findViewById(R.id.goalInfo_Button_1week);
         oneWeek.setOnClickListener((View v) -> showWebView(7));
