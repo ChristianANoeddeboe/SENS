@@ -16,7 +16,7 @@ public interface IUserDao {
     void removeUserLoggedIn(User user);
     void saveUser(User user);
     User getUserLoggedIn();
-    User getUser(String sensorId);
+    User getUser(String patientKey);
     GoalHistory getNewestGoal();
     ArrayList<DayData> getSortedDayData();
     DayData getDataSpecificDate(Date d);

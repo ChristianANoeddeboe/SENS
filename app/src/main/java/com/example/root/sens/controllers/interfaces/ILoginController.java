@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 public interface ILoginController {
-    boolean login(String sensorID);
-    void save1(String firstMame, String lastName, Date birthday, String sensorID, UserObserver userObserver);
+    boolean login(String patientKey);
+    void save1(String firstMame, String lastName, Date birthday, String patientKey, UserObserver userObserver);
     void save2(List<SetGoalItemModel> Goal);
     void confirm();
 }

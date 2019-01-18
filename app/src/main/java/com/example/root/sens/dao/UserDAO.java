@@ -81,9 +81,9 @@ public class UserDAO implements IUserDao, DatabaseSubject {
     }
 
     @Override
-    public User getUser(String sensorId){
+    public User getUser(String patientKey){
         Realm realm = Realm.getDefaultInstance();
-        User user = realm.where(User.class).equalTo("sensors.id",sensorId).findFirst();
+        User user = realm.where(User.class).equalTo("patientKey",patientKey).findFirst();
         return user;
     }
 

@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -22,7 +21,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +44,7 @@ import com.example.root.sens.notification.NotificationsManager;
 import com.example.root.sens.notification.TimeReceiver;
 import com.example.root.sens.observers.MainFullScreenObserver;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -110,12 +109,12 @@ public class MainActivity extends AppCompatActivity implements
         View navigationHeader = navigationView.getHeaderView(0);
 
         TextView navigationDrawerName = navigationHeader.findViewById(R.id.textViewNavDrawerName);
-        TextView navigationDrawerSensorId = navigationHeader.findViewById(R.id.textViewNavDrawerSensorID);
+        TextView navigationDrawerPatientKey = navigationHeader.findViewById(R.id.textViewNavDrawerPatientKey);
 
         User currentUser = new UserManager().getUserLoggedIn();
 
         navigationDrawerName.setText(currentUser.getFirstName() + " " + currentUser.getLastName());
-        navigationDrawerSensorId.setText(currentUser.getSensors().get(0).getId());
+        navigationDrawerPatientKey.setText(currentUser.getPatientKey());
     }
 
 
@@ -153,26 +152,25 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-    // TODO: Update to use UserManager instead!
     private void setupDataFetcher() {
         sensSubject = SensDAO.getInstance();
         sensSubject.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
         UserDAO.getInstance().registerObserver(this);
-        SensDAO.getInstance().getData(getString(R.string.SensPatientKey), 14);
-        fetchDataProgressBar();
+        SensDAO.getInstance().getData(new UserManager().getUserLoggedIn().getPatientKey(), 14);
+        fetchDataProgressBar("Henter data");
 
         new Handler().postDelayed(() -> asyncTask = new AsyncTask() {
             @Override
             protected Object doInBackground(Object[] objects) {
                 snackbar.show();
-                SensDAO.getInstance().getData(getString(R.string.SensPatientKey), 14);
+                SensDAO.getInstance().getData(new UserManager().getUserLoggedIn().getPatientKey(), 14);
                 return null;
             }
         }.execute(), 1800000); // Fetch data every 30 min
     }
 
-    private void fetchDataProgressBar() {
-        snackbar = Snackbar.make(coordinatorLayout, R.string.DownloadingData, Snackbar.LENGTH_INDEFINITE);
+    private void fetchDataProgressBar(String s) {
+        snackbar = Snackbar.make(coordinatorLayout, s, Snackbar.LENGTH_INDEFINITE);
         ViewGroup contentLay = (ViewGroup) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text).getParent();
         progressBar = new ProgressBar(coordinatorLayout.getContext());
         contentLay.addView(progressBar, 0);
@@ -242,14 +240,16 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void showFragment(Date date) {
+    public void showFragment(boolean found, Date date) {
         if (isFullScreenFragmentOpen()) {
             return;
         }
-        if (date == null) {
-            Snackbar.make(findViewById(R.id.fragment_overlay_layout_main),
+        if (!found) {
+            /*Snackbar.make(findViewById(R.id.fragment_overlay_layout_main),
                     R.string.MainNoDataForGivenDate,
-                    Snackbar.LENGTH_LONG).show();
+                    Snackbar.LENGTH_LONG).show();*/
+            SensDAO.getInstance().getDataSpecificDate(new UserManager().getUserLoggedIn().getPatientKey(),date);
+            fetchDataProgressBar("Vi prøver at hente data, prøv igen om lidt.");
             return;
         }
         changeToolbarTextImage(new SimpleDateFormat("EEEE 'den' DD'. ' MMMM YYYY",
@@ -265,6 +265,11 @@ public class MainActivity extends AppCompatActivity implements
                 .replace(R.id.fragment_overlay_layout_main, dayDataFragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void showDataFetchSnack() {
+        fetchDataProgressBar("Henter data");
     }
 
     // Database observer

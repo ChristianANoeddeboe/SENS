@@ -4,6 +4,9 @@ import android.app.Application;
 import android.os.Build;
 
 import com.crashlytics.android.Crashlytics;
+
+import java.util.Date;
+
 import io.fabric.sdk.android.Fabric;
 
 import io.realm.Realm;

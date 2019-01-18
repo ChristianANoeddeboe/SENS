@@ -18,8 +18,8 @@
     <string name="unit">minutter</string>
     <string name="ja">ja</string>
     <string name="nej">nej</string>
-    <string name="StaticSensorID">17-3B.BA</string>
-    <string name="LoginGiveSensorID">Du skal angive et sensor id for at fortsætte</string>
+    <string name="PatientKey">xt9w2r</string>
+    <string name="LoginGivePatientKey">Du skal angive et patient id for at fortsætte</string>
     <string name="SensPatientKey">xt9w2r</string>
     <string name="MainNoDataForGivenDate">Der er ikke data for den givne dato.</string>
     <string name="DownloadingData">Henter data</string>

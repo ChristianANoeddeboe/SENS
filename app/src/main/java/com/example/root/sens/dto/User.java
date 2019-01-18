@@ -22,7 +22,7 @@ public class User extends RealmObject {
 
     @PrimaryKey
     private String id = UUID.randomUUID().toString();
-    private RealmList<Sensor> sensors;
+    private String patientKey;
     private Date birthday;
     private RealmList<GoalHistory> goals;
     private RealmList<DayData> dayData;
@@ -87,7 +87,7 @@ public class User extends RealmObject {
                 ", id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", sensors=" + sensors +
+                ", patientKey=" + patientKey +
                 ", birthday=" + birthday +
                 ", goals=" + goals +
                 ", dayData=" + dayData +
@@ -117,12 +117,12 @@ public class User extends RealmObject {
         this.lastName = lastName;
     }
 
-    public RealmList<Sensor> getSensors() {
-        return sensors;
+    public String getPatientKey() {
+        return patientKey;
     }
 
-    public void setSensors(RealmList<Sensor> sensors) {
-        this.sensors = sensors;
+    public void setPatientKey(String patientKey) {
+        this.patientKey = patientKey;
     }
 
     public static String getUSERDATA() {
