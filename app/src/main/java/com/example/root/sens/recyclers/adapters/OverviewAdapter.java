@@ -22,6 +22,7 @@ import com.example.root.sens.recyclers.viewholder.ViewHolderNoData;
 import com.example.root.sens.recyclers.viewholder.ViewHolderProgressBar;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
 
         for (Map.Entry<ActivityCategories, Integer> entry : goals.entrySet())
+
         {
             if (entry.getValue() != 0) {
                 mItems.add(new TypeProgress(entry.getKey()));
@@ -57,6 +59,14 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
         if(mItems.size() <= 1){
             mItems.add(new TypeNoData());
         }
+
+        typeList.sort(new Comparator<ActivityCategories>() {
+            @Override
+            public int compare(ActivityCategories o1, ActivityCategories o2) {
+                if(o1.getValue() < o2.getValue()) return 1;
+                else return -1;
+            }
+        });
     }
 
     @Override
