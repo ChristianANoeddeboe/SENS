@@ -43,7 +43,7 @@ public class WizardContentFragment extends Fragment {
                         "eller om du ikke gjorde (rød).");
                 break;
             case 2:
-                descriptionImage.setImageResource(R.mipmap.oversigtcalender);
+                descriptionImage.setImageResource(R.mipmap.oversigtcalenderdage);
                 descriptionText.setText("Hvis man trykker på en dato med en farve, vil " +
                         "man se de mål man havde for den pågældende dag.");
                 break;
@@ -53,15 +53,19 @@ public class WizardContentFragment extends Fragment {
                         "til hvor meget tid du har brugt på et mål og hvor meget du mangler.");
                 break;
             case 4:
-                descriptionImage.setImageResource(R.mipmap.historik);
-                descriptionText.setText("Her ses de højdepunkter du har opnået, ved at opfylde dine mål hver dag i en periode.");
+                descriptionImage.setImageResource(R.mipmap.maalkortinfomere);
+                descriptionText.setText("Ethvert målkort vil kunne trykkes på, for at få mere information over ens mål, samt hvordan man har udviklet sig i målet.");
                 break;
             case 5:
-                descriptionImage.setImageResource(R.mipmap.award);
-                descriptionText.setText("Øverst finder du menuen, hvor ydeligere funktioner ligger.");
+                descriptionImage.setImageResource(R.mipmap.hoejdepunkter);
+                descriptionText.setText("Under Højdepunkter ses de højdepunkter du har opnået, ved at opfylde dine mål hver dag i en periode.");
                 break;
             case 6:
-                descriptionImage.setImageResource(R.mipmap.award);
+                descriptionImage.setImageResource(R.mipmap.menuikon);
+                descriptionText.setText("Øverst finder du menuen, hvor ydeligere funktioner ligger.");
+                break;
+            case 7:
+                descriptionImage.setImageResource(R.mipmap.menubillede);
                 descriptionText.setText("Her har du mulighed for og redigere indstillinger, redigere dine mål og håndtere notifikationer.");
                 break;
         }
