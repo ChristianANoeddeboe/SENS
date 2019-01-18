@@ -34,6 +34,7 @@ import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dao.interfaces.DatabaseObserver;
 import com.example.root.sens.dao.interfaces.SensObserver;
 import com.example.root.sens.dao.interfaces.SensSubject;
+import com.example.root.sens.data;
 import com.example.root.sens.dto.User;
 import com.example.root.sens.fragments.AboutFragment;
 import com.example.root.sens.fragments.DayDataFragment;
@@ -75,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements
         setupNavigationDrawer();
         setupViewPager();
         setupDataFetcher();
-
     }
 
     private void setupNavigationDrawer() {
@@ -221,6 +221,9 @@ public class MainActivity extends AppCompatActivity implements
                     .replace(R.id.fragment_overlay_layout_main, new AboutFragment())
                     .addToBackStack(null)
                     .commit();
+        } else if (id == R.id.initialize_data){
+            data.initializeData();
+            Snackbar.make(coordinatorLayout, "Demo dataet loadet ind.", Snackbar.LENGTH_LONG).show();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
