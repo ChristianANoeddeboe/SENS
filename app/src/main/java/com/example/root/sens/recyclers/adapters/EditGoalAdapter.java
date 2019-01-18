@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.R;
 import com.example.root.sens.auxiliary.ProgressTextGenerator;
+import com.example.root.sens.managers.UserManager;
 import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
 
 import java.util.Comparator;
@@ -94,6 +95,8 @@ public class EditGoalAdapter extends RecyclerView.Adapter<EditGoalAdapter.ViewHo
                 public void afterTextChanged(Editable s) {
                     if(Pattern.matches("[0-9]+", s.toString())){
                         dataSet.get(position).setValue(Integer.parseInt(s.toString()));
+                        viewHolder.getEditText().setHint(dataSet.get(position).getValue()+" skridt");
+                        new UserManager().updateGoal(type, dataSet.get(position).getValue());
                     }
                 }
             });
