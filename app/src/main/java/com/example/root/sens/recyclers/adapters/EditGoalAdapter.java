@@ -105,10 +105,8 @@ public class EditGoalAdapter extends RecyclerView.Adapter<EditGoalAdapter.ViewHo
                             newValue = Integer.parseInt(s.toString());
                         }
                         catch(NumberFormatException e){
-                            listener.onItemClick(viewHolder.getEditText(), position, type);
                             viewHolder.getEditText().getText().clear();
                             newValue = 0;
-                            throw e;
                         }
                         finally {
                             dataSet.get(position).setValue(newValue);
