@@ -17,7 +17,7 @@ import io.realm.RealmList;
 
 public class data {
     public static void initializeData() {
-        //TODO: Cleanup
+        //TODO: Cleanup and create more data
         Realm realm = Realm.getDefaultInstance();
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 

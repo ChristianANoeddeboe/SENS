@@ -6,4 +6,5 @@ public interface SensSubject {
     void registerObserver(SensObserver sensObserver);
     void removeObserver(SensObserver sensObserver);
     void notifyObservers(Response r);
+    void notifyObserversNoResponse();
 }

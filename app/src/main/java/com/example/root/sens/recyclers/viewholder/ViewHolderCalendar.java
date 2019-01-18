@@ -6,7 +6,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.root.sens.ActivityCategories;
+import com.example.root.sens.ApplicationSingleton;
 import com.example.root.sens.R;
+import com.example.root.sens.activities.MainActivity;
+import com.example.root.sens.dao.SensDAO;
 import com.example.root.sens.fragments.interfaces.OverviewListItem;
 import com.example.root.sens.managers.IUserManager;
 import com.example.root.sens.managers.UserManager;
@@ -15,6 +18,8 @@ import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
 import java.text.SimpleDateFormat;
+import java.time.Month;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -24,7 +29,6 @@ public class ViewHolderCalendar extends ViewHolder {
     private TextView calendarMonth;
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", Locale.US);
     private Context ctx;
-
     public ViewHolderCalendar(View itemView) {
         super(itemView);
         calendar = itemView.findViewById(R.id.compactcalendar_view);
@@ -36,21 +40,34 @@ public class ViewHolderCalendar extends ViewHolder {
         };
         calendar.setDayColumnNames(temp);
         calendarMonth = itemView.findViewById(R.id.calendarMonth);
-        calendarMonth.setText(dateFormatForMonth.format(calendar.getFirstDayOfCurrentMonth()));
-
         ctx = itemView.getContext();
+        calendar.setCurrentDate(MonthSingleton.getInstance().getCurrentMonth());
+        calendarMonth.setText(dateFormatForMonth.format(MonthSingleton.getInstance().getCurrentMonth()));
+
     }
 
     public void bindType(OverviewListItem item) {
         calendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
+                MonthSingleton.getInstance().setCurrentMonth(dateClicked);
                 fullScreenOverlayFragment(dateClicked);
             }
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
-                calendarMonth.setText(dateFormatForMonth.format(calendar.getFirstDayOfCurrentMonth()));
+                MainFullScreenObserver observer = (MainFullScreenObserver) ctx;
+                calendarMonth.setText(dateFormatForMonth.format(firstDayOfNewMonth));
+                MonthSingleton.getInstance().setCurrentMonth(firstDayOfNewMonth);
+                Calendar c = Calendar.getInstance();
+                c.setTime(firstDayOfNewMonth);
+                c.add(Calendar.DATE, 14);
+                SensDAO.getInstance().getDataSpecificDate(new UserManager().getUserLoggedIn().getPatientKey(),14,c.getTime());
+                c.add(Calendar.DATE, 14);
+                SensDAO.getInstance().getDataSpecificDate(new UserManager().getUserLoggedIn().getPatientKey(),14,c.getTime());
+                observer.showDataFetchSnack();
+
+
             }
         });
         Map<Date, Boolean> result = new UserManager().generateFulfilleGoalsMap();
@@ -69,9 +86,9 @@ public class ViewHolderCalendar extends ViewHolder {
         MainFullScreenObserver observer = (MainFullScreenObserver) ctx;
         Map<ActivityCategories, Float> data = userManager.getDayData(dateClicked);
         if (data.isEmpty()) {
-            observer.showFragment(null);
+            observer.showFragment(false,dateClicked);
         }else {
-            observer.showFragment(dateClicked);
+            observer.showFragment(true,dateClicked);
         }
     }
 }

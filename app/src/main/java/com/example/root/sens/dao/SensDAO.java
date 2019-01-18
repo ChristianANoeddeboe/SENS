@@ -14,12 +14,16 @@ import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.sensresponse.Response;
 import com.example.root.sens.dto.User;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -37,6 +41,7 @@ public class SensDAO implements Callback<Response>, SensSubject {
     private ISensAPI service;
     private static SensDAO sensDAOInstance;
     private ArrayList<SensObserver> mObservers;
+    private DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
     public static SensDAO getInstance(){
         if(sensDAOInstance == null){
             sensDAOInstance = new SensDAO();
@@ -63,16 +68,16 @@ public class SensDAO implements Callback<Response>, SensSubject {
         getDataFromSens(patientKey,temp);
     }
 
-    public void getDataSpecificDate(String patientKey, int dayCount, String date){
+    public void getDataSpecificDate(String patientKey, int dayCount, Date date){
         validateDayCount(dayCount);
-        validateDate(date);
-        Call<Response> temp = service.getDataSpecificDate(patientKey, dayCount,date);
+        validateDate(df.format(date));
+        Call<Response> temp = service.getDataSpecificDate(patientKey, dayCount,df.format(date));
         getDataFromSens(patientKey,temp);
     }
 
-    public void getDataSpecificDate(String patientKey, String date){
-        validateDate(date);
-        Call<Response> temp = service.getDataSpecificDate(patientKey,date);
+    public void getDataSpecificDate(String patientKey, Date date){
+        validateDate(df.format(date));
+        Call<Response> temp = service.getDataSpecificDate(patientKey,df.format(date));
         getDataFromSens(patientKey,temp);
     }
 
@@ -110,7 +115,14 @@ public class SensDAO implements Callback<Response>, SensSubject {
     @Override
     public void notifyObservers(Response r) {
         mergeAndSaveData(r);
+        for (SensObserver observer: mObservers) {
+            observer.onDataReceived();
+        }
+    }
 
+    @Override
+    public void notifyObserversNoResponse() {
+        //Called on failure, to make the snackbar dismiss, an automatic retry is setup elsewhere.
         for (SensObserver observer: mObservers) {
             observer.onDataReceived();
         }
@@ -163,7 +175,7 @@ public class SensDAO implements Callback<Response>, SensSubject {
             }
         }
 
-        // At this point the tempUserDayDAta realmlist has the up to date version of the day data.
+        // At this point the tempUserDayData realmlist has the up to date version of the day data.
         tempUser.setDayData(tempUserDayData);
         realm.commitTransaction();
         UserDAO.getInstance().saveUser(tempUser);
@@ -171,7 +183,7 @@ public class SensDAO implements Callback<Response>, SensSubject {
 
     /*
      * Fetch data from SENS
-     * @param patientKey The sensor key
+     * @param patientKey The patient key
      */
     private void getDataFromSens(String patientKey, Call <Response> call){
         call.enqueue(new Callback<Response>() {
@@ -184,23 +196,36 @@ public class SensDAO implements Callback<Response>, SensSubject {
                         notifyObservers(t); // We have sucessfully fetched the data, and can now notify observers
                     }else{
                         Log.d(TAG, "Response was supposedly sucessfull but was not as expected" + t.toString());
+                        notifyObserversNoResponse();
+                    }
+                }else if(response.code() == 406){
+                    try {
+                        String s = response.errorBody().string().toLowerCase();
+                        if(s.contains("analysis")){
+                            Log.d(TAG,"Retrying....");
+                            new Handler().postDelayed(() -> new AsyncTask() {
+                                @Override
+                                protected Object doInBackground(Object[] objects) {
+                                    Log.d(TAG,"Retrying the call");
+                                    Call<Response> temp = call.clone();
+                                    getDataFromSens(patientKey, temp);
+                                    return null;
+                                }
+                            }.execute(), 10000); // Delay the retry, note this function is recursive and calls itself until data is fetched sucessfully.
+                            // We try every 10 seconds
+                        }else if(s.contains("measurement")){
+                            notifyObserversNoResponse(); // There is no data for this date.
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }else{
-                    if(response.errorBody().contentLength() == 67){ //Content lenght will be 67 when the data is being processed atm
-                        Log.d(TAG,"Retrying....");
-                        new Handler().postDelayed(() -> new AsyncTask() {
-                            @Override
-                            protected Object doInBackground(Object[] objects) {
-                                Log.d(TAG,"Retrying the call");
-                                Call<Response> temp = call.clone();
-                                getDataFromSens(patientKey, temp);
-                                return null;
-                            }
-                        }.execute(), 10000); // Delay the retry, note this function is recursive and calls itself until data is fetched sucessfully.
-                                                        // We try every 10 seconds
-                    }else{
-                        Log.d(TAG, "Some other error: " + response.errorBody());
+                    try {
+                        Log.d(TAG, "Some other error: " + response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
+
 
                 }
             }
@@ -208,6 +233,7 @@ public class SensDAO implements Callback<Response>, SensSubject {
             @Override
             public void onFailure(Call<Response> call, Throwable t) {
                 Log.d(TAG, "ERROR");
+                notifyObserversNoResponse();
                 t.printStackTrace();
             }
         });

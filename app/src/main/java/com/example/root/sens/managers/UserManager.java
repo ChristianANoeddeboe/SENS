@@ -10,7 +10,6 @@ import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
 import com.example.root.sens.dto.Record;
-import com.example.root.sens.dto.Sensor;
 import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
 import com.example.root.sens.dto.User;
 
@@ -38,9 +37,9 @@ public class UserManager implements IUserManager{
     public UserManager(){
     }
 
-    public void createUser(User user, String sensorID, UserObserver userObserver){
+    public void createUser(User user, String patientKey, UserObserver userObserver){
         this.user = user;
-        user.setSensors(new RealmList<>(new Sensor(sensorID)));
+        user.setPatientKey(patientKey);
         user.addObserver(userObserver);
         user.notifyObservers(User.USERDATA);
     }
@@ -97,18 +96,18 @@ public class UserManager implements IUserManager{
     public void saveUser(){
         UserDAO userDao = UserDAO.getInstance();
         userDao.saveUser(user);
-        userDao.setUserLoggedIn(getUser(user.getSensors().get(0).getId()));
+        userDao.setUserLoggedIn(user);
         data.initializeData();
     }
 
-    public User getUser(String sensorID){
-        return UserDAO.getInstance().getUser(sensorID);
+    public User getUser(String patientKey){
+        return UserDAO.getInstance().getUser(patientKey);
     }
 
     @Override
-    public boolean isUser(String sensorID) {
+    public boolean isUser(String patientKey) {
         UserDAO dao = UserDAO.getInstance();
-        if(dao.getUser(sensorID) == null){
+        if(dao.getUser(patientKey) == null){
             return false;
         }
         return true;

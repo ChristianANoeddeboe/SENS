@@ -90,7 +90,6 @@ public class ViewHolderProgressBar extends ViewHolder {
 
         imageView.setImageResource(new ResourceManagement().generateIcons(activityCategory));
 
-        // TODO: Change deprecated method
         header.setBackgroundResource(color);
 
         progressCircle.addSeries(new SeriesItem.Builder(ContextCompat.getColor(ctx, color))

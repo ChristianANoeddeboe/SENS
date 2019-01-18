@@ -14,13 +14,13 @@ public class LoginController implements ILoginController {
     IUserManager userManager = new UserManager();
 
     @Override
-    public boolean login(String sensorID) {
-        return userManager.isUser(sensorID);
+    public boolean login(String patientKey) {
+        return userManager.isUser(patientKey);
     }
 
     @Override
-    public void save1(String firstName, String lastName, Date birthday, String sensorID, UserObserver userObserver) {
-        userManager.createUser(new User(firstName, lastName, birthday), sensorID, userObserver);
+    public void save1(String firstName, String lastName, Date birthday, String patientKey, UserObserver userObserver) {
+        userManager.createUser(new User(firstName, lastName, birthday), patientKey, userObserver);
     }
 
     @Override

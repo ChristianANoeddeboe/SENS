@@ -24,29 +24,29 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        EditText sensorField = findViewById(R.id.key_text);
-        sensorField.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-        sensorField.setText(R.string.StaticSensorID); // Sættes da appen bruges til fremvisning
+        EditText patientKeyField = findViewById(R.id.key_text);
+        patientKeyField.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+        patientKeyField.setText(R.string.PatientKey); // Sættes da appen bruges til fremvisning
 
         Button login = findViewById(R.id.login_btn);
         Button help = findViewById(R.id.help_btn);
 
 
         login.setOnClickListener((View v) -> {
-            String sensorID = String.valueOf(sensorField.getText());
-            if (sensorID.length() == 0) {
+            String patientKey = String.valueOf(patientKeyField.getText());
+            if (patientKey.length() == 0) {
                 Snackbar.make(findViewById(R.id.login_coordinator_layout),
-                        R.string.LoginGiveSensorID,
+                        R.string.LoginGivePatientKey,
                         Snackbar.LENGTH_LONG).show();
                 return;
             }
 
             /*  Checks whether there is an existing user with the
-                given sensor ID.
+                given patient key.
                 Flags are added because it should not be possible
                 to enter back into this "flow". (Back stack management)
              */
-            if (loginController.login(sensorID)) {
+            if (loginController.login(patientKey)) {
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
@@ -55,7 +55,7 @@ public class Login extends AppCompatActivity {
 
             Intent i = new Intent(getApplicationContext(), UserConfigActivity.class);
             Bundle b = new Bundle();
-            b.putString("sensorID", sensorID);
+            b.putString("patientKey", patientKey);
             i.putExtras(b);
             startActivity(i);
             getWindow().setEnterTransition(new Slide());

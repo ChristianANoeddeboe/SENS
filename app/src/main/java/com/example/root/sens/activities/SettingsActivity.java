@@ -53,7 +53,6 @@ public class SettingsActivity extends AppCompatActivity implements ItemClickList
         sensSubject.registerObserver(this);
     }
 
-    // TODO: Add fake settings for prettiness
     private List<ItemModel> createItem() {
         ArrayList<ItemModel> items = new ArrayList<>();
         items.add(new ItemModel("Ryd data",

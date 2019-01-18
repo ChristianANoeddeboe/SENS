@@ -76,10 +76,10 @@ public class UserConfigActivity extends AppCompatActivity {
                 case 0:
                     String firstName = String.valueOf(((EditText) findViewById(R.id.tv_user_config_name_first)).getText());
                     String lastName = String.valueOf(((EditText) findViewById(R.id.tv_user_config_name_last)).getText());
-                    String sensorID = getIntent().getExtras().getString("sensorID", "0");
+                    String patientKey = getIntent().getExtras().getString("patientKey", "0");
                     Date date = parseDate(String.valueOf(((TextView) findViewById(R.id.tv_user_config_birth_date)).getText()));
 
-                    loginController.save1(firstName, lastName, date, sensorID , confirmInfoFragment);
+                    loginController.save1(firstName, lastName, date, patientKey , confirmInfoFragment);
 
                     switchPage(v, 1);
                     break;
