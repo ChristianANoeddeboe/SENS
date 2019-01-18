@@ -102,7 +102,7 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
                             input = Integer.parseInt(s.toString());
                         } catch (NumberFormatException e) {
                             //s.clear();
-                            s.replace(0, s.length(),s.toString().substring(0,10));
+                            s.replace(0, s.length(), Integer.MAX_VALUE+"");
                             input = Integer.parseInt(s.toString());
                             snackbar = Snackbar.make(recyclerView, R.string.TooManySteps, Snackbar.LENGTH_LONG);
                             snackbar.show();
