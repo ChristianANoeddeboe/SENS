@@ -97,7 +97,7 @@ public class UserManager implements IUserManager{
         UserDAO userDao = UserDAO.getInstance();
         userDao.saveUser(user);
         userDao.setUserLoggedIn(user);
-        //data.initializeData();
+        data.initializeData();
     }
 
     public User getUser(String patientKey){
@@ -117,7 +117,9 @@ public class UserManager implements IUserManager{
     public void updateGoal(ActivityCategories activityCategory, int newValue) {
         Map<ActivityCategories, Integer> result = new HashMap<>();
         UserDAO dao = UserDAO.getInstance();
-        result = generateGoalMap(dao.getNewestGoal());
+        GoalHistory goalHistory = dao.getNewestGoal();
+
+        result = generateGoalMap(goalHistory);
 
         result.replace(activityCategory, newValue);
         dao.updateOrMergeGoals(result);
@@ -127,6 +129,9 @@ public class UserManager implements IUserManager{
     @Override
     public Map<ActivityCategories, Integer> getGoals(Date date) {
         UserDAO dao = UserDAO.getInstance();
+        if(dao.getGoalSpecificDate(date) == null){
+            return new HashMap<ActivityCategories,Integer>();
+        }
         return generateGoalMap(dao.getGoalSpecificDate(date));
     }
 

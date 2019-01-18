@@ -93,9 +93,20 @@ public class UserDAO implements IUserDao, DatabaseSubject {
     public GoalHistory getNewestGoal() {
         RealmList<GoalHistory> goals = getUserLoggedIn().getGoals();
         ArrayList<GoalHistory> tempGoalHis = new ArrayList<>();
+
+        if(goals.size()==1 && goals.get(0).getGoals().isEmpty()){
+            Realm realm = Realm.getDefaultInstance();
+            realm.beginTransaction();
+            for(ActivityCategories activityCategory : ActivityCategories.values()){
+                goals.get(0).getGoals().add(new Goal(activityCategory.toString(),0));
+            }
+            realm.commitTransaction();
+            return goals.get(0);
+        }
         for(GoalHistory curr : goals) {
             tempGoalHis.add(curr);
         }
+
         Collections.sort(tempGoalHis);
 
         return tempGoalHis.get(0);

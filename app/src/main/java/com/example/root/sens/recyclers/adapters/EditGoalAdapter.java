@@ -1,6 +1,5 @@
 package com.example.root.sens.recyclers.adapters;
 
-import android.content.res.ColorStateList;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -11,16 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.R;
-import com.example.root.sens.auxiliary.DataCheck;
 import com.example.root.sens.auxiliary.ProgressTextGenerator;
 import com.example.root.sens.managers.UserManager;
 import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import java.util.Comparator;
 import java.util.List;
