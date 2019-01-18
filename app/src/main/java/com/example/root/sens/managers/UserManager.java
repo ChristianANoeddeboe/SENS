@@ -97,7 +97,7 @@ public class UserManager implements IUserManager{
         UserDAO userDao = UserDAO.getInstance();
         userDao.saveUser(user);
         userDao.setUserLoggedIn(user);
-        data.initializeData();
+        //data.initializeData();
     }
 
     public User getUser(String patientKey){
@@ -281,6 +281,11 @@ public class UserManager implements IUserManager{
 
         }
         return result;
+    }
+
+    @Override
+    public void deleteData() {
+        UserDAO.getInstance().deleteData();
     }
 
     private void addResult(int counter, Date endDate, List<String> result) {
