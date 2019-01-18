@@ -17,6 +17,7 @@
     <color name="white">#F2F2F2</color>
     <color name="whiteHint">#99FFFFFF</color>
     <color name="grey">#e1e1e1</color>
+    <color name="dark_grey">#9C9C9C</color>
 
     <!-- Overview -->
     <color name="restingColor">#009688</color>

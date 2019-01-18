@@ -80,10 +80,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void setupNavigationDrawer() {
-
-
-
-
         /*
             Why are we setting the Toolbar programmatically?
 

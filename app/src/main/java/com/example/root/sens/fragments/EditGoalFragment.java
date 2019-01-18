@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.R;
+import com.example.root.sens.managers.IUserManager;
 import com.example.root.sens.managers.UserManager;
 import com.example.root.sens.recyclers.adapters.EditGoalAdapter;
 import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
@@ -65,6 +66,9 @@ public class EditGoalFragment extends Fragment implements EditGoalAdapter.OnItem
     @Override
     public void onActivityResult ( int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
+        IUserManager userManager = new UserManager();
+        SetGoalItemModel dataSet = adapter.getDataSet().get(requestCode);
+
         int hourValue = 0;
         int minuteValue = 0;
 
@@ -75,7 +79,8 @@ public class EditGoalFragment extends Fragment implements EditGoalAdapter.OnItem
             if (data.getExtras().containsKey("minute")) {
                 minuteValue = data.getExtras().getInt("minute");
             }
-            adapter.getDataSet().get(requestCode).setValue(hourValue * 60 + minuteValue);
+            dataSet.setValue(hourValue*60 + minuteValue);
+            userManager.updateGoal(dataSet.getType(), dataSet.getValue());
             adapter.notifyDataSetChanged();
         }
     }

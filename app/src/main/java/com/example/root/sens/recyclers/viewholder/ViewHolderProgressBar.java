@@ -132,7 +132,7 @@ public class ViewHolderProgressBar extends ViewHolder {
             result += minutes+" min.";
         }
         if(result.equals("")) {
-            result = "0 min.";
+            result = "0 timer";
         }
         return result;
     }

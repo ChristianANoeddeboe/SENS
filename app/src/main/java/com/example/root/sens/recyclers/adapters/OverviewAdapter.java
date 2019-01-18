@@ -13,10 +13,12 @@ import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.R;
 import com.example.root.sens.fragments.interfaces.OverviewListItem;
 import com.example.root.sens.fragments.interfaces.TypeCalendar;
+import com.example.root.sens.fragments.interfaces.TypeNoData;
 import com.example.root.sens.fragments.interfaces.TypeProgress;
 import com.example.root.sens.managers.UserManager;
 import com.example.root.sens.recyclers.viewholder.ViewHolder;
 import com.example.root.sens.recyclers.viewholder.ViewHolderCalendar;
+import com.example.root.sens.recyclers.viewholder.ViewHolderNoData;
 import com.example.root.sens.recyclers.viewholder.ViewHolderProgressBar;
 
 import java.util.ArrayList;
@@ -28,7 +30,6 @@ import java.util.Map;
 public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
     private final Context mContext;
     private final List<OverviewListItem> mItems;
-    int numberOfViews = 0;
     private int i = 0;
     private List<ActivityCategories> typeList;
     private Date wantedDate;
@@ -51,6 +52,10 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
                 mItems.add(new TypeProgress(entry.getKey()));
                 typeList.add(entry.getKey());
             }
+        }
+
+        if(mItems.size() <= 1){
+            mItems.add(new TypeNoData());
         }
     }
 
@@ -77,6 +82,13 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
                         .from(viewGroup.getContext())
                         .inflate(R.layout.activity_main_cardview, viewGroup, false);
                 viewHolderType = new ViewHolderProgressBar(view, typeList.get(i), mContext, wantedDate);
+                i++;
+                break;
+            case OverviewListItem.TYPE_NO_DATA:
+                view = LayoutInflater
+                        .from(viewGroup.getContext())
+                        .inflate(R.layout.activity_main_no_data, viewGroup, false);
+                viewHolderType = new ViewHolderNoData(view);
                 i++;
                 break;
         }

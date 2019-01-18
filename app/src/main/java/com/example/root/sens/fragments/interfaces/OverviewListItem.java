@@ -6,6 +6,7 @@ package com.example.root.sens.fragments.interfaces;
 public interface OverviewListItem {
     int TYPE_CALENDAR = 1;
     int TYPE_PROGRESS = 2;
+    int TYPE_NO_DATA = 3;
 
     int getListItemType();
 }
