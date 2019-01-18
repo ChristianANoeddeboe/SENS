@@ -40,13 +40,10 @@ public class WizardActivity extends AppCompatActivity {
     private WizardContentFragment burgerMenuIkonFragment = new WizardContentFragment();
     private WizardContentFragment burgerMenuFragment = new WizardContentFragment();
     private final String TAG = WizardActivity.class.getSimpleName();
-<<<<<<< HEAD
-    private final int NUM_PAGES = 7;
 
     @SuppressLint("ClickableViewAccessibility")
-=======
     private final int NUM_PAGES = 8;
->>>>>>> 2eae7c73d763eb98fb1b6c39701a57d5739fa118
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
