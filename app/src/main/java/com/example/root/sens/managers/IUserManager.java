@@ -24,4 +24,5 @@ public interface IUserManager {
     void saveUser();
     List<String> getGoalStreak();
     Map<Date, Boolean> generateFulfilleGoalsMap();
+    void deleteData();
 }

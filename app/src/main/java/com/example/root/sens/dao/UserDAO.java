@@ -1,5 +1,7 @@
 package com.example.root.sens.dao;
 
+import android.icu.text.AlphabeticIndex;
+
 import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.dao.interfaces.DatabaseObserver;
 import com.example.root.sens.dao.interfaces.DatabaseSubject;
@@ -91,9 +93,20 @@ public class UserDAO implements IUserDao, DatabaseSubject {
     public GoalHistory getNewestGoal() {
         RealmList<GoalHistory> goals = getUserLoggedIn().getGoals();
         ArrayList<GoalHistory> tempGoalHis = new ArrayList<>();
+
+        if(goals.size()==1 && goals.get(0).getGoals().isEmpty()){
+            Realm realm = Realm.getDefaultInstance();
+            realm.beginTransaction();
+            for(ActivityCategories activityCategory : ActivityCategories.values()){
+                goals.get(0).getGoals().add(new Goal(activityCategory.toString(),0));
+            }
+            realm.commitTransaction();
+            return goals.get(0);
+        }
         for(GoalHistory curr : goals) {
             tempGoalHis.add(curr);
         }
+
         Collections.sort(tempGoalHis);
 
         return tempGoalHis.get(0);
@@ -184,6 +197,20 @@ public class UserDAO implements IUserDao, DatabaseSubject {
                 realm.copyToRealmOrUpdate(u);
             }
         });
+    }
+
+    @Override
+    public void deleteData() {
+        User u = UserDAO.getInstance().getUserLoggedIn();
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        while(u.getDayData().iterator().hasNext()){
+            u.getDayData().iterator().next().deleteFromRealm();
+        }
+        while(u.getGoals().iterator().hasNext()){
+            u.getGoals().iterator().next().deleteFromRealm();
+        }
+        realm.commitTransaction();
     }
 
 

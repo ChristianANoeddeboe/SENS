@@ -22,4 +22,6 @@ public interface IUserDao {
     DayData getDataSpecificDate(Date d);
     GoalHistory getGoalSpecificDate(Date d);
     void updateOrMergeGoals(Map<ActivityCategories,Integer> temp);
+
+    void deleteData();
 }
