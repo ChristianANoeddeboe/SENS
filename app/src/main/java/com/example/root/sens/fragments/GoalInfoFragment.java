@@ -20,6 +20,7 @@ import com.example.root.sens.managers.IUserManager;
 import com.example.root.sens.managers.UserManager;
 import com.example.root.sens.auxiliary.JavaScriptInterface;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.text.SimpleDateFormat;
@@ -54,7 +55,8 @@ public class GoalInfoFragment extends Fragment {
         ( (TextView) rootView.findViewById(R.id.goalInfoBox_TextView_title) ).setText(goalType.toString());
         rootView.findViewById(R.id.typeGoalInfo_LinearLayout_header).setBackgroundColor(color);
 
-        rootView.findViewById(R.id.goalchart_cardview).setOnClickListener((View v) -> getActivity().onBackPressed());
+        rootView.findViewById(R.id.goalchart_cardview).setOnClickListener((View v) ->
+                getActivity().onBackPressed());
 
         // Configuration of buttons
         Button oneWeek = rootView.findViewById(R.id.goalInfo_Button_1week);
@@ -81,8 +83,12 @@ public class GoalInfoFragment extends Fragment {
 
     private void showWebView(int numberOfDays) {
         webView.loadUrl("file:///android_asset/graph.html");
-        webView.addJavascriptInterface(new JavaScriptInterface(generateData(numberOfDays)), "Android");
-        subTitle.setText("Viser data for " + numberOfDays + " dage!\nDen " + simpleDateFormatDDMMM.format(startDate) + " til " + simpleDateFormatDDMMM.format(endDate));
+        JavaScriptInterface javaScriptInterface = new JavaScriptInterface(
+                generateData(numberOfDays));
+        webView.addJavascriptInterface(javaScriptInterface, "Android");
+        subTitle.setText("Viser data for " + numberOfDays + " dage!\nDen " +
+                simpleDateFormatDDMMM.format(startDate) + " til " +
+                simpleDateFormatDDMMM.format(endDate));
     }
 
     private JsonArray generateData(int numberOfDays) {
@@ -96,22 +102,41 @@ public class GoalInfoFragment extends Fragment {
 
         IUserManager userManager = new UserManager();
 
+        int maxTime = 0;
+
         startDate = cal.getTime();
         for (int i = 0; i < numberOfDays; i++) {
             Date date = cal.getTime();
             String dateString = simpleDateFormatDDMM.format(date);
 
             Map<ActivityCategories, Float> tempDayData = userManager.getDayData(date);
+            float activityTime = tempDayData.get(goalType) == null ? 0 : tempDayData.get(goalType);
+            if(activityTime > maxTime){
+                maxTime = (int) activityTime;
+            }
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("label", dateString);
-            jsonObject.addProperty("y", tempDayData.get(goalType) == null ? 0 : tempDayData.get(goalType));
+            jsonObject.addProperty("y", activityTime);
             jsonArray.add(jsonObject);
 
             // subtracting one day from the calender.
             cal.add(Calendar.DATE, 1);
         }
         endDate = cal.getTime();
+
+        if(maxTime > 180 && goalType != ActivityCategories.Skridt ){
+            JsonArray newJsonArray = new JsonArray();
+            for(JsonElement jsonElement : jsonArray){
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
+
+                JsonObject newJsonObject = new JsonObject();
+                newJsonObject.addProperty("label", jsonObject.get("label").getAsString());
+                newJsonObject.addProperty("y", (jsonObject.get("y").getAsFloat()/60));
+                newJsonArray.add(newJsonObject);
+            }
+            jsonArray = newJsonArray;
+        }
 
         return jsonArray;
     }
