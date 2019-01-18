@@ -1,5 +1,7 @@
 package com.example.root.sens.dao;
 
+import android.icu.text.AlphabeticIndex;
+
 import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.dao.interfaces.DatabaseObserver;
 import com.example.root.sens.dao.interfaces.DatabaseSubject;
@@ -184,6 +186,20 @@ public class UserDAO implements IUserDao, DatabaseSubject {
                 realm.copyToRealmOrUpdate(u);
             }
         });
+    }
+
+    @Override
+    public void deleteData() {
+        User u = UserDAO.getInstance().getUserLoggedIn();
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        while(u.getDayData().iterator().hasNext()){
+            u.getDayData().iterator().next().deleteFromRealm();
+        }
+        while(u.getGoals().iterator().hasNext()){
+            u.getGoals().iterator().next().deleteFromRealm();
+        }
+        realm.commitTransaction();
     }
 
 

@@ -71,18 +71,7 @@ public class SettingsActivity extends AppCompatActivity implements ItemClickList
         builder.setTitle(R.string.SettingDelete)
                 .setMessage(R.string.SettingConfirmDelete)
                 .setPositiveButton(R.string.ja, (dialog, which) -> {
-                    Realm realm = Realm.getDefaultInstance();
-                    realm.beginTransaction();
-
-                    RealmList<DayData> dayData = new UserManager().getUserLoggedIn().getDayData();
-                    for (DayData currentDayData : dayData) {
-                        for (Record currentRecord : currentDayData.getRecords()) {
-                            System.out.println(currentRecord.getType() + " " + currentRecord.getValue());
-                            currentRecord.setValue(0);
-                        }
-                    }
-
-                    realm.commitTransaction();
+                    new UserManager().deleteData();
                     Snackbar.make(findViewById(R.id.settings_layout),
                             R.string.SettingsDataDeleted,
                             Snackbar.LENGTH_LONG).show();
@@ -124,6 +113,16 @@ public class SettingsActivity extends AppCompatActivity implements ItemClickList
 
     @Override
     public void onDataReceived() {
+        if(snackbar != null){
+            snackbar.dismiss();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        sensSubject = SensDAO.getInstance();
+        sensSubject.removeObserver(this);
     }
 
     @Override
