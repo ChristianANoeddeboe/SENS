@@ -2,6 +2,7 @@ package com.example.root.sens.recyclers.viewholder;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ public class ViewHolderCalendar extends ViewHolder {
     private TextView calendarMonth;
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", Locale.US);
     private Context ctx;
+    private final String TAG = ViewHolderCalendar.class.getSimpleName();
     public ViewHolderCalendar(View itemView) {
         super(itemView);
         calendar = itemView.findViewById(R.id.compactcalendar_view);
@@ -62,8 +64,10 @@ public class ViewHolderCalendar extends ViewHolder {
                 Calendar c = Calendar.getInstance();
                 c.setTime(firstDayOfNewMonth);
                 c.add(Calendar.DATE, 14);
+                Log.d(TAG, "onMonthScroll: Requested data for " + c.getTime().toString());
                 SensDAO.getInstance().getDataSpecificDate(new UserManager().getUserLoggedIn().getPatientKey(),14,c.getTime());
                 c.add(Calendar.DATE, 14);
+                Log.d(TAG, "onMonthScroll: Requested data for " + c.getTime().toString());
                 SensDAO.getInstance().getDataSpecificDate(new UserManager().getUserLoggedIn().getPatientKey(),14,c.getTime());
                 observer.showDataFetchSnack();
 

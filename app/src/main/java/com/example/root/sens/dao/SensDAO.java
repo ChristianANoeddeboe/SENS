@@ -20,7 +20,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -59,26 +58,46 @@ public class SensDAO implements Callback<Response>, SensSubject {
     }
     public void getData(String patientKey){
         Call<Response> temp = service.getData(patientKey);
-        getDataFromSens(patientKey,temp);
+        ArrayList<Call<Response>> callArrayList = new ArrayList<>();
+        callArrayList.add(temp);
+        getDataFromSens(callArrayList,0);
     }
 
     public void getData(String patientKey, int dayCount){
         validateDayCount(dayCount);
         Call<Response> temp = service.getData(patientKey, dayCount);
-        getDataFromSens(patientKey,temp);
+        ArrayList<Call<Response>> callArrayList = new ArrayList<>();
+        callArrayList.add(temp);
+        getDataFromSens(callArrayList,0);
     }
 
     public void getDataSpecificDate(String patientKey, int dayCount, Date date){
         validateDayCount(dayCount);
         validateDate(df.format(date));
         Call<Response> temp = service.getDataSpecificDate(patientKey, dayCount,df.format(date));
-        getDataFromSens(patientKey,temp);
+        ArrayList<Call<Response>> callArrayList = new ArrayList<>();
+        callArrayList.add(temp);
+        getDataFromSens(callArrayList,0);
+    }
+
+    public void getDataMonth(String patientKey, int dayCount, Date date1, Date date2){
+        validateDayCount(dayCount);
+        validateDate(df.format(date1));
+        validateDate(df.format(date2));
+        Call<Response> temp1 = service.getDataSpecificDate(patientKey, dayCount,df.format(date1));
+        Call<Response> temp2 = service.getDataSpecificDate(patientKey, dayCount,df.format(date2));
+        ArrayList<Call<Response>> callArrayList = new ArrayList<>();
+        callArrayList.add(temp1);
+        callArrayList.add(temp2);
+        getDataFromSens(callArrayList,0);
     }
 
     public void getDataSpecificDate(String patientKey, Date date){
         validateDate(df.format(date));
         Call<Response> temp = service.getDataSpecificDate(patientKey,df.format(date));
-        getDataFromSens(patientKey,temp);
+        ArrayList<Call<Response>> callArrayList = new ArrayList<>();
+        callArrayList.add(temp);
+        getDataFromSens(callArrayList,0);
     }
 
     @Override
@@ -113,15 +132,7 @@ public class SensDAO implements Callback<Response>, SensSubject {
     }
 
     @Override
-    public void notifyObservers(Response r) {
-        mergeAndSaveData(r);
-        for (SensObserver observer: mObservers) {
-            observer.onDataReceived();
-        }
-    }
-
-    @Override
-    public void notifyObserversNoResponse() {
+    public void notifyObservers() {
         //Called on failure, to make the snackbar dismiss, an automatic retry is setup elsewhere.
         for (SensObserver observer: mObservers) {
             observer.onDataReceived();
@@ -185,58 +196,68 @@ public class SensDAO implements Callback<Response>, SensSubject {
      * Fetch data from SENS
      * @param patientKey The patient key
      */
-    private void getDataFromSens(String patientKey, Call <Response> call){
-        call.enqueue(new Callback<Response>() {
-            @Override
-            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) { // When response is received
-                if(response.isSuccessful()){ // If response was sucessfull
-                    Response t = response.body();
-                    if(t != null && t.statusMsg.equals("OK") && t.statusCode == 0){ // A few checks making sure everything is Ok
-                        Log.d(TAG,"SUCCESSFUL");
-                        notifyObservers(t); // We have sucessfully fetched the data, and can now notify observers
-                    }else{
-                        Log.d(TAG, "Response was supposedly sucessfull but was not as expected" + t.toString());
-                        notifyObserversNoResponse();
-                    }
-                }else if(response.code() == 406){
-                    try {
-                        String s = response.errorBody().string().toLowerCase();
-                        if(s.contains("analysis")){
-                            Log.d(TAG,"Retrying....");
-                            new Handler().postDelayed(() -> new AsyncTask() {
-                                @Override
-                                protected Object doInBackground(Object[] objects) {
-                                    Log.d(TAG,"Retrying the call");
-                                    Call<Response> temp = call.clone();
-                                    getDataFromSens(patientKey, temp);
-                                    return null;
-                                }
-                            }.execute(), 10000); // Delay the retry, note this function is recursive and calls itself until data is fetched sucessfully.
-                            // We try every 10 seconds
-                        }else if(s.contains("measurement")){
-                            notifyObserversNoResponse(); // There is no data for this date.
+    private void getDataFromSens(List<Call<Response>> callList, int i){
+        if(i < callList.size()) {
+            callList.get(i).enqueue(new Callback<Response>() {
+                @Override
+                public void onResponse(Call<Response> call, retrofit2.Response<Response> response) { // When response is received
+                    if (response.isSuccessful()) { // If response was sucessfull
+                        Response t = response.body();
+                        if (t != null && t.statusMsg.equals("OK") && t.statusCode == 0) { // A few checks making sure everything is Ok
+                            Log.d(TAG, "SUCCESSFUL");
+                            mergeAndSaveData(t);
+                        } else {
+                            Log.d(TAG, "Response was supposedly sucessfull but was not as expected" + t.toString());
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }else{
-                    try {
-                        Log.d(TAG, "Some other error: " + response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                        int counter = i;
+                        counter = counter + 1;
+                        getDataFromSens(callList,counter);
+                    } else if (response.code() == 406) {
+                        try {
+                            String s = response.errorBody().string().toLowerCase();
+                            if (s.contains("analysis")) {
+                                Log.d(TAG, "Retrying....");
+                                new Handler().postDelayed(() -> new AsyncTask() {
+                                    @Override
+                                    protected Object doInBackground(Object[] objects) {
+                                        Log.d(TAG, "Retrying the call");
+                                        Call<Response> temp = call.clone();
+                                        ArrayList<Call<Response>> tempList = new ArrayList<>();
+                                        tempList.add(temp);
+                                        getDataFromSens(tempList,i);
+                                        return null;
+                                    }
+                                }.execute(), 10000); // Delay the retry, note this function is recursive and calls itself until data is fetched sucessfully.
+                                // We try every 10 seconds
+                            } else if (s.contains("measurement")) {
+                                int counter = i;
+                                counter = counter +1;
+                                getDataFromSens(callList,counter);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        try {
+                            Log.d(TAG, "Some other error: " + response.errorBody().string());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
 
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Response> call, Throwable t) {
-                Log.d(TAG, "ERROR");
-                notifyObserversNoResponse();
-                t.printStackTrace();
-            }
-        });
+                @Override
+                public void onFailure(Call<Response> call, Throwable t) {
+                    Log.d(TAG, "ERROR");
+                    notifyObservers();
+                    t.printStackTrace();
+                }
+            });
+        }else{ // There are no calls pending
+            notifyObservers();
+        }
     }
 
     private void validateDayCount(int dayCount){
