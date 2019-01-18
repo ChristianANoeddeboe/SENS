@@ -4,29 +4,35 @@
     <script type="text/javascript">
 window.onload = function () {
 
-var dataPoints = JSON.parse( Android.getData() );
+CanvasJS.addColorSet("customColors",
+                [
+
+                Android.getColor()
+                ]);
 
 var chart = new CanvasJS.Chart("chartContainer", {
-	theme: "light1", // "light2", "dark1", "dark2"
-	animationEnabled: false, // change to true
-	title:{
-		text: "Basic Column Chart"
-	},
+	theme: "light1",
+	animationEnabled: true,
+	axisY:{
+        title: Android.getYAxisDesc(),
+    },
+     <!--colorSet:  Android.getColor(),-->
+     colorSet:  "customColors",
 	data: [
 	{
-		// Change type to "bar", "area", "spline", "pie",etc.
-		type: "column",
-		dataPoints: dataPoints
+		type: "line",
+		dataPoints: JSON.parse( Android.getData() )
 	}
 	]
 });
 chart.render();
 }
-</script>
+
+    </script>
 </head>
 <body>
-    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
 
-    <script src="file:///android_asset/canvasjs.min.js"> </script>
+<script src="file:///android_asset/canvasjs.min.js"></script>
 </body>
 </html>

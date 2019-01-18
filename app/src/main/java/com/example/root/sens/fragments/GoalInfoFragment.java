@@ -1,6 +1,7 @@
 package com.example.root.sens.fragments;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -33,9 +34,9 @@ public class GoalInfoFragment extends Fragment {
     WebView webView;
     ActivityCategories goalType;
     Date startDate, endDate, pickedDate;
-    TextView title, subTitle;
-    SimpleDateFormat simpleDateFormatDDMM = new SimpleDateFormat("dd'.' MMM", new Locale("da"));
-    SimpleDateFormat simpleDateFormatDDMMM = new SimpleDateFormat("dd'.' MMMM", new Locale("da"));
+    TextView subTitle;
+    SimpleDateFormat simpleDateFormatDDMM = new SimpleDateFormat("d'.' MMM", new Locale("da"));
+    SimpleDateFormat simpleDateFormatDDMMM = new SimpleDateFormat("d'.' MMMM", new Locale("da"));
 
 
     @Override
@@ -81,14 +82,19 @@ public class GoalInfoFragment extends Fragment {
         return rootView;
     }
 
+    String yAxisDescription;
+
     private void showWebView(int numberOfDays) {
+        @SuppressLint("ResourceType") String color = "#" + getResources().getString(new ResourceManagement().getGoalColor(goalType)).substring(3).toUpperCase();
         webView.loadUrl("file:///android_asset/graph.html");
         JavaScriptInterface javaScriptInterface = new JavaScriptInterface(
-                generateData(numberOfDays));
+                generateData(numberOfDays), color);
+        javaScriptInterface.setyAxisDescription(yAxisDescription);
+
         webView.addJavascriptInterface(javaScriptInterface, "Android");
         subTitle.setText("Viser data for " + numberOfDays + " dage!\nDen " +
                 simpleDateFormatDDMMM.format(startDate) + " til " +
-                simpleDateFormatDDMMM.format(endDate));
+                simpleDateFormatDDMMM.format(endDate) + ".");
     }
 
     private JsonArray generateData(int numberOfDays) {
@@ -96,7 +102,7 @@ public class GoalInfoFragment extends Fragment {
         // it's easier manipulated than Date.
         Calendar cal = Calendar.getInstance();
         cal.setTime(pickedDate);
-        cal.add(Calendar.DATE, -numberOfDays);
+        cal.add(Calendar.DATE, -numberOfDays + 1);
 
         JsonArray jsonArray = new JsonArray();
 
@@ -123,6 +129,7 @@ public class GoalInfoFragment extends Fragment {
             // subtracting one day from the calender.
             cal.add(Calendar.DATE, 1);
         }
+        cal.add(Calendar.DATE, -1);
         endDate = cal.getTime();
 
         if(maxTime > 180 && goalType != ActivityCategories.Skridt ){
@@ -136,6 +143,12 @@ public class GoalInfoFragment extends Fragment {
                 newJsonArray.add(newJsonObject);
             }
             jsonArray = newJsonArray;
+            yAxisDescription = "Bevægelse i timer";
+        } else {
+            yAxisDescription = "Bevægelse i minutter";
+        }
+        if (goalType == ActivityCategories.Skridt){
+            yAxisDescription = "Antal skridt";
         }
 
         return jsonArray;
