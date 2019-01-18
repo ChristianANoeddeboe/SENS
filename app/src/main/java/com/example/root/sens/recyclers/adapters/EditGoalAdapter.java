@@ -1,5 +1,6 @@
 package com.example.root.sens.recyclers.adapters;
 
+import android.content.res.ColorStateList;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -10,19 +11,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.R;
+import com.example.root.sens.auxiliary.DataCheck;
 import com.example.root.sens.auxiliary.ProgressTextGenerator;
 import com.example.root.sens.managers.UserManager;
 import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
 
 public class EditGoalAdapter extends RecyclerView.Adapter<EditGoalAdapter.ViewHolder>{
-    private static final String TAG = SetGoalAdapter.class.getSimpleName();
+    private static final String TAG = EditGoalAdapter.class.getSimpleName();
     private OnItemClickListener listener;
     private List<SetGoalItemModel> dataSet;
 
@@ -93,10 +98,23 @@ public class EditGoalAdapter extends RecyclerView.Adapter<EditGoalAdapter.ViewHo
                 public void onTextChanged(CharSequence s, int start, int before, int count) {}
                 @Override
                 public void afterTextChanged(Editable s) {
+                    Log.d(TAG, s.toString());
+                    int newValue = dataSet.get(position).getValue();
                     if(Pattern.matches("[0-9]+", s.toString())){
-                        dataSet.get(position).setValue(Integer.parseInt(s.toString()));
-                        viewHolder.getEditText().setHint(dataSet.get(position).getValue()+" skridt");
-                        new UserManager().updateGoal(type, dataSet.get(position).getValue());
+                        try{
+                            newValue = Integer.parseInt(s.toString());
+                        }
+                        catch(NumberFormatException e){
+                            listener.onItemClick(viewHolder.getEditText(), position, type);
+                            viewHolder.getEditText().getText().clear();
+                            newValue = 0;
+                            throw e;
+                        }
+                        finally {
+                            dataSet.get(position).setValue(newValue);
+                            viewHolder.getEditText().setHint(newValue+" skridt");
+                            new UserManager().updateGoal(type, newValue);
+                        }
                     }
                 }
             });
