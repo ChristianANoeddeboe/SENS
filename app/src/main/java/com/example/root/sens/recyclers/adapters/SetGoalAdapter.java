@@ -1,6 +1,7 @@
 package com.example.root.sens.recyclers.adapters;
 
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,6 +24,8 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
     private static final String TAG = SetGoalAdapter.class.getSimpleName();
     private SetGoalAdapterOnItemClickListener listener;
     private List<SetGoalItemModel> dataSet;
+    private Snackbar snackbar;
+    private RecyclerView recyclerView;
 
     public interface SetGoalAdapterOnItemClickListener {
         void onItemClick(View item, int position, ActivityCategories type);
@@ -94,13 +97,29 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
                 @Override
                 public void afterTextChanged(Editable s) {
                     if(Pattern.matches("[0-9]+", s.toString())){
-                        dataSet.get(position).setValue(Integer.parseInt(s.toString()));
+                        int input;
+                        try {
+                            input = Integer.parseInt(s.toString());
+                        } catch (NumberFormatException e) {
+                            //s.clear();
+                            s.replace(0, s.length(),s.toString().substring(0,10));
+                            input = Integer.parseInt(s.toString());
+                            snackbar = Snackbar.make(recyclerView, R.string.TooManySteps, Snackbar.LENGTH_LONG);
+                            snackbar.show();
+                        }
+                        dataSet.get(position).setValue(input);
                     }
                 }
             });
 
         }
         viewHolder.getTextViewPrimary().setText(dataSet.get(position).getPrimaryTxt());
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        this.recyclerView = recyclerView;
     }
 
     @Override
