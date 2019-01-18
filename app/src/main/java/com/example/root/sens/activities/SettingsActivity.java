@@ -58,9 +58,9 @@ public class SettingsActivity extends AppCompatActivity implements ItemClickList
         items.add(new ItemModel("Ryd data",
                 "Dette vil fjerne alt dine data!", R.drawable.ic_baseline_delete_forever_24px));
         items.add(new ItemModel("Hent data", "Henter ny data fra sensoren.", R.drawable.ic_baseline_cloud_download_24px));
-        items.add(new ItemModel("Tilgængelighed", R.drawable.ic_baseline_accessibility_24px));
-        items.add(new ItemModel("Ændre skrifttype", R.drawable.ic_baseline_font_download_24px));
-        items.add(new ItemModel("Farveblind indstillinger", R.drawable.ic_baseline_invert_colors_24px));
+        items.add(new ItemModel("Tilgængelighed", "Handicap hjælp",  R.drawable.ic_baseline_accessibility_24px));
+        items.add(new ItemModel("Ændre skrifttype","", R.drawable.ic_baseline_font_download_24px));
+        items.add(new ItemModel("Farveblind indstillinger","", R.drawable.ic_baseline_invert_colors_24px));
 
         return items;
     }
