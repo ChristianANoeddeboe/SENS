@@ -32,11 +32,12 @@ public class WizardActivity extends AppCompatActivity {
     private WizardContentFragment calenderFragment = new WizardContentFragment();
     private WizardContentFragment maalkortFragment = new WizardContentFragment();
     private WizardContentFragment maalkortInfoFragment = new WizardContentFragment();
+    private WizardContentFragment maalkortMereInfoFragment = new WizardContentFragment();
     private WizardContentFragment hoejdepunkterFragment = new WizardContentFragment();
     private WizardContentFragment burgerMenuIkonFragment = new WizardContentFragment();
     private WizardContentFragment burgerMenuFragment = new WizardContentFragment();
     private final String TAG = WizardActivity.class.getSimpleName();
-    private final int NUM_PAGES = 7;
+    private final int NUM_PAGES = 8;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +80,9 @@ public class WizardActivity extends AppCompatActivity {
                     break;
                 case 6:
                     switchPage(v,7);
+                    break;
+                case 7:
+                    switchPage(v,8);
                     finish();
                     break;
                 default:
@@ -142,12 +146,15 @@ public class WizardActivity extends AppCompatActivity {
                     maalkortInfoFragment.setArguments(args);
                     return maalkortInfoFragment;
                 case 4:
+                    maalkortMereInfoFragment.setArguments(args);
+                    return maalkortMereInfoFragment;
+                case 5:
                     hoejdepunkterFragment.setArguments(args);
                     return hoejdepunkterFragment;
-                case 5:
+                case 6:
                     burgerMenuIkonFragment.setArguments(args);
                     return burgerMenuIkonFragment;
-                case 6:
+                case 7:
                     burgerMenuFragment.setArguments(args);
                     return burgerMenuFragment;
                 default:
