@@ -16,4 +16,12 @@
         android:text="Du har ikke sat nogle mål..."
         android:textAlignment="center"
         android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/buttonNoGoalsCreateGoals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Opret mål"
+        android:textColor="@color/dark_grey"
+        style="@style/TextButtonSensWhite"/>
 </LinearLayout>

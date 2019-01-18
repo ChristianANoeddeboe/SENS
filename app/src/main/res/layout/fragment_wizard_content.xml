@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="64dp"
     android:orientation="vertical">
 
     <TextView
@@ -12,7 +13,6 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
-        android:text="TESTTEST"
         android:textColor="@color/white" />
 
     <ImageView

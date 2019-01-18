@@ -43,6 +43,7 @@ import com.example.root.sens.fragments.OverviewFragment;
 import com.example.root.sens.managers.UserManager;
 import com.example.root.sens.notification.NotificationsManager;
 import com.example.root.sens.notification.TimeReceiver;
+import com.example.root.sens.observers.CreateNewGoalObserver;
 import com.example.root.sens.observers.MainFullScreenObserver;
 
 import java.text.DateFormat;
@@ -53,7 +54,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener, SensObserver,
-        DatabaseObserver, MainFullScreenObserver {
+        DatabaseObserver, MainFullScreenObserver, CreateNewGoalObserver {
     private final String TAG = MainActivity.class.getSimpleName();
     private static String[] viewNames = {"Overblik", "Højdepunkter"};
     private static String standardToolbarTitle = "SENS";
@@ -306,6 +307,12 @@ public class MainActivity extends AppCompatActivity implements
         AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
                 AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+    }
+
+    @Override
+    public void startManageGoalActivity() {
+        Intent i = new Intent(getApplicationContext(), ManageGoalActivity.class);
+        startActivity(i);
     }
 
     /*

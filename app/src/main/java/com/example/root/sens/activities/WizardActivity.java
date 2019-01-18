@@ -1,6 +1,8 @@
 package com.example.root.sens.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -11,11 +13,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.Slide;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.root.sens.R;
 import com.example.root.sens.fragments.WizardContentFragment;
@@ -25,8 +30,6 @@ public class WizardActivity extends AppCompatActivity {
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
 
-    private Button slide;
-    private Button back;
 
     private WizardContentFragment oversigtFragment = new WizardContentFragment();
     private WizardContentFragment calenderFragment = new WizardContentFragment();
@@ -37,6 +40,8 @@ public class WizardActivity extends AppCompatActivity {
     private WizardContentFragment burgerMenuFragment = new WizardContentFragment();
     private final String TAG = WizardActivity.class.getSimpleName();
     private final int NUM_PAGES = 7;
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,50 +61,46 @@ public class WizardActivity extends AppCompatActivity {
         for (int i = 0; i < tabStrip.getChildCount(); i++) {
             tabStrip.getChildAt(i).setOnTouchListener((v, event) -> true);
         }
-        slide = findViewById(R.id.user_config_a_slide_button_wizard);
-        slide.setOnClickListener((View v) -> {
-            switch (mPager.getCurrentItem()) {
-                case 0:
-                    switchPage(v, 1);
-                    break;
-                case 1:
-                    switchPage(v, 2);
-                    break;
-                case 2:
-                    switchPage(v,3);
-                    break;
-                case 3:
-                    switchPage(v,4);
-                    break;
-                case 4:
-                    switchPage(v,5);
-                    break;
-                case 5:
-                    switchPage(v,6);
-                    break;
-                case 6:
-                    switchPage(v,7);
-                    finish();
-                    break;
-                default:
-                    Log.e(TAG, "Page does not exist");
-                    finish();
-            }
-        });
 
+        findViewById(R.id.user_config_a_slide_button_wizard).setOnClickListener((View v) -> switchPage(true));
 
-        back = findViewById(R.id.btn_user_config_a_back_button_wizard);
-        back.setOnClickListener((View v) -> {
-            finish();
-        });
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+
+//        This is to aggressive, still figuering it out- Thyge
+//        findViewById(R.id.page_wizard).setOnTouchListener((v, event) -> {
+//            int x = (int) event.getX();
+//            int y = (int) event.getY();
+//
+//            if(y > height-60){
+//                return true;
+//            }
+//
+//            if(x >width/2){
+//                switchPage(false);
+//            }
+//            else {
+//                switchPage(true);
+//            }
+//
+//            return true;
+//        });
+
+        findViewById(R.id.btn_user_config_a_back_button_wizard).setOnClickListener((View v) -> finish());
     }
 
-
-    private void switchPage(View v, int nextPage) {
-        mPager.setCurrentItem(nextPage, true);
-        InputMethodManager imm = (InputMethodManager) getSystemService(getApplication().INPUT_METHOD_SERVICE);
-        if (imm != null) {
-            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+    private void switchPage(boolean forward) {
+        int currentItem = mPager.getCurrentItem();
+        if(forward){
+            if(currentItem == 6){
+                finish();
+            }
+            mPager.setCurrentItem(currentItem + 1, true);
+        } else {
+            mPager.setCurrentItem(currentItem - 1, true);
         }
     }
 

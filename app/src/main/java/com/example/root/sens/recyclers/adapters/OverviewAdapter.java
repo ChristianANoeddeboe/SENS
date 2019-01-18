@@ -1,6 +1,7 @@
 package com.example.root.sens.recyclers.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -11,11 +12,13 @@ import android.view.ViewGroup;
 
 import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.R;
+import com.example.root.sens.activities.ManageGoalActivity;
 import com.example.root.sens.fragments.interfaces.OverviewListItem;
 import com.example.root.sens.fragments.interfaces.TypeCalendar;
 import com.example.root.sens.fragments.interfaces.TypeNoData;
 import com.example.root.sens.fragments.interfaces.TypeProgress;
 import com.example.root.sens.managers.UserManager;
+import com.example.root.sens.observers.CreateNewGoalObserver;
 import com.example.root.sens.recyclers.viewholder.ViewHolder;
 import com.example.root.sens.recyclers.viewholder.ViewHolderCalendar;
 import com.example.root.sens.recyclers.viewholder.ViewHolderNoData;
@@ -60,12 +63,9 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
             mItems.add(new TypeNoData());
         }
 
-        typeList.sort(new Comparator<ActivityCategories>() {
-            @Override
-            public int compare(ActivityCategories o1, ActivityCategories o2) {
-                if(o1.getValue() < o2.getValue()) return 1;
-                else return -1;
-            }
+        typeList.sort((o1, o2) -> {
+            if(o1.getValue() < o2.getValue()) return 1;
+            else return -1;
         });
     }
 
@@ -99,6 +99,8 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
                         .from(viewGroup.getContext())
                         .inflate(R.layout.activity_main_no_data, viewGroup, false);
                 viewHolderType = new ViewHolderNoData(view);
+                view.findViewById(R.id.buttonNoGoalsCreateGoals).setOnClickListener((View v) ->
+                        ((CreateNewGoalObserver) mContext).startManageGoalActivity());
                 i++;
                 break;
         }

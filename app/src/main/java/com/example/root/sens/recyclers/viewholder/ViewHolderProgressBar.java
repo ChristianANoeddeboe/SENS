@@ -84,7 +84,6 @@ public class ViewHolderProgressBar extends ViewHolder {
         int color = new ResourceManagement().getGoalColor(activityCategory);
 
         progressTextView.setText(createProgressText(current, max));
-        //unitTextView.setText(R.string.Minutes);
 
         title.setText(String.valueOf(activityCategory));
 
