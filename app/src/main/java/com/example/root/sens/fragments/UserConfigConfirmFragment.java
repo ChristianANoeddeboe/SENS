@@ -80,12 +80,12 @@ public class UserConfigConfirmFragment extends Fragment implements UserObserver 
                 updateRecycler(2, "Fødselsdag", dateFormat(user.getBirthday()));
                 break;
             case User.GOALDATA:
-                updateRecycler(3, "Cykling", String.valueOf(user.getGoals().get(0).getGoals().get(0).getValue()));
-                updateRecycler(4, "Gang", String.valueOf(user.getGoals().get(0).getGoals().get(1).getValue()));
-                updateRecycler(5, "Træning", String.valueOf(user.getGoals().get(0).getGoals().get(2).getValue()));
-                updateRecycler(6, "Stå", String.valueOf(user.getGoals().get(0).getGoals().get(3).getValue()));
-                updateRecycler(7, "Søvn", String.valueOf(user.getGoals().get(0).getGoals().get(4).getValue()));
-                updateRecycler(8,"Skridt",String.valueOf(user.getGoals().get(0).getGoals().get(5).getValue()));
+                updateRecycler(3, "Skridt", String.valueOf(user.getGoals().get(0).getGoals().get(0).getValue()));
+                updateRecycler(4, "Træning", String.valueOf(user.getGoals().get(0).getGoals().get(1).getValue()));
+                updateRecycler(5, "Cykling", String.valueOf(user.getGoals().get(0).getGoals().get(2).getValue()));
+                updateRecycler(6, "Gang", String.valueOf(user.getGoals().get(0).getGoals().get(3).getValue()));
+                updateRecycler(7, "Stå", String.valueOf(user.getGoals().get(0).getGoals().get(4).getValue()));
+                updateRecycler(8,"Søvn",String.valueOf(user.getGoals().get(0).getGoals().get(5).getValue()));
                 break;
             default:
         }
