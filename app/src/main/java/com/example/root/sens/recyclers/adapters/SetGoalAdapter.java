@@ -15,6 +15,7 @@ import com.example.root.sens.auxiliary.ProgressTextGenerator;
 import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
 import com.example.root.sens.R;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -32,6 +33,13 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
      */
 
     public SetGoalAdapter(SetGoalAdapterOnItemClickListener listener, List<SetGoalItemModel> dataSet){
+        dataSet.sort(new Comparator<SetGoalItemModel>() {
+            @Override
+            public int compare(SetGoalItemModel o1, SetGoalItemModel o2) {
+                if(o1.getType().getValue() < o2.getType().getValue()) return 1;
+                return -1;
+            }
+        });
         this.dataSet = dataSet;
         this.listener = listener;
     }
