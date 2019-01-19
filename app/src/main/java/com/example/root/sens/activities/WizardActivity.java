@@ -11,19 +11,16 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.Slide;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.root.sens.R;
 import com.example.root.sens.fragments.WizardContentFragment;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class WizardActivity extends AppCompatActivity {
 
@@ -44,6 +41,7 @@ public class WizardActivity extends AppCompatActivity {
     @SuppressLint("ClickableViewAccessibility")
     private final int NUM_PAGES = 8;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,31 +71,31 @@ public class WizardActivity extends AppCompatActivity {
         int height = size.y;
 
 //        This is to aggressive, still figuering it out- Thyge
-//        findViewById(R.id.page_wizard).setOnTouchListener((v, event) -> {
-//            int x = (int) event.getX();
-//            int y = (int) event.getY();
-//
-//            if(y > height-60){
-//                return true;
-//            }
-//
-//            if(x >width/2){
-//                switchPage(false);
-//            }
-//            else {
-//                switchPage(true);
-//            }
-//
-//            return true;
-//        });
+        findViewById(R.id.page_wizard).setOnTouchListener((v, event) -> {
+            int x = (int) event.getX();
+            int y = (int) event.getY();
+
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (y > height - 60) {
+                    return true;
+                }
+
+                if (x > width / 2) {
+                    switchPage(true);
+                } else {
+                    switchPage(false);
+                }
+            }
+            return true;
+        });
 
         findViewById(R.id.btn_user_config_a_back_button_wizard).setOnClickListener((View v) -> finish());
     }
 
     private void switchPage(boolean forward) {
         int currentItem = mPager.getCurrentItem();
-        if(forward){
-            if(currentItem == 6){
+        if (forward) {
+            if (currentItem == 6) {
                 finish();
             }
             mPager.setCurrentItem(currentItem + 1, true);
@@ -130,7 +128,7 @@ public class WizardActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             Bundle args = new Bundle();
-            args.putInt("PageNum",position);
+            args.putInt("PageNum", position);
             switch (position) {
                 case 0:
                     oversigtFragment.setArguments(args);
