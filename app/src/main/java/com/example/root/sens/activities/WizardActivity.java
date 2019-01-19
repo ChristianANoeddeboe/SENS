@@ -70,22 +70,40 @@ public class WizardActivity extends AppCompatActivity {
         int width = size.x;
         int height = size.y;
 
-//        This is to aggressive, still figuering it out- Thyge
+        AtomicInteger xDown = new AtomicInteger();
+        AtomicInteger yDown = new AtomicInteger();
+
         findViewById(R.id.page_wizard).setOnTouchListener((v, event) -> {
             int x = (int) event.getX();
             int y = (int) event.getY();
 
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                if (y > height - 60) {
-                    return true;
-                }
+            int eventAction = event.getAction();
+            if (eventAction == MotionEvent.ACTION_DOWN) {
+                xDown.set(x);
+                yDown.set(y);
+            }
 
-                if (x > width / 2) {
-                    switchPage(true);
-                } else {
-                    switchPage(false);
+            if (eventAction == MotionEvent.ACTION_UP) {
+                if (Math.abs(xDown.get() - x) < 10 &&
+                        Math.abs(yDown.get() - y) < 10) {
+                    if (y > height - 60) {
+                        return true;
+                    }
+
+                    if (x > width / 2) {
+                        switchPage(true);
+                    } else {
+                        switchPage(false);
+                    }
+                }else{
+                    if(xDown.get() > x){
+                        switchPage(true);
+                    }else{
+                        switchPage(false);
+                    }
                 }
             }
+
             return true;
         });
 

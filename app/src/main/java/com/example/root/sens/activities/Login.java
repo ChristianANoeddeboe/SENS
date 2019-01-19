@@ -47,10 +47,7 @@ public class Login extends AppCompatActivity {
                 to enter back into this "flow". (Back stack management)
              */
             if (loginController.login(patientKey)) {
-//                Intent i = new Intent(getApplicationContext(), MainActivity.class);
-//                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                startActivity(i);
-                Intent i = new Intent(getApplicationContext(), WizardActivity.class);
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
                 return;
