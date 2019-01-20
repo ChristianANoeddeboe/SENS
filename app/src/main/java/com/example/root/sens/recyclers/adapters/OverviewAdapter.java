@@ -25,7 +25,6 @@ import com.example.root.sens.recyclers.viewholder.ViewHolderNoData;
 import com.example.root.sens.recyclers.viewholder.ViewHolderProgressBar;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;

@@ -253,11 +253,14 @@ public class MainActivity extends AppCompatActivity implements
                     R.string.MainNoDataForGivenDate,
                     Snackbar.LENGTH_LONG).show();*/
             SensDAO.getInstance().getDataSpecificDate(new UserManager().getUserLoggedIn().getPatientKey(),date);
-            fetchDataProgressBar("Vi prøver at hente data, prøv igen om lidt.");
+            fetchDataProgressBar("Dataet hentes, prøv igen om lidt.");
             return;
         }
-        changeToolbarTextImage(new SimpleDateFormat("EEEE 'den' DD'. ' MMMM YYYY",
-                new Locale("da")).format(date), R.drawable.ic_baseline_clear);
+        String dates = date.toString();
+
+        String dateFormatted = new SimpleDateFormat("EEEE 'den' dd'.' MMMM yyyy",
+                new Locale("da")).format(date);
+        changeToolbarTextImage(dateFormatted, R.drawable.ic_baseline_clear);
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("date", date);
