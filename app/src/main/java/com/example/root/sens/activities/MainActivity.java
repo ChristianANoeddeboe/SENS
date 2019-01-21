@@ -22,6 +22,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,7 @@ import com.example.root.sens.observers.CreateNewGoalObserver;
 import com.example.root.sens.observers.MainFullScreenObserver;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -157,7 +159,9 @@ public class MainActivity extends AppCompatActivity implements
         sensSubject = SensDAO.getInstance();
         sensSubject.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
         UserDAO.getInstance().registerObserver(this);
-        SensDAO.getInstance().getData(new UserManager().getUserLoggedIn().getPatientKey(), 14);
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_MONTH,1);
+        SensDAO.getInstance().getDataMonth(new UserManager().getUserLoggedIn().getPatientKey(),c.getTime(),false);
         fetchDataProgressBar("Henter data");
 
         new Handler().postDelayed(() -> asyncTask = new AsyncTask() {
@@ -330,7 +334,6 @@ public class MainActivity extends AppCompatActivity implements
 
     /*
      * The view pager is handled here
-     * TODO: Move out
      */
     private class ViewpagerAdapter extends FragmentPagerAdapter {
         public ViewpagerAdapter(FragmentManager fm) {

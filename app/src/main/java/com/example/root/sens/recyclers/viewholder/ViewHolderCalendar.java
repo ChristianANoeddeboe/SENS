@@ -61,13 +61,7 @@ public class ViewHolderCalendar extends ViewHolder {
                 MainFullScreenObserver observer = (MainFullScreenObserver) ctx;
                 calendarMonth.setText(dateFormatForMonth.format(firstDayOfNewMonth));
                 MonthSingleton.getInstance().setCurrentMonth(firstDayOfNewMonth);
-                Calendar c1 = Calendar.getInstance();
-                c1.setTime(firstDayOfNewMonth);
-                c1.add(Calendar.DATE, 14);
-                Calendar c2 = Calendar.getInstance();
-                c2.setTime(firstDayOfNewMonth);
-                c2.add(Calendar.DATE,30);
-                SensDAO.getInstance().getDataMonth(new UserManager().getUserLoggedIn().getPatientKey(),14,c1.getTime(),c2.getTime(),true);
+                SensDAO.getInstance().getDataMonth(new UserManager().getUserLoggedIn().getPatientKey(),firstDayOfNewMonth,true);
 
                 observer.showDataFetchSnack();
 

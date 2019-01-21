@@ -66,7 +66,6 @@ public class UserManager implements IUserManager{
                 case "Skridt":
                     list.add(new Goal(ActivityCategories.Skridt.toString(),goal.getValue()));
                 default:
-                    //TODO: Throw error
                     break;
             }
         }
@@ -150,12 +149,6 @@ public class UserManager implements IUserManager{
         }
 
         return result;
-    }
-
-
-    @Override
-    public void getGoal(ActivityCategories activityCategory) {
-        //TODO implemented
     }
 
     @Override
