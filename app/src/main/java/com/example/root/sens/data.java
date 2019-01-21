@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat;
 
 import io.realm.Realm;
 import io.realm.RealmList;
-import io.realm.RealmQuery;
 
 public class data {
     public static void initializeData() {
