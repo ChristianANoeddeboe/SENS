@@ -247,9 +247,9 @@ public class MainActivity extends AppCompatActivity implements
                 @Override
                 public void run() {
                     snackbar.dismiss();
+                    viewpagerAdapter.notifyDataSetChanged();
                 }
             },2000);
-            viewpagerAdapter.notifyDataSetChanged();
         }
     }
 
