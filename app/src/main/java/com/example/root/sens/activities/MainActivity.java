@@ -243,7 +243,12 @@ public class MainActivity extends AppCompatActivity implements
             new Handler().postDelayed(() -> Snackbar.make(coordinatorLayout,"Der er ikke noget data for den valgte dato", Snackbar.LENGTH_LONG).show(),1500);
 
         }else{
-            snackbar.dismiss();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    snackbar.dismiss();
+                }
+            },2000);
             viewpagerAdapter.notifyDataSetChanged();
         }
     }
