@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements
                     .replace(R.id.fragment_overlay_layout_main, new AboutFragment())
                     .addToBackStack(null)
                     .commit();
-        } else if (id == R.id.initialize_data){
+        } else if (id == R.id.nav_initialize_data){
             data.initializeData();
             Snackbar.make(coordinatorLayout, "Demo dataet loadet ind.", Snackbar.LENGTH_LONG).show();
         }
@@ -240,7 +240,8 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onDataReceived(boolean found) {
         if(!found){
-            Snackbar.make(coordinatorLayout,"Der er ikke noget data for den valgte dato", Snackbar.LENGTH_LONG).show();
+            new Handler().postDelayed(() -> Snackbar.make(coordinatorLayout,"Der er ikke noget data for den valgte dato", Snackbar.LENGTH_LONG).show(),1500);
+
         }else{
             snackbar.dismiss();
             viewpagerAdapter.notifyDataSetChanged();

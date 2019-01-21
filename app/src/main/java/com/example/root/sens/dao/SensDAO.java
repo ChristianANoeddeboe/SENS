@@ -60,7 +60,7 @@ public class SensDAO implements Callback<Response>, SensSubject {
         Call<Response> temp = service.getData(patientKey);
         ArrayList<Call<Response>> callArrayList = new ArrayList<>();
         callArrayList.add(temp);
-        getDataFromSens(callArrayList,0);
+        getDataFromSens(callArrayList,0, false);
     }
 
     public void getData(String patientKey, int dayCount){
@@ -68,7 +68,7 @@ public class SensDAO implements Callback<Response>, SensSubject {
         Call<Response> temp = service.getData(patientKey, dayCount);
         ArrayList<Call<Response>> callArrayList = new ArrayList<>();
         callArrayList.add(temp);
-        getDataFromSens(callArrayList,0);
+        getDataFromSens(callArrayList,0, false);
     }
 
     public void getDataSpecificDate(String patientKey, int dayCount, Date date){
@@ -77,10 +77,10 @@ public class SensDAO implements Callback<Response>, SensSubject {
         Call<Response> temp = service.getDataSpecificDate(patientKey, dayCount,df.format(date));
         ArrayList<Call<Response>> callArrayList = new ArrayList<>();
         callArrayList.add(temp);
-        getDataFromSens(callArrayList,0);
+        getDataFromSens(callArrayList,0, false);
     }
 
-    public void getDataMonth(String patientKey, int dayCount, Date date1, Date date2){
+    public void getDataMonth(String patientKey, int dayCount, Date date1, Date date2, boolean pageswipe){
         validateDayCount(dayCount);
         validateDate(df.format(date1));
         validateDate(df.format(date2));
@@ -89,7 +89,7 @@ public class SensDAO implements Callback<Response>, SensSubject {
         ArrayList<Call<Response>> callArrayList = new ArrayList<>();
         callArrayList.add(temp1);
         callArrayList.add(temp2);
-        getDataFromSens(callArrayList,0);
+        getDataFromSens(callArrayList,0, pageswipe);
     }
 
     public void getDataSpecificDate(String patientKey, Date date){
@@ -97,7 +97,7 @@ public class SensDAO implements Callback<Response>, SensSubject {
         Call<Response> temp = service.getDataSpecificDate(patientKey,df.format(date));
         ArrayList<Call<Response>> callArrayList = new ArrayList<>();
         callArrayList.add(temp);
-        getDataFromSens(callArrayList,0);
+        getDataFromSens(callArrayList,0, false);
     }
 
     @Override
@@ -196,7 +196,7 @@ public class SensDAO implements Callback<Response>, SensSubject {
      * Fetch data from SENS
      * @param patientKey The patient key
      */
-    private void getDataFromSens(List<Call<Response>> callList, int i){
+    private void getDataFromSens(List<Call<Response>> callList, int i, boolean pageSwipe){
         if(i < callList.size()) {
             callList.get(i).enqueue(new Callback<Response>() {
                 @Override
@@ -211,7 +211,7 @@ public class SensDAO implements Callback<Response>, SensSubject {
                         }
                         int counter = i;
                         counter = counter + 1;
-                        getDataFromSens(callList,counter);
+                        getDataFromSens(callList,counter, pageSwipe);
                     } else if (response.code() == 406) {
                         try {
                             String s = response.errorBody().string().toLowerCase();
@@ -224,7 +224,7 @@ public class SensDAO implements Callback<Response>, SensSubject {
                                         Call<Response> temp = call.clone();
                                         ArrayList<Call<Response>> tempList = new ArrayList<>();
                                         tempList.add(temp);
-                                        getDataFromSens(tempList,i);
+                                        getDataFromSens(tempList,i, pageSwipe);
                                         return null;
                                     }
                                 }.execute(), 10000); // Delay the retry, note this function is recursive and calls itself until data is fetched sucessfully.
@@ -232,8 +232,8 @@ public class SensDAO implements Callback<Response>, SensSubject {
                             } else if (s.contains("measurement")) {
                                 int counter = i;
                                 counter = counter +1;
-                                getDataFromSens(callList,counter);
-                                if(callList.size() == 1){ // We have clicked on a date on the calendar
+                                getDataFromSens(callList,counter, pageSwipe);
+                                if(callList.size() == 1 && !pageSwipe){ // We have clicked on a date on the calendar
                                     notifyObservers(false);
                                 }
                             }

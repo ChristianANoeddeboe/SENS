@@ -61,14 +61,14 @@ public class ViewHolderCalendar extends ViewHolder {
                 MainFullScreenObserver observer = (MainFullScreenObserver) ctx;
                 calendarMonth.setText(dateFormatForMonth.format(firstDayOfNewMonth));
                 MonthSingleton.getInstance().setCurrentMonth(firstDayOfNewMonth);
-                Calendar c = Calendar.getInstance();
-                c.setTime(firstDayOfNewMonth);
-                c.add(Calendar.DATE, 14);
-                Log.d(TAG, "onMonthScroll: Requested data for " + c.getTime().toString());
-                SensDAO.getInstance().getDataSpecificDate(new UserManager().getUserLoggedIn().getPatientKey(),14,c.getTime());
-                c.add(Calendar.DATE, 14);
-                Log.d(TAG, "onMonthScroll: Requested data for " + c.getTime().toString());
-                SensDAO.getInstance().getDataSpecificDate(new UserManager().getUserLoggedIn().getPatientKey(),14,c.getTime());
+                Calendar c1 = Calendar.getInstance();
+                c1.setTime(firstDayOfNewMonth);
+                c1.add(Calendar.DATE, 14);
+                Calendar c2 = Calendar.getInstance();
+                c2.setTime(firstDayOfNewMonth);
+                c2.add(Calendar.DATE,30);
+                SensDAO.getInstance().getDataMonth(new UserManager().getUserLoggedIn().getPatientKey(),14,c1.getTime(),c2.getTime(),true);
+
                 observer.showDataFetchSnack();
 
 
