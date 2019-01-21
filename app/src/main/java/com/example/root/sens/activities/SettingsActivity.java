@@ -9,15 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.example.root.sens.R;
 import com.example.root.sens.dao.SensDAO;
 import com.example.root.sens.dao.interfaces.DatabaseObserver;
 import com.example.root.sens.dao.interfaces.SensObserver;
 import com.example.root.sens.dao.interfaces.SensSubject;
-import com.example.root.sens.dto.DayData;
-import com.example.root.sens.dto.Record;
 import com.example.root.sens.managers.UserManager;
 import com.example.root.sens.recyclers.adapters.intefaces.ItemClickListener;
 import com.example.root.sens.recyclers.adapters.SettingsAdapter;
@@ -25,9 +22,6 @@ import com.example.root.sens.recyclers.itemmodels.ItemModel;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.realm.Realm;
-import io.realm.RealmList;
 
 public class SettingsActivity extends AppCompatActivity implements ItemClickListener, SensObserver, DatabaseObserver {
     private RecyclerView recyclerView;
@@ -112,7 +106,7 @@ public class SettingsActivity extends AppCompatActivity implements ItemClickList
     }
 
     @Override
-    public void onDataReceived() {
+    public void onDataReceived(boolean b) {
         if(snackbar != null){
             snackbar.dismiss();
         }

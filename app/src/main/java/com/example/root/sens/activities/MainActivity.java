@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -44,7 +45,6 @@ import com.example.root.sens.notification.NotificationsManager;
 import com.example.root.sens.notification.TimeReceiver;
 import com.example.root.sens.observers.MainFullScreenObserver;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -234,9 +234,13 @@ public class MainActivity extends AppCompatActivity implements
      * this is called, telling the view to be refreshed.
      */
     @Override
-    public void onDataReceived() {
-        snackbar.dismiss();
-        viewpagerAdapter.notifyDataSetChanged();
+    public void onDataReceived(boolean found) {
+        if(!found){
+            Snackbar.make(coordinatorLayout,"Der er ikke noget data for den valgte dato", Snackbar.LENGTH_LONG).show();
+        }else{
+            snackbar.dismiss();
+            viewpagerAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

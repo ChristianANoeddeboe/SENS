@@ -132,10 +132,10 @@ public class SensDAO implements Callback<Response>, SensSubject {
     }
 
     @Override
-    public void notifyObservers() {
+    public void notifyObservers(boolean b) {
         //Called on failure, to make the snackbar dismiss, an automatic retry is setup elsewhere.
         for (SensObserver observer: mObservers) {
-            observer.onDataReceived();
+            observer.onDataReceived(b);
         }
     }
 
@@ -233,6 +233,9 @@ public class SensDAO implements Callback<Response>, SensSubject {
                                 int counter = i;
                                 counter = counter +1;
                                 getDataFromSens(callList,counter);
+                                if(callList.size() == 1){ // We have clicked on a date on the calendar
+                                    notifyObservers(false);
+                                }
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -251,12 +254,12 @@ public class SensDAO implements Callback<Response>, SensSubject {
                 @Override
                 public void onFailure(Call<Response> call, Throwable t) {
                     Log.d(TAG, "ERROR");
-                    notifyObservers();
+                    notifyObservers(true);
                     t.printStackTrace();
                 }
             });
         }else{ // There are no calls pending
-            notifyObservers();
+            notifyObservers(true);
         }
     }
 
