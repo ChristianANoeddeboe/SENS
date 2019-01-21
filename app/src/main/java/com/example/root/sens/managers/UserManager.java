@@ -244,7 +244,7 @@ public class UserManager implements IUserManager{
 
         for(DayData d : dayData){
             long timeDelta = -1;
-            GoalHistory temp = null;
+            GoalHistory currentGoalHis = null;
             /*
              * Find the smallest difference which is positive
              * We try to match the goal which is closest.
@@ -254,24 +254,26 @@ public class UserManager implements IUserManager{
                 if(d.getStart_time().after(g.getDate())){
                     if(temp2 < timeDelta || timeDelta == -1){
                         timeDelta = temp2;
-                        temp = g;
+                        currentGoalHis = g;
                     }
                 }
 
             }
-            //If temp is null then we did not find a valid match
-            if(temp != null){
+            //If currentGoalHis is null then we did not find a valid match, i.e we don't have a goal for that day
+            if(currentGoalHis != null){
                 boolean completed = false;
-                for(Goal g : temp.getGoals()){
-                    completed = false;
-                    for(Record r : d.getRecords()){ // Check if the user completed all its goals
-                        if(r.getType().equals(g.getType())){
-                            if(r.getValue() >= g.getValue()){
+                for(Goal goal : currentGoalHis.getGoals()){ // we look at all the goals within the goal history
+                    for(Record record : d.getRecords()){ // Check if the user completed all its goals
+                        if(record.getType().equals(goal.getType())){ // If record type equals the goal type
+                            if(record.getValue() >= goal.getValue()){ // If the user has fulfilled the goal
                                 completed = true;
-                                break;
+                            }else{
+                                completed = false;
+                                break; // If user has not completed one of its goal it cannot be approved
                             }
                         }
                     }
+
                     if(!completed){
                         result.put(d.getEnd_time(),false);
                         //calendar.addEvent(new Event(Color.rgb(244,57,54), d.getEnd_time().getTime(), "test"));
@@ -279,6 +281,13 @@ public class UserManager implements IUserManager{
                     }
                 }
                 if(completed){
+                    Log.d(TAG, "generateFulfilleGoalsMap: "+d.toString() + "\n"+currentGoalHis.getDate().toString());
+                    for(Record r : d.getRecords()){
+                        Log.d(TAG, "generateFulfilleGoalsMap: "+r.toString());
+                    }
+                    for(Goal g : currentGoalHis.getGoals()){
+                        Log.d(TAG, "generateFulfilleGoalsMap: "+g.toString());
+                    }
                     result.put(d.getEnd_time(),true);
                     //calendar.addEvent(new Event(Color.rgb(76,175,80), d.getEnd_time().getTime(), "test1234"));
                 }

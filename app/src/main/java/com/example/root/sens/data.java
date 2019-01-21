@@ -80,29 +80,36 @@ public class data {
                 tempList.add(new DayData(sensDf.parse("2018-12-16T23:00:00"), sensDf.parse("2018-12-17T23:00:00"), temp3));
                 tempList.add(new DayData(sensDf.parse("2018-12-17T23:00:00"), sensDf.parse("2018-12-18T23:00:00"), temp2));
                 tempList.add(new DayData(sensDf.parse("2019-01-08T23:00:00"), sensDf.parse("2019-01-09T23:00:00"), temp));
-
-                for(DayData newDayData : tempList){
-                    boolean found = false;
-                    for(DayData existingDayData : tempuser.getDayData()){
-                        if(newDayData.getEnd_time() == existingDayData.getEnd_time() && newDayData.getStart_time() == existingDayData.getStart_time()){
-                            existingDayData.setRecords(newDayData.getRecords());
-                            found = true;
-                            break;
-                        }
-                    }
-                    if(!found){
-                        tempuser.getDayData().add(newDayData);
-                    }
-                }
-
+                mergeData(tempuser, tempList);
                 realm.commitTransaction();
                 tempdao.saveUser(tempuser);
-                User tempUser = UserDAO.getInstance().getUserLoggedIn();
-                int i = 0;
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
+
+    private static void mergeData(User tempuser, RealmList<DayData> tempList) {
+        for(DayData newDayData : tempList){
+            boolean found = false;
+            for(DayData existingDayData : tempuser.getDayData()){
+                if(newDayData.getEnd_time().equals(existingDayData.getEnd_time())  && newDayData.getStart_time().equals(existingDayData.getStart_time())){
+                    for (Record newRecords : newDayData.getRecords()){
+                        for(Record existingRecord : existingDayData.getRecords()){
+                            if(newRecords.getType().equals(existingRecord.getType())){
+                                existingRecord.setValue(newRecords.getValue());
+                                break;
+                            }
+                        }
+                    }
+                    found = true;
+                    break;
+                }
+            }
+            if(!found){
+                tempuser.getDayData().add(newDayData);
+            }
+        }
+    }
 
 
 }
