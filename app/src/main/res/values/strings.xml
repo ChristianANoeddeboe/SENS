@@ -36,5 +36,6 @@
     <string name="Skip">Spring over</string>
     <string name="wizardPage1Txt">På denne side dannes der et generalt overblik over dine data og progression.</string>
     <string name="TooManySteps">For mange skridt indtastet.</string>
+    <string name="NoDataForTheGivenDay">Der er ikke noget data at vise for den pågældende dag.</string>
 
 </resources>

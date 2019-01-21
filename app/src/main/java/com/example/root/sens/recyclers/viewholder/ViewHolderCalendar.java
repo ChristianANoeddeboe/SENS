@@ -31,6 +31,7 @@ public class ViewHolderCalendar extends ViewHolder {
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", Locale.US);
     private Context ctx;
     private final String TAG = ViewHolderCalendar.class.getSimpleName();
+
     public ViewHolderCalendar(View itemView) {
         super(itemView);
         calendar = itemView.findViewById(R.id.compactcalendar_view);
@@ -63,6 +64,7 @@ public class ViewHolderCalendar extends ViewHolder {
                 MonthSingleton.getInstance().setCurrentMonth(firstDayOfNewMonth);
                 SensDAO.getInstance().getDataMonth(new UserManager().getUserLoggedIn().getPatientKey(),firstDayOfNewMonth,true);
 
+
                 observer.showDataFetchSnack();
 
 
@@ -81,13 +83,11 @@ public class ViewHolderCalendar extends ViewHolder {
 
     private void fullScreenOverlayFragment(Date dateClicked) {
         IUserManager userManager = new UserManager();
+        boolean dayDdata = userManager.getDayData(dateClicked).isEmpty();
+        boolean goalData = userManager.getGoals(dateClicked).isEmpty();
+
         MainFullScreenObserver observer = (MainFullScreenObserver) ctx;
-        Map<ActivityCategories, Float> data = userManager.getDayData(dateClicked);
-        if (data.isEmpty()) {
-            observer.showFragment(false,dateClicked);
-        }else {
-            observer.showFragment(true,dateClicked);
-        }
+        observer.showFragment(dayDdata, goalData, dateClicked);
     }
 }
 
