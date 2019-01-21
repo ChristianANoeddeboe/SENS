@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 
 import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.RealmQuery;
 
 public class data {
     public static void initializeData() {
@@ -40,7 +41,7 @@ public class data {
                 goals2.add(new Goal(ActivityCategories.Gang.toString(), 40));
                 goals2.add(new Goal(ActivityCategories.Træning.toString(), 55));
                 goals2.add(new Goal(ActivityCategories.Cykling.toString(), 36));
-                goals.add(new Goal(ActivityCategories.Skridt.toString(),10));
+                goals2.add(new Goal(ActivityCategories.Skridt.toString(),10));
                 tempuser.getGoals().add(new GoalHistory(2, df.parse("11/10/2018"), goals2));
                 realm.commitTransaction();
                 tempdao.saveUser(tempuser);
@@ -60,25 +61,44 @@ public class data {
                 temp.add(new Record(125, ActivityCategories.Træning.toString()));
                 temp.add(new Record(150, ActivityCategories.Cykling.toString()));
                 temp.add(new Record(500,ActivityCategories.Skridt.toString()));
-                tempuser.getDayData().add(new DayData(sensDf.parse("2019-01-08T23:00:00"), sensDf.parse("2019-01-09T23:00:00"), temp));
+
                 RealmList<Record> temp2 = new RealmList<Record>();
                 temp2.add(new Record(60 * 8, ActivityCategories.Søvn.toString()));
                 temp2.add(new Record(300, ActivityCategories.Stå.toString()));
                 temp2.add(new Record(400, ActivityCategories.Gang.toString()));
                 temp2.add(new Record(550, ActivityCategories.Træning.toString()));
                 temp2.add(new Record(550, ActivityCategories.Cykling.toString()));
-                temp.add(new Record(500,ActivityCategories.Skridt.toString()));
-                tempuser.getDayData().add(new DayData(sensDf.parse("2018-12-17T23:00:00"), sensDf.parse("2018-12-18T23:00:00"), temp2));
+                temp2.add(new Record(500,ActivityCategories.Skridt.toString()));
                 RealmList<Record> temp3 = new RealmList<Record>();
                 temp3.add(new Record(60 * 8, ActivityCategories.Søvn.toString()));
                 temp3.add(new Record(20, ActivityCategories.Stå.toString()));
                 temp3.add(new Record(300, ActivityCategories.Gang.toString()));
                 temp3.add(new Record(0, ActivityCategories.Træning.toString()));
                 temp3.add(new Record(100, ActivityCategories.Cykling.toString()));
-                temp.add(new Record(500,ActivityCategories.Skridt.toString()));
-                tempuser.getDayData().add(new DayData(sensDf.parse("2018-12-16T23:00:00"), sensDf.parse("2018-12-17T23:00:00"), temp3));
+                temp3.add(new Record(500,ActivityCategories.Skridt.toString()));
+                RealmList<DayData> tempList = new RealmList<>();
+                tempList.add(new DayData(sensDf.parse("2018-12-16T23:00:00"), sensDf.parse("2018-12-17T23:00:00"), temp3));
+                tempList.add(new DayData(sensDf.parse("2018-12-17T23:00:00"), sensDf.parse("2018-12-18T23:00:00"), temp2));
+                tempList.add(new DayData(sensDf.parse("2019-01-08T23:00:00"), sensDf.parse("2019-01-09T23:00:00"), temp));
+
+                for(DayData newDayData : tempList){
+                    boolean found = false;
+                    for(DayData existingDayData : tempuser.getDayData()){
+                        if(newDayData.getEnd_time() == existingDayData.getEnd_time() && newDayData.getStart_time() == existingDayData.getStart_time()){
+                            existingDayData.setRecords(newDayData.getRecords());
+                            found = true;
+                            break;
+                        }
+                    }
+                    if(!found){
+                        tempuser.getDayData().add(newDayData);
+                    }
+                }
+
                 realm.commitTransaction();
                 tempdao.saveUser(tempuser);
+                User tempUser = UserDAO.getInstance().getUserLoggedIn();
+                int i = 0;
             } catch (ParseException e) {
                 e.printStackTrace();
             }

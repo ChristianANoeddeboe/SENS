@@ -97,7 +97,7 @@ public class UserManager implements IUserManager{
         UserDAO userDao = UserDAO.getInstance();
         userDao.saveUser(user);
         userDao.setUserLoggedIn(user);
-       // data.initializeData();
+        // data.initializeData();
     }
 
     public User getUser(String patientKey){
