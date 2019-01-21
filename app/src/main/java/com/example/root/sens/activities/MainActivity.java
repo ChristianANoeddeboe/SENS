@@ -249,20 +249,21 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void showFragment(boolean found, Date date) {
+    public void showFragment(boolean dayData, boolean goalData, Date date) {
         if (isFullScreenFragmentOpen()) {
             return;
         }
-        if (!found) {
-            /*Snackbar.make(findViewById(R.id.fragment_overlay_layout_main),
-                    R.string.MainNoDataForGivenDate,
-                    Snackbar.LENGTH_LONG).show();*/
+        if (!dayData) {
             SensDAO.getInstance().getDataSpecificDate(new UserManager().getUserLoggedIn().getPatientKey(),date);
             fetchDataProgressBar("Dataet hentes, prøv igen om lidt.");
             return;
         }
-        String dates = date.toString();
-
+        if (!goalData) {
+            Snackbar.make(findViewById(R.id.fragment_overlay_layout_main),
+                    R.string.NoDataForTheGivenDay,
+                    Snackbar.LENGTH_LONG).show();
+            return;
+        }
         String dateFormatted = new SimpleDateFormat("EEEE 'den' dd'.' MMMM yyyy",
                 new Locale("da")).format(date);
         changeToolbarTextImage(dateFormatted, R.drawable.ic_baseline_clear);

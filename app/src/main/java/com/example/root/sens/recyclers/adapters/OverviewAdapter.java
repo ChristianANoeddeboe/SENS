@@ -98,6 +98,10 @@ public class OverviewAdapter extends RecyclerView.Adapter<ViewHolder> {
                         .from(viewGroup.getContext())
                         .inflate(R.layout.activity_main_no_data, viewGroup, false);
                 viewHolderType = new ViewHolderNoData(view);
+
+                view.findViewById(R.id.buttonNoGoalsCreateGoals).setOnClickListener((View v) ->
+                        ((CreateNewGoalObserver) mContext).startManageGoalActivity());
+
                 i++;
                 break;
         }
