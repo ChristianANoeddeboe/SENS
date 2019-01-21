@@ -1,6 +1,8 @@
 package com.example.root.sens.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,34 +11,37 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.Slide;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.example.root.sens.R;
 import com.example.root.sens.fragments.WizardContentFragment;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class WizardActivity extends AppCompatActivity {
 
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
 
-    private Button slide;
-    private Button back;
 
     private WizardContentFragment oversigtFragment = new WizardContentFragment();
     private WizardContentFragment calenderFragment = new WizardContentFragment();
     private WizardContentFragment maalkortFragment = new WizardContentFragment();
     private WizardContentFragment maalkortInfoFragment = new WizardContentFragment();
+    private WizardContentFragment maalkortMereInfoFragment = new WizardContentFragment();
     private WizardContentFragment hoejdepunkterFragment = new WizardContentFragment();
     private WizardContentFragment burgerMenuIkonFragment = new WizardContentFragment();
     private WizardContentFragment burgerMenuFragment = new WizardContentFragment();
     private final String TAG = WizardActivity.class.getSimpleName();
-    private final int NUM_PAGES = 7;
+
+    @SuppressLint("ClickableViewAccessibility")
+    private final int NUM_PAGES = 8;
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,50 +61,64 @@ public class WizardActivity extends AppCompatActivity {
         for (int i = 0; i < tabStrip.getChildCount(); i++) {
             tabStrip.getChildAt(i).setOnTouchListener((v, event) -> true);
         }
-        slide = findViewById(R.id.user_config_a_slide_button_wizard);
-        slide.setOnClickListener((View v) -> {
-            switch (mPager.getCurrentItem()) {
-                case 0:
-                    switchPage(v, 1);
-                    break;
-                case 1:
-                    switchPage(v, 2);
-                    break;
-                case 2:
-                    switchPage(v,3);
-                    break;
-                case 3:
-                    switchPage(v,4);
-                    break;
-                case 4:
-                    switchPage(v,5);
-                    break;
-                case 5:
-                    switchPage(v,6);
-                    break;
-                case 6:
-                    switchPage(v,7);
-                    finish();
-                    break;
-                default:
-                    Log.e(TAG, "Page does not exist");
-                    finish();
+
+        findViewById(R.id.user_config_a_slide_button_wizard).setOnClickListener((View v) -> switchPage(true));
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+
+        AtomicInteger xDown = new AtomicInteger();
+        AtomicInteger yDown = new AtomicInteger();
+
+        findViewById(R.id.page_wizard).setOnTouchListener((v, event) -> {
+            int x = (int) event.getX();
+            int y = (int) event.getY();
+
+            int eventAction = event.getAction();
+            if (eventAction == MotionEvent.ACTION_DOWN) {
+                xDown.set(x);
+                yDown.set(y);
             }
+
+            if (eventAction == MotionEvent.ACTION_UP) {
+                if (Math.abs(xDown.get() - x) < 10 &&
+                        Math.abs(yDown.get() - y) < 10) {
+                    if (y > height - 60) {
+                        return true;
+                    }
+
+                    if (x > width / 2) {
+                        switchPage(true);
+                    } else {
+                        switchPage(false);
+                    }
+                }else{
+                    if(xDown.get() > x){
+                        switchPage(true);
+                    }else{
+                        switchPage(false);
+                    }
+                }
+            }
+
+            return true;
         });
 
-
-        back = findViewById(R.id.btn_user_config_a_back_button_wizard);
-        back.setOnClickListener((View v) -> {
-            finish();
-        });
+        findViewById(R.id.btn_user_config_a_back_button_wizard).setOnClickListener((View v) -> finish());
     }
 
-
-    private void switchPage(View v, int nextPage) {
-        mPager.setCurrentItem(nextPage, true);
-        InputMethodManager imm = (InputMethodManager) getSystemService(getApplication().INPUT_METHOD_SERVICE);
-        if (imm != null) {
-            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+    private void switchPage(boolean forward) {
+        int currentItem = mPager.getCurrentItem();
+        if (forward) {
+            if (currentItem == 6) {
+                finish();
+            }
+            mPager.setCurrentItem(currentItem + 1, true);
+        } else {
+            mPager.setCurrentItem(currentItem - 1, true);
         }
     }
 
@@ -127,7 +146,7 @@ public class WizardActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             Bundle args = new Bundle();
-            args.putInt("PageNum",position);
+            args.putInt("PageNum", position);
             switch (position) {
                 case 0:
                     oversigtFragment.setArguments(args);
@@ -142,12 +161,15 @@ public class WizardActivity extends AppCompatActivity {
                     maalkortInfoFragment.setArguments(args);
                     return maalkortInfoFragment;
                 case 4:
+                    maalkortMereInfoFragment.setArguments(args);
+                    return maalkortMereInfoFragment;
+                case 5:
                     hoejdepunkterFragment.setArguments(args);
                     return hoejdepunkterFragment;
-                case 5:
+                case 6:
                     burgerMenuIkonFragment.setArguments(args);
                     return burgerMenuIkonFragment;
-                case 6:
+                case 7:
                     burgerMenuFragment.setArguments(args);
                     return burgerMenuFragment;
                 default:

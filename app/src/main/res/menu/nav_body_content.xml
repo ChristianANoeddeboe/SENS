@@ -19,6 +19,11 @@
             android:title="Rediger mål"
             />
         <item
+            android:id="@+id/initialize_data"
+            android:icon="@drawable/ic_baseline_layers_24px"
+            android:title="Demo data"
+            />
+        <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_baseline_info_24px"
             android:title="Om"

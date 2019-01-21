@@ -35,6 +35,7 @@ import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dao.interfaces.DatabaseObserver;
 import com.example.root.sens.dao.interfaces.SensObserver;
 import com.example.root.sens.dao.interfaces.SensSubject;
+import com.example.root.sens.data;
 import com.example.root.sens.dto.User;
 import com.example.root.sens.fragments.AboutFragment;
 import com.example.root.sens.fragments.DayDataFragment;
@@ -43,6 +44,7 @@ import com.example.root.sens.fragments.OverviewFragment;
 import com.example.root.sens.managers.UserManager;
 import com.example.root.sens.notification.NotificationsManager;
 import com.example.root.sens.notification.TimeReceiver;
+import com.example.root.sens.observers.CreateNewGoalObserver;
 import com.example.root.sens.observers.MainFullScreenObserver;
 
 import java.text.SimpleDateFormat;
@@ -52,7 +54,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener, SensObserver,
-        DatabaseObserver, MainFullScreenObserver {
+        DatabaseObserver, MainFullScreenObserver, CreateNewGoalObserver {
     private final String TAG = MainActivity.class.getSimpleName();
     private static String[] viewNames = {"Overblik", "Højdepunkter"};
     private static String standardToolbarTitle = "SENS";
@@ -75,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements
         setupNavigationDrawer();
         setupViewPager();
         setupDataFetcher();
-
     }
 
     private void setupNavigationDrawer() {
@@ -221,6 +222,9 @@ public class MainActivity extends AppCompatActivity implements
                     .replace(R.id.fragment_overlay_layout_main, new AboutFragment())
                     .addToBackStack(null)
                     .commit();
+        } else if (id == R.id.initialize_data){
+            data.initializeData();
+            Snackbar.make(coordinatorLayout, "Demo dataet loadet ind.", Snackbar.LENGTH_LONG).show();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -253,11 +257,14 @@ public class MainActivity extends AppCompatActivity implements
                     R.string.MainNoDataForGivenDate,
                     Snackbar.LENGTH_LONG).show();*/
             SensDAO.getInstance().getDataSpecificDate(new UserManager().getUserLoggedIn().getPatientKey(),date);
-            fetchDataProgressBar("Vi prøver at hente data, prøv igen om lidt.");
+            fetchDataProgressBar("Dataet hentes, prøv igen om lidt.");
             return;
         }
-        changeToolbarTextImage(new SimpleDateFormat("EEEE 'den' DD'. ' MMMM YYYY",
-                new Locale("da")).format(date), R.drawable.ic_baseline_clear);
+        String dates = date.toString();
+
+        String dateFormatted = new SimpleDateFormat("EEEE 'den' dd'.' MMMM yyyy",
+                new Locale("da")).format(date);
+        changeToolbarTextImage(dateFormatted, R.drawable.ic_baseline_clear);
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("date", date);
@@ -307,6 +314,12 @@ public class MainActivity extends AppCompatActivity implements
         AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
                 AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+    }
+
+    @Override
+    public void startManageGoalActivity() {
+        Intent i = new Intent(getApplicationContext(), ManageGoalActivity.class);
+        startActivity(i);
     }
 
     /*
