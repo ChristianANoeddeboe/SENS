@@ -1,8 +1,10 @@
 package com.example.root.sens.activities;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -226,8 +228,25 @@ public class MainActivity extends AppCompatActivity implements
                     .addToBackStack(null)
                     .commit();
         } else if (id == R.id.nav_initialize_data){
-            data.initializeData();
-            Snackbar.make(coordinatorLayout, "Demo dataet loadet ind.", Snackbar.LENGTH_LONG).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Du skal nu sætte telefonen i fly tilstand for at demo dataen ikke bliver overskrevet.")
+                    .setTitle("Demo data");
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            data.initializeData();
+                            Snackbar.make(coordinatorLayout, "Demo data loadet ind.", Snackbar.LENGTH_LONG).show();
+                        }
+                    });
+                    builder.setNegativeButton("Afbryd", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

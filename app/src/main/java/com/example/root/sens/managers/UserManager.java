@@ -201,10 +201,7 @@ public class UserManager implements IUserManager{
 
         for(Date date : userHistory.keySet()){
             boolean res = userHistory.get(date).booleanValue();
-            /*
-             * Remove the ! to get the actually intended code, the ! is there for testing purposes.
-             * */
-            if(!res){
+            if(res){
                 tempDates.add(date);
             }
         }
