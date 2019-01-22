@@ -3,13 +3,14 @@ package com.example.root.sens.managers;
 import android.util.Log;
 
 import com.example.root.sens.dao.UserDAO;
+import com.example.root.sens.dao.interfaces.IUserDao;
 import com.example.root.sens.dto.UserObserver;
 import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
 import com.example.root.sens.dto.Record;
-import com.example.root.sens.view_layer.recyclers.itemmodels.SetGoalItemModel;
+import com.example.root.sens.ui_layer.recyclers.itemmodels.SetGoalItemModel;
 import com.example.root.sens.dto.User;
 
 import java.text.DateFormat;
@@ -95,7 +96,7 @@ public class UserManager implements IUserManager{
 
     @Override
     public void saveUser(){
-        UserDAO userDao = UserDAO.getInstance();
+        IUserDao userDao = UserDAO.getInstance();
         userDao.saveUser(user);
         userDao.setUserLoggedIn(user);
         // DemoData.initializeData();
@@ -107,7 +108,7 @@ public class UserManager implements IUserManager{
 
     @Override
     public boolean isUser(String patientKey) {
-        UserDAO dao = UserDAO.getInstance();
+        IUserDao dao = UserDAO.getInstance();
         if(dao.getUser(patientKey) == null){
             return false;
         }
@@ -117,7 +118,7 @@ public class UserManager implements IUserManager{
     @Override
     public void updateGoal(ActivityCategories activityCategory, int newValue) {
         Map<ActivityCategories, Integer> result = new HashMap<>();
-        UserDAO dao = UserDAO.getInstance();
+        IUserDao dao = UserDAO.getInstance();
         GoalHistory goalHistory = dao.getNewestGoal();
 
         result = generateGoalMap(goalHistory);
@@ -129,7 +130,7 @@ public class UserManager implements IUserManager{
 
     @Override
     public Map<ActivityCategories, Integer> getGoals(Date date) {
-        UserDAO dao = UserDAO.getInstance();
+        IUserDao dao = UserDAO.getInstance();
         if(dao.getGoalSpecificDate(date) == null){
             return new HashMap<ActivityCategories,Integer>();
         }
@@ -139,7 +140,7 @@ public class UserManager implements IUserManager{
     @Override
     public Map<ActivityCategories, Float> getDayData(Date date) {
         Map<ActivityCategories, Float> result = new HashMap<>();
-        UserDAO dao = UserDAO.getInstance();
+        IUserDao dao = UserDAO.getInstance();
         DayData data = dao.getDataSpecificDate(date);
 
         if(data != null){
@@ -155,7 +156,7 @@ public class UserManager implements IUserManager{
 
     @Override
     public boolean fulfilledAllGoals(Date date) {
-        UserDAO dao = UserDAO.getInstance();
+        IUserDao dao = UserDAO.getInstance();
         GoalHistory goalHistory = dao.getGoalSpecificDate(date);
         RealmList<Goal> goals = goalHistory.getGoals();
         DayData dayData  = dao.getDataSpecificDate(date);

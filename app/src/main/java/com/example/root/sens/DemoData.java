@@ -2,6 +2,7 @@ package com.example.root.sens;
 
 
 import com.example.root.sens.dao.UserDAO;
+import com.example.root.sens.dao.interfaces.IUserDao;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
@@ -22,7 +23,7 @@ public class DemoData {
 
             try {
 
-                UserDAO tempdao = UserDAO.getInstance();
+                IUserDao tempdao = UserDAO.getInstance();
                 User tempuser = tempdao.getUserLoggedIn();
                 realm.beginTransaction();
                 RealmList<Goal> goals = new RealmList<>();
@@ -50,7 +51,7 @@ public class DemoData {
 
         DateFormat sensDf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             try {
-                UserDAO tempdao = UserDAO.getInstance();
+                IUserDao tempdao = UserDAO.getInstance();
                 User tempuser = tempdao.getUserLoggedIn();
                 realm.beginTransaction();
                 RealmList<Record> temp = new RealmList<Record>();
