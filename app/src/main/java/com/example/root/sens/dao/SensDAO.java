@@ -36,12 +36,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /*
  * Used to download data from SENS
  */
-public class SensDAO implements Callback<Response>, SensSubject {
+public class SensDAO implements SensSubject {
     private static final String TAG = SensDAO.class.getSimpleName();
     private Retrofit retrofitInstance;
     private ISensAPI service;
     private static SensDAO sensDAOInstance;
-    private ArrayList<SensObserver> mObservers;
+    private List<SensObserver> mObservers;
     private DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
     public static SensDAO getInstance(){
         if(sensDAOInstance == null){
@@ -58,25 +58,10 @@ public class SensDAO implements Callback<Response>, SensSubject {
      */
     private SensDAO() {
     }
-    public void getData(String patientKey){
-        Call<Response> temp = service.getData(patientKey);
-        ArrayList<Call<Response>> callArrayList = new ArrayList<>();
-        callArrayList.add(temp);
-        getDataFromSens(callArrayList,0, false);
-    }
 
     public void getData(String patientKey, int dayCount){
-        validateDayCount(dayCount);
         ArrayList<Call<Response>> callArrayList = new ArrayList<>();
         callArrayList.add(service.getData(patientKey, dayCount));
-        getDataFromSens(callArrayList,0, false);
-    }
-
-    public void getDataSpecificDate(String patientKey, int dayCount, Date date){
-        validateDayCount(dayCount);
-        validateDate(df.format(date));
-        ArrayList<Call<Response>> callArrayList = new ArrayList<>();
-        callArrayList.add(service.getDataSpecificDate(patientKey, dayCount,df.format(date)));
         getDataFromSens(callArrayList,0, false);
     }
 
@@ -89,17 +74,12 @@ public class SensDAO implements Callback<Response>, SensSubject {
         c2.setTime(dateOfMonth);
         c2.add(Calendar.DATE,27);
 
-
-        validateDate(df.format(c1.getTime()));
-        validateDate(df.format(c2.getTime()));
-
         callArrayList.add(service.getDataSpecificDate(patientKey, 14,df.format(c1.getTime())));
         callArrayList.add(service.getDataSpecificDate(patientKey, 14,df.format(c2.getTime())));
         Calendar c3 = Calendar.getInstance();
         if(c1.getMaximum(Calendar.DAY_OF_MONTH) > 30){
             c3.setTime(dateOfMonth);
             c3.add(Calendar.DATE,31);
-            validateDate(df.format(c3.getTime()));
             callArrayList.add(service.getDataSpecificDate(patientKey, 14,df.format(c3.getTime())));
         }
 
@@ -108,27 +88,9 @@ public class SensDAO implements Callback<Response>, SensSubject {
     }
 
     public void getDataSpecificDate(String patientKey, Date date){
-        validateDate(df.format(date));
         ArrayList<Call<Response>> callArrayList = new ArrayList<>();
         callArrayList.add(service.getDataSpecificDate(patientKey,df.format(date)));
         getDataFromSens(callArrayList,0, false);
-    }
-
-    @Override
-    public void onResponse(@NonNull Call<Response> call, @NonNull retrofit2.Response<Response> response) {
-        Log.d(TAG,"Error, not supposed to end here [ONRESPONSE]");
-        /*
-         * Note this method is not used, instead we use the one in getDataFromSens
-         */
-    }
-
-    @Override
-    public void onFailure(@NonNull Call<Response> call, @NonNull Throwable t) {
-        Log.d(TAG,"Error, not supposed to end here [ONFAILURE]");
-        t.printStackTrace();
-        /*
-         * Note this method is not used, instead we use the one in getDataFromSens
-         */
     }
 
     @Override
@@ -276,23 +238,4 @@ public class SensDAO implements Callback<Response>, SensSubject {
             notifyObservers(true);
         }
     }
-
-    private void validateDayCount(int dayCount){
-        if(dayCount < 0 || dayCount > 14){
-            Log.d(TAG,"Error while validating daycount, expected to be between 0 and 14 but was " + dayCount);
-        }
-    }
-
-    private void validateDate(String date){
-        String[] temp = date.split("-");
-        if(temp.length != 3){
-            Log.d(TAG,"Error while validating the date len was: " + temp.length);
-        }
-        //Check following format size ####-##-##, year-month-day
-        if(temp[0].length() != 4 || temp[1].length() != 2 || temp[2].length() != 2){
-            Log.d(TAG,"Error while validating date, format not as expected " + Arrays.deepToString(temp));
-        }
-    }
-
-
 }

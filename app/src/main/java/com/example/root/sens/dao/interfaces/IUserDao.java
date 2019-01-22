@@ -2,13 +2,11 @@ package com.example.root.sens.dao.interfaces;
 
 import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.dto.DayData;
-import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
 import com.example.root.sens.dto.User;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public interface IUserDao {
@@ -18,7 +16,7 @@ public interface IUserDao {
     User getUserLoggedIn();
     User getUser(String patientKey);
     GoalHistory getNewestGoal();
-    ArrayList<DayData> getSortedDayData();
+    List<DayData> getSortedDayData();
     DayData getDataSpecificDate(Date d);
     GoalHistory getGoalSpecificDate(Date d);
     void updateOrMergeGoals(Map<ActivityCategories,Integer> temp);

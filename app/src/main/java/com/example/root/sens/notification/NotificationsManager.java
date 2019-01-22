@@ -10,7 +10,6 @@ import android.support.v4.app.NotificationManagerCompat;
 
 import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.R;
-import com.example.root.sens.auxiliary.DayDataGoalMapper;
 import com.example.root.sens.dto.User;
 import com.example.root.sens.managers.IUserManager;
 import com.example.root.sens.managers.UserManager;
