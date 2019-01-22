@@ -13,10 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.WizardActivity"
+        <activity android:name=".view_layer.activities.WizardActivity"
             android:theme="@style/AppTheme.NoActionBar.FullScreen"></activity>
         <activity
-            android:name=".activities.Login"
+            android:name=".view_layer.activities.Login"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.FullScreen"
             android:windowSoftInputMode="adjustPan">
@@ -27,23 +27,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name=".view_layer.activities.SettingsActivity"
             android:label="Indstillinger"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light"
             android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
+                android:value=".view_layer.activities.MainActivity" />
         </activity>
 
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".view_layer.activities.MainActivity"
             android:label="SENS"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".activities.UserConfigActivity"
+            android:name=".view_layer.activities.UserConfigActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -53,13 +53,13 @@
             android:exported="false" />
 
         <activity
-            android:name=".activities.ManageGoalActivity"
+            android:name=".view_layer.activities.ManageGoalActivity"
             android:label="Rediger mål"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
+                android:value=".view_layer.activities.MainActivity" />
         </activity>
 
         <meta-data

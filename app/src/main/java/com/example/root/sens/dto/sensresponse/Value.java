@@ -6,8 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Value {
-
-    @SerializedName("data")
+    @SerializedName("DemoData")
     @Expose
     public List<Datum> data = null;
 }

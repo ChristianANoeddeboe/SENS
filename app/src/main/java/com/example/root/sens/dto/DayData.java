@@ -10,6 +10,7 @@ public class DayData extends RealmObject implements Comparable {
     @Required
     private Date start_time, end_time;
     private RealmList<Record> records;
+
     public DayData(){}
 
     public DayData(Date start_time, Date end_time, RealmList<Record> records) {
@@ -41,6 +42,7 @@ public class DayData extends RealmObject implements Comparable {
     public void setRecords(RealmList<Record> records) {
         this.records = records;
     }
+
     @Override
     public int compareTo(Object o) {
         DayData curr = (DayData) o;

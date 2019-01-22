@@ -34,7 +34,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /*
- * Used to download data from SENS
+ * Used to download DemoData from SENS
  */
 public class SensDAO implements SensSubject {
     private static final String TAG = SensDAO.class.getSimpleName();
@@ -47,7 +47,7 @@ public class SensDAO implements SensSubject {
         if(sensDAOInstance == null){
             sensDAOInstance = new SensDAO();
             sensDAOInstance.mObservers = new ArrayList<>();
-            sensDAOInstance.retrofitInstance  = new Retrofit.Builder().baseUrl("http://beta.sens.dk/exapi/1.0/patients/data/external/").addConverterFactory(GsonConverterFactory.create()).build();
+            sensDAOInstance.retrofitInstance  = new Retrofit.Builder().baseUrl("http://beta.sens.dk/exapi/1.0/patients/DemoData/external/").addConverterFactory(GsonConverterFactory.create()).build();
             sensDAOInstance.service = sensDAOInstance.retrofitInstance.create(ISensAPI.class);
         }
         return sensDAOInstance;
@@ -116,7 +116,7 @@ public class SensDAO implements SensSubject {
     }
 
     /*
-     * We merge and save the data
+     * We merge and save the DemoData
      * @param r
      */
     private void mergeAndSaveData(Response r) {
@@ -124,7 +124,7 @@ public class SensDAO implements SensSubject {
         RealmList<DayData> tempUserDayData = tempUser.getDayData();
         List<Datum> responseData = r.getData();
         DateFormat sensDf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        //First generate the daydata from the data we have received and then merge with the users
+        //First generate the daydata from the DemoData we have received and then merge with the users
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         for(Datum d : responseData){
@@ -162,14 +162,14 @@ public class SensDAO implements SensSubject {
             }
         }
 
-        // At this point the tempUserDayData realmlist has the up to date version of the day data.
+        // At this point the tempUserDayData realmlist has the up to date version of the day DemoData.
         tempUser.setDayData(tempUserDayData);
         realm.commitTransaction();
         UserDAO.getInstance().saveUser(tempUser);
     }
 
     /*
-     * Fetch data from SENS
+     * Fetch DemoData from SENS
      * @param patientKey The patient key
      */
     private void getDataFromSens(List<Call<Response>> callList, int i, boolean pageSwipe){
@@ -203,7 +203,7 @@ public class SensDAO implements SensSubject {
                                         getDataFromSens(tempList,i, pageSwipe);
                                         return null;
                                     }
-                                }.execute(), 10000); // Delay the retry, note this function is recursive and calls itself until data is fetched sucessfully.
+                                }.execute(), 10000); // Delay the retry, note this function is recursive and calls itself until DemoData is fetched sucessfully.
                                 // We try every 10 seconds
                             } else if (s.contains("measurement")) {
                                 int counter = i;

@@ -1,11 +1,11 @@
 package com.example.root.sens.controllers;
 
 import com.example.root.sens.controllers.interfaces.ILoginController;
-import com.example.root.sens.dao.interfaces.UserObserver;
+import com.example.root.sens.dto.UserObserver;
 import com.example.root.sens.dto.User;
 import com.example.root.sens.managers.IUserManager;
 import com.example.root.sens.managers.UserManager;
-import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
+import com.example.root.sens.view_layer.recyclers.itemmodels.SetGoalItemModel;
 
 import java.util.Date;
 import java.util.List;
