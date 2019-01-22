@@ -14,7 +14,6 @@ public interface IUserManager {
     void updateGoal(ActivityCategories activityCategory, int newValue);
     Map<ActivityCategories, Integer> getGoals(Date date);
     Map<ActivityCategories, Float> getDayData(Date date);
-    void getGoal(ActivityCategories activityCategory);
     boolean fulfilledAllGoals(Date date);
     boolean fulfilledGoal(ActivityCategories activityCategory, Date date);
 

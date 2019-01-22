@@ -113,7 +113,7 @@ public class WizardActivity extends AppCompatActivity {
     private void switchPage(boolean forward) {
         int currentItem = mPager.getCurrentItem();
         if (forward) {
-            if (currentItem == 6) {
+            if (currentItem == NUM_PAGES - 1) {
                 finish();
             }
             mPager.setCurrentItem(currentItem + 1, true);

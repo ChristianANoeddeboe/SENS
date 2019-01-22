@@ -2,6 +2,7 @@ package com.example.root.sens.dao;
 
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.root.sens.dao.interfaces.ISensAPI;
@@ -20,6 +21,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -65,43 +67,55 @@ public class SensDAO implements Callback<Response>, SensSubject {
 
     public void getData(String patientKey, int dayCount){
         validateDayCount(dayCount);
-        Call<Response> temp = service.getData(patientKey, dayCount);
         ArrayList<Call<Response>> callArrayList = new ArrayList<>();
-        callArrayList.add(temp);
+        callArrayList.add(service.getData(patientKey, dayCount));
         getDataFromSens(callArrayList,0, false);
     }
 
     public void getDataSpecificDate(String patientKey, int dayCount, Date date){
         validateDayCount(dayCount);
         validateDate(df.format(date));
-        Call<Response> temp = service.getDataSpecificDate(patientKey, dayCount,df.format(date));
         ArrayList<Call<Response>> callArrayList = new ArrayList<>();
-        callArrayList.add(temp);
+        callArrayList.add(service.getDataSpecificDate(patientKey, dayCount,df.format(date)));
         getDataFromSens(callArrayList,0, false);
     }
 
-    public void getDataMonth(String patientKey, int dayCount, Date date1, Date date2, boolean pageswipe){
-        validateDayCount(dayCount);
-        validateDate(df.format(date1));
-        validateDate(df.format(date2));
-        Call<Response> temp1 = service.getDataSpecificDate(patientKey, dayCount,df.format(date1));
-        Call<Response> temp2 = service.getDataSpecificDate(patientKey, dayCount,df.format(date2));
+    public void getDataMonth(String patientKey, Date dateOfMonth, boolean pageswipe){
         ArrayList<Call<Response>> callArrayList = new ArrayList<>();
-        callArrayList.add(temp1);
-        callArrayList.add(temp2);
+        Calendar c1 = Calendar.getInstance();
+        c1.setTime(dateOfMonth);
+        c1.add(Calendar.DATE, 13);
+        Calendar c2 = Calendar.getInstance();
+        c2.setTime(dateOfMonth);
+        c2.add(Calendar.DATE,27);
+
+
+        validateDate(df.format(c1.getTime()));
+        validateDate(df.format(c2.getTime()));
+
+        callArrayList.add(service.getDataSpecificDate(patientKey, 14,df.format(c1.getTime())));
+        callArrayList.add(service.getDataSpecificDate(patientKey, 14,df.format(c2.getTime())));
+        Calendar c3 = Calendar.getInstance();
+        if(c1.getMaximum(Calendar.DAY_OF_MONTH) > 30){
+            c3.setTime(dateOfMonth);
+            c3.add(Calendar.DATE,31);
+            validateDate(df.format(c3.getTime()));
+            callArrayList.add(service.getDataSpecificDate(patientKey, 14,df.format(c3.getTime())));
+        }
+
+
         getDataFromSens(callArrayList,0, pageswipe);
     }
 
     public void getDataSpecificDate(String patientKey, Date date){
         validateDate(df.format(date));
-        Call<Response> temp = service.getDataSpecificDate(patientKey,df.format(date));
         ArrayList<Call<Response>> callArrayList = new ArrayList<>();
-        callArrayList.add(temp);
+        callArrayList.add(service.getDataSpecificDate(patientKey,df.format(date)));
         getDataFromSens(callArrayList,0, false);
     }
 
     @Override
-    public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+    public void onResponse(@NonNull Call<Response> call, @NonNull retrofit2.Response<Response> response) {
         Log.d(TAG,"Error, not supposed to end here [ONRESPONSE]");
         /*
          * Note this method is not used, instead we use the one in getDataFromSens
@@ -109,7 +123,7 @@ public class SensDAO implements Callback<Response>, SensSubject {
     }
 
     @Override
-    public void onFailure(Call<Response> call, Throwable t) {
+    public void onFailure(@NonNull Call<Response> call, @NonNull Throwable t) {
         Log.d(TAG,"Error, not supposed to end here [ONFAILURE]");
         t.printStackTrace();
         /*
@@ -200,7 +214,7 @@ public class SensDAO implements Callback<Response>, SensSubject {
         if(i < callList.size()) {
             callList.get(i).enqueue(new Callback<Response>() {
                 @Override
-                public void onResponse(Call<Response> call, retrofit2.Response<Response> response) { // When response is received
+                public void onResponse(@NonNull Call<Response> call, @NonNull retrofit2.Response<Response> response) { // When response is received
                     if (response.isSuccessful()) { // If response was sucessfull
                         Response t = response.body();
                         if (t != null && t.statusMsg.equals("OK") && t.statusCode == 0) { // A few checks making sure everything is Ok
@@ -252,7 +266,7 @@ public class SensDAO implements Callback<Response>, SensSubject {
                 }
 
                 @Override
-                public void onFailure(Call<Response> call, Throwable t) {
+                public void onFailure(@NonNull Call<Response> call, @NonNull Throwable t) {
                     Log.d(TAG, "ERROR");
                     notifyObservers(true);
                     t.printStackTrace();
