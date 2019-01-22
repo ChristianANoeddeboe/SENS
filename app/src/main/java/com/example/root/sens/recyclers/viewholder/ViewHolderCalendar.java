@@ -62,7 +62,7 @@ public class ViewHolderCalendar extends ViewHolder {
                 MainFullScreenObserver observer = (MainFullScreenObserver) ctx;
                 calendarMonth.setText(dateFormatForMonth.format(firstDayOfNewMonth));
                 MonthSingleton.getInstance().setCurrentMonth(firstDayOfNewMonth);
-                SensDAO.getInstance().getDataMonth(new UserManager().getUserLoggedIn().getPatientKey(),firstDayOfNewMonth,true);
+                SensDAO.getInstance().getDataMonth(new UserManager().getUserLoggedIn().getPatientKey(),firstDayOfNewMonth,true,false);
 
 
                 observer.showDataFetchSnack();
@@ -83,11 +83,11 @@ public class ViewHolderCalendar extends ViewHolder {
 
     private void fullScreenOverlayFragment(Date dateClicked) {
         IUserManager userManager = new UserManager();
-        boolean dayDdata = userManager.getDayData(dateClicked).isEmpty();
+        boolean dayData = userManager.getDayData(dateClicked).isEmpty();
         boolean goalData = userManager.getGoals(dateClicked).isEmpty();
 
         MainFullScreenObserver observer = (MainFullScreenObserver) ctx;
-        observer.showFragment(dayDdata, goalData, dateClicked);
+        observer.showFragment(dayData, goalData, dateClicked);
     }
 }
 

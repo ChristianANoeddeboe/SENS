@@ -159,9 +159,8 @@ public class MainActivity extends AppCompatActivity implements
         sensSubject = SensDAO.getInstance();
         sensSubject.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
         UserDAO.getInstance().registerObserver(this);
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.DAY_OF_MONTH,1);
-        SensDAO.getInstance().getDataMonth(new UserManager().getUserLoggedIn().getPatientKey(),c.getTime(),false);
+
+        SensDAO.getInstance().getDataMonth(new UserManager().getUserLoggedIn().getPatientKey(),new Date(),false, true);
         fetchDataProgressBar("Henter data");
 
         new Handler().postDelayed(() -> asyncTask = new AsyncTask() {
@@ -244,30 +243,26 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onDataReceived(boolean found) {
         if(!found){
-            new Handler().postDelayed(() -> Snackbar.make(coordinatorLayout,"Der er ikke noget data for den valgte dato", Snackbar.LENGTH_LONG).show(),1500);
+            new Handler().postDelayed(() -> runOnUiThread(() -> Snackbar.make(coordinatorLayout, "Der er ikke noget data for den valgte dato", Snackbar.LENGTH_LONG).show()),1500);
 
         }else{
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    snackbar.dismiss();
-                    viewpagerAdapter.notifyDataSetChanged();
-                }
-            },2000);
+            new Handler().postDelayed(() -> runOnUiThread(() -> {
+                snackbar.dismiss();
+                viewpagerAdapter.notifyDataSetChanged();
+            }),2000);
         }
     }
 
     @Override
     public void showFragment(boolean dayData, boolean goalData, Date date) {
-        if (isFullScreenFragmentOpen()) {
-            return;
-        }
-        if (!dayData) {
+        Log.d(TAG, "showFragment: "+dayData+":"+goalData+":"+date.toString());
+
+        if (dayData) {
             SensDAO.getInstance().getDataSpecificDate(new UserManager().getUserLoggedIn().getPatientKey(),date);
             fetchDataProgressBar("Dataet hentes, prøv igen om lidt.");
             return;
         }
-        if (!goalData) {
+        if (goalData) {
             Snackbar.make(findViewById(R.id.fragment_overlay_layout_main),
                     R.string.NoDataForTheGivenDay,
                     Snackbar.LENGTH_LONG).show();

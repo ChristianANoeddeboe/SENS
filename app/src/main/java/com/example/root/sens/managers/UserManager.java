@@ -274,13 +274,6 @@ public class UserManager implements IUserManager{
                     }
                 }
                 if(completed){
-                    Log.d(TAG, "generateFulfilleGoalsMap: "+d.toString() + "\n"+currentGoalHis.getDate().toString());
-                    for(Record r : d.getRecords()){
-                        Log.d(TAG, "generateFulfilleGoalsMap: "+r.toString());
-                    }
-                    for(Goal g : currentGoalHis.getGoals()){
-                        Log.d(TAG, "generateFulfilleGoalsMap: "+g.toString());
-                    }
                     result.put(d.getEnd_time(),true);
                     //calendar.addEvent(new Event(Color.rgb(76,175,80), d.getEnd_time().getTime(), "test1234"));
                 }
