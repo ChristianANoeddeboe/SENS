@@ -24,14 +24,13 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            style="@style/FilledTextFieldWhite"
-            android:textSize="20sp"
             android:id="@+id/key_text"
+            style="@style/FilledTextFieldWhite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nøgle"
             android:inputType="textPersonName"
-            />
+            android:textSize="20sp" />
 
 
         <Space
@@ -39,12 +38,11 @@
             android:layout_height="2dp" />
 
         <android.support.v7.widget.AppCompatButton
-            style="@style/BlueButton"
             android:id="@+id/login_btn"
+            style="@style/BlueButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Log ind"
-            />
+            android:text="Log ind" />
     </LinearLayout>
 
     <ImageView
@@ -61,16 +59,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.6"
-        />
+        app:layout_constraintVertical_bias="0.6" />
 
     <Button
         android:id="@+id/help_btn"
+        style="@style/TextButtonSensWhite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="79dp"
         android:text="Hjælp?"
-        style="@style/TextButtonSensWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

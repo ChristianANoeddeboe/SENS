@@ -88,8 +88,8 @@ public class ViewHolderCalendar extends ViewHolder {
 
     private void fullScreenOverlayFragment(Date dateClicked) {
         IUserManager userManager = new UserManager();
-        boolean dayDdata = userManager.getDayData(dateClicked).isEmpty();
-        boolean goalData = userManager.getGoals(dateClicked).isEmpty();
+        boolean dayDdata = !userManager.getDayData(dateClicked).isEmpty();
+        boolean goalData = !userManager.getGoals(dateClicked).isEmpty();
 
         MainFullScreenObserver observer = (MainFullScreenObserver) ctx;
         observer.showFragment(dayDdata, goalData, dateClicked);
