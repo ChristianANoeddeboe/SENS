@@ -63,13 +63,11 @@ public class data {
                 e.printStackTrace();
             }
 
-        DateFormat sensDf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             UserDAO tempdao = UserDAO.getInstance();
             User tempuser = tempdao.getUserLoggedIn();
             realm.beginTransaction();
             RealmList<DayData> tempList = new RealmList<>();
             Calendar cal = Calendar.getInstance();
-            int switcher = 0;
             for(int i = 0; i < 30; i++){
                 RealmList<Record> temp = new RealmList<Record>();
                 if(i < 8) {
@@ -105,7 +103,6 @@ public class data {
                 d2.setSeconds(0);
                 tempList.add(new DayData(d2, d1,temp));
             }
-            User u = UserDAO.getInstance().getUserLoggedIn();
             mergeData(tempuser, tempList);
             realm.commitTransaction();
             tempdao.saveUser(tempuser);
