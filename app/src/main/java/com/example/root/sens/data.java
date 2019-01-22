@@ -3,6 +3,7 @@ package com.example.root.sens;
 
 import android.util.Log;
 
+import com.example.root.sens.dao.SensDAO;
 import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
@@ -25,8 +26,8 @@ public class data {
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 
             try {
-
                 UserDAO tempdao = UserDAO.getInstance();
+                tempdao.deleteData();
                 User tempuser = tempdao.getUserLoggedIn();
                 realm.beginTransaction();
                 RealmList<Goal> goals = new RealmList<>();
