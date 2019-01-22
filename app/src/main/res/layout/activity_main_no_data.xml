@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:layout_marginBottom="8dp"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
-    android:orientation="vertical"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/grey_fade"
     android:gravity="center"
-    android:background="@drawable/grey_fade">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/textView7"
@@ -19,9 +19,9 @@
 
     <Button
         android:id="@+id/buttonNoGoalsCreateGoals"
+        style="@style/TextButtonSensWhite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Opret mål"
-        android:textColor="@color/dark_grey"
-        style="@style/TextButtonSensWhite"/>
+        android:textColor="@color/dark_grey" />
 </LinearLayout>
