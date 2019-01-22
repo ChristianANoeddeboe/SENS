@@ -1,8 +1,10 @@
 package com.example.root.sens.ui_layer.activities;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -21,6 +23,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -157,11 +160,8 @@ public class MainActivity extends AppCompatActivity implements
         sensSubject = SensDAO.getInstance();
         sensSubject.registerObserver(this); // We register this view as an observer, this is used for when fetching DemoData from SENS
         UserDAO.getInstance().registerObserver(this);
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.DAY_OF_MONTH,1);
-        SensDAO.getInstance().getDataMonth(new UserManager().getUserLoggedIn().getPatientKey(),c.getTime(),false);
-        fetchDataProgressBar("Henter DemoData");
-
+        SensDAO.getInstance().getDataMonth(new UserManager().getUserLoggedIn().getPatientKey(),new Date(),false, true);
+        fetchDataProgressBar("Henter data");
         new Handler().postDelayed(() -> asyncTask = new AsyncTask() {
             @Override
             protected Object doInBackground(Object[] objects) {
@@ -225,8 +225,24 @@ public class MainActivity extends AppCompatActivity implements
                     .addToBackStack(null)
                     .commit();
         } else if (id == R.id.nav_initialize_data){
-            DemoData.initializeData();
-            Snackbar.make(coordinatorLayout, "Demo dataet loadet ind.", Snackbar.LENGTH_LONG).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Du skal nu sætte telefonen i fly tilstand for at demo dataen ikke bliver overskrevet.")
+                    .setTitle("Demo data");
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            DemoData.initializeData();
+                            Snackbar.make(coordinatorLayout, "Demo data loadet ind.", Snackbar.LENGTH_LONG).show();
+                        }
+                    });
+                    builder.setNegativeButton("Afbryd", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -242,30 +258,24 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onDataReceived(boolean found) {
         if(!found){
-            new Handler().postDelayed(() -> Snackbar.make(coordinatorLayout,"Der er ikke noget DemoData for den valgte dato", Snackbar.LENGTH_LONG).show(),1500);
-
+            new Handler().postDelayed(() -> runOnUiThread(() -> Snackbar.make(coordinatorLayout, "Der er ikke noget data for den valgte dato", Snackbar.LENGTH_LONG).show()),1500);
         }else{
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    snackbar.dismiss();
-                    viewpagerAdapter.notifyDataSetChanged();
-                }
-            },2000);
+            new Handler().postDelayed(() -> runOnUiThread(() -> {
+                snackbar.dismiss();
+                viewpagerAdapter.notifyDataSetChanged();
+            }),2000);
         }
     }
 
     @Override
     public void showFragment(boolean dayData, boolean goalData, Date date) {
-        if (isFullScreenFragmentOpen()) {
-            return;
-        }
-        if (!dayData) {
+        Log.d(TAG, "showFragment: "+dayData+":"+goalData+":"+date.toString());
+        if (dayData) {
             SensDAO.getInstance().getDataSpecificDate(new UserManager().getUserLoggedIn().getPatientKey(),date);
             fetchDataProgressBar("Dataet hentes, prøv igen om lidt.");
             return;
         }
-        if (!goalData) {
+        if (goalData) {
             Snackbar.make(findViewById(R.id.fragment_overlay_layout_main),
                     R.string.NoDataForTheGivenDay,
                     Snackbar.LENGTH_LONG).show();

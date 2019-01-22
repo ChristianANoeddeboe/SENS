@@ -72,6 +72,7 @@ public class UserDAO implements IUserDao, DatabaseSubject {
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(user);
         realm.commitTransaction();
+        notifyObservers();
     }
 
     @Override

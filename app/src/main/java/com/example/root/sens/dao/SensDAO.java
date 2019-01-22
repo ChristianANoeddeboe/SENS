@@ -65,24 +65,58 @@ public class SensDAO implements SensSubject {
         getDataFromSens(callArrayList,0, false);
     }
 
-    public void getDataMonth(String patientKey, Date dateOfMonth, boolean pageswipe){
+    public void getDataSpecificDate(String patientKey, int dayCount, Date date){
         ArrayList<Call<Response>> callArrayList = new ArrayList<>();
-        Calendar c1 = Calendar.getInstance();
-        c1.setTime(dateOfMonth);
-        c1.add(Calendar.DATE, 13);
-        Calendar c2 = Calendar.getInstance();
-        c2.setTime(dateOfMonth);
-        c2.add(Calendar.DATE,27);
+        callArrayList.add(service.getDataSpecificDate(patientKey, dayCount,df.format(date)));
+        getDataFromSens(callArrayList,0, false);
+    }
 
-        callArrayList.add(service.getDataSpecificDate(patientKey, 14,df.format(c1.getTime())));
-        callArrayList.add(service.getDataSpecificDate(patientKey, 14,df.format(c2.getTime())));
-        Calendar c3 = Calendar.getInstance();
-        if(c1.getMaximum(Calendar.DAY_OF_MONTH) > 30){
-            c3.setTime(dateOfMonth);
-            c3.add(Calendar.DATE,31);
-            callArrayList.add(service.getDataSpecificDate(patientKey, 14,df.format(c3.getTime())));
+    public void getDataMonth(String patientKey, Date dateOfMonth, boolean pageswipe, boolean init){
+        Log.d(TAG, "getDataMonth: "+dateOfMonth);
+
+        ArrayList<Call<Response>> callArrayList = new ArrayList<>();
+        if(init){
+            Calendar c1= Calendar.getInstance();
+            int currentDayOfMonth = c1.get(Calendar.DAY_OF_MONTH);
+            if(currentDayOfMonth <= 14 ){
+                callArrayList.add(service.getDataSpecificDate(patientKey, 14,df.format(c1.getTime())));
+            }else{
+                c1.set(Calendar.DAY_OF_MONTH,1);
+                c1.add(Calendar.DATE,13);
+                callArrayList.add(service.getDataSpecificDate(patientKey, 14,df.format(c1.getTime())));
+                int remaining = currentDayOfMonth-c1.get(Calendar.DAY_OF_MONTH);
+                if(remaining <= 14){
+                    c1.add(Calendar.DATE,remaining);
+                    callArrayList.add(service.getDataSpecificDate(patientKey, 14,df.format(c1.getTime())));
+                }else{
+                    c1.add(Calendar.DATE,14);
+                    callArrayList.add(service.getDataSpecificDate(patientKey, 14,df.format(c1.getTime())));
+                    remaining = currentDayOfMonth-c1.get(Calendar.DAY_OF_MONTH);
+                    int month = c1.get(Calendar.MONTH);
+                    c1.add(Calendar.DATE,remaining);
+                    if(month == c1.get(Calendar.MONTH)){
+                        callArrayList.add(service.getDataSpecificDate(patientKey, 14,df.format(c1.getTime())));
+
+                    }
+                }
+            }
+        }else{
+            Calendar c1 = Calendar.getInstance();
+            c1.setTime(dateOfMonth);
+            c1.add(Calendar.DATE, 13);
+            Calendar c2 = Calendar.getInstance();
+            c2.setTime(dateOfMonth);
+            c2.add(Calendar.DATE,27);
+
+            callArrayList.add(service.getDataSpecificDate(patientKey, 14,df.format(c1.getTime())));
+            callArrayList.add(service.getDataSpecificDate(patientKey, 14,df.format(c2.getTime())));
+            Calendar c3 = Calendar.getInstance();
+            if(c1.getMaximum(Calendar.DAY_OF_MONTH) > 30){
+                c3.setTime(dateOfMonth);
+                c3.add(Calendar.DATE,31);
+                callArrayList.add(service.getDataSpecificDate(patientKey, 14,df.format(c3.getTime())));
+            }
         }
-
 
         getDataFromSens(callArrayList,0, pageswipe);
     }

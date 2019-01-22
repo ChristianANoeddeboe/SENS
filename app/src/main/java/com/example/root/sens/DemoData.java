@@ -1,6 +1,9 @@
 package com.example.root.sens;
 
 
+import android.util.Log;
+
+import com.example.root.sens.dao.SensDAO;
 import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dao.interfaces.IUserDao;
 import com.example.root.sens.dto.DayData;
@@ -12,6 +15,8 @@ import com.example.root.sens.dto.User;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -21,72 +26,89 @@ public class DemoData {
         Realm realm = Realm.getDefaultInstance();
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 
-            try {
+        try {
+            IUserDao tempdao = UserDAO.getInstance();
+            tempdao.deleteData();
+            User tempuser = tempdao.getUserLoggedIn();
+            realm.beginTransaction();
+            RealmList<Goal> goals = new RealmList<>();
+            goals.add(new Goal(ActivityCategories.Søvn.toString(), 480));
+            goals.add(new Goal(ActivityCategories.Stå.toString(), 400));
+            goals.add(new Goal(ActivityCategories.Gang.toString(), 400));
+            goals.add(new Goal(ActivityCategories.Træning.toString(), 0));
+            goals.add(new Goal(ActivityCategories.Cykling.toString(), 0));
+            goals.add(new Goal(ActivityCategories.Skridt.toString(),3000));
+            tempuser.getGoals().add(new GoalHistory(1, df.parse("01/17/2019"), goals));
 
-                IUserDao tempdao = UserDAO.getInstance();
-                User tempuser = tempdao.getUserLoggedIn();
-                realm.beginTransaction();
-                RealmList<Goal> goals = new RealmList<>();
-                goals.add(new Goal(ActivityCategories.Søvn.toString(), 40));
-                goals.add(new Goal(ActivityCategories.Stå.toString(), 50));
-                goals.add(new Goal(ActivityCategories.Gang.toString(), 30));
-                goals.add(new Goal(ActivityCategories.Træning.toString(), 35));
-                goals.add(new Goal(ActivityCategories.Cykling.toString(), 12));
-                goals.add(new Goal(ActivityCategories.Skridt.toString(),10));
-                tempuser.getGoals().add(new GoalHistory(1, df.parse("01/07/2019"), goals));
+            RealmList<Goal> goals2 = new RealmList<>();
+            goals2.add(new Goal(ActivityCategories.Søvn.toString(), 350));
+            goals2.add(new Goal(ActivityCategories.Stå.toString(), 100));
+            goals2.add(new Goal(ActivityCategories.Gang.toString(), 0));
+            goals2.add(new Goal(ActivityCategories.Træning.toString(), 150));
+            goals2.add(new Goal(ActivityCategories.Cykling.toString(), 160));
+            goals2.add(new Goal(ActivityCategories.Skridt.toString(),1000));
+            tempuser.getGoals().add(new GoalHistory(2, df.parse("01/09/2019"), goals2));
 
-                RealmList<Goal> goals2 = new RealmList<>();
-                goals2.add(new Goal(ActivityCategories.Søvn.toString(), 40));
-                goals2.add(new Goal(ActivityCategories.Stå.toString(), 30));
-                goals2.add(new Goal(ActivityCategories.Gang.toString(), 40));
-                goals2.add(new Goal(ActivityCategories.Træning.toString(), 55));
-                goals2.add(new Goal(ActivityCategories.Cykling.toString(), 36));
-                goals2.add(new Goal(ActivityCategories.Skridt.toString(),10));
-                tempuser.getGoals().add(new GoalHistory(2, df.parse("11/10/2018"), goals2));
-                realm.commitTransaction();
-                tempdao.saveUser(tempuser);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            RealmList<Goal> goals3 = new RealmList<>();
+            goals3.add(new Goal(ActivityCategories.Søvn.toString(), 600));
+            goals3.add(new Goal(ActivityCategories.Stå.toString(), 0));
+            goals3.add(new Goal(ActivityCategories.Gang.toString(), 500));
+            goals3.add(new Goal(ActivityCategories.Træning.toString(), 550));
+            goals3.add(new Goal(ActivityCategories.Cykling.toString(), 0));
+            goals3.add(new Goal(ActivityCategories.Skridt.toString(),3500));
+            tempuser.getGoals().add(new GoalHistory(2, df.parse("12/25/2018"), goals3));
+
+            realm.commitTransaction();
+            tempdao.saveUser(tempuser);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         DateFormat sensDf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-            try {
-                IUserDao tempdao = UserDAO.getInstance();
-                User tempuser = tempdao.getUserLoggedIn();
-                realm.beginTransaction();
-                RealmList<Record> temp = new RealmList<Record>();
-                temp.add(new Record(50, ActivityCategories.Søvn.toString()));
-                temp.add(new Record(75, ActivityCategories.Stå.toString()));
+        IUserDao tempdao = UserDAO.getInstance();
+        User tempuser = tempdao.getUserLoggedIn();
+        realm.beginTransaction();
+        RealmList<DayData> tempList = new RealmList<>();
+        Calendar cal = Calendar.getInstance();
+        for(int i = 0; i < 30; i++){
+            RealmList<Record> temp = new RealmList<Record>();
+            if(i < 8) {
+                temp.add(new Record(500, ActivityCategories.Søvn.toString()));
+                temp.add(new Record(400, ActivityCategories.Stå.toString()));
+                temp.add(new Record(400, ActivityCategories.Gang.toString()));
+                temp.add(new Record(0, ActivityCategories.Træning.toString()));
+                temp.add(new Record(0, ActivityCategories.Cykling.toString()));
+                temp.add(new Record(3500, ActivityCategories.Skridt.toString()));
+            }else if (i > 8 && i< 16){
+                temp.add(new Record(300, ActivityCategories.Søvn.toString()));
+                temp.add(new Record(100, ActivityCategories.Stå.toString()));
                 temp.add(new Record(100, ActivityCategories.Gang.toString()));
                 temp.add(new Record(125, ActivityCategories.Træning.toString()));
                 temp.add(new Record(150, ActivityCategories.Cykling.toString()));
-                temp.add(new Record(500,ActivityCategories.Skridt.toString()));
-
-                RealmList<Record> temp2 = new RealmList<Record>();
-                temp2.add(new Record(60 * 8, ActivityCategories.Søvn.toString()));
-                temp2.add(new Record(300, ActivityCategories.Stå.toString()));
-                temp2.add(new Record(400, ActivityCategories.Gang.toString()));
-                temp2.add(new Record(550, ActivityCategories.Træning.toString()));
-                temp2.add(new Record(550, ActivityCategories.Cykling.toString()));
-                temp2.add(new Record(500,ActivityCategories.Skridt.toString()));
-                RealmList<Record> temp3 = new RealmList<Record>();
-                temp3.add(new Record(60 * 8, ActivityCategories.Søvn.toString()));
-                temp3.add(new Record(20, ActivityCategories.Stå.toString()));
-                temp3.add(new Record(300, ActivityCategories.Gang.toString()));
-                temp3.add(new Record(0, ActivityCategories.Træning.toString()));
-                temp3.add(new Record(100, ActivityCategories.Cykling.toString()));
-                temp3.add(new Record(500,ActivityCategories.Skridt.toString()));
-                RealmList<DayData> tempList = new RealmList<>();
-                tempList.add(new DayData(sensDf.parse("2018-12-16T23:00:00"), sensDf.parse("2018-12-17T23:00:00"), temp3));
-                tempList.add(new DayData(sensDf.parse("2018-12-17T23:00:00"), sensDf.parse("2018-12-18T23:00:00"), temp2));
-                tempList.add(new DayData(sensDf.parse("2019-01-08T23:00:00"), sensDf.parse("2019-01-09T23:00:00"), temp));
-                mergeData(tempuser, tempList);
-                realm.commitTransaction();
-                tempdao.saveUser(tempuser);
-            } catch (ParseException e) {
-                e.printStackTrace();
+                temp.add(new Record(500, ActivityCategories.Skridt.toString()));
+            }else{
+                temp.add(new Record(600, ActivityCategories.Søvn.toString()));
+                temp.add(new Record(0, ActivityCategories.Stå.toString()));
+                temp.add(new Record(500, ActivityCategories.Gang.toString()));
+                temp.add(new Record(550, ActivityCategories.Træning.toString()));
+                temp.add(new Record(0, ActivityCategories.Cykling.toString()));
+                temp.add(new Record(3500, ActivityCategories.Skridt.toString()));
             }
+            Date d1 = cal.getTime(); // 22
+            cal.add(Calendar.DATE,-1);
+            Date d2 = cal.getTime(); // 21
+            d1.setHours(23);
+            d1.setMinutes(0);
+            d1.setSeconds(0);
+            d2.setHours(23);
+            d2.setMinutes(0);
+            d2.setSeconds(0);
+            tempList.add(new DayData(d2, d1,temp));
         }
+        mergeData(tempuser, tempList);
+        realm.commitTransaction();
+        tempdao.saveUser(tempuser);
+    }
 
     private static void mergeData(User tempuser, RealmList<DayData> tempList) {
         for(DayData newDayData : tempList){
