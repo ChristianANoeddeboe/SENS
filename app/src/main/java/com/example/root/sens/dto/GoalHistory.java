@@ -8,25 +8,15 @@ import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
 public class GoalHistory extends RealmObject implements Comparable {
-    private int goalHistoryId;
     @Required
     private Date date;
     private RealmList<Goal> goals;
 
     public GoalHistory(){}
 
-    public GoalHistory(int goalHistoryId, Date date, RealmList<Goal> goals) {
-        this.goalHistoryId = goalHistoryId;
+    public GoalHistory(Date date, RealmList<Goal> goals) {
         this.date = date;
         this.goals = goals;
-    }
-
-    public int getGoalHistoryId() {
-        return goalHistoryId;
-    }
-
-    public void setGoalHistoryId(int goalHistoryId) {
-        this.goalHistoryId = goalHistoryId;
     }
 
     public Date getDate() {
@@ -48,7 +38,6 @@ public class GoalHistory extends RealmObject implements Comparable {
     @Override
     public String toString() {
         return "GoalHistory{" +
-                "goalHistoryId=" + goalHistoryId +
                 ", date=" + date +
                 ", goals=" + goals +
                 '}';

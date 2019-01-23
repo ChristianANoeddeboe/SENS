@@ -97,7 +97,7 @@ public class UserDAO implements IUserDao, DatabaseSubject {
 
         if(goals.isEmpty()){
             realm.beginTransaction();
-            goals.add(new GoalHistory(0, new Date(), new RealmList<Goal>()));
+            goals.add(new GoalHistory(new Date(), new RealmList<Goal>()));
             realm.commitTransaction();
         }
 

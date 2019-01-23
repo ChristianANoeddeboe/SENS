@@ -38,7 +38,7 @@ public class DemoData {
             goals.add(new Goal(ActivityCategories.Træning.toString(), 0));
             goals.add(new Goal(ActivityCategories.Cykling.toString(), 0));
             goals.add(new Goal(ActivityCategories.Skridt.toString(),3000));
-            tempuser.getGoals().add(new GoalHistory(1, df.parse("01/17/2019"), goals));
+            tempuser.getGoals().add(new GoalHistory(df.parse("01/17/2019"), goals));
 
             RealmList<Goal> goals2 = new RealmList<>();
             goals2.add(new Goal(ActivityCategories.Søvn.toString(), 350));
@@ -47,7 +47,7 @@ public class DemoData {
             goals2.add(new Goal(ActivityCategories.Træning.toString(), 150));
             goals2.add(new Goal(ActivityCategories.Cykling.toString(), 160));
             goals2.add(new Goal(ActivityCategories.Skridt.toString(),1000));
-            tempuser.getGoals().add(new GoalHistory(2, df.parse("01/09/2019"), goals2));
+            tempuser.getGoals().add(new GoalHistory(df.parse("01/09/2019"), goals2));
 
             RealmList<Goal> goals3 = new RealmList<>();
             goals3.add(new Goal(ActivityCategories.Søvn.toString(), 600));
@@ -56,7 +56,7 @@ public class DemoData {
             goals3.add(new Goal(ActivityCategories.Træning.toString(), 550));
             goals3.add(new Goal(ActivityCategories.Cykling.toString(), 0));
             goals3.add(new Goal(ActivityCategories.Skridt.toString(),3500));
-            tempuser.getGoals().add(new GoalHistory(2, df.parse("12/25/2018"), goals3));
+            tempuser.getGoals().add(new GoalHistory(df.parse("12/25/2018"), goals3));
 
             realm.commitTransaction();
             tempdao.saveUser(tempuser);
