@@ -21,7 +21,7 @@ public class DayDataFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_full_screen_cards, container, false);
 
-        // Getting the selected DemoData
+        // Getting the selected data
         Bundle bundle = savedInstanceState != null ? savedInstanceState : getArguments();
         Date date = (Date) bundle.getSerializable("date");
 

@@ -4,7 +4,6 @@ import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -50,7 +49,6 @@ import com.example.root.sens.observers.CreateNewGoalObserver;
 import com.example.root.sens.observers.MainFullScreenObserver;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -158,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void setupDataFetcher() {
         sensSubject = SensDAO.getInstance();
-        sensSubject.registerObserver(this); // We register this view as an observer, this is used for when fetching DemoData from SENS
+        sensSubject.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
         UserDAO.getInstance().registerObserver(this);
         SensDAO.getInstance().getDataMonth(new UserManager().getUserLoggedIn().getPatientKey(),new Date(),false, true);
         fetchDataProgressBar("Henter data");
@@ -169,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements
                 SensDAO.getInstance().getData(new UserManager().getUserLoggedIn().getPatientKey(), 14);
                 return null;
             }
-        }.execute(), 1800000); // Fetch DemoData every 30 min
+        }.execute(), 1800000); // Fetch data every 30 min
     }
 
     private void fetchDataProgressBar(String s) {
@@ -228,18 +226,12 @@ public class MainActivity extends AppCompatActivity implements
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Du skal nu sætte telefonen i fly tilstand for at demo dataen ikke bliver overskrevet.")
                     .setTitle("Demo data");
-                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            DemoData.initializeData();
-                            Snackbar.make(coordinatorLayout, "Demo data loadet ind.", Snackbar.LENGTH_LONG).show();
-                        }
+                    builder.setPositiveButton("Ok", (dialog, which) -> {
+                        DemoData.initializeData();
+                        Snackbar.make(coordinatorLayout, "Demo data loadet ind.", Snackbar.LENGTH_LONG).show();
                     });
-                    builder.setNegativeButton("Afbryd", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                    builder.setNegativeButton("Afbryd", (dialog, which) -> {
 
-                        }
                     });
             AlertDialog dialog = builder.create();
             dialog.show();
@@ -299,7 +291,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void showDataFetchSnack() {
-        fetchDataProgressBar("Henter DemoData");
+        fetchDataProgressBar("Henter data");
     }
 
     // Database observer

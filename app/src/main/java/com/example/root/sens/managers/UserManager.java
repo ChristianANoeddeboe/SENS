@@ -99,7 +99,6 @@ public class UserManager implements IUserManager{
         IUserDao userDao = UserDAO.getInstance();
         userDao.saveUser(user);
         userDao.setUserLoggedIn(user);
-        // DemoData.initializeData();
     }
 
     public User getUser(String patientKey){
@@ -117,7 +116,7 @@ public class UserManager implements IUserManager{
 
     @Override
     public void updateGoal(ActivityCategories activityCategory, int newValue) {
-        Map<ActivityCategories, Integer> result = new HashMap<>();
+        Map<ActivityCategories, Integer> result;
         IUserDao dao = UserDAO.getInstance();
         GoalHistory goalHistory = dao.getNewestGoal();
 

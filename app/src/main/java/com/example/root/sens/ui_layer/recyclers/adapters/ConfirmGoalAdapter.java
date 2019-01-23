@@ -47,7 +47,7 @@ public class ConfirmGoalAdapter extends RecyclerView.Adapter<ConfirmGoalAdapter.
     /*
      * Initialize the dataset of the Adapter.
      *
-     * @param dataSet String[] containing the DemoData to populate views to be used by RecyclerView.
+     * @param dataSet String[] containing the data to populate views to be used by RecyclerView.
      */
     public ConfirmGoalAdapter(Context context, List<ConfirmGoalItemModel> dataSet) {
         mInflater = LayoutInflater.from(context);
