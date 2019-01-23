@@ -58,15 +58,6 @@ public class WizardActivity extends AppCompatActivity {
         textViewPageIndicator = findViewById(R.id.textViewPageIndicatorWizard);
         textViewPageIndicator.setText("1 / " + NUM_PAGES);
 
-//        TabLayout tabLayout = findViewById(R.id.tablayout_wizard);
-//        tabLayout.setupWithViewPager(mPager, true);
-
-        // Removes tabLayout functionality
-//        LinearLayout tabStrip = ((LinearLayout) tabLayout.getChildAt(0));
-//        for (int i = 0; i < tabStrip.getChildCount(); i++) {
-//            tabStrip.getChildAt(i).setOnTouchListener((v, event) -> true);
-//        }
-
         findViewById(R.id.user_config_a_slide_button_wizard).setOnClickListener((View v) -> switchPage(true));
 
         Display display = getWindowManager().getDefaultDisplay();
@@ -108,7 +99,6 @@ public class WizardActivity extends AppCompatActivity {
                     }
                 }
             }
-
             return true;
         });
 
