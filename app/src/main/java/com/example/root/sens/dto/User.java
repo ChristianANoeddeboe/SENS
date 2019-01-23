@@ -10,7 +10,7 @@ import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
-public class User extends RealmObject {
+public class User extends RealmObject implements UserSubject{
     @Ignore
     public static final String USERDATA = "userdata";
     @Ignore
@@ -91,16 +91,19 @@ public class User extends RealmObject {
                 '}';
     }
 
+    @Override
     public void notifyObservers(String tag){
         for(UserObserver observer : observers){
             observer.update(tag, this);
         }
     }
 
+    @Override
     public void addObserver(UserObserver userObserver){
         observers.add(userObserver);
     }
 
+    @Override
     public void removeObserver(UserObserver userObserver){
         observers.remove(userObserver);
     }

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.root.sens.dto.UserObserver;
+import com.example.root.sens.dto.UserSubject;
 import com.example.root.sens.ui_layer.recyclers.itemmodels.ConfirmGoalItemModel;
 import com.example.root.sens.R;
 import com.example.root.sens.ui_layer.recyclers.adapters.ConfirmGoalAdapter;
@@ -72,23 +73,27 @@ public class UserConfigConfirmFragment extends Fragment implements UserObserver 
     }
 
     @Override
-    public void update(String tag, User user) {
-        switch (tag) {
-            case User.USERDATA:
-                updateRecycler(0, "Fornavn", user.getFirstName());
-                updateRecycler(1, "Efternavn", user.getLastName());
-                updateRecycler(2, "Fødselsdag", dateFormat(user.getBirthday()));
-                break;
-            case User.GOALDATA:
-                updateRecycler(3, "Skridt", String.valueOf(user.getGoals().get(0).getGoals().get(0).getValue()));
-                updateRecycler(4, "Træning", String.valueOf(user.getGoals().get(0).getGoals().get(1).getValue()));
-                updateRecycler(5, "Cykling", String.valueOf(user.getGoals().get(0).getGoals().get(2).getValue()));
-                updateRecycler(6, "Gang", String.valueOf(user.getGoals().get(0).getGoals().get(3).getValue()));
-                updateRecycler(7, "Stå", String.valueOf(user.getGoals().get(0).getGoals().get(4).getValue()));
-                updateRecycler(8,"Søvn",String.valueOf(user.getGoals().get(0).getGoals().get(5).getValue()));
-                break;
-            default:
+    public void update(String tag, UserSubject user) {
+        if(user instanceof User) {
+            User tempUser = (User) user;
+            switch (tag) {
+                case User.USERDATA:
+                    updateRecycler(0, "Fornavn", tempUser.getFirstName());
+                    updateRecycler(1, "Efternavn", tempUser.getLastName());
+                    updateRecycler(2, "Fødselsdag", dateFormat(tempUser.getBirthday()));
+                    break;
+                case User.GOALDATA:
+                    updateRecycler(3, "Skridt", String.valueOf(tempUser.getGoals().get(0).getGoals().get(0).getValue()));
+                    updateRecycler(4, "Træning", String.valueOf(tempUser.getGoals().get(0).getGoals().get(1).getValue()));
+                    updateRecycler(5, "Cykling", String.valueOf(tempUser.getGoals().get(0).getGoals().get(2).getValue()));
+                    updateRecycler(6, "Gang", String.valueOf(tempUser.getGoals().get(0).getGoals().get(3).getValue()));
+                    updateRecycler(7, "Stå", String.valueOf(tempUser.getGoals().get(0).getGoals().get(4).getValue()));
+                    updateRecycler(8,"Søvn",String.valueOf(tempUser.getGoals().get(0).getGoals().get(5).getValue()));
+                    break;
+                default:
+            }
         }
+
     }
 
     private void updateRecycler(int position, String description, String value){
