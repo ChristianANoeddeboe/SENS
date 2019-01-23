@@ -19,31 +19,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tablayout_wizard"
-        android:layout_width="176dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_weight="1"
-        app:layout_constraintBottom_toBottomOf="@+id/page_wizard"
-        app:layout_constraintEnd_toStartOf="@+id/user_config_a_slide_button_wizard"
-        app:layout_constraintStart_toEndOf="@+id/btn_user_config_a_back_button_wizard"
-        app:tabBackground="@drawable/tab_selector"
-        app:tabGravity="center"
-        app:tabIndicatorHeight="0dp" />
-
-    <Button
-        android:id="@+id/btn_user_config_a_back_button_wizard"
-        style="@style/TextButtonSensWhite"
-
+    <TextView
+        android:id="@+id/textViewPageIndicatorWizard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Spring over"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="22dp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.v4.view.ViewPager
@@ -57,5 +43,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/btn_user_config_a_back_button_wizard"
+        style="@style/TextButtonSensWhite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Spring over"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
