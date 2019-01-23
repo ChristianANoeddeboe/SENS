@@ -1,9 +1,9 @@
 package com.example.root.sens.managers;
 
 import com.example.root.sens.ActivityCategories;
-import com.example.root.sens.dao.interfaces.UserObserver;
+import com.example.root.sens.dto.UserObserver;
 import com.example.root.sens.dto.User;
-import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
+import com.example.root.sens.ui_layer.recyclers.itemmodels.SetGoalItemModel;
 
 import java.util.Date;
 import java.util.List;
@@ -22,7 +22,6 @@ public interface IUserManager {
     void createGoals(List<SetGoalItemModel> goals);
     void saveUser();
     List<String> getGoalStreak();
-    Map<Date, Boolean> generateFulfilleGoalsMap();
+    Map<Date, Boolean> generateFulfilledGoalsMap();
     void deleteData();
-
 }

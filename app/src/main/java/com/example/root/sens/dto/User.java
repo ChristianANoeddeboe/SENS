@@ -1,7 +1,5 @@
 package com.example.root.sens.dto;
 
-import com.example.root.sens.dao.interfaces.UserObserver;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,7 +10,7 @@ import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
-public class User extends RealmObject {
+public class User extends RealmObject implements UserSubject{
     @Ignore
     public static final String USERDATA = "userdata";
     @Ignore
@@ -28,7 +26,6 @@ public class User extends RealmObject {
     private RealmList<DayData> dayData;
     private String firstName;
     private String lastName;
-
 
     public User(){}
 
@@ -94,16 +91,19 @@ public class User extends RealmObject {
                 '}';
     }
 
+    @Override
     public void notifyObservers(String tag){
         for(UserObserver observer : observers){
             observer.update(tag, this);
         }
     }
 
+    @Override
     public void addObserver(UserObserver userObserver){
         observers.add(userObserver);
     }
 
+    @Override
     public void removeObserver(UserObserver userObserver){
         observers.remove(userObserver);
     }
@@ -123,21 +123,5 @@ public class User extends RealmObject {
 
     public void setPatientKey(String patientKey) {
         this.patientKey = patientKey;
-    }
-
-    public static String getUSERDATA() {
-        return USERDATA;
-    }
-
-    public static String getGOALDATA() {
-        return GOALDATA;
-    }
-
-    public List<UserObserver> getObservers() {
-        return observers;
-    }
-
-    public void setObservers(List<UserObserver> observers) {
-        this.observers = observers;
     }
 }

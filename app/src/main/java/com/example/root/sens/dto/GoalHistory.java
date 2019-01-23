@@ -12,7 +12,9 @@ public class GoalHistory extends RealmObject implements Comparable {
     @Required
     private Date date;
     private RealmList<Goal> goals;
+
     public GoalHistory(){}
+
     public GoalHistory(int goalHistoryId, Date date, RealmList<Goal> goals) {
         this.goalHistoryId = goalHistoryId;
         this.date = date;

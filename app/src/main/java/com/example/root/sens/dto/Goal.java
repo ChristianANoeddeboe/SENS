@@ -11,6 +11,7 @@ public class Goal extends RealmObject {
     private int value;
 
     public Goal(){}
+
     public Goal(String type, int value) {
         this.type = type;
         this.value = value;

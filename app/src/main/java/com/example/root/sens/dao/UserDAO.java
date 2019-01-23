@@ -1,7 +1,5 @@
 package com.example.root.sens.dao;
 
-import android.icu.text.AlphabeticIndex;
-
 import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.dao.interfaces.DatabaseObserver;
 import com.example.root.sens.dao.interfaces.DatabaseSubject;
@@ -15,6 +13,7 @@ import com.example.root.sens.dto.User;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -23,7 +22,7 @@ import io.realm.RealmChangeListener;
 import io.realm.RealmList;
 
 public class UserDAO implements IUserDao, DatabaseSubject {
-    private final String TAG = UserDAO.class.getSimpleName();
+    private static final String TAG = UserDAO.class.getSimpleName();
     private static UserDAO instance;
     private ArrayList<DatabaseObserver> mObservers;
     private final int DAY_MILLISECONDS = (int) TimeUnit.DAYS.toMillis(1);
@@ -114,7 +113,7 @@ public class UserDAO implements IUserDao, DatabaseSubject {
     }
 
     @Override
-    public ArrayList<DayData> getSortedDayData() {
+    public List<DayData> getSortedDayData() {
         RealmList<DayData> dayData = getUserLoggedIn().getDayData();
         ArrayList<DayData> result = new ArrayList<>();
         for (DayData d : dayData){

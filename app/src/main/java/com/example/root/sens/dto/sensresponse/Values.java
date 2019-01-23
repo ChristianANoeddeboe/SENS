@@ -4,7 +4,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Values {
-
     @SerializedName("activity/resting/time")
     @Expose
     public Float activityRestingTime;
@@ -29,7 +28,4 @@ public class Values {
     @SerializedName("activity/steps/count")
     @Expose
     public Float activityStepsCount;
-
-
-
 }

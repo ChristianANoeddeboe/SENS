@@ -9,7 +9,9 @@ public class Record extends RealmObject {
     private float value;
     @Required
     private String type;
+
     public Record(){}
+
     public Record(float value, String type) {
         this.value = value;
         this.type = type;

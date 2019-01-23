@@ -3,14 +3,14 @@ package com.example.root.sens.managers;
 import android.util.Log;
 
 import com.example.root.sens.dao.UserDAO;
-import com.example.root.sens.dao.interfaces.UserObserver;
-import com.example.root.sens.data;
+import com.example.root.sens.dao.interfaces.IUserDao;
+import com.example.root.sens.dto.UserObserver;
 import com.example.root.sens.ActivityCategories;
 import com.example.root.sens.dto.DayData;
 import com.example.root.sens.dto.Goal;
 import com.example.root.sens.dto.GoalHistory;
 import com.example.root.sens.dto.Record;
-import com.example.root.sens.recyclers.itemmodels.SetGoalItemModel;
+import com.example.root.sens.ui_layer.recyclers.itemmodels.SetGoalItemModel;
 import com.example.root.sens.dto.User;
 
 import java.text.DateFormat;
@@ -37,6 +37,7 @@ public class UserManager implements IUserManager{
     public UserManager(){
     }
 
+    @Override
     public void createUser(User user, String patientKey, UserObserver userObserver){
         this.user = user;
         user.setPatientKey(patientKey);
@@ -44,6 +45,7 @@ public class UserManager implements IUserManager{
         user.notifyObservers(User.USERDATA);
     }
 
+    @Override
     public void createGoals(List<SetGoalItemModel> goals){
         RealmList<Goal> list = new RealmList<>();
         for(SetGoalItemModel goal : goals){
@@ -92,11 +94,12 @@ public class UserManager implements IUserManager{
         user.setDayData(daydata);
     }
 
+    @Override
     public void saveUser(){
-        UserDAO userDao = UserDAO.getInstance();
+        IUserDao userDao = UserDAO.getInstance();
         userDao.saveUser(user);
         userDao.setUserLoggedIn(user);
-        // data.initializeData();
+        // DemoData.initializeData();
     }
 
     public User getUser(String patientKey){
@@ -105,7 +108,7 @@ public class UserManager implements IUserManager{
 
     @Override
     public boolean isUser(String patientKey) {
-        UserDAO dao = UserDAO.getInstance();
+        IUserDao dao = UserDAO.getInstance();
         if(dao.getUser(patientKey) == null){
             return false;
         }
@@ -115,7 +118,7 @@ public class UserManager implements IUserManager{
     @Override
     public void updateGoal(ActivityCategories activityCategory, int newValue) {
         Map<ActivityCategories, Integer> result = new HashMap<>();
-        UserDAO dao = UserDAO.getInstance();
+        IUserDao dao = UserDAO.getInstance();
         GoalHistory goalHistory = dao.getNewestGoal();
 
         result = generateGoalMap(goalHistory);
@@ -127,7 +130,7 @@ public class UserManager implements IUserManager{
 
     @Override
     public Map<ActivityCategories, Integer> getGoals(Date date) {
-        UserDAO dao = UserDAO.getInstance();
+        IUserDao dao = UserDAO.getInstance();
         if(dao.getGoalSpecificDate(date) == null){
             return new HashMap<ActivityCategories,Integer>();
         }
@@ -137,7 +140,7 @@ public class UserManager implements IUserManager{
     @Override
     public Map<ActivityCategories, Float> getDayData(Date date) {
         Map<ActivityCategories, Float> result = new HashMap<>();
-        UserDAO dao = UserDAO.getInstance();
+        IUserDao dao = UserDAO.getInstance();
         DayData data = dao.getDataSpecificDate(date);
 
         if(data != null){
@@ -153,7 +156,7 @@ public class UserManager implements IUserManager{
 
     @Override
     public boolean fulfilledAllGoals(Date date) {
-        UserDAO dao = UserDAO.getInstance();
+        IUserDao dao = UserDAO.getInstance();
         GoalHistory goalHistory = dao.getGoalSpecificDate(date);
         RealmList<Goal> goals = goalHistory.getGoals();
         DayData dayData  = dao.getDataSpecificDate(date);
@@ -195,7 +198,7 @@ public class UserManager implements IUserManager{
 
     @Override
     public List<String> getGoalStreak(){
-        Map<Date, Boolean> userHistory = generateFulfilleGoalsMap();
+        Map<Date, Boolean> userHistory = generateFulfilledGoalsMap();
         ArrayList<Date> tempDates = new ArrayList<>();
         List<String> result = new ArrayList<>();
 
@@ -227,7 +230,7 @@ public class UserManager implements IUserManager{
     }
 
     @Override
-    public Map<Date, Boolean> generateFulfilleGoalsMap(){
+    public Map<Date, Boolean> generateFulfilledGoalsMap(){
         HashMap<Date,Boolean> result = new HashMap<>();
         User activeUser = UserDAO.getInstance().getUserLoggedIn();
         RealmList<DayData> dayData = activeUser.getDayData();
@@ -271,6 +274,13 @@ public class UserManager implements IUserManager{
                     }
                 }
                 if(completed){
+                    Log.d(TAG, "generateFulfilledGoalsMap: "+d.toString() + "\n"+currentGoalHis.getDate().toString());
+                    for(Record r : d.getRecords()){
+                        Log.d(TAG, "generateFulfilledGoalsMap: "+r.toString());
+                    }
+                    for(Goal g : currentGoalHis.getGoals()){
+                        Log.d(TAG, "generateFulfilledGoalsMap: "+g.toString());
+                    }
                     result.put(d.getEnd_time(),true);
                     //calendar.addEvent(new Event(Color.rgb(76,175,80), d.getEnd_time().getTime(), "test1234"));
                 }

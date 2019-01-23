@@ -11,7 +11,7 @@
         android:id="@+id/main_a_coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activities.MainActivity">
+        tools:context=".ui_layer.activities.MainActivity">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -34,7 +34,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:context=".activities.MainActivity"
+            tools:context=".ui_layer.activities.MainActivity"
             tools:showIn="@layout/activity_main_content">
 
             <View

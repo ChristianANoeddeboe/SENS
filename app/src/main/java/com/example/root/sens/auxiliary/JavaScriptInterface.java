@@ -5,9 +5,9 @@ import android.webkit.JavascriptInterface;
 import com.google.gson.JsonArray;
 
 public class JavaScriptInterface {
-    JsonArray jsonArray;
-    String yAxisDescription;
-    String color;
+    private JsonArray jsonArray;
+    private String yAxisDescription;
+    private String color;
 
     public JavaScriptInterface(JsonArray jsonArray, String color) {
         this.jsonArray = jsonArray;

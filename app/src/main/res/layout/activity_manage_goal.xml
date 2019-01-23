@@ -6,7 +6,7 @@
     android:id="@+id/managegoal_FrameLayout_Container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.ManageGoalActivity"
+    tools:context=".ui_layer.activities.ManageGoalActivity"
     android:padding="10dp">
 
 
