@@ -1,9 +1,6 @@
 package com.example.root.sens;
 
 
-import android.util.Log;
-
-import com.example.root.sens.dao.SensDAO;
 import com.example.root.sens.dao.UserDAO;
 import com.example.root.sens.dao.interfaces.IUserDao;
 import com.example.root.sens.dto.DayData;

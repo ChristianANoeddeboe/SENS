@@ -46,7 +46,6 @@ public class GoalInfoFragment extends Fragment {
         subTitle = rootView.findViewById(R.id.textViewGraphView);
         webView = rootView.findViewById(R.id.webViewGraph);
 
-        // Getting DemoData
         int color = ContextCompat.getColor(getContext(), new ResourceManagement().getGoalColor(goalType));
         pickedDate = (Date) getArguments().getSerializable("date");
         if (pickedDate == null) {
@@ -95,7 +94,7 @@ public class GoalInfoFragment extends Fragment {
         javaScriptInterface.setyAxisDescription(yAxisDescription);
 
         webView.addJavascriptInterface(javaScriptInterface, "Android");
-        subTitle.setText("Viser DemoData for " + numberOfDays + " dage!\nDen " +
+        subTitle.setText("Viser data for " + numberOfDays + " dage!\nDen " +
                 simpleDateFormatDDMMM.format(startDate) + " til " +
                 simpleDateFormatDDMMM.format(endDate) + ".");
     }

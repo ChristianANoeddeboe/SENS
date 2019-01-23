@@ -53,7 +53,7 @@ public class AboutAdapter extends RecyclerView.Adapter<AboutAdapter.ViewHolder> 
     /*
      * Initialize the dataset of the Adapter.
      *
-     * @param dataSet String[] containing the DemoData to populate views to be used by RecyclerView.
+     * @param dataSet String[] containing the data to populate views to be used by RecyclerView.
      */
     public AboutAdapter(Context context, List<AboutItemModel> dataSet) {
         mInflater = LayoutInflater.from(context);
