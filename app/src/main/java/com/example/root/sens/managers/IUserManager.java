@@ -15,7 +15,6 @@ public interface IUserManager {
     Map<ActivityCategories, Integer> getGoals(Date date);
     Map<ActivityCategories, Float> getDayData(Date date);
     boolean fulfilledAllGoals(Date date);
-    boolean fulfilledGoal(ActivityCategories activityCategory, Date date);
 
     User getUserLoggedIn();
     void createUser(User user, String patientKey, UserObserver userObserver);

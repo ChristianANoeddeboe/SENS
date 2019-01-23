@@ -5,7 +5,11 @@ import com.example.root.sens.R;
 import com.example.root.sens.ActivityCategories;
 
 public class ResourceManagement {
-
+    /**
+     * Used to get the goal colour for an activity category
+     * @param curr
+     * @return
+     */
     public int getGoalColor(ActivityCategories curr) {
         switch (curr) {
             case Søvn:
@@ -25,6 +29,11 @@ public class ResourceManagement {
         }
     }
 
+    /**
+     * Used to get the right icon for a activity category
+     * @param currentActivity
+     * @return
+     */
     public int generateIcons(ActivityCategories currentActivity) {
         switch (currentActivity) {
             case Søvn:

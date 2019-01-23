@@ -45,6 +45,10 @@ public class UserManager implements IUserManager{
         user.notifyObservers(User.USERDATA);
     }
 
+    /**
+     * Used by the setup screen to create the right goals.
+     * @param goals
+     */
     @Override
     public void createGoals(List<SetGoalItemModel> goals){
         RealmList<Goal> list = new RealmList<>();
@@ -114,6 +118,11 @@ public class UserManager implements IUserManager{
         return true;
     }
 
+    /**
+     * Update a specific current goal
+     * @param activityCategory the goal type
+     * @param newValue the new value
+     */
     @Override
     public void updateGoal(ActivityCategories activityCategory, int newValue) {
         Map<ActivityCategories, Integer> result;
@@ -153,6 +162,11 @@ public class UserManager implements IUserManager{
         return result;
     }
 
+    /**
+     * Checks if the user fulfilled his goals at x date, used by the calendar
+     * @param date the date to check for
+     * @return a boolean indicating if the user fulfilled the goals
+     */
     @Override
     public boolean fulfilledAllGoals(Date date) {
         IUserDao dao = UserDAO.getInstance();
@@ -174,16 +188,18 @@ public class UserManager implements IUserManager{
         return true;
     }
 
-    @Override
-    public boolean fulfilledGoal(ActivityCategories activityCategory, Date date) {
-        return false;
-    }
+
 
     @Override
     public User getUserLoggedIn() {
         return UserDAO.getInstance().getUserLoggedIn();
     }
 
+    /**
+     * Used by the update goal function, it generates a hashmap based on a goal history
+     * @param goalHistory
+     * @return
+     */
     private Map<ActivityCategories, Integer> generateGoalMap(GoalHistory goalHistory){
         Map<ActivityCategories, Integer> result = new HashMap<>();
         RealmList<Goal> goals = goalHistory.getGoals();
@@ -195,6 +211,10 @@ public class UserManager implements IUserManager{
         return result;
     }
 
+    /**
+     * Gets th users goal streak, used for the achivement list
+     * @return a list of strings in STREAK,DATE format
+     */
     @Override
     public List<String> getGoalStreak(){
         Map<Date, Boolean> userHistory = generateFulfilledGoalsMap();
@@ -228,6 +248,10 @@ public class UserManager implements IUserManager{
         return result;
     }
 
+    /**
+     * Used to see if the user fulfilled its goals.
+     * @return A hashmap date,boolean, indicating if user fulfilled goals on each date.
+     */
     @Override
     public Map<Date, Boolean> generateFulfilledGoalsMap(){
         HashMap<Date,Boolean> result = new HashMap<>();

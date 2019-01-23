@@ -42,6 +42,10 @@ public class UserDAO implements IUserDao, DatabaseSubject {
         return instance;
     }
 
+    /**
+     * Sets an user as the current active user
+     * @param user
+     */
     @Override
     public void setUserLoggedIn(User user){
         Realm realm = Realm.getDefaultInstance();
@@ -55,6 +59,10 @@ public class UserDAO implements IUserDao, DatabaseSubject {
         realm.commitTransaction();
     }
 
+    /**
+     * Removes the user as being the current logged in user
+     * @param user
+     */
     @Override
     public void removeUserLoggedIn(User user){
         Realm realm = Realm.getDefaultInstance();
@@ -66,6 +74,10 @@ public class UserDAO implements IUserDao, DatabaseSubject {
         realm.commitTransaction();
     }
 
+    /**
+     * Save the current instance of the user object
+     * @param user
+     */
     @Override
     public void saveUser(User user){
         Realm realm = Realm.getDefaultInstance();
@@ -75,6 +87,10 @@ public class UserDAO implements IUserDao, DatabaseSubject {
         notifyObservers();
     }
 
+    /**
+     * Get the currently logged in and active user
+     * @return
+     */
     @Override
     public User getUserLoggedIn() {
         Realm realm = Realm.getDefaultInstance();
@@ -82,6 +98,11 @@ public class UserDAO implements IUserDao, DatabaseSubject {
         return set.getLoggedInUser();
     }
 
+    /**
+     * Get user with a specific patientKey
+     * @param patientKey
+     * @return
+     */
     @Override
     public User getUser(String patientKey){
         Realm realm = Realm.getDefaultInstance();
@@ -89,6 +110,10 @@ public class UserDAO implements IUserDao, DatabaseSubject {
         return user;
     }
 
+    /**
+     * Get the users newest goals and thus current goals
+     * @return a GoalHistory object
+     */
     @Override
     public GoalHistory getNewestGoal() {
         Realm realm = Realm.getDefaultInstance();
@@ -118,6 +143,10 @@ public class UserDAO implements IUserDao, DatabaseSubject {
         return tempGoalHis.get(0);
     }
 
+    /**
+     * Get the users daydata in sorted order
+     * @return
+     */
     @Override
     public List<DayData> getSortedDayData() {
         RealmList<DayData> dayData = getUserLoggedIn().getDayData();
@@ -130,6 +159,11 @@ public class UserDAO implements IUserDao, DatabaseSubject {
 
     }
 
+    /**
+     * Get daydata for a specific date
+     * @param d
+     * @return
+     */
     @Override
     public DayData getDataSpecificDate(Date d) {
         RealmList<DayData> dayData = UserDAO.getInstance().getUserLoggedIn().getDayData();
@@ -142,6 +176,11 @@ public class UserDAO implements IUserDao, DatabaseSubject {
         return null;
     }
 
+    /**
+     * Get the goals the user had at day d
+     * @param d
+     * @return
+     */
     @Override
     public GoalHistory getGoalSpecificDate(Date d) {
         RealmList<GoalHistory> goalHistories = UserDAO.getInstance().getUserLoggedIn().getGoals();
@@ -162,6 +201,10 @@ public class UserDAO implements IUserDao, DatabaseSubject {
         return mostRecent;
     }
 
+    /**
+     * This function updates and merges the goals it receives.
+     * @param newgoals A hashmap AcivityCategory,Integer where the integer is the goal value
+     */
     @Override
     public void updateOrMergeGoals(Map<ActivityCategories, Integer> newgoals) {
         Realm realm = Realm.getDefaultInstance();
@@ -205,6 +248,9 @@ public class UserDAO implements IUserDao, DatabaseSubject {
         });
     }
 
+    /**
+     * Used when the user requests for its data to be deletd
+     */
     @Override
     public void deleteData() {
         User u = UserDAO.getInstance().getUserLoggedIn();
@@ -219,7 +265,7 @@ public class UserDAO implements IUserDao, DatabaseSubject {
         realm.commitTransaction();
     }
 
-
+    //Below methods are for observer pattern
     @Override
     public void registerObserver(DatabaseObserver databaseObserver) {
         if(!mObservers.contains(databaseObserver)) {

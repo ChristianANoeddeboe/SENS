@@ -18,6 +18,9 @@ import java.util.Date;
 import io.realm.Realm;
 import io.realm.RealmList;
 
+/**
+ * Used to initialize demo data
+ */
 public class DemoData {
     public static void initializeData() {
         Realm realm = Realm.getDefaultInstance();

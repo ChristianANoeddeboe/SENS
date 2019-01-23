@@ -59,18 +59,30 @@ public class SensDAO implements SensSubject {
     private SensDAO() {
     }
 
+    /**
+     * Get data from current day and dayCount days back
+     */
     public void getData(String patientKey, int dayCount){
         ArrayList<Call<Response>> callArrayList = new ArrayList<>();
         callArrayList.add(service.getData(patientKey, dayCount));
         getDataFromSens(callArrayList,0, false);
     }
-
+    /*
+     * Get data from a specific day and dayCount days back
+     */
     public void getDataSpecificDate(String patientKey, int dayCount, Date date){
         ArrayList<Call<Response>> callArrayList = new ArrayList<>();
         callArrayList.add(service.getDataSpecificDate(patientKey, dayCount,df.format(date)));
         getDataFromSens(callArrayList,0, false);
     }
 
+    /**
+     * Used to get data for 'up' to a whole month
+     * @param patientKey
+     * @param dateOfMonth
+     * @param pageswipe Indicates if this is a page swipe, if so we can request a whole month
+     * @param init Indicates if this is the initializing data fetch i.e. current month
+     */
     public void getDataMonth(String patientKey, Date dateOfMonth, boolean pageswipe, boolean init){
         Log.d(TAG, "getDataMonth: "+dateOfMonth);
 
@@ -120,37 +132,17 @@ public class SensDAO implements SensSubject {
 
         getDataFromSens(callArrayList,0, pageswipe);
     }
-
+    /*
+    Get data for a specific day
+     */
     public void getDataSpecificDate(String patientKey, Date date){
         ArrayList<Call<Response>> callArrayList = new ArrayList<>();
         callArrayList.add(service.getDataSpecificDate(patientKey,df.format(date)));
         getDataFromSens(callArrayList,0, false);
     }
 
-    @Override
-    public void registerObserver(SensObserver sensObserver) {
-        if(!mObservers.contains(sensObserver)) {
-            mObservers.add(sensObserver);
-        }
-    }
-
-    @Override
-    public void removeObserver(SensObserver sensObserver) {
-        if(mObservers.contains(sensObserver)) {
-            mObservers.remove(sensObserver);
-        }
-    }
-
-    @Override
-    public void notifyObservers(boolean b) {
-        //Called on failure, to make the snackbar dismiss, an automatic retry is setup elsewhere.
-        for (SensObserver observer: mObservers) {
-            observer.onDataReceived(b);
-        }
-    }
-
     /*
-     * We merge and save the Data
+     * We merge and save the data in realm, i.e. we convert a response object to actual DTO objecs
      * @param r
      */
     private void mergeAndSaveData(Response r) {
@@ -202,9 +194,11 @@ public class SensDAO implements SensSubject {
         UserDAO.getInstance().saveUser(tempUser);
     }
 
-    /*
-     * Fetch data from SENS
-     * @param patientKey The patient key
+    /**
+     * Used to actually make the call to fetch data from sens
+     * @param callList A list of calls
+     * @param i Current call number, used to keep track of when we can dismiss the progress bar
+     * @param pageSwipe If this is a page swipe
      */
     private void getDataFromSens(List<Call<Response>> callList, int i, boolean pageSwipe){
         if(i < callList.size()) {
@@ -270,6 +264,33 @@ public class SensDAO implements SensSubject {
             });
         }else{ // There are no calls pending
             notifyObservers(true);
+        }
+    }
+
+
+    /*
+    Below methods are for the observer pattern
+     */
+
+    @Override
+    public void registerObserver(SensObserver sensObserver) {
+        if(!mObservers.contains(sensObserver)) {
+            mObservers.add(sensObserver);
+        }
+    }
+
+    @Override
+    public void removeObserver(SensObserver sensObserver) {
+        if(mObservers.contains(sensObserver)) {
+            mObservers.remove(sensObserver);
+        }
+    }
+
+    @Override
+    public void notifyObservers(boolean b) {
+        //Called on failure, to make the snackbar dismiss, an automatic retry is setup elsewhere.
+        for (SensObserver observer: mObservers) {
+            observer.onDataReceived(b);
         }
     }
 }
