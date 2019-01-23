@@ -16,6 +16,7 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.root.sens.R;
 import com.example.root.sens.ui_layer.fragments.WizardContentFragment;
@@ -37,6 +38,7 @@ public class WizardActivity extends AppCompatActivity {
     private WizardContentFragment burgerMenuIkonFragment = new WizardContentFragment();
     private WizardContentFragment burgerMenuFragment = new WizardContentFragment();
     private final String TAG = WizardActivity.class.getSimpleName();
+    private TextView textViewPageIndicator;
 
     @SuppressLint("ClickableViewAccessibility")
     private final int NUM_PAGES = 8;
@@ -53,14 +55,8 @@ public class WizardActivity extends AppCompatActivity {
         mPager.setAdapter(mPagerAdapter);
         mPager.setOffscreenPageLimit(2);
 
-        TabLayout tabLayout = findViewById(R.id.tablayout_wizard);
-        tabLayout.setupWithViewPager(mPager, true);
-
-        // Removes tabLayout functionality
-        LinearLayout tabStrip = ((LinearLayout) tabLayout.getChildAt(0));
-        for (int i = 0; i < tabStrip.getChildCount(); i++) {
-            tabStrip.getChildAt(i).setOnTouchListener((v, event) -> true);
-        }
+        textViewPageIndicator = findViewById(R.id.textViewPageIndicatorWizard);
+        textViewPageIndicator.setText("1 / " + NUM_PAGES);
 
         findViewById(R.id.user_config_a_slide_button_wizard).setOnClickListener((View v) -> switchPage(true));
 
@@ -103,23 +99,26 @@ public class WizardActivity extends AppCompatActivity {
                     }
                 }
             }
-
             return true;
         });
 
         findViewById(R.id.btn_user_config_a_back_button_wizard).setOnClickListener((View v) -> finish());
     }
 
+
     private void switchPage(boolean forward) {
         int currentItem = mPager.getCurrentItem();
+        int nextItem = 0;
         if (forward) {
             if (currentItem == NUM_PAGES - 1) {
                 finish();
             }
-            mPager.setCurrentItem(currentItem + 1, true);
+            nextItem = currentItem + 1;
         } else {
-            mPager.setCurrentItem(currentItem - 1, true);
+            nextItem = currentItem - 1;
         }
+        mPager.setCurrentItem(nextItem, true);
+        textViewPageIndicator.setText(nextItem+1 + " / " + NUM_PAGES);
     }
 
     @Override

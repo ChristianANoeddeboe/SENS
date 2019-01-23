@@ -46,7 +46,7 @@ public class UserConfigActivity extends AppCompatActivity {
     private UserConfigGoalInfoFragment goalInfoFragment = new UserConfigGoalInfoFragment();
     private UserConfigConfirmFragment confirmInfoFragment = new UserConfigConfirmFragment();
     private ILoginController loginController = new LoginController();
-
+    private TextView textViewPageIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +61,9 @@ public class UserConfigActivity extends AppCompatActivity {
         mPager.setAdapter(mPagerAdapter);
         mPager.setOffscreenPageLimit(10);
 
-        TabLayout tabLayout = findViewById(R.id.tablayout);
-        tabLayout.setupWithViewPager(mPager, true);
+        textViewPageIndicator = findViewById(R.id.textViewPageIndicatorUserConfig);
+        textViewPageIndicator.setText(" 1 / " + NUM_PAGES);
 
-        // Removes tabLayout functionality
-        LinearLayout tabStrip = ((LinearLayout) tabLayout.getChildAt(0));
-        for (int i = 0; i < tabStrip.getChildCount(); i++) {
-            tabStrip.getChildAt(i).setOnTouchListener((v, event) -> true);
-        }
         slide = findViewById(R.id.user_config_a_slide_button);
         slide.setOnClickListener((View v) -> {
             switch (mPager.getCurrentItem()) {
@@ -133,13 +128,17 @@ public class UserConfigActivity extends AppCompatActivity {
         int counter = mPager.getCurrentItem();
         switch (counter) {
             case 0:
+                textViewPageIndicator.setText(1 + " / " + NUM_PAGES);
+                break;
             case 1:
                 slide.setText(R.string.Continue);
                 back.setText(R.string.Cancel);
+                textViewPageIndicator.setText(2 + " / " + NUM_PAGES);
                 break;
             case 2:
                 slide.setText(R.string.Confirm);
                 back.setText(R.string.Cancel);
+                textViewPageIndicator.setText(3 + " / " + NUM_PAGES);
                 break;
         }
     }
