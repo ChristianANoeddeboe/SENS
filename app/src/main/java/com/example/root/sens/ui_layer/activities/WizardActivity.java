@@ -51,7 +51,7 @@ public class WizardActivity extends AppCompatActivity {
         mPager = findViewById(R.id.page_wizard);
         mPagerAdapter = new WizardActivity.ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
-        mPager.setOffscreenPageLimit(10);
+        mPager.setOffscreenPageLimit(2);
 
         TabLayout tabLayout = findViewById(R.id.tablayout_wizard);
         tabLayout.setupWithViewPager(mPager, true);
