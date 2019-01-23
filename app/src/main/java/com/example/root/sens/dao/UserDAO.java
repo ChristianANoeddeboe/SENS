@@ -91,11 +91,17 @@ public class UserDAO implements IUserDao, DatabaseSubject {
 
     @Override
     public GoalHistory getNewestGoal() {
+        Realm realm = Realm.getDefaultInstance();
         RealmList<GoalHistory> goals = getUserLoggedIn().getGoals();
         ArrayList<GoalHistory> tempGoalHis = new ArrayList<>();
 
+        if(goals.isEmpty()){
+            realm.beginTransaction();
+            goals.add(new GoalHistory(0, new Date(), new RealmList<Goal>()));
+            realm.commitTransaction();
+        }
+
         if(goals.size()==1 && goals.get(0).getGoals().isEmpty()){
-            Realm realm = Realm.getDefaultInstance();
             realm.beginTransaction();
             for(ActivityCategories activityCategory : ActivityCategories.values()){
                 goals.get(0).getGoals().add(new Goal(activityCategory.toString(),0));
