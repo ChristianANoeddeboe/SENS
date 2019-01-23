@@ -153,7 +153,9 @@ public class MainActivity extends AppCompatActivity implements
         pagerSlidingTabStrip.setViewPager(viewPager);
     }
 
-
+    /**
+     * Prepares the data fetcher which runs periodically
+     */
     private void setupDataFetcher() {
         sensSubject = SensDAO.getInstance();
         sensSubject.registerObserver(this); // We register this view as an observer, this is used for when fetching data from SENS
@@ -170,6 +172,10 @@ public class MainActivity extends AppCompatActivity implements
         }.execute(), 1800000); // Fetch data every 30 min
     }
 
+    /**
+     * Displays the fetching data progess bar
+     * @param s
+     */
     private void fetchDataProgressBar(String s) {
         snackbar = Snackbar.make(coordinatorLayout, s, Snackbar.LENGTH_INDEFINITE);
         ViewGroup contentLay = (ViewGroup) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text).getParent();
@@ -259,6 +265,12 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    /**
+     * Called when a date is pressed on the calendar
+     * @param missingDayData indicating if we have the daydata for the clicked date
+     * @param missingGoalData indicating if we have any goals matching that date
+     * @param date what date was clicked
+     */
     @Override
     public void showFragment(boolean missingDayData, boolean missingGoalData, Date date) {
         Log.d(TAG, "showFragment: "+missingDayData+":"+missingGoalData+":"+date.toString());
