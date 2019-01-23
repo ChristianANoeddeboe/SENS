@@ -260,16 +260,16 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void showFragment(boolean dayData, boolean goalData, Date date) {
-        Log.d(TAG, "showFragment: "+dayData+":"+goalData+":"+date.toString());
-        if (dayData) {
+    public void showFragment(boolean missingDayData, boolean missingGoalData, Date date) {
+        Log.d(TAG, "showFragment: "+missingDayData+":"+missingGoalData+":"+date.toString());
+        if (missingDayData) {
             SensDAO.getInstance().getDataSpecificDate(new UserManager().getUserLoggedIn().getPatientKey(),date);
             fetchDataProgressBar("Dataet hentes, prøv igen om lidt.");
             return;
         }
-        if (goalData) {
+        if (missingGoalData) {
             Snackbar.make(findViewById(R.id.fragment_overlay_layout_main),
-                    R.string.NoDataForTheGivenDay,
+                    R.string.NoGoalForTheGivenDay,
                     Snackbar.LENGTH_LONG).show();
             return;
         }
