@@ -54,22 +54,10 @@ public class NotificationsManager {
         if(userManager.getGoals(new Date()).isEmpty()){
            return ;
         }
+
         Map<ActivityCategories, Integer> goalMap = userManager.getGoals(new Date());
         Map<ActivityCategories, Float> dataMap = userManager.getDayData(new Date());
         ArrayList<Notification> notificationsList = new ArrayList<>();
-        Notification summaryNotification =
-                new NotificationCompat.Builder(ctx, channelId)
-                        .setContentTitle("Hej " + currentUser.getFirstName() + "!")
-                        //set content text to support devices running API level < 24
-                        .setContentText("Status rapport.")
-                        .setSmallIcon(R.mipmap.ic_notification_round)
-                        //build summary info into InboxStyle template
-                        //specify which group this notification belongs to
-                        .setGroup(GROUP_KEY_PROGRESS)
-                        //set this notification as the summary for the group
-                        .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
-                        .setGroupSummary(true)
-                        .build();
         for(ActivityCategories s : goalMap.keySet()){
             int progress_max = (goalMap.get(s) == null) ? 0 : goalMap.get(s);
             int progress_current = (dataMap.get(s) == null) ? 0 : dataMap.get(s).intValue();
@@ -84,10 +72,24 @@ public class NotificationsManager {
                         .build());
             }
         }
+        Notification summaryNotification =
+                new NotificationCompat.Builder(ctx, channelId)
+                        .setContentTitle("Hej " + currentUser.getFirstName() + "!")
+                        //set content text to support devices running API level < 24
+                        .setContentText("Status rapport.")
+                        .setSmallIcon(R.mipmap.ic_notification_round)
+                        //build summary info into InboxStyle template
+                        //specify which group this notification belongs to
+                        .setGroup(GROUP_KEY_PROGRESS)
+                        //set this notification as the summary for the group
+                        .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
+                        .setGroupSummary(true)
+                        .build();
+
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(ctx);
         for(int i = 0; i < notificationsList.size(); i++){
-            notificationManager.notify(i,notificationsList.get(i));
+            notificationManager.notify(i+100,notificationsList.get(i));
         }
-        notificationManager.notify(notificationsList.size(),summaryNotification);
+        notificationManager.notify(0,summaryNotification);
     }
 }
