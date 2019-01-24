@@ -336,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements
 
         AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
-                AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+                AlarmManager.INTERVAL_HOUR, pendingIntent);
     }
 
     @Override
