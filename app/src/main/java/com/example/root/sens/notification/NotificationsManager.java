@@ -51,6 +51,9 @@ public class NotificationsManager {
         IUserManager userManager = new UserManager();
         User currentUser = userManager.getUserLoggedIn();
 
+        if(userManager.getGoals(new Date()).isEmpty()){
+           return ;
+        }
         Map<ActivityCategories, Integer> goalMap = userManager.getGoals(new Date());
         Map<ActivityCategories, Float> dataMap = userManager.getDayData(new Date());
         ArrayList<Notification> notificationsList = new ArrayList<>();
@@ -64,6 +67,7 @@ public class NotificationsManager {
                         //specify which group this notification belongs to
                         .setGroup(GROUP_KEY_PROGRESS)
                         //set this notification as the summary for the group
+                        .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
                         .setGroupSummary(true)
                         .build();
         for(ActivityCategories s : goalMap.keySet()){
@@ -76,6 +80,7 @@ public class NotificationsManager {
                         .setContentText(""+progress_current+"/"+progress_max)
                         .setGroup(GROUP_KEY_PROGRESS)
                         .setProgress(progress_max, progress_current, false)
+                        .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
                         .build());
             }
         }
