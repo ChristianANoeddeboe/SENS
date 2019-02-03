@@ -88,7 +88,8 @@ public class SetGoalAdapter extends RecyclerView.Adapter<SetGoalAdapter.ViewHold
         }
         if(type == ActivityCategories.Skridt){
             viewHolder.getEditText().setHint("0 Skridt");
-            viewHolder.getEditText().setText("");
+            if (dataSet.get(position).getValue()==0) viewHolder.getEditText().setText("");
+            else viewHolder.getEditText().setText(Integer.toString(dataSet.get(position).getValue()));
             viewHolder.getEditText().addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
